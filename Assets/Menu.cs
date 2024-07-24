@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
@@ -29,9 +27,6 @@ public class Menu : MonoBehaviour {
 	GameObject OptionMenu;
 
 	[SerializeField]
-	EventSystem EventSystem;
-
-	[SerializeField]
 	Button FirstButton;
 
 	bool isOpen;
@@ -45,15 +40,13 @@ public class Menu : MonoBehaviour {
 	void Update() {
 		if (!isOpen && Input.GetButtonDown("Menu")) {
 			OpenMenu();
+		} else if (isOpen && Input.GetButtonDown("Menu")) {
+			ExitMenu();
 		}
 	}
 
 	void OpenMenu() {
-		Canvas.gameObject.SetActive(true);
 		MainMenu.SetActive(true);
-
-		//
-		EventSystem.SetSelectedGameObject(FirstButton.gameObject);
 
 		//
 		Engine.SetMode(EngineMode.Menu);
@@ -67,7 +60,6 @@ public class Menu : MonoBehaviour {
 		SaveMenu.SetActive(false);
 		OptionMenu.SetActive(false);
 		MainMenu.SetActive(false);
-		Canvas.gameObject.SetActive(false);
 
 		//
 		Engine.SetMode(EngineMode.PlayerControl);

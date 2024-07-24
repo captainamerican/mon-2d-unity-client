@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a3f39f2d62f4ab79e8d21a283de14a, type: 3}
   m_Name: Engine
   m_EditorClassIdentifier: 
-  Mode: 0
+  Mode: 1
+  NextScene: Forest 01 Entrance
+  NextScenePosition: {x: 0, y: 0, z: 0}

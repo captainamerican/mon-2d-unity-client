@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -31,6 +30,7 @@ public class ExitStage : MonoBehaviour {
 	void LoadNextScene() {
 		Engine.SetMode(EngineMode.NextScene);
 		Engine.NextScene = SceneName;
+		Engine.NextScenePosition = Destination;
 
 		SceneManager.LoadSceneAsync("Loader", LoadSceneMode.Additive);
 	}

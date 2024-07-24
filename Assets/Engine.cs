@@ -16,6 +16,7 @@ public class Engine : ScriptableObject {
 	public event EngineModeChangedEvent ModeChanged;
 
 	public string NextScene = "Start";
+	public Vector3 NextScenePosition;
 
 	public void SetMode(EngineMode mode) {
 		Mode = mode;
