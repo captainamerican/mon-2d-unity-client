@@ -11,9 +11,7 @@ namespace Village {
 		GameObject Player;
 
 		IEnumerator Start() {
-			Player.transform.position = Engine.NextScenePosition;
-			Engine.NextScenePosition = Vector3.zero;
-
+			Player.transform.position = Engine.GetNextScenePosition();
 			yield return Loader.Scene.Clear();
 			Engine.SetMode(EngineMode.PlayerControl);
 		}

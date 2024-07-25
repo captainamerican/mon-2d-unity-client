@@ -22,4 +22,12 @@ public class Engine : ScriptableObject {
 		Mode = mode;
 		ModeChanged?.Invoke(mode);
 	}
+
+	public Vector3 GetNextScenePosition() {
+		Vector3 returnValue = NextScenePosition;
+		NextScenePosition = Vector3.zero;
+
+		//
+		return returnValue;
+	}
 }
