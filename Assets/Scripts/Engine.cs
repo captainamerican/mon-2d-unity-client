@@ -1,11 +1,21 @@
+using System.Collections.Generic;
+
 using UnityEngine;
 
 public enum EngineMode {
 	None,
 	PlayerControl,
 	Menu,
+	Dialogue,
 	Cutscene,
+	Battle,
 	NextScene
+}
+
+public enum ChestId {
+	None,
+	ForestEntranceFirst,
+	ForestEntranceSecond
 }
 
 public delegate void EngineModeChangedEvent(EngineMode mode);
@@ -15,21 +25,25 @@ public class Engine : ScriptableObject {
 	public EngineMode Mode;
 	public event EngineModeChangedEvent ModeChanged;
 
-	public string NextScene = "Start";
-	public Vector3 NextScenePosition;
+	public NextScene NextScene = null;
 
 	public Inventory Inventory;
+
+
+	public List<ChestId> OpenedChests = new();
 
 	public void SetMode(EngineMode mode) {
 		Mode = mode;
 		ModeChanged?.Invoke(mode);
 	}
 
-	public Vector3 GetNextScenePosition() {
-		Vector3 returnValue = NextScenePosition;
-		NextScenePosition = Vector3.zero;
-
-		//
-		return returnValue;
+	public bool PlayerHasControl() {
+		return Mode == EngineMode.PlayerControl;
 	}
+}
+
+public class NextScene {
+	public string Name;
+	public Vector3 Destination;
+	public object Data;
 }

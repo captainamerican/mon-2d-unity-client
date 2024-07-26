@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
-using System;
+
+using UnityEngine;
 
 public class HarvestAction : MonoBehaviour {
 
@@ -22,7 +23,7 @@ public class HarvestAction : MonoBehaviour {
 	int Rolls = 1;
 
 	[SerializeField]
-	List<Item.LootDrop> Drops = new();
+	List<Item.WeightedLootDrop> Drops = new();
 
 	SpriteRenderer image;
 	bool isBeingTouched;
@@ -37,24 +38,34 @@ public class HarvestAction : MonoBehaviour {
 	}
 
 	void Update() {
+		if (Engine.Mode != EngineMode.PlayerControl) {
+			return;
+		}
+
+		if (!isBeingTouched) {
+			return;
+		}
+
+		if (!Input.GetButtonDown("Submit")) {
+			return;
+		}
+
 		if (isPicked) {
+			WorldDialogue.Display(
+					"Nothing here!",
+					"I'll come back later."
+			);
 			return;
 		}
 
-		if (isBeingTouched && Input.GetButtonDown("Submit")) {
-			Harvest();
-			return;
-		}
-
+		Harvest();
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision) {
-		Debug.Log(collision.gameObject);
 		if (!collision.gameObject.CompareTag("Player")) {
 			return;
 		}
 
-		Debug.Log("touch");
 		isBeingTouched = true;
 	}
 
@@ -63,17 +74,31 @@ public class HarvestAction : MonoBehaviour {
 			return;
 		}
 
-		Debug.Log("touch2");
 		isBeingTouched = false;
 	}
 
 	public void Harvest() {
-		Debug.Log("Harvest!");
-
 		isPicked = true;
 		image.sprite = Picked;
 
-		RollForItems().ForEach(lootdrop => Engine.Inventory.AdjustItem(lootdrop.ItemData, lootdrop.Quantity));
+		int totalItems = 0;
+		List<string> drops = new();
+		RollForItems().ForEach(lootdrop => {
+			drops.Add(
+				lootdrop.Quantity > 1
+				? $"{lootdrop.Quantity} {lootdrop.ItemData.Name}"
+				: lootdrop.ItemData.Name
+			);
+			Engine.Inventory.AdjustItem(lootdrop.ItemData, lootdrop.Quantity);
+			totalItems += lootdrop.Quantity;
+		});
+		string term = totalItems > 1 ? "them" : "it";
+
+
+		WorldDialogue.Display(
+				$"You harvested {String.Join(" and ", drops.ToArray())}.",
+				$"You place {term} in your bag."
+		);
 		StartCoroutine(PostHarvest());
 	}
 
@@ -85,7 +110,7 @@ public class HarvestAction : MonoBehaviour {
 	}
 
 
-	public List<Item.LootDrop> RollForItems() {
+	public List<Item.WeightedLootDrop> RollForItems() {
 		int total = Drops.Select(x => x.Weight).Sum();
 
 		//
@@ -93,9 +118,8 @@ public class HarvestAction : MonoBehaviour {
 			int random = UnityEngine.Random.Range(0, total);
 
 			for (int j = 0; j < Drops.Count; j++) {
-				Item.LootDrop lootDrop = Drops[j];
+				Item.WeightedLootDrop lootDrop = Drops[j];
 				if (random < lootDrop.Weight) {
-					Debug.Log(lootDrop.ItemData.Name + " " + lootDrop.Quantity);
 					return lootDrop;
 				}
 

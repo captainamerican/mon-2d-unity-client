@@ -28,9 +28,7 @@ public class ExitStage : MonoBehaviour {
 	}
 
 	void LoadNextScene() {
-		Engine.SetMode(EngineMode.NextScene);
-		Engine.NextScene = SceneName;
-		Engine.NextScenePosition = Destination;
+		Engine.NextScene = new NextScene { Name = SceneName, Destination = Destination };
 
 		SceneManager.LoadSceneAsync("Loader", LoadSceneMode.Additive);
 	}

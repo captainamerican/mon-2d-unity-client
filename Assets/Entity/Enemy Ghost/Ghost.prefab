@@ -48,15 +48,18 @@ MonoBehaviour:
   Personality: 1
   Alertness: 0
   DomainRadius: 10
-  AwarenessRadius: 6
-  ChaseRadius: 20
-  FleeRadius: 20
-  Speed: 20
+  AwarenessRadius: 8
+  ActionRadius: 20
   BodyTransform: {fileID: 7421694460459164897}
   BodyAnimator: {fileID: 1660862803596980167}
   Body: {fileID: 9153985415985808455}
   Agent: {fileID: 4702888687446667979}
   Alert: {fileID: 3801925950478874496}
+  Speed: 2
+  Acceleration: 2
+  ActionDelay: 0.5
+  ActionSpeed: 15
+  ActionAcceleration: 999
 --- !u!1 &3801925950478874496
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +132,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 50
   m_Sprite: {fileID: 21300000, guid: 34a75bd6fe293de4ab63d4d50c3b609e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -273,7 +276,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0

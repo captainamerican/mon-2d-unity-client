@@ -16,3 +16,4 @@ MonoBehaviour:
   NextScene: Forest 01 Entrance
   NextScenePosition: {x: 0, y: 0, z: 0}
   Inventory: {fileID: 11400000, guid: 121017607e7b44f4188f9501d23e4dfe, type: 2}
+  OpenedChests: 01000000

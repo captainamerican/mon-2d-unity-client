@@ -51,6 +51,7 @@ public class Menu : MonoBehaviour {
 		//
 		Engine.SetMode(EngineMode.Menu);
 		isOpen = true;
+		Time.timeScale = 0;
 	}
 
 	public void ExitMenu() {
@@ -63,6 +64,7 @@ public class Menu : MonoBehaviour {
 
 		//
 		Engine.SetMode(EngineMode.PlayerControl);
+		Time.timeScale = 1;
 		isOpen = false;
 	}
 

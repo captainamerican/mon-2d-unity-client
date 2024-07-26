@@ -68,4 +68,22 @@ public sealed class Do {
 		//
 		return returnValue;
 	}
+
+	static public IEnumerator ForEach<T>(IEnumerable<T> enumerable, Func<T, IEnumerator> callback) {
+		List<T> returnValue = new();
+
+		foreach (T item in enumerable) {
+			yield return callback(item);
+		}
+	}
+
+	static public IEnumerator After(float duration, Action callback) {
+		yield return Wait.For(duration);
+		callback();
+	}
+
+	static public IEnumerator AfterReal(float duration, Action callback) {
+		yield return Wait.ForReal(duration);
+		callback();
+	}
 }

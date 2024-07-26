@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.SceneManagement;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Loader {
 
@@ -47,7 +47,7 @@ namespace Loader {
 			yield return Wait.Until(() => clearResources.isDone);
 			yield return Wait.For(0.25f);
 
-			SceneManager.LoadSceneAsync(Engine.NextScene, LoadSceneMode.Additive);
+			SceneManager.LoadSceneAsync(Engine.NextScene.Name, LoadSceneMode.Additive);
 		}
 
 		static public IEnumerator Clear() {
@@ -61,7 +61,9 @@ namespace Loader {
 				yield return Do.For(0.25f, ratio => CanvasGroup.alpha = Mathf.Lerp(1, 0, ratio));
 
 				AsyncOperation removeSelf = SceneManager.UnloadSceneAsync("Loader", UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
-				yield return Wait.Until(() => removeSelf.isDone);
+				yield return Wait.Until(() => {
+					return removeSelf?.isDone ?? true;
+				});
 			}
 		}
 	}

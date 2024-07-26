@@ -1,4 +1,5 @@
 using System;
+
 using UnityEngine;
 
 namespace Item {
@@ -19,11 +20,19 @@ namespace Item {
 	}
 
 	[Serializable]
-	public class LootDrop {
+	public class WeightedLootDrop {
 		[SerializeField]
 		public Data ItemData;
 		[SerializeField]
 		public int Weight = 100;
+		[SerializeField]
+		public int Quantity = 1;
+	}
+
+	[Serializable]
+	public class LootDrop {
+		[SerializeField]
+		public Data ItemData;
 		[SerializeField]
 		public int Quantity = 1;
 	}

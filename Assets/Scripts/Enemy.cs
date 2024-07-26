@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using Unity.Collections;
+
+using UnityEditor;
+
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,7 +22,8 @@ namespace WorldEnemy {
 		Unaware,
 		Alert,
 		Fleeing,
-		Chasing
+		Chasing,
+		GaveUp
 	}
 
 	public enum Id {
@@ -36,7 +41,7 @@ namespace WorldEnemy {
 		[SerializeField]
 		Personality Personality;
 
-		[SerializeField]
+		[SerializeField, ReadOnly]
 		public Alertness Alertness;
 
 		[SerializeField]
@@ -46,16 +51,10 @@ namespace WorldEnemy {
 		public float AwarenessRadius;
 
 		[SerializeField]
-		float ChaseRadius;
+		float ActionRadius;
 
 		[SerializeField]
-		float FleeRadius;
-
-		[SerializeField]
-		float Speed;
-
-		[SerializeField]
-		Transform BodyTransform;
+		public Transform BodyTransform;
 
 		[SerializeField]
 		Animator BodyAnimator;
@@ -72,6 +71,24 @@ namespace WorldEnemy {
 		[SerializeField]
 		List<Possibility> Possibilities = new();
 
+		[Header("Unaware Settings")]
+		[SerializeField]
+		float Speed;
+
+		[SerializeField]
+		float Acceleration;
+
+		[Header("Action Settings")]
+		[SerializeField]
+		float ActionDelay;
+
+		[SerializeField]
+		float ActionSpeed;
+
+		[SerializeField]
+		float ActionAcceleration;
+
+
 		Vector3 destination;
 		Vector3 alertedPosition;
 		Transform target;
@@ -79,12 +96,32 @@ namespace WorldEnemy {
 		void Start() {
 			Agent.updateRotation = false;
 			Agent.updateUpAxis = false;
+			Agent.speed = Speed;
+			Agent.acceleration = Acceleration;
 
 			Alert.SetActive(false);
 
 			ChooseNextDestination();
 			StartCoroutine(MoveToDestination());
+		}
 
+		void LateUpdate() {
+			if (Alertness != Alertness.Fleeing && Alertness != Alertness.Chasing) {
+				return;
+			}
+
+			if (Vector3.Distance(BodyTransform.position, alertedPosition) >= ActionRadius) {
+				Debug.Log("stop!");
+				StopActionAndReturn();
+				StartCoroutine(StopActionAndReturn());
+				return;
+			}
+
+			switch (Alertness) {
+				case Alertness.Chasing:
+					Agent.SetDestination(target.position);
+					break;
+			}
 		}
 
 		void ChooseNextDestination() {
@@ -136,22 +173,42 @@ namespace WorldEnemy {
 			ChooseNextDestination();
 		}
 
-		void PlayerSighted() {
-			StopAllCoroutines();
-		}
-
 		private void OnDrawGizmos() {
-			Gizmos.color = Color.magenta;
-			Gizmos.DrawWireSphere(transform.position, DomainRadius);
+			if (!EditorApplication.isPlaying) {
+				Gizmos.color = Color.magenta;
+				Gizmos.DrawWireSphere(transform.position, DomainRadius);
 
-			Gizmos.color = Color.black;
-			Gizmos.DrawSphere(destination, 0.5f);
+				Gizmos.color = Color.black;
+				Gizmos.DrawSphere(destination, 0.5f);
 
-			Gizmos.color = Color.blue;
-			Gizmos.DrawWireSphere(BodyTransform.position, ChaseRadius);
+				Gizmos.color = Color.blue;
+				Gizmos.DrawWireSphere(BodyTransform.position, ActionRadius);
 
-			Gizmos.color = Color.red;
-			Gizmos.DrawWireSphere(BodyTransform.position, AwarenessRadius);
+				Gizmos.color = Color.red;
+				Gizmos.DrawWireSphere(BodyTransform.position, AwarenessRadius);
+			} else {
+				switch (Alertness) {
+					case Alertness.Unaware:
+						Gizmos.color = Color.magenta;
+						Gizmos.DrawWireSphere(transform.position, DomainRadius);
+
+						Gizmos.color = Color.red;
+						Gizmos.DrawWireSphere(BodyTransform.position, AwarenessRadius);
+
+						Gizmos.color = Color.black;
+						Gizmos.DrawSphere(destination, 0.5f);
+						break;
+
+					case Alertness.Alert:
+						break;
+
+					case Alertness.Chasing:
+					case Alertness.Fleeing:
+						Gizmos.color = Color.blue;
+						Gizmos.DrawWireSphere(alertedPosition, ActionRadius);
+						break;
+				}
+			}
 		}
 
 		public void TargetEnteredAwarenessRange(Transform target) {
@@ -162,9 +219,74 @@ namespace WorldEnemy {
 			Alertness = Alertness.Alert;
 			Agent.isStopped = true;
 			Agent.ResetPath();
-			Alert.SetActive(true);
 
-			Debug.Log("Target!");
+			alertedPosition = BodyTransform.position;
+
+			StartCoroutine(ShockThenAction());
+		}
+
+		IEnumerator ShockThenAction() {
+			Alert.SetActive(true);
+			yield return Wait.For(ActionDelay);
+
+			Alert.SetActive(false);
+
+			switch (Personality) {
+				case Personality.Passive:
+					StartCoroutine(Do.After(2f, () => {
+						Alertness = Alertness.Unaware;
+						Agent.speed = Speed;
+						Agent.acceleration = Acceleration;
+						ChooseNextDestination();
+					}));
+					break;
+
+				case Personality.Aggressive:
+					Alertness = Alertness.Chasing;
+					Agent.isStopped = false;
+					Agent.speed = ActionSpeed;
+					Agent.acceleration = ActionAcceleration;
+					break;
+
+				case Personality.Fearful:
+					Alertness = Alertness.Fleeing;
+					Agent.isStopped = false;
+					Agent.speed = ActionSpeed;
+					Agent.acceleration = ActionAcceleration;
+					break;
+
+				case Personality.ImmediateDisappear:
+					gameObject.SetActive(false);
+					break;
+
+				case Personality.ImmediateBattle:
+					gameObject.SetActive(false);
+					Debug.Log("BATTLE!");
+					break;
+			}
+		}
+
+		IEnumerator StopActionAndReturn() {
+			Alertness = Alertness.GaveUp;
+
+			Agent.isStopped = true;
+			Agent.ResetPath();
+
+			alertedPosition = Vector3.zero;
+
+			yield return Wait.For(2f);
+
+			Agent.SetDestination(transform.position);
+			Agent.isStopped = false;
+			Agent.speed = ActionSpeed / 2f;
+			Agent.acceleration = ActionAcceleration / 2f;
+
+			Alertness = Alertness.Unaware;
+
+			yield return MoveToDestination();
+
+			Agent.speed = Speed;
+			Agent.acceleration = Acceleration;
 		}
 	}
 }
