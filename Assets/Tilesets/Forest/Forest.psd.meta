@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 128
@@ -2937,7 +2937,7 @@ TextureImporter:
       Forest_98: 2015502526
       Forest_99: 2034403756
   mipmapLimitGroupName: 
-  pSDRemoveMatte: 1
+  pSDRemoveMatte: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

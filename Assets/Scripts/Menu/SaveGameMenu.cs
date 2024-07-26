@@ -1,0 +1,2 @@
+public class SaveGameMenu : AbstractMenu {
+}

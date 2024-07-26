@@ -1,0 +1,2 @@
+public class MapMenu : AbstractMenu {
+}

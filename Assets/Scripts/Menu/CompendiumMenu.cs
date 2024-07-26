@@ -1,0 +1,2 @@
+public class CompendiumMenu : AbstractMenu {
+}
