@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4449fe5eac08543b69057c3bf03d4c6b, type: 3}
   m_Name: Petals
   m_EditorClassIdentifier: 
-  Type: 1
+  Type: 3
   Name: Petals
   Description: Soft but withering, pleasant but sad smell.

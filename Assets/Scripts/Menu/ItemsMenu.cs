@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using TMPro;
 
@@ -12,13 +13,22 @@ public class ItemsMenu : AbstractMenu {
 	Engine Engine;
 
 	[SerializeField]
+	GameObject Category;
+
+	[SerializeField]
+	GameObject Template;
+
+	[SerializeField]
 	Button CancelButton;
 
 	override public void Show(Action callback) {
-		while (Menu.transform.childCount > 1) {
-			Transform child = Menu.transform.GetChild(0);
+		int offset = 0;
+		while (Menu.transform.childCount > 3 || offset > Menu.transform.childCount) {
+			Transform child = Menu.transform.GetChild(offset);
+			GameObject go = child.gameObject;
 
-			if (child.gameObject == CancelButton.gameObject) {
+			if (go == CancelButton.gameObject || go == Template || go == Category) {
+				offset += 1;
 				continue;
 			}
 
@@ -27,24 +37,50 @@ public class ItemsMenu : AbstractMenu {
 			Destroy(child.gameObject);
 		}
 
-
 		// generate items
-		CancelButton.onClick.RemoveAllListeners();
+		Item.Type type = Item.Type.None;
 
 		List<Button> buttons = new();
-		Engine.Inventory.Entries.ForEach(entry => {
-			GameObject newItem = Instantiate(CancelButton.gameObject, Menu.transform);
-			newItem.GetComponentInChildren<TextMeshProUGUI>().text = entry.ItemData.Name;
+		Engine.Inventory.Entries
+			.Where(entry => entry.Amount > 0)
+			.OrderBy(entry => entry.ItemData.Type)
+			.ToList()
+			.ForEach(entry => {
+				if (type != entry.ItemData.Type) {
+					type = entry.ItemData.Type;
 
-			Button button = newItem.GetComponent<Button>();
-			button.onClick.AddListener(() => OnItemSelected(newItem.transform.GetSiblingIndex()));
+					GameObject category = Instantiate(Category, Menu.transform);
+					TextMeshProUGUI categoryLabel = category.GetComponent<TextMeshProUGUI>();
+					categoryLabel.text = Item.Data.TypeName(type);
 
-			buttons.Add(button);
-		});
+					category.SetActive(true);
+				}
+
+				//
+				GameObject newItem = Instantiate(Template, Menu.transform);
+
+				TextMeshProUGUI[] labels = newItem.GetComponentsInChildren<TextMeshProUGUI>();
+
+				labels[0].text = entry.ItemData.Name;
+				labels[1].text = $"x{entry.Amount}";
+
+				if (entry.ItemData.Type != Item.Type.Consumable) {
+					Color color = labels[0].color;
+					color.a = 0.5f;
+
+					labels[0].color = color;
+					labels[1].color = color;
+				}
+
+				Button button = newItem.GetComponent<Button>();
+				button.onClick.AddListener(() => OnItemSelected(entry));
+				buttons.Add(button);
+
+				newItem.SetActive(true);
+			});
 
 		// set cancel button last
 		CancelButton.transform.SetAsLastSibling();
-		CancelButton.onClick.AddListener(() => OnItemSelected(-1));
 		buttons.Add(CancelButton);
 
 		for (int i = 0; i < buttons.Count; i++) {
@@ -67,11 +103,15 @@ public class ItemsMenu : AbstractMenu {
 		base.Show(callback);
 	}
 
-	public void OnItemSelected(int index) {
-		Debug.Log("selected " + index);
+	public void OnCancel() {
+		Exit();
+	}
 
-		if (index < 0) {
-			Exit();
+	void OnItemSelected(InventoryEntry entry) {
+		if (entry.ItemData.Type != Item.Type.Consumable) {
+			return;
 		}
+
+		Debug.Log("item: " + entry.ItemData.Name);
 	}
 }

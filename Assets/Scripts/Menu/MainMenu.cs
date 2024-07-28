@@ -103,19 +103,15 @@ public class MainMenu : MonoBehaviour {
 		OpenSubMenu(3);
 	}
 
-	public void OpenTeleportMenu() {
+	public void OpenPlayerProfileMenu() {
 		OpenSubMenu(4);
 	}
 
-	public void OpenPlayerProfileMenu() {
+	public void OpenSaveMenu() {
 		OpenSubMenu(5);
 	}
 
-	public void OpenSaveMenu() {
-		OpenSubMenu(6);
-	}
-
 	public void OpenOptionsMenu() {
-		OpenSubMenu(7);
+		OpenSubMenu(6);
 	}
 }

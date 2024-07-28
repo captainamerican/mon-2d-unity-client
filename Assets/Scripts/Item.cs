@@ -5,10 +5,11 @@ using UnityEngine;
 namespace Item {
 	public enum Type {
 		None,
-		CraftingMaterial,
-		BodyPart,
 		Consumable,
 		Reusable,
+		CraftingMaterial,
+		TrainingItem,
+		BodyPart,
 		KeyItem
 	}
 
@@ -17,6 +18,34 @@ namespace Item {
 		public Type Type;
 		public string Name;
 		public string Description;
+
+
+		static public string TypeName(Type type) {
+			switch (type) {
+				case Type.None:
+					return "None";
+
+				case Type.Consumable:
+					return "Consumable";
+
+				case Type.Reusable:
+					return "Reusable";
+
+				case Type.CraftingMaterial:
+					return "Crafting Material";
+
+				case Type.TrainingItem:
+					return "Training Item";
+
+				case Type.BodyPart:
+					return "BodyPart";
+
+				case Type.KeyItem:
+					return "KeyItem";
+			}
+
+			return "Unknown";
+		}
 	}
 
 	[Serializable]
