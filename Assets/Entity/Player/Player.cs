@@ -24,9 +24,15 @@ public class Player : MonoBehaviour {
 	[SerializeField]
 	Animator animator;
 
+	[SerializeField]
+	PlayerInput PlayerInput;
+
 	Vector2 movement;
 	PlayerDirection direction = PlayerDirection.None;
 	PlayerDirection nextDirection = PlayerDirection.None;
+
+	InputAction Horizontal;
+	InputAction Vertical;
 
 	Dictionary<PlayerDirection, string> DirectionMap = new Dictionary<PlayerDirection, string>() {
 		{ PlayerDirection.Up, "Up" },
@@ -37,6 +43,9 @@ public class Player : MonoBehaviour {
 
 	private void Start() {
 		Engine.ModeChanged += ModeChanged;
+
+		Horizontal = PlayerInput.currentActionMap.FindAction("Horizontal");
+		Vertical = PlayerInput.currentActionMap.FindAction("Vertical");
 	}
 
 	private void OnDestroy() {
@@ -44,12 +53,15 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update() {
-		if (Engine.Mode != EngineMode.PlayerControl) {
+		if (
+			Engine.Mode != EngineMode.PlayerControl ||
+			PlayerInput.currentActionMap.name != "PlayerControl"
+		) {
 			return;
 		}
 
-		movement.x = Input.GetAxisRaw("Horizontal");
-		movement.y = Input.GetAxisRaw("Vertical");
+		movement.x = Horizontal.ReadValue<float>();
+		movement.y = Vertical.ReadValue<float>();
 
 		if (movement.x > 0 && movement.y == 0) {
 			nextDirection = PlayerDirection.Right;
@@ -73,11 +85,15 @@ public class Player : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		if (Engine.Mode != EngineMode.PlayerControl) {
+		if (
+			Engine.Mode != EngineMode.PlayerControl ||
+			PlayerInput.currentActionMap.name != "PlayerControl"
+		) {
 			return;
 		}
 
 		rb.MovePosition(rb.position + MovementSpeed * Time.fixedDeltaTime * movement.normalized);
+
 	}
 
 	void ModeChanged(EngineMode mode) {

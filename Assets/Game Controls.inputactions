@@ -122,8 +122,8 @@
                 },
                 {
                     "name": "positive",
-                    "id": "c53493e6-adf4-41fd-bbcd-aa41679754b4",
-                    "path": "<Gamepad>/leftStick/down",
+                    "id": "0774557f-db85-4aa3-b1ad-d000edb40ff9",
+                    "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -132,9 +132,9 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
-                    "id": "0774557f-db85-4aa3-b1ad-d000edb40ff9",
-                    "path": "<Gamepad>/leftStick/up",
+                    "name": "negative",
+                    "id": "c53493e6-adf4-41fd-bbcd-aa41679754b4",
+                    "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -154,7 +154,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "positive",
+                    "name": "negative",
                     "id": "d038dc0d-ccc2-451b-875f-c52ceb1a73fb",
                     "path": "<Keyboard>/a",
                     "interactions": "",
@@ -165,7 +165,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "negative",
+                    "name": "positive",
                     "id": "5233760d-23f0-47dd-8368-4d6a32d2b7db",
                     "path": "<Keyboard>/d",
                     "interactions": "",
@@ -176,7 +176,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
+                    "name": "negative",
                     "id": "eb7ac130-a585-4503-929a-32b1494c5c4a",
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
@@ -187,7 +187,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "negative",
+                    "name": "positive",
                     "id": "a81ffa83-73a5-4164-8e09-66319ba28834",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
@@ -220,7 +220,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
+                    "name": "negative",
                     "id": "bfba4587-5246-4a5c-b149-9d3187df9b8e",
                     "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
