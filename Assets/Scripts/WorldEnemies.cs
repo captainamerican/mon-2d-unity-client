@@ -33,12 +33,13 @@ namespace World {
 						break;
 
 					default:
-						if (Vector3.Distance(Player.transform.position, enemy.BodyTransform.position) <= 3f) {
-							Debug.Log("BATTLE");
-							Destroy(enemy.gameObject);
-							Enemies[i] = null;
+						if (Vector3.Distance(Player.transform.position, enemy.BodyTransform.position) > 3f) {
+							continue;
 						}
-						break;
+
+						Enemies.ForEach(enemy => enemy.Stop());
+						Battle.Begin(enemy);
+						return;
 				}
 
 

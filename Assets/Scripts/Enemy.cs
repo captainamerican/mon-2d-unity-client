@@ -211,6 +211,10 @@ namespace WorldEnemy {
 			}
 		}
 
+		public void Stop() {
+			Agent.isStopped = true;
+		}
+
 		public void TargetEnteredAwarenessRange(Transform target) {
 			StopAllCoroutines();
 
