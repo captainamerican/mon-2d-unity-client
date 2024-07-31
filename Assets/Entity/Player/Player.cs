@@ -114,6 +114,10 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Stop() {
+		if (direction == PlayerDirection.None) {
+			return;
+		}
+
 		animator.Play(DirectionMap[direction], -1, 0.33f);
 		animator.speed = 0;
 		movement = Vector2.zero;

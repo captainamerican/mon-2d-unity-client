@@ -7,13 +7,37 @@ public class Battle : MonoBehaviour {
 	Engine Engine;
 
 	[SerializeField]
+	Player Player;
+
+	[SerializeField]
+	Sprite Creature;
+
+	[SerializeField]
+	Sprite Enemy;
+
+	[SerializeField]
 	GameObject Cover;
 
 	[SerializeField]
 	GameObject CoverMask;
 
 	[SerializeField]
-	Player Player;
+	GameObject Content;
+
+	[SerializeField]
+	GameObject ItemsMenu;
+
+	[SerializeField]
+	GameObject ActionMenu;
+
+	[SerializeField]
+	GameObject MovesMenu;
+
+	[SerializeField]
+	GameObject CreaturesMenu;
+
+	[SerializeField]
+	GameObject Dialogue;
 
 	static Battle Self;
 	WorldEnemy.Enemy enemy;
@@ -26,16 +50,10 @@ public class Battle : MonoBehaviour {
 	void Start() {
 		Self = this;
 		Cover.SetActive(false);
-	}
-
-	void Update() {
-
+		Content.SetActive(false);
 	}
 
 	void StartBattle(WorldEnemy.Enemy enemy) {
-
-		Debug.Log("Start Battle");
-
 		Engine.Mode = EngineMode.Battle;
 
 		this.enemy = enemy;
@@ -57,7 +75,13 @@ public class Battle : MonoBehaviour {
 		yield return Do.For(1f, ratio => {
 			CoverMask.transform.localScale = Vector3.one * (1 - ratio);
 		});
+		yield return Wait.For(1f);
 
-
+		Content.SetActive(true);
+		Dialogue.SetActive(true);
+		ItemsMenu.SetActive(false);
+		ActionMenu.SetActive(false);
+		MovesMenu.SetActive(false);
+		CreaturesMenu.SetActive(false);
 	}
 }
