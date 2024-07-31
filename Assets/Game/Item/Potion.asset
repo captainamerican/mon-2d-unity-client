@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Potion
   m_EditorClassIdentifier: 
   Type: 1
+  Target: 2
   Name: Potion
-  Description: 'A small vial of life. '
+  Description: Rcovers some HP.
+  FlavorText: A small vial of... life.

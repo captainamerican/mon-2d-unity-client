@@ -21,13 +21,38 @@ public class ItemsMenu : AbstractMenu {
 	[SerializeField]
 	Button CancelButton;
 
+	[SerializeField]
+	GameObject DescriptionContainer;
+
+	[SerializeField]
+	TextMeshProUGUI Description;
+
+	[SerializeField]
+	TextMeshProUGUI FlavorText;
+
+	private void Start() {
+		CancelButton
+		.GetComponent<ItemMenuItem>()
+			.Configure(() => {
+				DescriptionContainer.SetActive(false);
+			});
+	}
+
 	override public void Show(Action callback) {
+		DescriptionContainer.SetActive(false);
+
+		//
 		int offset = 0;
-		while (Menu.transform.childCount > 3 || offset > Menu.transform.childCount) {
+		while (Menu.transform.childCount > 4 || offset > Menu.transform.childCount) {
 			Transform child = Menu.transform.GetChild(offset);
 			GameObject go = child.gameObject;
 
-			if (go == CancelButton.gameObject || go == Template || go == Category) {
+			if (
+					go == CancelButton.gameObject ||
+					go == Template ||
+					go == Category ||
+					go == DescriptionContainer
+				) {
 				offset += 1;
 				continue;
 			}
@@ -74,6 +99,14 @@ public class ItemsMenu : AbstractMenu {
 
 				Button button = newItem.GetComponent<Button>();
 				button.onClick.AddListener(() => OnItemSelected(entry));
+				button
+				.GetComponent<ItemMenuItem>()
+					.Configure(() => {
+						DescriptionContainer.SetActive(true);
+						Description.text = entry.ItemData.Description;
+						FlavorText.text = entry.ItemData.FlavorText;
+					});
+
 				buttons.Add(button);
 
 				newItem.SetActive(true);
@@ -97,6 +130,7 @@ public class ItemsMenu : AbstractMenu {
 		//
 		buttons[0].Select();
 		buttons[0].OnSelect(null);
+		buttons[0].GetComponent<ItemMenuItem>().OnSelect(null);
 		EventSystem.current.sendNavigationEvents = true;
 
 		//
@@ -105,6 +139,10 @@ public class ItemsMenu : AbstractMenu {
 
 	public void OnCancel() {
 		Exit();
+	}
+
+	public void OnSelect(string description) {
+		Debug.Log(description);
 	}
 
 	void OnItemSelected(InventoryEntry entry) {

@@ -37,8 +37,9 @@ namespace World {
 							continue;
 						}
 
-						Enemies.ForEach(enemy => enemy.Stop());
+						Debug.Log(enemy);
 						Battle.Begin(enemy);
+						Enemies.ForEach(enemy => enemy.Stop());
 						return;
 				}
 

@@ -13,11 +13,19 @@ namespace Item {
 		KeyItem
 	}
 
+	public enum Target {
+		None,
+		Player,
+		Creature
+	}
+
 	[CreateAssetMenu(fileName = "ItemData", menuName = "MoN/ItemData")]
 	public class Data : ScriptableObject {
 		public Type Type;
+		public Target Target;
 		public string Name;
 		public string Description;
+		public string FlavorText;
 
 
 		static public string TypeName(Type type) {

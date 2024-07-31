@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Petals
   m_EditorClassIdentifier: 
   Type: 3
+  Target: 0
   Name: Petals
-  Description: Soft but withering, pleasant but sad smell.
+  Description: Used in crafting potions.
+  FlavorText: Soft but withering, with a pleasant but sad smell.

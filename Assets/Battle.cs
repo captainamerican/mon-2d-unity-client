@@ -2,67 +2,62 @@ using System.Collections;
 
 using UnityEngine;
 
-public class Battle : MonoBehaviour
-{
-    [SerializeField]
-    Engine Engine;
+public class Battle : MonoBehaviour {
+	[SerializeField]
+	Engine Engine;
 
-    [SerializeField]
-    GameObject Cover;
+	[SerializeField]
+	GameObject Cover;
 
-    [SerializeField]
-    GameObject CoverMask;
+	[SerializeField]
+	GameObject CoverMask;
 
-    [SerializeField]
-    Player Player;
+	[SerializeField]
+	Player Player;
 
-    static Battle Self;
-    WorldEnemy.Enemy enemy;
+	static Battle Self;
+	WorldEnemy.Enemy enemy;
 
-    static public void Begin(WorldEnemy.Enemy enemy)
-    {
-        Self.StartBattle(enemy);
+	static public void Begin(WorldEnemy.Enemy enemy) {
+		Self.StartBattle(enemy);
 
-    }
+	}
 
-    void Start()
-    {
-        Self = this;
-        Cover.SetActive(false);
-    }
+	void Start() {
+		Self = this;
+		Cover.SetActive(false);
+	}
 
-    void Update()
-    {
+	void Update() {
 
-    }
+	}
 
-    void StartBattle(WorldEnemy.Enemy enemy)
-    {
+	void StartBattle(WorldEnemy.Enemy enemy) {
 
-        Debug.Log("Start Battle");
+		Debug.Log("Start Battle");
 
-        Engine.Mode = EngineMode.Battle;
+		Engine.Mode = EngineMode.Battle;
 
-        this.enemy = enemy;
+		this.enemy = enemy;
 
-        StartCoroutine(StartingBatle());
-    }
+		Player.Stop();
 
-    IEnumerator StartingBatle()
-    {
-        Cover.SetActive(true);
-        Cover.transform.position = Player.transform.position + new Vector3(0, 0, 20f);
-        CoverMask.transform.localScale = Vector3.one;
+		StartCoroutine(StartingBatle());
+	}
 
-        Player.GetComponent<SpriteRenderer>().sortingOrder = 11;
-        enemy.GetComponentInChildren<SpriteRenderer>().sortingOrder = 11;
+	IEnumerator StartingBatle() {
+		Cover.SetActive(true);
+		Cover.transform.position = Player.transform.position + new Vector3(0, 0, 20f);
+		CoverMask.transform.localScale = Vector3.one;
 
-        yield return Wait.For(1f);
-        yield return Do.For(1f, ratio =>
-        {
-            CoverMask.transform.localScale = Vector3.one * (1 - ratio);
-        });
+		Player.GetComponent<SpriteRenderer>().sortingOrder = 11;
+		enemy.GetComponentInChildren<SpriteRenderer>().sortingOrder = 11;
+
+		yield return Wait.For(1f);
+		yield return Do.For(1f, ratio => {
+			CoverMask.transform.localScale = Vector3.one * (1 - ratio);
+		});
 
 
-    }
+	}
 }
