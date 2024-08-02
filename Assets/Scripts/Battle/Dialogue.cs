@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -17,27 +16,13 @@ namespace Battle {
 		[SerializeField]
 		protected List<TextMeshProUGUI> Pages = new();
 
-		static Dialogue Self;
 
 		Phase phase;
 		string[] pages;
 		int page;
-		Action onDone;
 
 		void Start() {
-			Self = this;
-
 			phase = Phase.Disabled;
-		}
-
-		private void OnDestroy() {
-			Self = null;
-		}
-
-		static public void Display(Action onDone, params string[] text) {
-			if (Self != null) {
-				Self.DisplayText(onDone, text);
-			}
 		}
 
 		void Update() {
@@ -67,8 +52,7 @@ namespace Battle {
 			}
 		}
 
-		void DisplayText(Action onDone, params string[] pages) {
-			this.onDone = onDone;
+		public void Display(params string[] pages) {
 			this.pages = pages;
 			page = 0;
 
@@ -80,7 +64,7 @@ namespace Battle {
 		IEnumerator TypingOutText() {
 			phase = Phase.TypingText;
 
-			WaitForSecondsRealtime wait = new WaitForSecondsRealtime(0.025f);
+			WaitForSecondsRealtime wait = new(0.025f);
 
 			TextMeshProUGUI text = Pages[0];
 			text.transform.localPosition = Vector3.zero;
@@ -120,8 +104,10 @@ namespace Battle {
 
 			Pages[0].text = "";
 			Pages[1].text = "";
+		}
 
-			onDone();
+		public bool IsDone() {
+			return phase == Phase.Disabled;
 		}
 	}
 }

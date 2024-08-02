@@ -31,8 +31,7 @@ public class Player : MonoBehaviour {
 	PlayerDirection direction = PlayerDirection.None;
 	PlayerDirection nextDirection = PlayerDirection.None;
 
-	InputAction Horizontal;
-	InputAction Vertical;
+	InputAction Move;
 
 	Dictionary<PlayerDirection, string> DirectionMap = new Dictionary<PlayerDirection, string>() {
 		{ PlayerDirection.Up, "Up" },
@@ -44,8 +43,7 @@ public class Player : MonoBehaviour {
 	private void Start() {
 		Engine.ModeChanged += ModeChanged;
 
-		Horizontal = PlayerInput.currentActionMap.FindAction("Horizontal");
-		Vertical = PlayerInput.currentActionMap.FindAction("Vertical");
+		Move = PlayerInput.currentActionMap.FindAction("Move");
 	}
 
 	private void OnDestroy() {
@@ -60,8 +58,7 @@ public class Player : MonoBehaviour {
 			return;
 		}
 
-		movement.x = Horizontal.ReadValue<float>();
-		movement.y = Vertical.ReadValue<float>();
+		movement = Move.ReadValue<Vector2>();
 
 		if (movement.x > 0 && movement.y == 0) {
 			nextDirection = PlayerDirection.Right;

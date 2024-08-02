@@ -2455,6 +2455,7 @@ MonoBehaviour:
   - {fileID: 1375900546959677988}
   - {fileID: 600778372410388622}
   - {fileID: 3327328079688181703}
+  PlayerInput: {fileID: 0}
 --- !u!114 &476286302291984987
 MonoBehaviour:
   m_ObjectHideFlags: 0
