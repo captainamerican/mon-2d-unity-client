@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d1c964e4835a4888b1d6cf3b6a90933, type: 3}
+  m_Name: Profile
+  m_EditorClassIdentifier: 
+  Inventory: {fileID: 11400000, guid: 121017607e7b44f4188f9501d23e4dfe, type: 2}
+  Party:
+  - {fileID: 11400000, guid: bd21a74900ebd40f5af824e1480a7672, type: 2}
+  Creatures:
+  - {fileID: 11400000, guid: bd21a74900ebd40f5af824e1480a7672, type: 2}
+  Skills:
+  - Skill: {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+    experience: 1
+  Level: 1
+  Experience: 0
+  ExperienceForNextLevel: 20
+  OpenedChests: 01000000

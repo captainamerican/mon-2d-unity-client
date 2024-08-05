@@ -12,8 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a3f39f2d62f4ab79e8d21a283de14a, type: 3}
   m_Name: Engine
   m_EditorClassIdentifier: 
-  Mode: 1
-  NextScene: Forest 01 Entrance
-  NextScenePosition: {x: 0, y: 0, z: 0}
-  Inventory: {fileID: 11400000, guid: 121017607e7b44f4188f9501d23e4dfe, type: 2}
-  OpenedChests: 01000000
+  Mode: 5
+  Profile: {fileID: 11400000, guid: 0ee5caabf10fd4bcba72c085b422eee2, type: 2}

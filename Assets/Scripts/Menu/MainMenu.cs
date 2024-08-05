@@ -57,6 +57,9 @@ public class MainMenu : MonoBehaviour {
 		MainMenuObject.SetActive(true);
 		phase = Phase.MainMenu;
 		EventSystem.current.sendNavigationEvents = true;
+
+		MainMenuButtons[0].Select();
+		MainMenuButtons[0].OnSelect(null);
 	}
 
 	public void ExitMainMenu() {

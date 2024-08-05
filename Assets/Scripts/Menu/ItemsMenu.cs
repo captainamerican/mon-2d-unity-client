@@ -32,7 +32,7 @@ public class ItemsMenu : AbstractMenu {
 
 	private void Start() {
 		CancelButton
-		.GetComponent<ItemMenuItem>()
+		.GetComponent<InformationButton>()
 			.Configure(() => {
 				DescriptionContainer.SetActive(false);
 			});
@@ -66,7 +66,7 @@ public class ItemsMenu : AbstractMenu {
 		Item.Type type = Item.Type.None;
 
 		List<Button> buttons = new();
-		Engine.Inventory.Entries
+		Engine.Profile.Inventory.Entries
 			.Where(entry => entry.Amount > 0)
 			.OrderBy(entry => entry.ItemData.Type)
 			.ToList()
@@ -100,7 +100,7 @@ public class ItemsMenu : AbstractMenu {
 				Button button = newItem.GetComponent<Button>();
 				button.onClick.AddListener(() => OnItemSelected(entry));
 				button
-				.GetComponent<ItemMenuItem>()
+				.GetComponent<InformationButton>()
 					.Configure(() => {
 						DescriptionContainer.SetActive(true);
 						Description.text = entry.ItemData.Description;
@@ -130,7 +130,7 @@ public class ItemsMenu : AbstractMenu {
 		//
 		buttons[0].Select();
 		buttons[0].OnSelect(null);
-		buttons[0].GetComponent<ItemMenuItem>().OnSelect(null);
+		buttons[0].GetComponent<InformationButton>().OnSelect(null);
 		EventSystem.current.sendNavigationEvents = true;
 
 		//

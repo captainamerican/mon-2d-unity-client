@@ -1178,7 +1178,7 @@ GameObject:
   - component: {fileID: 7302981700109016273}
   - component: {fileID: 1827013690955641798}
   - component: {fileID: 1144451853586970204}
-  - component: {fileID: 4942730809518663548}
+  - component: {fileID: 2769638226152978316}
   m_Layer: 5
   m_Name: CANCEL
   m_TagString: Untagged
@@ -1300,7 +1300,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4942730809518663548
+--- !u!114 &2769638226152978316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1309,7 +1309,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2266872211741784801}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58c16510f0e78dd44b94a37ada439035, type: 3}
+  m_Script: {fileID: 11500000, guid: 64ba1cacbd89246fd9d36398f1e03566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2574895373309614358
@@ -2455,7 +2455,6 @@ MonoBehaviour:
   - {fileID: 1375900546959677988}
   - {fileID: 600778372410388622}
   - {fileID: 3327328079688181703}
-  PlayerInput: {fileID: 0}
 --- !u!114 &476286302291984987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4496,7 +4495,7 @@ GameObject:
   - component: {fileID: 9191257924081997156}
   - component: {fileID: 5222601994740361832}
   - component: {fileID: 3873423233158301205}
-  - component: {fileID: 8024673863287495070}
+  - component: {fileID: 1002676046463450763}
   m_Layer: 5
   m_Name: ITEM TEMPLATE
   m_TagString: Untagged
@@ -4633,7 +4632,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &8024673863287495070
+--- !u!114 &1002676046463450763
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4642,6 +4641,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 9003384786349068423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58c16510f0e78dd44b94a37ada439035, type: 3}
+  m_Script: {fileID: 11500000, guid: 64ba1cacbd89246fd9d36398f1e03566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

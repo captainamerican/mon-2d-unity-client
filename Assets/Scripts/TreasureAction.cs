@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TreasureAction : MonoBehaviour {
 
@@ -12,19 +13,25 @@ public class TreasureAction : MonoBehaviour {
 	ChestId Id;
 
 	[SerializeField]
+	PlayerInput PlayerInput;
+
+	[SerializeField]
 	List<Item.LootDrop> Drops = new();
 
 	bool isBeingTouched;
+	InputAction SubmitAction;
 
 	void Start() {
 		isBeingTouched = false;
+
+		SubmitAction = PlayerInput.currentActionMap.FindAction("Submit");
 	}
 
 	void Update() {
 		if (
 			!isBeingTouched ||
 			!Engine.PlayerHasControl() ||
-			!Input.GetButtonDown("Submit")
+			!SubmitAction.WasPressedThisFrame()
 		) {
 			return;
 		}
@@ -49,12 +56,12 @@ public class TreasureAction : MonoBehaviour {
 	}
 
 	public void OpenChest() {
-		if (Engine.OpenedChests.Contains(Id)) {
+		if (Engine.Profile.OpenedChest(Id)) {
 			WorldDialogue.Display("Nothing here!");
 			return;
 		}
 
-		Engine.OpenedChests.Add(Id);
+		Engine.Profile.OpenChest(Id);
 
 		if (Drops.Count < 1) {
 			WorldDialogue.Display("Nothing here!");
@@ -69,7 +76,7 @@ public class TreasureAction : MonoBehaviour {
 				? $"{lootdrop.Quantity} {lootdrop.ItemData.Name}"
 				: lootdrop.ItemData.Name
 			);
-			Engine.Inventory.AdjustItem(lootdrop.ItemData, lootdrop.Quantity);
+			Engine.Profile.Inventory.AdjustItem(lootdrop.ItemData, lootdrop.Quantity);
 			totalItems += lootdrop.Quantity;
 		});
 		string term = totalItems > 1 ? "them" : "it";

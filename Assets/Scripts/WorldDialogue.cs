@@ -27,7 +27,6 @@ public class WorldDialogue : MonoBehaviour {
 	string[] pages;
 	int page;
 
-
 	void Start() {
 		Self = this;
 

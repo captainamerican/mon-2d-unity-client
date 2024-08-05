@@ -15,4 +15,7 @@ public enum Part {
 public class BodyPart : ScriptableObject {
 	public Part Part;
 	public string Name;
+
+	[Header("If Torso")]
+	public NumberOfAppendages TorsoAppendages;
 }

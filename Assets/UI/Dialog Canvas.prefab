@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You harvested 2 Petals.
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c9176f3ef17a241568d75d929f58dc64, type: 2}
   m_sharedMaterial: {fileID: -3225044472311660116, guid: c9176f3ef17a241568d75d929f58dc64, type: 2}
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -219,7 +219,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7138155063109941926}
-  - component: {fileID: 8656107204080640294}
+  - component: {fileID: 1866207719776167544}
   - component: {fileID: 4714951001850153909}
   - component: {fileID: 8333441005994360626}
   - component: {fileID: 8203676596517246667}
@@ -250,7 +250,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &8656107204080640294
+--- !u!114 &1866207719776167544
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1285250580604421229}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 348671fac2ec7564cb86889aa1398f3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 675aadb2639bcdb43b5f332ce1eb6718, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Engine: {fileID: 11400000, guid: d52e74a9d3dfb4333b90830cca87a9c8, type: 2}
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You harvested 2 Petals.
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c9176f3ef17a241568d75d929f58dc64, type: 2}
   m_sharedMaterial: {fileID: -3225044472311660116, guid: c9176f3ef17a241568d75d929f58dc64, type: 2}
@@ -404,8 +404,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

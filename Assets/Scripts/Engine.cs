@@ -25,12 +25,9 @@ public class Engine : ScriptableObject {
 	public EngineMode Mode;
 	public event EngineModeChangedEvent ModeChanged;
 
+	public Profile Profile;
+
 	public NextScene NextScene = null;
-
-	public Inventory Inventory;
-
-
-	public List<ChestId> OpenedChests = new();
 
 	public void SetMode(EngineMode mode) {
 		Mode = mode;

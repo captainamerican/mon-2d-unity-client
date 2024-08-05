@@ -89,7 +89,7 @@ public class HarvestAction : MonoBehaviour {
 				? $"{lootdrop.Quantity} {lootdrop.ItemData.Name}"
 				: lootdrop.ItemData.Name
 			);
-			Engine.Inventory.AdjustItem(lootdrop.ItemData, lootdrop.Quantity);
+			Engine.Profile.Inventory.AdjustItem(lootdrop.ItemData, lootdrop.Quantity);
 			totalItems += lootdrop.Quantity;
 		});
 		string term = totalItems > 1 ? "them" : "it";
