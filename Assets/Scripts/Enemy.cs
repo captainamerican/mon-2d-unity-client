@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using Unity.Collections;
 
@@ -26,12 +28,9 @@ namespace WorldEnemy {
 		GaveUp
 	}
 
-	public enum Id {
-		Wolf
-	}
-
+	[Serializable]
 	public class Possibility {
-		public Id Id = Id.Wolf;
+		public Creature Creature;
 		public int Weight = 100;
 		public int Level = 1;
 	}
@@ -88,7 +87,6 @@ namespace WorldEnemy {
 		[SerializeField]
 		float ActionAcceleration;
 
-
 		Vector3 destination;
 		Vector3 alertedPosition;
 		Transform target;
@@ -125,8 +123,8 @@ namespace WorldEnemy {
 		}
 
 		void ChooseNextDestination() {
-			float radians = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-			float distance = Random.Range(0, DomainRadius);
+			float radians = UnityEngine.Random.Range(0f, 360f) * Mathf.Deg2Rad;
+			float distance = UnityEngine.Random.Range(0, DomainRadius);
 
 			destination.x = transform.position.x + Mathf.Cos(radians) * distance;
 			destination.y = transform.position.y + Mathf.Sin(radians) * distance;
@@ -167,8 +165,8 @@ namespace WorldEnemy {
 		}
 
 		IEnumerator WaitingToMove() {
-			if (Random.value > 0.8f) {
-				yield return Wait.For(Random.Range(0.25f, 4f));
+			if (UnityEngine.Random.value > 0.8f) {
+				yield return Wait.For(UnityEngine.Random.Range(0.25f, 4f));
 			}
 			ChooseNextDestination();
 		}
@@ -291,6 +289,23 @@ namespace WorldEnemy {
 
 			Agent.speed = Speed;
 			Agent.acceleration = Acceleration;
+		}
+
+		public Creature RollAppearance() {
+			int total = Possibilities.Select(x => x.Weight).Sum();
+			int random = UnityEngine.Random.Range(0, total);
+
+			for (int j = 0; j < Possibilities.Count; j++) {
+				Possibility possibility = Possibilities[j];
+				if (random < possibility.Weight) {
+					return possibility.Creature;
+				}
+
+				random -= possibility.Weight;
+			}
+
+			//
+			return Possibilities[0].Creature;
 		}
 	}
 }
