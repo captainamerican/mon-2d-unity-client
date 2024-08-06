@@ -2,20 +2,12 @@ using System.Collections.Generic;
 using Battle;
 using UnityEngine;
 
-public enum NumberOfAppendages {
-	None,
-	Two,
-	Four,
-	Six
-}
-
 [CreateAssetMenu(fileName = "Creature", menuName = "MoN/Creature")]
 public class Creature : ScriptableObject {
 	public string Name;
 
-	public BodyPart Torso;
-
 	public BodyPart Head;
+	public BodyPart Torso;
 	public BodyPart Tail;
 
 	public BodyPart LeftAppendage1;

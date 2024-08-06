@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -102,6 +103,12 @@ namespace Battle {
 		[SerializeField]
 		RectTransform CreatureMagicTransform;
 
+		[SerializeField]
+		Animator EnemyAttacked;
+
+		[SerializeField]
+		Animator CreatureAttacked;
+
 		static Encounter Self;
 
 		InputAction SubmitAction;
@@ -117,8 +124,6 @@ namespace Battle {
 
 		Phase phase;
 		int currentCreatureIndex;
-		int magic;
-		int magicTotal;
 
 		static public void Begin(WorldEnemy.Enemy enemy) {
 			Self.StartBattle(enemy);
@@ -141,16 +146,23 @@ namespace Battle {
 
 			this.enemy = enemy;
 
-			magic = Engine.Profile.Magic;
-			magicTotal = Engine.Profile.MagicTotal;
-
 			enemyCreature = enemy.RollAppearance();
-			enemyCombatant = new Combatant { Health = 30, HealthTotal = 30 };
+			enemyCombatant = Combatant.New(enemyCreature.Name, enemy.Level, 5, 5, 5, 5, 5, 5, 999);
 
 			currentCreatureIndex = 0;
 			currentCreature = Engine.Profile.Party[currentCreatureIndex];
 
-			creatureCombatants.Add(new Combatant { Health = 50, HealthTotal = 50 });
+			creatureCombatants.Add(
+				Combatant.New(
+					currentCreature.Name,
+					Engine.Profile.Level,
+					5, 5, 5, 5,
+					Engine.Profile.Wisdom,
+					5,
+					999,
+					Engine.Profile.Magic
+				)
+			);
 
 			creatureCombatant = creatureCombatants[currentCreatureIndex];
 
@@ -184,7 +196,7 @@ namespace Battle {
 			CreatureQueue.SetActive(true);
 			Statistics.SetActive(false);
 
-			Dialogue.Display("An angry spirit emerges.", $"Lethia summons {currentCreature.Name}!");
+			Dialogue.Display("An angry spirit emerges.", $"Lethia calls forth {currentCreature.Name}!");
 			yield return Wait.Until(Dialogue.IsDone);
 
 			//
@@ -193,19 +205,19 @@ namespace Battle {
 
 			//
 			Vector3 enemyHealthA = new(0, 1, 1);
-			Vector3 enemyHealthB = new((float) enemyCombatant.Health / (float) enemyCombatant.HealthTotal, 1, 1);
+			Vector3 enemyHealthB = new((float) enemyCombatant.Health / enemyCombatant.HealthTotal, 1, 1);
 
 			Vector3 creatureHealthA = new(0, 1, 1);
-			Vector3 creatureHealthB = new((float) creatureCombatant.Health / (float) creatureCombatant.HealthTotal, 1, 1);
+			Vector3 creatureHealthB = new((float) creatureCombatant.Health / creatureCombatant.HealthTotal, 1, 1);
 
 			Vector3 creatureMagicA = new(0, 1, 1);
-			Vector3 creatureMagicB = new((float) magic / (float) magicTotal, 1, 1);
+			Vector3 creatureMagicB = new((float) creatureCombatant.Magic / creatureCombatant.MagicTotal, 1, 1);
 
 			float creatureHPA = 0;
 			float creatureHPB = creatureCombatant.Health;
 
 			float mpA = 0;
-			float mpB = magic;
+			float mpB = creatureCombatant.Magic;
 
 			string hpLabel = CreatureHealthLabel.text;
 			string mpLabel = CreatureMagicLabel.text;
@@ -234,20 +246,41 @@ namespace Battle {
 			ShowActions();
 		}
 
-		IEnumerator TurnAction(Skill skill, Combatant actor, Combatant receiver) {
-			// TODO: who goes first?
-
-
+		IEnumerator TurnAction(Skill skill, Combatant actor, Combatant receiver, Animator actorAnimator, Animator receiverAnimator) {
 			float creatureHPA = creatureCombatant.Health;
-			float mpA = magic;
+			float mpA = creatureCombatant.Magic;
 
-			Dialogue.Display($"Creature performs {skill.Name}!");
+			//
+			Dialogue.Display($"{actor.Name} performs {skill.Name}!");
 			yield return Wait.Until(Dialogue.IsDone);
 
+			//
 			ApplyEffects(skill, actor, receiver);
-			magic = Mathf.Clamp(magic - skill.Cost, 0, magicTotal);
+			actor.AdjustMagic(-skill.Cost);
 
-			// TODO: update health and statuses
+			// show skill fx(s)
+			yield return Wait.For(0.33f);
+
+			List<Animator> active = new();
+			List<bool> done = new();
+
+			foreach (SkillFX fx in skill.FX) {
+				Animator animator = fx.Actor ? actorAnimator : receiverAnimator;
+				if (active.Contains(animator)) {
+					Debug.LogError($"Already have this {fx.Actor} animator in action!");
+					continue;
+				}
+
+				active.Add(animator);
+				done.Add(false);
+
+				StartCoroutine(AnimateFX(skill, fx, animator, done, done.Count - 1));
+			}
+
+			yield return Wait.Until(() => done.All(isDone => isDone));
+			yield return Wait.For(0.33f);
+
+			// update health and statuses
 			Vector3 enemyHealthA = EnemyHealthTransform.localScale;
 			Vector3 enemyHealthB = new((float) enemyCombatant.Health / (float) enemyCombatant.HealthTotal, 1, 1);
 
@@ -255,15 +288,15 @@ namespace Battle {
 			Vector3 creatureHealthB = new((float) creatureCombatant.Health / (float) creatureCombatant.HealthTotal, 1, 1);
 
 			Vector3 creatureMagicA = CreatureMagicTransform.localScale;
-			Vector3 creatureMagicB = new((float) magic / (float) magicTotal, 1, 1);
+			Vector3 creatureMagicB = new((float) creatureCombatant.Magic / (float) creatureCombatant.MagicTotal, 1, 1);
 
 			float creatureHPB = creatureCombatant.Health;
-			float mpB = magic;
+			float mpB = creatureCombatant.Magic;
 
 			string hpLabel = CreatureHealthLabel.text;
 			string mpLabel = CreatureMagicLabel.text;
 
-			yield return Do.For(1f, ratio => {
+			yield return Do.For(0.5f, ratio => {
 				EnemyHealthTransform.localScale = Vector3.Lerp(enemyHealthA, enemyHealthB, ratio);
 				CreatureHealthTransform.localScale = Vector3.Lerp(creatureHealthA, creatureHealthB, ratio);
 				CreatureMagicTransform.localScale = Vector3.Lerp(creatureMagicA, creatureMagicB, ratio);
@@ -279,9 +312,6 @@ namespace Battle {
 					CreatureMagicLabel.text = mpLabel;
 				}
 			}, Easing.EaseInOutSine01);
-
-			//
-			yield return TurnEnd();
 		}
 
 		IEnumerator TurnEnd() {
@@ -368,7 +398,22 @@ namespace Battle {
 		public void UseMove(int moveIndex) {
 			MovesMenu.SetActive(false);
 
-			StartCoroutine(TurnAction(currentCreature.Skills[moveIndex], creatureCombatant, enemyCombatant));
+			IEnumerator creatureAction = TurnAction(currentCreature.Skills[moveIndex], creatureCombatant, enemyCombatant, CreatureAttacked, EnemyAttacked);
+			IEnumerator enemyAction = TurnAction(enemyCreature.Skills[0], enemyCombatant, creatureCombatant, EnemyAttacked, CreatureAttacked);
+
+			if (creatureCombatant.Dexterity >= enemyCombatant.Dexterity) {
+				StartCoroutine(ExecuteActions(creatureAction, enemyAction));
+			} else {
+				StartCoroutine(ExecuteActions(enemyAction, creatureAction));
+			}
+		}
+
+		IEnumerator ExecuteActions(IEnumerator first, IEnumerator second) {
+			yield return first;
+			yield return second;
+
+			//
+			yield return TurnEnd();
 		}
 
 		public void ShowItems() {
@@ -387,17 +432,45 @@ namespace Battle {
 			skill.Effect.ForEach(effect => {
 				Combatant effected = effect.ApplyToSelf ? actor : receiver;
 
+				Debug.Log($"{skill.Name} {effect.Type} {effect.Strength}");
+
 				switch (effect.Type) {
 					case EffectType.Health:
-						effected.Health = Mathf.Clamp(effected.Health - effect.Value, 0, effected.HealthTotal);
+						effected.AdjustHealth(effect.Strength);
+
+						Debug.Log(effected.Health);
 						break;
 
 					case EffectType.Status:
-						effected.AddStatus(effect.Status, effect.Value);
+						effected.AddStatus(effect.Status, effect.Duration, effect.Strength);
 						break;
 				}
 			});
 
+		}
+
+		IEnumerator AnimateFX(Skill skill, SkillFX fx, Animator animator, List<bool> done, int doneIndex) {
+			AnimationClip clip = animator.runtimeAnimatorController.animationClips.First(clip => clip.name == skill.Name);
+			if (clip == null) {
+				Debug.LogError($"No animation clip named: {skill.Name}");
+				done[doneIndex] = true;
+				yield break;
+			}
+
+			//
+			if (fx.Delay > 0) {
+				yield return Wait.For(fx.Delay);
+			}
+
+			//
+			animator.Play(skill.Name);
+
+			//
+			yield return Wait.Until(() => animator.GetCurrentAnimatorStateInfo(0).IsName(skill.Name));
+			yield return Wait.Until(() => !animator.GetCurrentAnimatorStateInfo(0).IsName(skill.Name));
+
+			//
+			done[doneIndex] = true;
 		}
 	}
 }

@@ -19,4 +19,14 @@ public sealed class Wait {
 	static public IEnumerator ForReal(float seconds) {
 		yield return new WaitForSecondsRealtime(seconds);
 	}
+
+	static public IEnumerator AndThen(float seconds, Action callback) {
+		yield return For(seconds);
+		callback();
+	}
+
+	static public IEnumerator AndThenReal(float seconds, Action callback) {
+		yield return ForReal(seconds);
+		callback();
+	}
 }

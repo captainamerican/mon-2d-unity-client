@@ -66,7 +66,7 @@ public class ItemsMenu : AbstractMenu {
 		Item.Type type = Item.Type.None;
 
 		List<Button> buttons = new();
-		Engine.Profile.Inventory.Entries
+		Engine.Profile.Inventory
 			.Where(entry => entry.Amount > 0)
 			.OrderBy(entry => entry.ItemData.Type)
 			.ToList()

@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fc5697d55d669b4d988b5b1c1a1283e, type: 3}
   m_Name: Wolf R. Leg
   m_EditorClassIdentifier: 
+  Base: {fileID: 11400000, guid: 3104dc948f663404bb18dc4c642af26d, type: 2}
   Part: 7
   Name: Wolf Rear R. Leg

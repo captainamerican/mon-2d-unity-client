@@ -32,7 +32,6 @@ namespace WorldEnemy {
 	public class Possibility {
 		public Creature Creature;
 		public int Weight = 100;
-		public int Level = 1;
 	}
 
 	[SelectionBase]
@@ -69,6 +68,9 @@ namespace WorldEnemy {
 
 		[SerializeField]
 		List<Possibility> Possibilities = new();
+
+		[SerializeField]
+		public int Level = 1;
 
 		[Header("Unaware Settings")]
 		[SerializeField]

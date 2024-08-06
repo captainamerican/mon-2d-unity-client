@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Battle {
@@ -21,11 +22,20 @@ namespace Battle {
 		public int Cost = 1;
 
 		public List<Effect> Effect = new();
+
+		[Header("FX")]
+		public List<SkillFX> FX = new();
 	}
 
 	[Serializable]
 	public class LearnedSkill {
 		public Skill Skill;
-		public float experience = 0;
+		public float Experience = 0;
+	}
+
+	[Serializable]
+	public class SkillFX {
+		public bool Actor;
+		public float Delay;
 	}
 }

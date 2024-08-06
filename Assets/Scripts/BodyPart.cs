@@ -13,9 +13,7 @@ public enum Part {
 
 [CreateAssetMenu(fileName = "Body Part", menuName = "MoN/Body Part")]
 public class BodyPart : ScriptableObject {
+	public CreatureBase Base;
 	public Part Part;
 	public string Name;
-
-	[Header("If Torso")]
-	public NumberOfAppendages TorsoAppendages;
 }

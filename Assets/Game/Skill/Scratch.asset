@@ -17,4 +17,10 @@ MonoBehaviour:
   Cost: 1
   Effect:
   - Type: 0
+    Status: 0
     Value: 5
+    ApplyToSelf: 0
+  FX:
+  - actor: 0
+    Animation: {fileID: 9100000, guid: 8133f4d59ebe54921bc299f435c42e14, type: 2}
+    delay: 0
