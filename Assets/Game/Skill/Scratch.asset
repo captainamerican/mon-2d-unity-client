@@ -16,11 +16,12 @@ MonoBehaviour:
   Description: Stings more than it hurts.
   Cost: 1
   Effect:
-  - Type: 0
+  - Type: 10
     Status: 0
-    Value: 5
+    Duration: 0
+    Strength: -10
+    Variance: 0.1
     ApplyToSelf: 0
   FX:
-  - actor: 0
-    Animation: {fileID: 9100000, guid: 8133f4d59ebe54921bc299f435c42e14, type: 2}
-    delay: 0
+  - Actor: 0
+    Delay: 0

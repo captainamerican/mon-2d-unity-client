@@ -12,15 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d1c964e4835a4888b1d6cf3b6a90933, type: 3}
   m_Name: Profile
   m_EditorClassIdentifier: 
-  Inventory: {fileID: 11400000, guid: 121017607e7b44f4188f9501d23e4dfe, type: 2}
+  Level: 1
+  Experience: 0
+  ExperienceForNextLevel: 50
+  Magic: 30
+  Wisdom: 5
   Party:
-  - {fileID: 11400000, guid: bd21a74900ebd40f5af824e1480a7672, type: 2}
+    Creatures:
+    - {fileID: 11400000, guid: bd21a74900ebd40f5af824e1480a7672, type: 2}
   Creatures:
   - {fileID: 11400000, guid: bd21a74900ebd40f5af824e1480a7672, type: 2}
   Skills:
   - Skill: {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
-    experience: 1
-  Level: 1
-  Experience: 0
-  ExperienceForNextLevel: 20
+    Experience: 0
+  Inventory:
+  - Item: {fileID: 11400000, guid: 24f33a5e94da2784ba3bf95ab1faba80, type: 2}
+    Amount: 95
+  - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
+    Amount: 99
+  - Item: {fileID: 11400000, guid: 44c588fc9d11e92469ef2ca42d44ef06, type: 2}
+    Amount: 98
+  - Item: {fileID: 11400000, guid: a8982c01dadfccd4f97caa32edb0a050, type: 2}
+    Amount: 99
   OpenedChests: 01000000

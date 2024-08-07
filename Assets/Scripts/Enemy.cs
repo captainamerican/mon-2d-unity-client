@@ -25,6 +25,7 @@ namespace WorldEnemy {
 		Alert,
 		Fleeing,
 		Chasing,
+		InBattle,
 		GaveUp
 	}
 

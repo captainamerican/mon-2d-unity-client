@@ -37,7 +37,6 @@ namespace Loader {
 			//
 			for (int i = 0; i < scenesToRemove.Count; i++) {
 				UnityEngine.SceneManagement.Scene scene = SceneManager.GetSceneAt(i);
-				Debug.Log(scene.name);
 				AsyncOperation removeScene = SceneManager.UnloadSceneAsync(scene, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
 				yield return Wait.Until(() => removeScene.isDone);
 			}

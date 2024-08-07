@@ -1,12 +1,16 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace World {
 
 	public class WorldEnemies : MonoBehaviour {
 		[SerializeField]
 		Engine Engine;
+
+		[SerializeField]
+		Battle.Encounter Encounter;
 
 		[SerializeField]
 		GameObject Player;
@@ -21,7 +25,7 @@ namespace World {
 
 			for (int i = 0; i < Enemies.Count; i++) {
 				WorldEnemy.Enemy enemy = Enemies[i];
-				if (enemy == null) {
+				if (enemy == null || !enemy.gameObject.activeInHierarchy) {
 					continue;
 				}
 
@@ -32,18 +36,28 @@ namespace World {
 						}
 						break;
 
+					case WorldEnemy.Alertness.InBattle:
+						break;
+
 					default:
 						if (Vector3.Distance(Player.transform.position, enemy.BodyTransform.position) > 3f) {
 							continue;
 						}
 
-						Debug.Log(enemy);
-						Battle.Encounter.Begin(enemy);
-						Enemies.ForEach(enemy => enemy.Stop());
+						enemy.GetComponentInChildren<NavMeshAgent>().isStopped = true;
+						enemy.Alertness = WorldEnemy.Alertness.InBattle;
+						enemy.Stop();
+
+						Encounter.StartBattle(enemy);
+						Enemies.ForEach(enemy => {
+							if (enemy == null || !enemy.gameObject.activeInHierarchy) {
+								return;
+							}
+
+							enemy.Stop();
+						});
 						return;
 				}
-
-
 			}
 		}
 	}

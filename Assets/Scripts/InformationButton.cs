@@ -11,6 +11,6 @@ public class InformationButton : MonoBehaviour, ISelectHandler {
 	}
 
 	public void OnSelect(BaseEventData eventData) {
-		Selected();
+		Selected?.Invoke();
 	}
 }

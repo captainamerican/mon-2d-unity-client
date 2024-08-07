@@ -9,10 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4449fe5eac08543b69057c3bf03d4c6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 21752b5b22dda476f96222be4c2a446a, type: 3}
   m_Name: Lotion
   m_EditorClassIdentifier: 
-  Type: 4
+  Type: 40
+  UseInBattle: 0
   Name: Lotion
-  Description: 'Recovers some body part viability. '
-  FlavorText: Keeps the skin moist.
+  Description: Improves body part quality.
+  FlavorText: Contains organic anti-oxidants.
+  Targets: 14000000
+  Effects:
+  - Type: 40
+    Status: 0
+    Duration: 0
+    Strength: 10

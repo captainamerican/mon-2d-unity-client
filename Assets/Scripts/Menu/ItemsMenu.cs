@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using TMPro;
-
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -30,14 +30,6 @@ public class ItemsMenu : AbstractMenu {
 	[SerializeField]
 	TextMeshProUGUI FlavorText;
 
-	private void Start() {
-		CancelButton
-		.GetComponent<InformationButton>()
-			.Configure(() => {
-				DescriptionContainer.SetActive(false);
-			});
-	}
-
 	override public void Show(Action callback) {
 		DescriptionContainer.SetActive(false);
 
@@ -63,20 +55,21 @@ public class ItemsMenu : AbstractMenu {
 		}
 
 		// generate items
-		Item.Type type = Item.Type.None;
+		Game.ItemType type = Game.ItemType.None;
 
 		List<Button> buttons = new();
 		Engine.Profile.Inventory
+			.Where(entry => entry.Item != null)
 			.Where(entry => entry.Amount > 0)
-			.OrderBy(entry => entry.ItemData.Type)
+			.OrderBy(entry => entry.Item.Type)
 			.ToList()
 			.ForEach(entry => {
-				if (type != entry.ItemData.Type) {
-					type = entry.ItemData.Type;
+				if (type != entry.Item.Type) {
+					type = entry.Item.Type;
 
 					GameObject category = Instantiate(Category, Menu.transform);
 					TextMeshProUGUI categoryLabel = category.GetComponent<TextMeshProUGUI>();
-					categoryLabel.text = Item.Data.TypeName(type);
+					categoryLabel.text = Item.TypeName(type);
 
 					category.SetActive(true);
 				}
@@ -86,10 +79,10 @@ public class ItemsMenu : AbstractMenu {
 
 				TextMeshProUGUI[] labels = newItem.GetComponentsInChildren<TextMeshProUGUI>();
 
-				labels[0].text = entry.ItemData.Name;
+				labels[0].text = entry.Item.Name;
 				labels[1].text = $"x{entry.Amount}";
 
-				if (entry.ItemData.Type != Item.Type.Consumable) {
+				if (entry.Item.Type != Game.ItemType.Consumable) {
 					Color color = labels[0].color;
 					color.a = 0.5f;
 
@@ -103,8 +96,8 @@ public class ItemsMenu : AbstractMenu {
 				.GetComponent<InformationButton>()
 					.Configure(() => {
 						DescriptionContainer.SetActive(true);
-						Description.text = entry.ItemData.Description;
-						FlavorText.text = entry.ItemData.FlavorText;
+						Description.text = entry.Item.Description;
+						FlavorText.text = entry.Item.FlavorText;
 					});
 
 				buttons.Add(button);
@@ -114,6 +107,12 @@ public class ItemsMenu : AbstractMenu {
 
 		// set cancel button last
 		CancelButton.transform.SetAsLastSibling();
+		CancelButton
+		.GetComponent<InformationButton>()
+			.Configure(() => {
+				DescriptionContainer.SetActive(false);
+			});
+
 		buttons.Add(CancelButton);
 
 		for (int i = 0; i < buttons.Count; i++) {
@@ -145,11 +144,11 @@ public class ItemsMenu : AbstractMenu {
 		Debug.Log(description);
 	}
 
-	void OnItemSelected(InventoryEntry entry) {
-		if (entry.ItemData.Type != Item.Type.Consumable) {
+	void OnItemSelected(Game.InventoryEntry entry) {
+		if (entry.Item.Type != Game.ItemType.Consumable) {
 			return;
 		}
 
-		Debug.Log("item: " + entry.ItemData.Name);
+		Debug.Log("item: " + entry.Item.Name);
 	}
 }

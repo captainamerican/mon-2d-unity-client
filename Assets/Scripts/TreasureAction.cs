@@ -16,7 +16,7 @@ public class TreasureAction : MonoBehaviour {
 	PlayerInput PlayerInput;
 
 	[SerializeField]
-	List<Item.LootDrop> Drops = new();
+	List<Game.LootDrop> Drops = new();
 
 	bool isBeingTouched;
 	InputAction SubmitAction;
@@ -73,10 +73,10 @@ public class TreasureAction : MonoBehaviour {
 		Drops.ForEach(lootdrop => {
 			drops.Add(
 				lootdrop.Quantity > 1
-				? $"{lootdrop.Quantity} {lootdrop.ItemData.Name}"
-				: lootdrop.ItemData.Name
+				? $"{lootdrop.Quantity} {lootdrop.Item.Name}"
+				: lootdrop.Item.Name
 			);
-			Engine.Profile.AdjustItem(lootdrop.ItemData, lootdrop.Quantity);
+			Engine.Profile.AdjustItem(lootdrop.Item, lootdrop.Quantity);
 			totalItems += lootdrop.Quantity;
 		});
 		string term = totalItems > 1 ? "them" : "it";

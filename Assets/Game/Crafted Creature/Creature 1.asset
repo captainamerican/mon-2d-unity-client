@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Creature 1
   m_EditorClassIdentifier: 
   Name: Wolfie
-  Torso: {fileID: 11400000, guid: 32c7935e1a0eca241b24336af2736cd5, type: 2}
+  Health: 999
+  Skills:
+  - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
   Head: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
+  Torso: {fileID: 11400000, guid: 32c7935e1a0eca241b24336af2736cd5, type: 2}
   Tail: {fileID: 11400000, guid: bfe2fcd604f28438d952824c91f8560c, type: 2}
   LeftAppendage1: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
   LeftAppendage2: {fileID: 11400000, guid: ae3fb87bdf1d9f045ae2ad9a23901740, type: 2}
@@ -22,5 +25,3 @@ MonoBehaviour:
   RightAppendage1: {fileID: 0}
   RightAppendage2: {fileID: 0}
   RightAppendage3: {fileID: 0}
-  Skills:
-  - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}

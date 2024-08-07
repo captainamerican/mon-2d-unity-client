@@ -15,6 +15,7 @@ namespace World {
 			NextScene nextScene = Engine.NextScene;
 			if (nextScene != null) {
 				Player.transform.position = nextScene.Destination;
+				Engine.NextScene = null;
 			}
 
 			yield return Loader.Scene.Clear();

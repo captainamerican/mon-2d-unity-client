@@ -23,7 +23,7 @@ public class HarvestAction : MonoBehaviour {
 	int Rolls = 1;
 
 	[SerializeField]
-	List<Item.WeightedLootDrop> Drops = new();
+	List<Game.WeightedLootDrop> Drops = new();
 
 	SpriteRenderer image;
 	bool isBeingTouched;
@@ -86,10 +86,10 @@ public class HarvestAction : MonoBehaviour {
 		RollForItems().ForEach(lootdrop => {
 			drops.Add(
 				lootdrop.Quantity > 1
-				? $"{lootdrop.Quantity} {lootdrop.ItemData.Name}"
-				: lootdrop.ItemData.Name
+				? $"{lootdrop.Quantity} {lootdrop.Item.Name}"
+				: lootdrop.Item.Name
 			);
-			Engine.Profile.AdjustItem(lootdrop.ItemData, lootdrop.Quantity);
+			Engine.Profile.AdjustItem(lootdrop.Item, lootdrop.Quantity);
 			totalItems += lootdrop.Quantity;
 		});
 		string term = totalItems > 1 ? "them" : "it";
@@ -110,7 +110,7 @@ public class HarvestAction : MonoBehaviour {
 	}
 
 
-	public List<Item.WeightedLootDrop> RollForItems() {
+	public List<Game.WeightedLootDrop> RollForItems() {
 		int total = Drops.Select(x => x.Weight).Sum();
 
 		//
@@ -118,7 +118,7 @@ public class HarvestAction : MonoBehaviour {
 			int random = UnityEngine.Random.Range(0, total);
 
 			for (int j = 0; j < Drops.Count; j++) {
-				Item.WeightedLootDrop lootDrop = Drops[j];
+				Game.WeightedLootDrop lootDrop = Drops[j];
 				if (random < lootDrop.Weight) {
 					return lootDrop;
 				}
