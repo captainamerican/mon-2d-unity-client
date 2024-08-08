@@ -1,10 +1,10 @@
 using System;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class AbstractMenu : MonoBehaviour {
-	[SerializeField]
-	protected GameObject Menu;
+	[SerializeField] protected GameObject Menu;
 
 	Action OnDone;
 
@@ -12,20 +12,18 @@ public class AbstractMenu : MonoBehaviour {
 		OnDone = onDone;
 
 		Menu.SetActive(true);
-		enabled = true;
 	}
 
 	public virtual void Exit() {
+		EventSystem.current.SetSelectedGameObject(null);
+
 		Menu.SetActive(false);
-		enabled = false;
 
 		OnDone?.Invoke();
+		OnDone = null;
 	}
 
-	void Update() {
-		if (Input.GetButtonDown("Cancel")) {
-			Exit();
-			return;
-		}
+	public void Close() {
+		Menu.SetActive(false);
 	}
 }

@@ -4,7 +4,6 @@ using System.Linq;
 
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -23,7 +22,10 @@ public class ItemsMenu : AbstractMenu {
 	InputAction CategoryRight;
 	InputAction Cancel;
 
-	readonly Dictionary<Item, GameObject> buttonCache = new();
+	Color SelectedTab = new Color(0.1254902f, 0.04313726f, 0.04313726f, 1f);
+	Color UnselectedTab = new Color(0.1254902f, 0.04313726f, 0.04313726f, 0.5f);
+
+	// readonly Dictionary<Item, GameObject> buttonCache = new();
 
 	readonly Dictionary<Game.ItemType, List<Button>> categoryButtons = new() {
 		{
@@ -67,49 +69,18 @@ public class ItemsMenu : AbstractMenu {
 	int currentButtonIndex = 0;
 
 	void Start() {
-		CategoryLeft = PlayerInput.currentActionMap.FindAction("CategoryLeft");
-		CategoryRight = PlayerInput.currentActionMap.FindAction("CategoryRight");
-		Cancel = PlayerInput.currentActionMap.FindAction("Cancel");
-	}
-
-	private void Update() {
-		if (CategoryRight.WasReleasedThisFrame()) {
-			categoryIndex += 1;
-			if (categoryIndex >= Categories.Count) {
-				categoryIndex = 0;
-			}
-
-			ChangeCategory(categoryIndex);
-		} else if (CategoryLeft.WasReleasedThisFrame()) {
-			categoryIndex -= 1;
-			if (categoryIndex < 0) {
-				categoryIndex = Categories.Count - 1;
-			}
-
-			ChangeCategory(categoryIndex);
-		} else if (Cancel.WasReleasedThisFrame()) {
-			Exit();
-		}
+		DescriptionContainer.SetActive(true);
 	}
 
 	override public void Show(Action callback) {
-		// empty categories dictionary
-		foreach (var list in categoryButtons.Values) {
-			if (list.Count > 0) {
-				list.RemoveRange(0, list.Count - 1);
-			}
-		}
-
 		// remove existing buttons
-		Categories.ForEach(category => {
-			while (category.transform.childCount > 1) {
-				Transform child = category.transform.GetChild(1);
-
-				child.SetParent(null);
-				child.gameObject.SetActive(false);
-			}
-		});
-
+		foreach (var key in categoryButtons.Keys) {
+			categoryButtons[key].ForEach(button => {
+				button.gameObject.SetActive(false);
+				Destroy(button.gameObject);
+			});
+			categoryButtons[key].Clear();
+		}
 
 		// generate buttons
 		Engine.Profile.Inventory
@@ -141,7 +112,7 @@ public class ItemsMenu : AbstractMenu {
 				}
 
 				// configure button
-				int buttonIndex = parent.transform.childCount - 2;
+				int buttonIndex = categoryButtons[entry.Item.Type].Count;
 				Button button = buttonGO.GetComponent<Button>();
 				button.onClick.AddListener(() => OnItemSelected(entry));
 				button
@@ -175,13 +146,16 @@ public class ItemsMenu : AbstractMenu {
 			}
 		}
 
-		//
-		EventSystem.current.sendNavigationEvents = true;
-
-		//
-		DescriptionContainer.SetActive(true);
-
 		ChangeCategory(0);
+
+		//
+		CategoryLeft = PlayerInput.currentActionMap.FindAction("CategoryLeft");
+		CategoryRight = PlayerInput.currentActionMap.FindAction("CategoryRight");
+		Cancel = PlayerInput.currentActionMap.FindAction("Cancel");
+
+		CategoryLeft.performed += HandleCategoryLeft;
+		CategoryRight.performed += HandleCategoryRight;
+		Cancel.performed += HandleCancel;
 
 		//
 		base.Show(callback);
@@ -189,26 +163,27 @@ public class ItemsMenu : AbstractMenu {
 
 	void ChangeCategory(int newIndex) {
 		categoryIndex = newIndex;
+		currentButtonIndex = 0;
+
+		Description.text = "";
+		FlavorText.text = "";
 
 		//
 		for (int i = 0; i < Categories.Count; i++) {
 			Categories[i].SetActive(i == newIndex);
 			CategoriesTabs[i].color = i == newIndex
-				? new Color(0.1254902f, 0.04313726f, 0.04313726f, 1f)
-				: new Color(0.1254902f, 0.04313726f, 0.04313726f, 0.5f);
+				? SelectedTab
+				: UnselectedTab;
 		}
 
 		//
 		UpdateVisibleButtonRange(0);
-
 
 		//
 		Game.ItemType category = categoryOrder[categoryIndex];
 		var buttons = categoryButtons[category];
 
 		if (buttons.Count > 0) {
-			EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
-
 			buttons[0].Select();
 			buttons[0].OnSelect(null);
 			buttons[0].GetComponent<InformationButton>().OnSelect(null);
@@ -222,6 +197,9 @@ public class ItemsMenu : AbstractMenu {
 		for (int i = 0; i < buttons.Count; i++) {
 			bool enabled = i >= categoryRangeMin && i <= categoryRangeMax;
 			var button = buttons[i].gameObject;
+			if (button == null) {
+				continue;
+			}
 
 			RectTransform rt = button.GetComponent<RectTransform>();
 			Vector2 sizeDelta = rt.sizeDelta;
@@ -280,5 +258,35 @@ public class ItemsMenu : AbstractMenu {
 		}
 
 		Debug.Log("item: " + entry.Item.Name);
+	}
+
+	void HandleCategoryLeft(InputAction.CallbackContext ctx) {
+		categoryIndex -= 1;
+		if (categoryIndex < 0) {
+			categoryIndex = Categories.Count - 1;
+		}
+
+		ChangeCategory(categoryIndex);
+	}
+
+	void HandleCategoryRight(InputAction.CallbackContext ctx) {
+		categoryIndex += 1;
+		if (categoryIndex >= Categories.Count) {
+			categoryIndex = 0;
+		}
+
+		ChangeCategory(categoryIndex);
+	}
+
+	void HandleCancel(InputAction.CallbackContext ctx) {
+		CategoryLeft.performed -= HandleCategoryLeft;
+		CategoryRight.performed -= HandleCategoryRight;
+		Cancel.performed -= HandleCancel;
+
+		CategoryLeft = null;
+		CategoryRight = null;
+		Cancel = null;
+
+		Exit();
 	}
 }

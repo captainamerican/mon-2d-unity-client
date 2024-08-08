@@ -1,27 +1,15 @@
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
-	enum Phase {
-		Hidden,
-		MainMenu,
-		SubMenu,
-	}
-
 	[SerializeField] Engine Engine;
 	[SerializeField] PlayerInput PlayerInput;
-
 	[SerializeField] GameObject MainMenuObject;
-
 	[SerializeField] List<Button> MainMenuButtons;
-
 	[SerializeField] List<AbstractMenu> Menus;
-
-	Phase phase;
 
 	InputAction Menu;
 	InputAction Cancel;
@@ -30,70 +18,77 @@ public class MainMenu : MonoBehaviour {
 		Menu = PlayerInput.currentActionMap.FindAction("Menu");
 		Cancel = PlayerInput.currentActionMap.FindAction("Cancel");
 
-		ExitMainMenu();
+		Menu.performed += ShouldIOpen;
 	}
 
-	void Update() {
-		switch (phase) {
-			case Phase.Hidden:
-				//Debug.Log("Hidden");
-				if (Menu.WasPressedThisFrame() && Engine.PlayerHasControl()) {
-					OpenMainMenu();
-				}
-				break;
-
-			case Phase.MainMenu:
-				//Debug.Log("MainMenu");
-				if ((Menu.WasPressedThisFrame() || Cancel.WasPressedThisFrame()) && Engine.Mode == EngineMode.Menu) {
-					ExitMainMenu();
-				}
-				break;
+	void ShouldIOpen(InputAction.CallbackContext ctx) {
+		if (!Menu.WasPressedThisFrame() || !Engine.PlayerHasControl()) {
+			return;
 		}
+
+		OpenMainMenu();
+	}
+
+	void ShouldIClose(InputAction.CallbackContext ctx) {
+		ExitMainMenu();
 	}
 
 	void OpenMainMenu() {
 		Time.timeScale = 0;
 
 		//
-		phase = Phase.MainMenu;
+		Menu.performed -= ShouldIOpen;
+		Menu.performed += ShouldIClose;
+		Cancel.performed += ShouldIClose;
+
+		// 
 		Engine.SetMode(EngineMode.Menu);
 
 		//
 		MainMenuObject.SetActive(true);
 
-		MainMenuButtons[0].Select();
-		MainMenuButtons[0].OnSelect(null);
+		Debug.Log(MainMenuButtons[0]);
 
-		EventSystem.current.sendNavigationEvents = true;
+		StartCoroutine(Wait.Until(() => {
+			if (MainMenuButtons[0] == null) {
+				return false;
+			}
+
+			MainMenuButtons[0].Select();
+			MainMenuButtons[0].OnSelect(null);
+
+			return true;
+		}));
 	}
 
 	public void ExitMainMenu() {
-		Menus.ForEach(menu => menu.Exit());
+		Debug.Log("ExitMainMenu");
 		MainMenuObject.SetActive(false);
 
-		// 
-		phase = Phase.Hidden;
+		//  
 		Engine.SetMode(EngineMode.PlayerControl);
 
-		//
-		EventSystem.current.sendNavigationEvents = true;
+		// 
 		Time.timeScale = 1;
+
+		Menu.performed += ShouldIOpen;
+		Menu.performed -= ShouldIClose;
+		Cancel.performed -= ShouldIClose;
 	}
 
 	void OnSubMenuClosed(Button buttonToHighlight) {
-		phase = Phase.MainMenu;
-
 		buttonToHighlight.Select();
 		buttonToHighlight.OnSelect(null);
 
-		EventSystem.current.sendNavigationEvents = true;
+		Menu.performed += ShouldIClose;
+		Cancel.performed += ShouldIClose;
 	}
 
 	void OpenSubMenu(int index) {
-		phase = Phase.SubMenu;
+		Menu.performed -= ShouldIClose;
+		Cancel.performed -= ShouldIClose;
 
 		EventSystem.current.SetSelectedGameObject(null);
-		EventSystem.current.sendNavigationEvents = false;
 		Menus[index].Show(() => OnSubMenuClosed(MainMenuButtons[index]));
 	}
 
