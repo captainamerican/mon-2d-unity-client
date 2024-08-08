@@ -346,7 +346,7 @@ namespace Battle {
 				active.Add(animator);
 				done.Add(false);
 
-				StartCoroutine(AnimateFX(skill.Name, fx, animator, done, done.Count - 1));
+				StartCoroutine(AnimateFX($"Move_{skill.Name}", fx, animator, done, done.Count - 1));
 			}
 
 			yield return Wait.Until(() => done.All(isDone => isDone));
@@ -523,7 +523,7 @@ namespace Battle {
 				active.Add(animator);
 				done.Add(false);
 
-				StartCoroutine(AnimateFX($"Item: {item.Name}", fx, animator, done, done.Count - 1));
+				StartCoroutine(AnimateFX($"Item_{item.Name}", fx, animator, done, done.Count - 1));
 			}
 
 			yield return Wait.Until(() => done.All(isDone => isDone));
@@ -656,7 +656,8 @@ namespace Battle {
 		}
 
 		IEnumerator AnimateFX(string name, Game.SkillFX fx, Animator animator, List<bool> done, int doneIndex) {
-			AnimationClip clip = animator.runtimeAnimatorController.animationClips.First(clip => clip.name == name);
+			var clips = animator.runtimeAnimatorController.animationClips;
+			var clip = animator.runtimeAnimatorController.animationClips.First(clip => clip.name == name);
 			if (clip == null) {
 				Debug.LogError($"No animation clip named: {name}");
 				done[doneIndex] = true;

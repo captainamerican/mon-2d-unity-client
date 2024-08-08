@@ -19,7 +19,7 @@ MonoBehaviour:
   - Type: 10
     Status: 0
     Duration: 0
-    Strength: -10
+    Strength: -50
     Variance: 0.1
     ApplyToSelf: 0
   FX:
