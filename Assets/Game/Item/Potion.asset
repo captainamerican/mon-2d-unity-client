@@ -25,4 +25,6 @@ MonoBehaviour:
     Strength: 20
     Variance: 0
     ApplyToSelf: 1
-  FX: []
+  FX:
+  - Actor: 1
+    Delay: 0

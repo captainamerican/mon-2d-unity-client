@@ -3,84 +3,134 @@ using System.Collections.Generic;
 using System.Linq;
 
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class ItemsMenu : AbstractMenu {
-	[SerializeField]
-	Engine Engine;
+	[SerializeField] Engine Engine;
+	[SerializeField] PlayerInput PlayerInput;
+	[SerializeField] GameObject ItemTemplate;
+	[SerializeField] GameObject DescriptionContainer;
+	[SerializeField] TextMeshProUGUI Description;
+	[SerializeField] TextMeshProUGUI FlavorText;
+	[SerializeField] List<GameObject> Categories;
+	[SerializeField] List<TextMeshProUGUI> CategoriesTabs;
+	[SerializeField] RectTransform ScrollbarThumb;
 
-	[SerializeField]
-	GameObject Category;
+	InputAction CategoryLeft;
+	InputAction CategoryRight;
+	InputAction Cancel;
 
-	[SerializeField]
-	GameObject Template;
+	readonly Dictionary<Item, GameObject> buttonCache = new();
 
-	[SerializeField]
-	Button CancelButton;
+	readonly Dictionary<Game.ItemType, List<Button>> categoryButtons = new() {
+		{
+			Game.ItemType.Consumable,
+			new List<Button>()
+		},
+		{
+			Game.ItemType.Reusable,
+			new List<Button>()
+		},
+		{
+			Game.ItemType.CraftingMaterial,
+			new List<Button>()
+		},
+		{
+			Game.ItemType.TrainingItem,
+			new List<Button>()
+		},
+		{
+			Game.ItemType.BodyPart,
+			new List<Button>()
+		},
+		{
+			Game.ItemType.KeyItem,
+			new List<Button>()
+		}
+	};
 
-	[SerializeField]
-	GameObject DescriptionContainer;
+	readonly List<Game.ItemType> categoryOrder = new() {
+		Game.ItemType.Consumable,
+		Game.ItemType.Reusable,
+		Game.ItemType.CraftingMaterial,
+		Game.ItemType.TrainingItem,
+		Game.ItemType.BodyPart,
+		Game.ItemType.KeyItem,
+	};
 
-	[SerializeField]
-	TextMeshProUGUI Description;
+	int categoryIndex = 0;
+	int categoryRangeMin = 0;
+	int categoryRangeMax = 6;
+	int currentButtonIndex = 0;
 
-	[SerializeField]
-	TextMeshProUGUI FlavorText;
+	void Start() {
+		CategoryLeft = PlayerInput.currentActionMap.FindAction("CategoryLeft");
+		CategoryRight = PlayerInput.currentActionMap.FindAction("CategoryRight");
+		Cancel = PlayerInput.currentActionMap.FindAction("Cancel");
+	}
 
-	override public void Show(Action callback) {
-		DescriptionContainer.SetActive(false);
-
-		//
-		int offset = 0;
-		while (Menu.transform.childCount > 4 || offset > Menu.transform.childCount) {
-			Transform child = Menu.transform.GetChild(offset);
-			GameObject go = child.gameObject;
-
-			if (
-					go == CancelButton.gameObject ||
-					go == Template ||
-					go == Category ||
-					go == DescriptionContainer
-				) {
-				offset += 1;
-				continue;
+	private void Update() {
+		if (CategoryRight.WasReleasedThisFrame()) {
+			categoryIndex += 1;
+			if (categoryIndex >= Categories.Count) {
+				categoryIndex = 0;
 			}
 
-			child.SetParent(null);
-			child.gameObject.SetActive(false);
-			Destroy(child.gameObject);
+			ChangeCategory(categoryIndex);
+		} else if (CategoryLeft.WasReleasedThisFrame()) {
+			categoryIndex -= 1;
+			if (categoryIndex < 0) {
+				categoryIndex = Categories.Count - 1;
+			}
+
+			ChangeCategory(categoryIndex);
+		} else if (Cancel.WasReleasedThisFrame()) {
+			Exit();
+		}
+	}
+
+	override public void Show(Action callback) {
+		// empty categories dictionary
+		foreach (var list in categoryButtons.Values) {
+			if (list.Count > 0) {
+				list.RemoveRange(0, list.Count - 1);
+			}
 		}
 
-		// generate items
-		Game.ItemType type = Game.ItemType.None;
+		// remove existing buttons
+		Categories.ForEach(category => {
+			while (category.transform.childCount > 1) {
+				Transform child = category.transform.GetChild(1);
 
-		List<Button> buttons = new();
+				child.SetParent(null);
+				child.gameObject.SetActive(false);
+			}
+		});
+
+
+		// generate buttons
 		Engine.Profile.Inventory
-			.Where(entry => entry.Item != null)
-			.Where(entry => entry.Amount > 0)
+			.Where(entry => entry.Item != null && entry.Amount > 0)
 			.OrderBy(entry => entry.Item.Type)
 			.ToList()
 			.ForEach(entry => {
-				if (type != entry.Item.Type) {
-					type = entry.Item.Type;
+				GameObject parent = Categories[categoryOrder.FindIndex(co => co == entry.Item.Type)];
+				//if (!buttonCache.TryGetValue(entry.Item, out GameObject buttonGO)) {
+				GameObject buttonGO = Instantiate(ItemTemplate, parent.transform);
+				//buttonCache[entry.Item] = buttonGO;
+				//}
+				buttonGO.name = $"{entry.Item.Name} x{entry.Amount}";
+				buttonGO.transform.SetParent(parent.transform);
+				buttonGO.SetActive(true);
 
-					GameObject category = Instantiate(Category, Menu.transform);
-					TextMeshProUGUI categoryLabel = category.GetComponent<TextMeshProUGUI>();
-					categoryLabel.text = Item.TypeName(type);
-
-					category.SetActive(true);
-				}
-
-				//
-				GameObject newItem = Instantiate(Template, Menu.transform);
-
-				TextMeshProUGUI[] labels = newItem.GetComponentsInChildren<TextMeshProUGUI>();
+				// update text
+				TextMeshProUGUI[] labels = buttonGO.GetComponentsInChildren<TextMeshProUGUI>();
 
 				labels[0].text = entry.Item.Name;
-				labels[1].text = $"x{entry.Amount}";
+				labels[1].text = entry.Amount < 10 ? $"x0{entry.Amount}" : $"x{entry.Amount}";
 
 				if (entry.Item.Type != Game.ItemType.Consumable) {
 					Color color = labels[0].color;
@@ -90,54 +140,134 @@ public class ItemsMenu : AbstractMenu {
 					labels[1].color = color;
 				}
 
-				Button button = newItem.GetComponent<Button>();
+				// configure button
+				int buttonIndex = parent.transform.childCount - 2;
+				Button button = buttonGO.GetComponent<Button>();
 				button.onClick.AddListener(() => OnItemSelected(entry));
 				button
 				.GetComponent<InformationButton>()
 					.Configure(() => {
-						DescriptionContainer.SetActive(true);
 						Description.text = entry.Item.Description;
 						FlavorText.text = entry.Item.FlavorText;
+
+						currentButtonIndex = buttonIndex;
+
+						UpdateVisibleButtonRange(buttonIndex);
 					});
 
-				buttons.Add(button);
-
-				newItem.SetActive(true);
+				//
+				categoryButtons[entry.Item.Type].Add(button);
 			});
 
-		// set cancel button last
-		CancelButton.transform.SetAsLastSibling();
-		CancelButton
-		.GetComponent<InformationButton>()
-			.Configure(() => {
-				DescriptionContainer.SetActive(false);
-			});
+		// wire up all the button navigation
+		foreach (var buttons in categoryButtons.Values) {
+			for (int i = 0; i < buttons.Count; i++) {
+				int up = i <= 0 ? buttons.Count - 1 : i - 1;
+				int down = i >= buttons.Count - 1 ? 0 : i + 1;
 
-		buttons.Add(CancelButton);
+				//
+				Navigation navigation = buttons[i].navigation;
+				navigation.selectOnUp = buttons[up];
+				navigation.selectOnDown = buttons[down];
 
-		for (int i = 0; i < buttons.Count; i++) {
-			int previous = i <= 0 ? buttons.Count - 1 : i - 1;
-			int next = i >= buttons.Count - 1 ? 0 : i + 1;
-
-			Navigation navigation = buttons[i].navigation;
-			navigation.selectOnUp = buttons[previous];
-			navigation.selectOnDown = buttons[next];
-
-			buttons[i].navigation = navigation;
+				//
+				buttons[i].navigation = navigation;
+			}
 		}
 
 		//
-		buttons[0].Select();
-		buttons[0].OnSelect(null);
-		buttons[0].GetComponent<InformationButton>().OnSelect(null);
 		EventSystem.current.sendNavigationEvents = true;
+
+		//
+		DescriptionContainer.SetActive(true);
+
+		ChangeCategory(0);
 
 		//
 		base.Show(callback);
 	}
 
-	public void OnCancel() {
-		Exit();
+	void ChangeCategory(int newIndex) {
+		categoryIndex = newIndex;
+
+		//
+		for (int i = 0; i < Categories.Count; i++) {
+			Categories[i].SetActive(i == newIndex);
+			CategoriesTabs[i].color = i == newIndex
+				? new Color(0.1254902f, 0.04313726f, 0.04313726f, 1f)
+				: new Color(0.1254902f, 0.04313726f, 0.04313726f, 0.5f);
+		}
+
+		//
+		UpdateVisibleButtonRange(0);
+
+
+		//
+		Game.ItemType category = categoryOrder[categoryIndex];
+		var buttons = categoryButtons[category];
+
+		if (buttons.Count > 0) {
+			EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
+
+			buttons[0].Select();
+			buttons[0].OnSelect(null);
+			buttons[0].GetComponent<InformationButton>().OnSelect(null);
+		}
+	}
+
+	void UpdateVisibleButtons() {
+		Game.ItemType category = categoryOrder[categoryIndex];
+		var buttons = categoryButtons[category];
+
+		for (int i = 0; i < buttons.Count; i++) {
+			bool enabled = i >= categoryRangeMin && i <= categoryRangeMax;
+			var button = buttons[i].gameObject;
+
+			RectTransform rt = button.GetComponent<RectTransform>();
+			Vector2 sizeDelta = rt.sizeDelta;
+			sizeDelta.y = enabled ? 10 : 0;
+
+			rt.sizeDelta = sizeDelta;
+
+			foreach (var label in button.GetComponentsInChildren<TextMeshProUGUI>(true)) {
+				label.gameObject.SetActive(enabled);
+			}
+		}
+	}
+
+	void UpdateVisibleButtonRange(int index) {
+		if (index < categoryRangeMin) {
+			categoryRangeMin = index;
+			categoryRangeMax = index + 6;
+		} else if (index > categoryRangeMax) {
+			categoryRangeMax = index;
+			categoryRangeMin = index - 6;
+		}
+
+		//
+		UpdateVisibleButtons();
+		UpdateScrollbarThumb();
+	}
+
+	void UpdateScrollbarThumb() {
+		Game.ItemType category = categoryOrder[categoryIndex];
+		var buttons = categoryButtons[category];
+
+		ScrollbarThumb.gameObject.SetActive(buttons.Count > 0);
+
+		if (buttons.Count > 0) {
+			var parent = ScrollbarThumb.transform.parent.GetComponent<RectTransform>();
+
+			float parentHeight = Mathf.Round(parent.rect.height);
+			float rawButtonHeight = buttons.Count > 1 ? parentHeight / buttons.Count : parentHeight;
+			float buttonHeight = Mathf.Round(Mathf.Clamp(rawButtonHeight, 1f, parentHeight));
+			float track = parentHeight - buttonHeight;
+			float offset = buttons.Count > 1 ? Mathf.Ceil(track * ((float) currentButtonIndex / ((float) (buttons.Count - 1)))) : 0;
+
+			ScrollbarThumb.anchoredPosition = new Vector2(0, -offset);
+			ScrollbarThumb.sizeDelta = new Vector2(3, buttonHeight);
+		}
+
 	}
 
 	public void OnSelect(string description) {

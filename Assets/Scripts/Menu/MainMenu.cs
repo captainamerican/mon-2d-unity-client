@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
@@ -11,38 +12,39 @@ public class MainMenu : MonoBehaviour {
 		SubMenu,
 	}
 
-	[SerializeField]
-	Engine Engine;
+	[SerializeField] Engine Engine;
+	[SerializeField] PlayerInput PlayerInput;
 
-	[SerializeField]
-	GameObject MainMenuObject;
+	[SerializeField] GameObject MainMenuObject;
 
-	[SerializeField]
-	List<Button> MainMenuButtons;
+	[SerializeField] List<Button> MainMenuButtons;
 
-	[SerializeField]
-	List<AbstractMenu> Menus;
+	[SerializeField] List<AbstractMenu> Menus;
 
 	Phase phase;
 
+	InputAction Menu;
+	InputAction Cancel;
+
 	void Start() {
+		Menu = PlayerInput.currentActionMap.FindAction("Menu");
+		Cancel = PlayerInput.currentActionMap.FindAction("Cancel");
+
 		ExitMainMenu();
 	}
 
 	void Update() {
-		if (phase > Phase.MainMenu) {
-			return;
-		}
-
 		switch (phase) {
 			case Phase.Hidden:
-				if (Input.GetButtonDown("Menu")) {
+				//Debug.Log("Hidden");
+				if (Menu.WasPressedThisFrame() && Engine.PlayerHasControl()) {
 					OpenMainMenu();
 				}
 				break;
 
 			case Phase.MainMenu:
-				if (Input.GetButtonDown("Menu")) {
+				//Debug.Log("MainMenu");
+				if ((Menu.WasPressedThisFrame() || Cancel.WasPressedThisFrame()) && Engine.Mode == EngineMode.Menu) {
 					ExitMainMenu();
 				}
 				break;
@@ -51,42 +53,48 @@ public class MainMenu : MonoBehaviour {
 
 	void OpenMainMenu() {
 		Time.timeScale = 0;
+
+		//
+		phase = Phase.MainMenu;
 		Engine.SetMode(EngineMode.Menu);
 
 		//
 		MainMenuObject.SetActive(true);
-		phase = Phase.MainMenu;
-		EventSystem.current.sendNavigationEvents = true;
 
 		MainMenuButtons[0].Select();
 		MainMenuButtons[0].OnSelect(null);
+
+		EventSystem.current.sendNavigationEvents = true;
 	}
 
 	public void ExitMainMenu() {
 		Menus.ForEach(menu => menu.Exit());
 		MainMenuObject.SetActive(false);
 
-		//
+		// 
 		phase = Phase.Hidden;
+		Engine.SetMode(EngineMode.PlayerControl);
 
 		//
-		Engine.SetMode(EngineMode.PlayerControl);
+		EventSystem.current.sendNavigationEvents = true;
 		Time.timeScale = 1;
 	}
 
 	void OnSubMenuClosed(Button buttonToHighlight) {
 		phase = Phase.MainMenu;
-		EventSystem.current.sendNavigationEvents = true;
+
 		buttonToHighlight.Select();
 		buttonToHighlight.OnSelect(null);
+
+		EventSystem.current.sendNavigationEvents = true;
 	}
 
 	void OpenSubMenu(int index) {
 		phase = Phase.SubMenu;
+
 		EventSystem.current.SetSelectedGameObject(null);
 		EventSystem.current.sendNavigationEvents = false;
 		Menus[index].Show(() => OnSubMenuClosed(MainMenuButtons[index]));
-
 	}
 
 	public void OpenCompendiumMenu() {
