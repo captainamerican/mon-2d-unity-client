@@ -34,22 +34,20 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	void OpenMainMenu() {
-		Time.timeScale = 0;
-
-		//
-		Menu.performed -= ShouldIOpen;
-		Menu.performed += ShouldIClose;
-		Cancel.performed += ShouldIClose;
-
-		// 
-		Engine.SetMode(EngineMode.Menu);
-
-		//
-		MainMenuObject.SetActive(true);
-
-		Debug.Log(MainMenuButtons[0]);
-
 		StartCoroutine(Wait.Until(() => {
+			Time.timeScale = 0;
+
+			//
+			Menu.performed -= ShouldIOpen;
+			Menu.performed += ShouldIClose;
+			Cancel.performed += ShouldIClose;
+
+			// 
+			Engine.SetMode(EngineMode.Menu);
+
+			//
+			MainMenuObject.SetActive(true);
+
 			if (MainMenuButtons[0] == null) {
 				return false;
 			}
@@ -62,7 +60,6 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	public void ExitMainMenu() {
-		Debug.Log("ExitMainMenu");
 		MainMenuObject.SetActive(false);
 
 		//  
