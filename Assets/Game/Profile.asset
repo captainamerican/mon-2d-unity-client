@@ -15,7 +15,7 @@ MonoBehaviour:
   Level: 1
   Experience: 0
   ExperienceForNextLevel: 50
-  Magic: 30
+  Magic: 999
   Wisdom: 5
   Party:
     Creatures:
@@ -25,13 +25,5 @@ MonoBehaviour:
   Skills:
   - Skill: {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
     Experience: 0
-  Inventory:
-  - Item: {fileID: 11400000, guid: 24f33a5e94da2784ba3bf95ab1faba80, type: 2}
-    Amount: 95
-  - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
-    Amount: 99
-  - Item: {fileID: 11400000, guid: 44c588fc9d11e92469ef2ca42d44ef06, type: 2}
-    Amount: 98
-  - Item: {fileID: 11400000, guid: a8982c01dadfccd4f97caa32edb0a050, type: 2}
-    Amount: 99
-  OpenedChests: 01000000
+  Inventory: []
+  OpenedChests: 

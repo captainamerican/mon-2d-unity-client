@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
 using TMPro;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -227,6 +229,9 @@ namespace Battle {
 			Engine.Profile.Magic = creatureCombatant.Magic;
 
 			yield return Dialogue.DisplayAndWait(pages.ToArray());
+
+			Player.GetComponent<SpriteRenderer>().sortingOrder = 2;
+			enemy.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2;
 
 			Hide(Content);
 			Hide(enemy.gameObject);
@@ -606,6 +611,9 @@ namespace Battle {
 					pages.Add("Lethia returns to her village.");
 
 					yield return Dialogue.DisplayAndWait(pages.ToArray());
+
+					Player.GetComponent<SpriteRenderer>().sortingOrder = 2;
+					enemy.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2;
 
 					Engine.NextScene = new NextScene { Name = Village.Scene.Name, Destination = Village.Scene.Location_Tree };
 					SceneManager.LoadSceneAsync("Loader", LoadSceneMode.Additive);

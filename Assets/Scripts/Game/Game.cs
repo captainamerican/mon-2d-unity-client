@@ -7,6 +7,7 @@ namespace Game {
 		Magic = 20,
 		Status = 30,
 		BodyPartQuality = 40,
+		Preservative = 50
 	}
 
 	public enum Status {

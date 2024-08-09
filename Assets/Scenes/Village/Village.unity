@@ -119181,7 +119181,7 @@ Transform:
   m_GameObject: {fileID: 158124486}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 46, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -119716,6 +119716,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 746548696151848515, guid: a674a8f912d8a9247b74454175e887e6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1285250580604421229, guid: a674a8f912d8a9247b74454175e887e6, type: 3}
       propertyPath: m_Name
       value: Dialog Canvas
@@ -132984,6 +132988,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 476286302291984987, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
+      propertyPath: PlayerInput
+      value: 
+      objectReference: {fileID: 335180748}
+    - target: {fileID: 600778372410388622, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
+      propertyPath: PlayerInput
+      value: 
+      objectReference: {fileID: 335180748}
     - target: {fileID: 660323136137048794, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -133044,6 +133056,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1375900546959677988, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
+      propertyPath: PlayerInput
+      value: 
+      objectReference: {fileID: 335180748}
     - target: {fileID: 2822228265681610122, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -133064,6 +133080,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3327328079688181703, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
+      propertyPath: PlayerInput
+      value: 
+      objectReference: {fileID: 335180748}
+    - target: {fileID: 3521448148115162384, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
+      propertyPath: PlayerInput
+      value: 
+      objectReference: {fileID: 335180748}
     - target: {fileID: 3736791857004559678, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -133108,6 +133132,10 @@ PrefabInstance:
       propertyPath: EventSystem
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4766925839541231873, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
+      propertyPath: PlayerInput
+      value: 
+      objectReference: {fileID: 335180748}
     - target: {fileID: 4793139810710980543, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
       propertyPath: m_Name
       value: Menu Canvas
@@ -133116,6 +133144,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5035652861781566652, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
+      propertyPath: PlayerInput
+      value: 
+      objectReference: {fileID: 335180748}
     - target: {fileID: 7098802507123054023, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -133216,6 +133248,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7291263419185165631, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
+      propertyPath: PlayerInput
+      value: 
+      objectReference: {fileID: 335180748}
     - target: {fileID: 8883812239029038397, guid: 18833b0bafd934e40bde3ef9e14d1d9a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

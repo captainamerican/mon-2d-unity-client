@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 using UnityEngine;
 
 public enum EngineMode {
@@ -15,7 +13,8 @@ public enum EngineMode {
 public enum ChestId {
 	None,
 	ForestEntranceFirst,
-	ForestEntranceSecond
+	ForestEntranceSecond,
+	ForestCaveFirst
 }
 
 public delegate void EngineModeChangedEvent(EngineMode mode);
