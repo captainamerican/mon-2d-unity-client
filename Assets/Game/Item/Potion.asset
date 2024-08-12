@@ -17,6 +17,9 @@ MonoBehaviour:
   Name: Potion
   Description: Heals a small amount of health.
   FlavorText: Looks like medicine. Smells like medicine.
+  Recipe:
+  - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
+    Quantity: 2
   Targets: 140000001e000000
   Effects:
   - Type: 10

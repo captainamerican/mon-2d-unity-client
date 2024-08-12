@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace Village {
 		Engine Engine;
 
 		[SerializeField]
-		GameObject Player;
+		Player Player;
 
 		public const string Name = "Village";
 
@@ -36,7 +37,16 @@ namespace Village {
 		}
 
 		public void OpenPotionShop() {
-			Debug.Log("Open Potion Shop");
+			Engine.Mode = EngineMode.Menu;
+			Player.Stop();
+
+			StartCoroutine(
+				Crafting.Scene.Load(
+					() => StartCoroutine(
+						ReturnFromStore(Crafting.Scene.Unload)
+					)
+				)
+			);
 		}
 
 		public void OpenTrainer() {
@@ -45,6 +55,11 @@ namespace Village {
 
 		public void OpenStorage() {
 			Debug.Log("Open Storage");
+		}
+
+		IEnumerator ReturnFromStore(Func<IEnumerator> callback) {
+			yield return callback();
+			Engine.Mode = EngineMode.PlayerControl;
 		}
 	}
 }

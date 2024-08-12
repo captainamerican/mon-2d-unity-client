@@ -1,12 +1,19 @@
 using System;
+
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class CompendiumMenu : AbstractMenu {
 	[SerializeField] PlayerInput PlayerInput;
 
 	InputAction Cancel;
+
+	private void OnDestroy() {
+		if (Cancel != null) {
+			Cancel.performed -= HandleCancel;
+		}
+	}
 
 	override public void Show(Action onDone) {
 		Cancel = PlayerInput.currentActionMap.FindAction("Cancel");

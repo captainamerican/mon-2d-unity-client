@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -19,6 +20,14 @@ public class MainMenu : MonoBehaviour {
 		Cancel = PlayerInput.currentActionMap.FindAction("Cancel");
 
 		Menu.performed += ShouldIOpen;
+	}
+
+	void OnDestroy() {
+		if (Menu != null) {
+			Menu.performed -= ShouldIOpen;
+			Menu.performed -= ShouldIClose;
+			Cancel.performed -= ShouldIClose;
+		}
 	}
 
 	void ShouldIOpen(InputAction.CallbackContext ctx) {

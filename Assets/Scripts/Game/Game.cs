@@ -1,5 +1,7 @@
 ﻿using System;
 
+using UnityEngine;
+
 namespace Game {
 	public enum EffectType {
 		None,
@@ -135,5 +137,13 @@ namespace Game {
 	public class SkillFX {
 		public bool Actor;
 		public float Delay;
+	}
+
+	[Serializable]
+	public class RecipeIngredient {
+		public Item Item;
+
+		[Range(0, 99)]
+		public int Quantity;
 	}
 }

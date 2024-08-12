@@ -25,5 +25,13 @@ MonoBehaviour:
   Skills:
   - Skill: {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
     Experience: 0
-  Inventory: []
+  Inventory:
+  - Item: {fileID: 11400000, guid: 217e612b1f7c0654bba074d9603f8dfd, type: 2}
+    Amount: 97
+  - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
+    Amount: 98
+  - Item: {fileID: 11400000, guid: 24f33a5e94da2784ba3bf95ab1faba80, type: 2}
+    Amount: 99
+  - Item: {fileID: 11400000, guid: e3e0de087d74f824085ff2b878d1402e, type: 2}
+    Amount: 99
   OpenedChests: 

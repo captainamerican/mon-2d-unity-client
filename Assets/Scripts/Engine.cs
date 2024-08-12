@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using UnityEngine;
 
 public enum EngineMode {
@@ -27,6 +29,8 @@ public class Engine : ScriptableObject {
 	public Profile Profile;
 
 	public NextScene NextScene = null;
+
+	public List<Item> AllItems = new();
 
 	public void SetMode(EngineMode mode) {
 		Mode = mode;
