@@ -68,15 +68,17 @@ namespace Game {
 		Six
 	}
 
-	public enum BodyPart {
+	public enum PartOfBody {
 		None,
 		Head,
 		Torso,
 		Tail,
-		LeftArm,
-		RightArm,
-		LeftLeg,
-		RightLeg
+		FrontLeftAppendage,
+		MiddleLeftAppendage,
+		RearLeftAppendage,
+		FrontRightAppendage,
+		MiddleRightAppendage,
+		RearRightAppendage,
 	}
 
 	public enum BodyPartTag {
@@ -96,6 +98,17 @@ namespace Game {
 		Lighting = 204,
 		Holy = 205,
 		Dark = 206,
+	}
+
+	public enum ChestId {
+		None,
+		ForestEntranceFirst,
+		ForestEntranceSecond,
+		ForestCaveFirst
+	}
+
+	public enum SpiritId {
+		ForestEntrance01
 	}
 
 	[Serializable]
@@ -145,5 +158,12 @@ namespace Game {
 
 		[Range(0, 99)]
 		public int Quantity;
+	}
+
+	[Serializable]
+	public class EncounterPossibility {
+		public int Weight = 100;
+		public int Level = 1;
+		public ConstructedCreature Creature;
 	}
 }

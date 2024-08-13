@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+using Game;
+
 using TMPro;
 
 using UnityEngine;
@@ -70,12 +72,13 @@ namespace Battle {
 		InputAction CancelAction;
 
 		WorldEnemy.Enemy enemy;
-		Creature enemyCreature;
-		Creature currentCreature;
-		private Combatant enemyCombatant;
-		List<Combatant> creatureCombatants = new();
-		Combatant creatureCombatant;
+		ConstructedCreature enemyCreature;
+		Combatant enemyCombatant;
+		int enemyLevel;
 
+		ConstructedCreature currentCreature;
+		Combatant creatureCombatant;
+		List<Combatant> creatureCombatants = new();
 		int currentCreatureIndex;
 		#endregion
 
@@ -95,12 +98,15 @@ namespace Battle {
 
 			this.enemy = enemy;
 
-			enemyCreature = enemy.RollAppearance();
-			enemyCombatant = Combatant.New(enemyCreature.Name, enemy.Level, 5, 5, 5, 5, 5, 5, 999);
+			var encounter = enemy.RollAppearance();
+			enemyCreature = encounter.Creature;
+			enemyLevel = encounter.Level;
+			enemyCombatant = Combatant.New(enemyCreature.Name, enemyLevel, 5, 5, 5, 5, 5, 5, 999);
 
 			currentCreatureIndex = 0;
 			currentCreature = Engine.Profile.Party.Creatures[currentCreatureIndex];
 
+			creatureCombatants.Clear();
 			creatureCombatants.Add(
 				Combatant.New(
 					currentCreature.Name,

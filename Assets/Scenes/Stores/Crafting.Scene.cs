@@ -46,13 +46,14 @@ namespace Crafting {
 		[SerializeField] TextMeshProUGUI QuantityLabel;
 		[SerializeField] RectTransform QuantityThumb;
 
-		readonly Dictionary<Item, int> available = new();
-		readonly Dictionary<Item, bool> craftable = new();
-		readonly Dictionary<Item, int> maxCraftable = new();
+		readonly Dictionary<Item, int> iventoryItemCount = new();
+		readonly Dictionary<Item, bool> canBeCrafted = new();
+		readonly Dictionary<Item, bool> hasEquipmentToCraft = new();
+		readonly Dictionary<Item, int> timesCanBeCrated = new();
 		readonly List<Button> buttons = new();
 
-		int visibleButtonMin = 0;
-		int visibleButtonMax = 8;
+		int visibleButtonRangeMin = 0;
+		int visibleButtonRangeMax = 8;
 		int currentButtonIndex = 0;
 
 		const int quantityRatio = 37;
@@ -130,21 +131,32 @@ namespace Crafting {
 			RemoveNavigation();
 
 			buttons.Clear();
-			craftable.Clear();
-			available.Clear();
+			canBeCrafted.Clear();
+			hasEquipmentToCraft.Clear();
+			iventoryItemCount.Clear();
 
 			//
 			OnDone?.Invoke();
 		}
 
 		void RebuildDictionaries() {
+			canBeCrafted.Clear();
+			hasEquipmentToCraft.Clear();
+			iventoryItemCount.Clear();
+
+			//
 			Engine.AllItems.ForEach(item => {
-				available[item] = 0;
-				craftable[item] = false;
+				iventoryItemCount[item] = 0;
+				canBeCrafted[item] = false;
 			});
 			Engine.Profile.Inventory.ForEach(entry => {
-				available[entry.Item] += entry.Amount;
+				iventoryItemCount[entry.Item] += entry.Amount;
 			});
+
+			//
+			int recipeMaxIngredients = 1 + Engine.CraftingEquipment.Sum(
+				item => iventoryItemCount[item] > 0 ? 1 : 0
+			);
 
 			Engine.AllItems.ForEach(item => {
 				List<RecipeIngredient> ingredients = item.Recipe;
@@ -152,9 +164,7 @@ namespace Crafting {
 					return;
 				}
 
-				//
 				int totalIngredients = 0;
-
 				Dictionary<Item, int> needed = new();
 				ingredients.ForEach(ingredient => {
 					if (!needed.ContainsKey(ingredient.Item)) {
@@ -166,19 +176,20 @@ namespace Crafting {
 				});
 
 				//
-				craftable[item] =
+				canBeCrafted[item] =
 					totalIngredients > 0 &&
 					needed.All(
 						ingredient =>
-							available.ContainsKey(ingredient.Key) &&
-							available[ingredient.Key] >= ingredient.Value
+							iventoryItemCount.ContainsKey(ingredient.Key) &&
+							iventoryItemCount[ingredient.Key] >= ingredient.Value
 					) &&
-					available[item] < 99;
+					iventoryItemCount[item] < 99;
+				hasEquipmentToCraft[item] = ingredients.Count <= recipeMaxIngredients;
 
 				//
 				int minimumCraftable = 999;
 				ingredients.ForEach(ingredient => {
-					int has = available.ContainsKey(ingredient.Item) ? available[ingredient.Item] : 0;
+					int has = iventoryItemCount.ContainsKey(ingredient.Item) ? iventoryItemCount[ingredient.Item] : 0;
 					int craft = ingredient.Quantity > 0
 						? (int) Mathf.FloorToInt((float) has / (float) ingredient.Quantity)
 						: 0;
@@ -188,8 +199,12 @@ namespace Crafting {
 					}
 				});
 
-				maxCraftable[item] = Mathf.Clamp(minimumCraftable, 0, 99 - available[item]);
+				timesCanBeCrated[item] = Mathf.Clamp(minimumCraftable, 0, 99 - iventoryItemCount[item]);
 			});
+		}
+
+		bool HasEquipmentToCraft(Item item) {
+			return hasEquipmentToCraft.ContainsKey(item) && hasEquipmentToCraft[item];
 		}
 
 		void Configure() {
@@ -201,14 +216,10 @@ namespace Crafting {
 			//
 			RebuildDictionaries();
 
-			// build entries	
 			Engine
 				.AllItems
-				.Where(item => item.Recipe.Count > 0)
-				.OrderBy(item => item.Name)
-				.OrderBy(item => item.Type)
-				.OrderBy(item => craftable[item])
-				.Reverse()
+				.Where(item => HasEquipmentToCraft(item) && item.Recipe.Count > 0)
+				.OrderBy(item => item.SortName)
 				.ToList()
 				.ForEach(item => {
 					GameObject buttonGO = Instantiate(ItemTemplate, ItemParent);
@@ -219,7 +230,7 @@ namespace Crafting {
 					TextMeshProUGUI label = buttonGO.GetComponentInChildren<TextMeshProUGUI>();
 					label.text = item.Name;
 
-					if (!craftable[item]) {
+					if (!canBeCrafted[item]) {
 						Color color = label.color;
 						color.a = 0.5f;
 
@@ -264,9 +275,9 @@ namespace Crafting {
 
 			//
 			List<RecipeIngredient> ingredients = item.Recipe
-				.OrderBy(Ingredient => Ingredient.Item.Name)
+				.OrderBy(ingredient => ingredient.Item.Name)
 				.ToList();
-			Do.Times(3, i => {
+			Do.Times(4, i => {
 				var label = Ingredients[i];
 				if (i > ingredients.Count - 1) {
 					label.text = "";
@@ -282,14 +293,14 @@ namespace Crafting {
 			});
 
 			//
-			CanHasLabel.text = $"Can/Has\n{maxCraftable[item]:D2}/{available[item]:D2}";
+			CanHasLabel.text = $"{timesCanBeCrated[item]:D2}/{iventoryItemCount[item]:D2}";
 
 			//
 			UpdateVisibleButtonRange(index);
 		}
 
 		void OnItemSelected(Item item) {
-			if (!craftable[item]) {
+			if (!canBeCrafted[item]) {
 				return;
 			}
 
@@ -314,14 +325,14 @@ namespace Crafting {
 			QuantityModal.SetActive(true);
 
 			QuantityMinimum.text = $"01";
-			QuantityMaximum.text = $"{maxCraftable[item]:D2}";
+			QuantityMaximum.text = $"{timesCanBeCrated[item]:D2}";
 
 			//
 			selectedItem = item;
 			selectedQuantity = 1;
 
 			quantityMin = 1;
-			quantityMax = maxCraftable[item];
+			quantityMax = timesCanBeCrated[item];
 
 			//
 			UpdateQuantityGauge();
@@ -434,12 +445,12 @@ namespace Crafting {
 		}
 
 		void UpdateVisibleButtonRange(int index) {
-			if (index < visibleButtonMin) {
-				visibleButtonMin = index;
-				visibleButtonMax = index + 8;
-			} else if (index > visibleButtonMax) {
-				visibleButtonMax = index;
-				visibleButtonMin = index - 8;
+			if (index < visibleButtonRangeMin) {
+				visibleButtonRangeMin = index;
+				visibleButtonRangeMax = index + 8;
+			} else if (index > visibleButtonRangeMax) {
+				visibleButtonRangeMax = index;
+				visibleButtonRangeMin = index - 8;
 			}
 
 			//
@@ -448,7 +459,7 @@ namespace Crafting {
 		}
 		void UpdateVisibleButtons() {
 			for (int i = 0; i < buttons.Count; i++) {
-				bool enabled = i >= visibleButtonMin && i <= visibleButtonMax;
+				bool enabled = i >= visibleButtonRangeMin && i <= visibleButtonRangeMax;
 				var button = buttons[i].gameObject;
 				if (button == null) {
 					continue;

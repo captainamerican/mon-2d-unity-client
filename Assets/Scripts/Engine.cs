@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+using Game;
+
 using UnityEngine;
 
 public enum EngineMode {
@@ -12,13 +14,6 @@ public enum EngineMode {
 	NextScene
 }
 
-public enum ChestId {
-	None,
-	ForestEntranceFirst,
-	ForestEntranceSecond,
-	ForestCaveFirst
-}
-
 public delegate void EngineModeChangedEvent(EngineMode mode);
 
 [CreateAssetMenu(fileName = "Engine", menuName = "MoN/Engine")]
@@ -26,11 +21,15 @@ public class Engine : ScriptableObject {
 	public EngineMode Mode;
 	public event EngineModeChangedEvent ModeChanged;
 
-	public Profile Profile;
-
 	public NextScene NextScene = null;
 
+	[Header("Game Data")]
+	public List<Item> CraftingEquipment = new();
 	public List<Item> AllItems = new();
+	public List<BodyPart> AllBodyParts = new();
+
+	[Header(("Current Profile"))]
+	public SaveFile Profile;
 
 	public void SetMode(EngineMode mode) {
 		Mode = mode;

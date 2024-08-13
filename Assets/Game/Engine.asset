@@ -12,12 +12,106 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a3f39f2d62f4ab79e8d21a283de14a, type: 3}
   m_Name: Engine
   m_EditorClassIdentifier: 
-  Mode: 5
-  Profile: {fileID: 11400000, guid: 0ee5caabf10fd4bcba72c085b422eee2, type: 2}
+  Mode: 2
+  CraftingEquipment:
+  - {fileID: 11400000, guid: ca6b50a578453ef4f84b5c3e5b418c36, type: 2}
+  - {fileID: 11400000, guid: ddadc47a61c029f488c69f352d8e19be, type: 2}
+  - {fileID: 11400000, guid: fb273829a68ccc246982d6cdcc6fb720, type: 2}
   AllItems:
-  - {fileID: 11400000, guid: 44c588fc9d11e92469ef2ca42d44ef06, type: 2}
-  - {fileID: 11400000, guid: a8982c01dadfccd4f97caa32edb0a050, type: 2}
+  - {fileID: 11400000, guid: 86769bce9cebadd43bdce798f5bb6bd9, type: 2}
   - {fileID: 11400000, guid: 217e612b1f7c0654bba074d9603f8dfd, type: 2}
   - {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
+  - {fileID: 11400000, guid: c750d805822613a4b8414526f8ed7001, type: 2}
+  - {fileID: 11400000, guid: ddadc47a61c029f488c69f352d8e19be, type: 2}
+  - {fileID: 11400000, guid: 5026663fea7ba864b84de5a1c8705e46, type: 2}
+  - {fileID: 11400000, guid: ca6b50a578453ef4f84b5c3e5b418c36, type: 2}
+  - {fileID: 11400000, guid: fb273829a68ccc246982d6cdcc6fb720, type: 2}
+  - {fileID: 11400000, guid: 44c588fc9d11e92469ef2ca42d44ef06, type: 2}
+  - {fileID: 11400000, guid: 09181c479adb26046a5d7680ed25f9ba, type: 2}
+  - {fileID: 11400000, guid: fc031aec91cbce94e8daf8af09cdd351, type: 2}
+  - {fileID: 11400000, guid: fe8c7073030f2a048b6fc819ed8dba89, type: 2}
+  - {fileID: 11400000, guid: fbf54697ef7ecb544a5a0a22e90b6894, type: 2}
+  - {fileID: 11400000, guid: c61533630a513ef46bc229dc5b24c763, type: 2}
+  - {fileID: 11400000, guid: 35944112bf1677d4c8272a5880299319, type: 2}
+  - {fileID: 11400000, guid: a8982c01dadfccd4f97caa32edb0a050, type: 2}
+  - {fileID: 11400000, guid: c4fd8335ceaa2604b932993e694beb74, type: 2}
+  - {fileID: 11400000, guid: e0ce7962ad717584b93065c3458de731, type: 2}
+  - {fileID: 11400000, guid: 8a8e3e4b6c53dda48942f1200783689d, type: 2}
+  - {fileID: 11400000, guid: 4af48ebdb3973cf4cb5688ca3da76542, type: 2}
+  - {fileID: 11400000, guid: b6c88033d33be3b429e23a1a9d791052, type: 2}
+  - {fileID: 11400000, guid: 4946364cd5591c44e9bfb4e9462b83f4, type: 2}
   - {fileID: 11400000, guid: 24f33a5e94da2784ba3bf95ab1faba80, type: 2}
   - {fileID: 11400000, guid: e3e0de087d74f824085ff2b878d1402e, type: 2}
+  AllBodyParts:
+  - {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
+  - {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+  - {fileID: 11400000, guid: ae3fb87bdf1d9f045ae2ad9a23901740, type: 2}
+  - {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
+  - {fileID: 11400000, guid: 85e82ee43d220d04ebc4cd7656e64f60, type: 2}
+  - {fileID: 11400000, guid: bfe2fcd604f28438d952824c91f8560c, type: 2}
+  - {fileID: 11400000, guid: 32c7935e1a0eca241b24336af2736cd5, type: 2}
+  Profile:
+    Level: 4
+    Experience: 49
+    ExperienceForNextLevel: 162
+    Magic: 21
+    Wisdom: 5
+    Party:
+      Creatures:
+      - Id: 1
+        Name: Wolfie
+        Health: 999
+        Skills:
+        - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+        Head: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
+        Torso: {fileID: 11400000, guid: 32c7935e1a0eca241b24336af2736cd5, type: 2}
+        Tail: {fileID: 11400000, guid: bfe2fcd604f28438d952824c91f8560c, type: 2}
+        LeftFrontAppendage: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+        LeftMiddleAppendage: {fileID: 0}
+        LeftRearAppendage: {fileID: 11400000, guid: ae3fb87bdf1d9f045ae2ad9a23901740, type: 2}
+        RightFrontAppendage: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
+        RightMiddleAppendage: {fileID: 0}
+        RightRearAppendage: {fileID: 11400000, guid: 85e82ee43d220d04ebc4cd7656e64f60, type: 2}
+    Creatures:
+    - Id: 1
+      Name: Wolfie
+      Health: 999
+      Skills:
+      - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+      Head: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
+      Torso: {fileID: 11400000, guid: 32c7935e1a0eca241b24336af2736cd5, type: 2}
+      Tail: {fileID: 11400000, guid: bfe2fcd604f28438d952824c91f8560c, type: 2}
+      LeftFrontAppendage: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+      LeftMiddleAppendage: {fileID: 0}
+      LeftRearAppendage: {fileID: 11400000, guid: ae3fb87bdf1d9f045ae2ad9a23901740, type: 2}
+      RightFrontAppendage: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
+      RightMiddleAppendage: {fileID: 0}
+      RightRearAppendage: {fileID: 11400000, guid: 85e82ee43d220d04ebc4cd7656e64f60, type: 2}
+    Skills:
+    - Skill: {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+      Experience: 0
+    Inventory:
+    - Item: {fileID: 11400000, guid: c750d805822613a4b8414526f8ed7001, type: 2}
+      Amount: 89
+    - Item: {fileID: 11400000, guid: 217e612b1f7c0654bba074d9603f8dfd, type: 2}
+      Amount: 99
+    - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
+      Amount: 76
+    - Item: {fileID: 11400000, guid: 86769bce9cebadd43bdce798f5bb6bd9, type: 2}
+      Amount: 99
+    - Item: {fileID: 11400000, guid: 24f33a5e94da2784ba3bf95ab1faba80, type: 2}
+      Amount: 0
+    - Item: {fileID: 11400000, guid: 4946364cd5591c44e9bfb4e9462b83f4, type: 2}
+      Amount: 0
+    - Item: {fileID: 11400000, guid: b6c88033d33be3b429e23a1a9d791052, type: 2}
+      Amount: 0
+    - Item: {fileID: 11400000, guid: 4af48ebdb3973cf4cb5688ca3da76542, type: 2}
+      Amount: 0
+    - Item: {fileID: 11400000, guid: 8a8e3e4b6c53dda48942f1200783689d, type: 2}
+      Amount: 0
+    - Item: {fileID: 11400000, guid: e0ce7962ad717584b93065c3458de731, type: 2}
+      Amount: 0
+    - Item: {fileID: 11400000, guid: c4fd8335ceaa2604b932993e694beb74, type: 2}
+      Amount: 1
+    SpiritsDefeated: 
+    OpenedChests: 

@@ -10,7 +10,7 @@ public class TreasureAction : MonoBehaviour {
 	Engine Engine;
 
 	[SerializeField]
-	ChestId Id;
+	Game.ChestId Id;
 
 	[SerializeField]
 	PlayerInput PlayerInput;

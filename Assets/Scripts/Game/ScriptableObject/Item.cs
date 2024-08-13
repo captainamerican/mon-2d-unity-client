@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 
-using Game;
-
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item", menuName = "MoN/Item")]
@@ -15,7 +13,9 @@ public class Item : ScriptableObject {
 	public string Description;
 	public string FlavorText;
 
-	public List<RecipeIngredient> Recipe = new();
+	public string SortName;
+
+	public List<Game.RecipeIngredient> Recipe = new();
 
 	[Header("Data")]
 	public List<Game.ApplicableTarget> Targets = new();

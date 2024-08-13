@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 
 using Unity.Collections;
 
@@ -27,12 +24,6 @@ namespace WorldEnemy {
 		Chasing,
 		InBattle,
 		GaveUp
-	}
-
-	[Serializable]
-	public class Possibility {
-		public Creature Creature;
-		public int Weight = 100;
 	}
 
 	[SelectionBase]
@@ -68,10 +59,7 @@ namespace WorldEnemy {
 		GameObject Alert;
 
 		[SerializeField]
-		List<Possibility> Possibilities = new();
-
-		[SerializeField]
-		public int Level = 1;
+		EncounterProbability EncounterProbability;
 
 		[Header("Unaware Settings")]
 		[SerializeField]
@@ -294,21 +282,8 @@ namespace WorldEnemy {
 			Agent.acceleration = Acceleration;
 		}
 
-		public Creature RollAppearance() {
-			int total = Possibilities.Select(x => x.Weight).Sum();
-			int random = UnityEngine.Random.Range(0, total);
-
-			for (int j = 0; j < Possibilities.Count; j++) {
-				Possibility possibility = Possibilities[j];
-				if (random < possibility.Weight) {
-					return possibility.Creature;
-				}
-
-				random -= possibility.Weight;
-			}
-
-			//
-			return Possibilities[0].Creature;
+		public Game.EncounterPossibility RollAppearance() {
+			return EncounterProbability.Roll();
 		}
 	}
 }
