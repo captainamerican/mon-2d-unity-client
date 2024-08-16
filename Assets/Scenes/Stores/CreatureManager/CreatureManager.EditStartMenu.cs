@@ -16,6 +16,9 @@ namespace CreatureManager {
 
 		[SerializeField] StartMenu StartMenu;
 		[SerializeField] CreaturesMenu CreaturesMenu;
+		[SerializeField] EditPartsMenu EditPartsMenu;
+		[SerializeField] EditSkillsMenu EditSkillsMenu;
+		[SerializeField] EditNameMenu EditNameMenu;
 		[SerializeField] List<Button> Buttons;
 
 		[SerializeField] TextMeshProUGUI Description;
@@ -74,12 +77,24 @@ namespace CreatureManager {
 		}
 
 		public void OpenEditPartsMenu() {
+			EditPartsMenu.gameObject.SetActive(true);
+			EditPartsMenu.Configure(creature);
+
+			gameObject.SetActive(false);
 		}
 
 		public void OpenEditSkillsMenu() {
+			EditSkillsMenu.gameObject.SetActive(true);
+			EditSkillsMenu.Configure(creature);
+
+			gameObject.SetActive(false);
 		}
 
 		public void OpenEditNameMenu() {
+			EditNameMenu.gameObject.SetActive(true);
+			EditNameMenu.Configure(creature);
+
+			gameObject.SetActive(false);
 		}
 	}
 }

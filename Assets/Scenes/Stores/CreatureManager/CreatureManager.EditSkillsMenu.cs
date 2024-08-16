@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace CreatureManager {
-	public class EditPartsMenu : MonoBehaviour {
+	public class EditSkillsMenu : MonoBehaviour {
 		[SerializeField] Engine Engine;
 
 		[SerializeField] PlayerInput PlayerInput;
