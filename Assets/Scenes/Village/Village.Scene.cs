@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Village {
 	public class Scene : MonoBehaviour {
+		public const string Name = "Village";
+
 		[SerializeField]
 		Engine Engine;
 
 		[SerializeField]
 		Player Player;
-
-		public const string Name = "Village";
 
 		static public Vector3 Location_Main {
 			get {
@@ -54,11 +54,22 @@ namespace Village {
 		}
 
 		public void OpenStorage() {
-			Debug.Log("Open Storage");
+			Engine.Mode = EngineMode.Menu;
+			Player.Stop();
+
+			StartCoroutine(
+				CreatureManager.Scene.Load(
+					() => StartCoroutine(
+						ReturnFromStore(CreatureManager.Scene.Unload)
+					)
+				)
+			);
 		}
 
 		IEnumerator ReturnFromStore(Func<IEnumerator> callback) {
 			yield return callback();
+
+			//
 			Engine.Mode = EngineMode.PlayerControl;
 		}
 	}

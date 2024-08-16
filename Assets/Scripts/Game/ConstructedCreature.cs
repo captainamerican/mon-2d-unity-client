@@ -26,6 +26,27 @@ namespace Game {
 		public BodyPart RightFrontAppendage;
 		public BodyPart RightMiddleAppendage;
 		public BodyPart RightRearAppendage;
-	}
 
+		public string AppendagesLabel() {
+			switch (Torso.Base.Appendages) {
+				case NumberOfAppendages.OneLowerNoUpper:
+				case NumberOfAppendages.OneLowerTwoUpper:
+					return "Uniped";
+
+				case NumberOfAppendages.TwoLowerNoUpper:
+				case NumberOfAppendages.TwoLowerTwoUpper:
+					return "Biped";
+
+				case NumberOfAppendages.FourLower:
+				case NumberOfAppendages.FourLowerTwoUpper:
+					return "Quadraped";
+
+				case NumberOfAppendages.SixLower:
+					return "Sexaped";
+			}
+
+			//
+			return "Nulped";
+		}
+	}
 }

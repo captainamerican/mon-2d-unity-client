@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Wolf
   Description: 
-  Appendages: 3
+  Appendages: 50
   Strength: 5
   Endurance: 5
   Dexterity: 5

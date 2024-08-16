@@ -62,10 +62,13 @@ namespace Game {
 
 	public enum NumberOfAppendages {
 		None,
-		One,
-		Two,
-		Four,
-		Six
+		OneLowerNoUpper = 10,
+		OneLowerTwoUpper = 20,
+		TwoLowerNoUpper = 30,
+		TwoLowerTwoUpper = 40,
+		FourLower = 50,
+		FourLowerTwoUpper = 60,
+		SixLower = 70
 	}
 
 	public enum PartOfBody {

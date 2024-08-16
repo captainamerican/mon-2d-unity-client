@@ -203,7 +203,6 @@ namespace Crafting {
 			Cancel.performed += CloseMenu;
 
 			Canvas.worldCamera = Camera.main;
-			Debug.Log(Camera.main);
 		}
 
 		void RebuildDictionaries() {
