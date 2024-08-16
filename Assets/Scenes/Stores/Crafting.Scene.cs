@@ -25,9 +25,11 @@ namespace Crafting {
 		[Header("Globals")]
 		[SerializeField] Engine Engine;
 		[SerializeField] PlayerInput PlayerInput;
-		[SerializeField] EventSystem LocalEventSystem;
 
 		[Header("Locals")]
+		[SerializeField] EventSystem DebugEventSystem;
+		[SerializeField] Camera DebugCamera;
+		[SerializeField] Canvas Canvas;
 		[SerializeField] Transform ItemParent;
 		[SerializeField] GameObject ItemTemplate;
 
@@ -70,6 +72,7 @@ namespace Crafting {
 		InputAction CategoryRight;
 		InputAction Submit;
 		InputAction Cancel;
+
 		static Action OnDone;
 
 		static public IEnumerator Load(Action onDone) {
@@ -83,8 +86,12 @@ namespace Crafting {
 		}
 
 		private void Awake() {
-			if (EventSystem.current != LocalEventSystem) {
-				LocalEventSystem.enabled = false;
+			if (EventSystem.current == null) {
+				DebugEventSystem.enabled = true;
+			}
+
+			if (Camera.main == null) {
+				DebugCamera.enabled = true;
 			}
 		}
 
@@ -137,6 +144,66 @@ namespace Crafting {
 
 			//
 			OnDone?.Invoke();
+		}
+
+
+		void Configure() {
+			phase = Phase.Base;
+
+			//
+			QuantityModal.SetActive(false);
+
+			//
+			RebuildDictionaries();
+
+			Engine
+				.AllItems
+				.Where(item => HasEquipmentToCraft(item) && item.Recipe.Count > 0)
+				.OrderBy(item => item.SortName)
+				.ToList()
+				.ForEach(item => {
+					GameObject buttonGO = Instantiate(ItemTemplate, ItemParent);
+					buttonGO.name = item.Name;
+					buttonGO.SetActive(true);
+
+					// update text
+					TextMeshProUGUI label = buttonGO.GetComponentInChildren<TextMeshProUGUI>();
+					label.text = item.Name;
+
+					if (!canBeCrafted[item]) {
+						Color color = label.color;
+						color.a = 0.5f;
+
+						label.color = color;
+					}
+
+					// configure button
+					int buttonIndex = buttons.Count;
+					Button button = buttonGO.GetComponent<Button>();
+					button
+						.onClick
+						.AddListener(() => OnItemSelected(item));
+					button
+					.GetComponent<InformationButton>()
+					.Configure(() => OnItemHovered(item, buttonIndex));
+
+					//
+					buttons.Add(button);
+				});
+
+			// navigation
+			AddNavigation();
+
+			// selected first button
+			buttons[currentButtonIndex].Select();
+			buttons[currentButtonIndex].OnSelect(null);
+			buttons[currentButtonIndex].GetComponent<InformationButton>().OnSelect(null);
+
+			//
+			Cancel.performed += CloseMenu;
+
+			Canvas.worldCamera = Camera.main;
+			Debug.Log(Camera.main);
 		}
 
 		void RebuildDictionaries() {
@@ -205,62 +272,6 @@ namespace Crafting {
 
 		bool HasEquipmentToCraft(Item item) {
 			return hasEquipmentToCraft.ContainsKey(item) && hasEquipmentToCraft[item];
-		}
-
-		void Configure() {
-			phase = Phase.Base;
-
-			//
-			QuantityModal.SetActive(false);
-
-			//
-			RebuildDictionaries();
-
-			Engine
-				.AllItems
-				.Where(item => HasEquipmentToCraft(item) && item.Recipe.Count > 0)
-				.OrderBy(item => item.SortName)
-				.ToList()
-				.ForEach(item => {
-					GameObject buttonGO = Instantiate(ItemTemplate, ItemParent);
-					buttonGO.name = item.Name;
-					buttonGO.SetActive(true);
-
-					// update text
-					TextMeshProUGUI label = buttonGO.GetComponentInChildren<TextMeshProUGUI>();
-					label.text = item.Name;
-
-					if (!canBeCrafted[item]) {
-						Color color = label.color;
-						color.a = 0.5f;
-
-						label.color = color;
-					}
-
-					// configure button
-					int buttonIndex = buttons.Count;
-					Button button = buttonGO.GetComponent<Button>();
-					button
-						.onClick
-						.AddListener(() => OnItemSelected(item));
-					button
-					.GetComponent<InformationButton>()
-					.Configure(() => OnItemHovered(item, buttonIndex));
-
-					//
-					buttons.Add(button);
-				});
-
-			// navigation
-			AddNavigation();
-
-			// selected first button
-			buttons[currentButtonIndex].Select();
-			buttons[currentButtonIndex].OnSelect(null);
-			buttons[currentButtonIndex].GetComponent<InformationButton>().OnSelect(null);
-
-			//
-			Cancel.performed += CloseMenu;
 		}
 
 		void OnItemHovered(
