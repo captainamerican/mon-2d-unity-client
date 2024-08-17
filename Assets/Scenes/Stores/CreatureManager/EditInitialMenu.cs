@@ -6,37 +6,50 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+// -----------------------------------------------------------------------------
+
 namespace CreatureManager {
-	public class EditStart : MonoBehaviour {
+	public class EditInitialMenu : MonoBehaviour {
+
+		// -------------------------------------------------------------------------
+
 		[Header("Globals")]
 		[SerializeField] Engine Engine;
 
 		[Header("Locals")]
 		[SerializeField] PlayerInput PlayerInput;
-
-		[SerializeField] StartMenu StartMenu;
 		[SerializeField] CreaturesMenu CreaturesMenu;
 		[SerializeField] EditPartsMenu EditPartsMenu;
 		[SerializeField] EditSkillsMenu EditSkillsMenu;
-		[SerializeField] EditNameMenu EditNameMenu;
 		[SerializeField] List<Button> Buttons;
 
 		[SerializeField] TextMeshProUGUI Description;
 
+		[Header("Menus")]
+		[SerializeField] InitialMenu InitialMenu;
+		[SerializeField] EditNameMenu EditNameMenu;
+
+		// -------------------------------------------------------------------------
+
 		InputAction Cancel;
+		ConstructedCreature creature;
 
 		bool goBackToStart;
-		ConstructedCreature creature;
+		int selectedButtonIndex;
+
+		// -------------------------------------------------------------------------
 
 		void OnEnable() {
 			ConfigureCancelAction();
 
 			//
-			Description.text = creature?.Name == null ? "Construct new creature" : $"Edit {creature?.Name}";
+			Description.text = creature?.Name == null
+				? "Construct new creature"
+				: $"Edit {creature?.Name}";
 
 			//
-			Buttons[0].Select();
-			Buttons[0].OnSelect(null);
+			Buttons[selectedButtonIndex].Select();
+			Buttons[selectedButtonIndex].OnSelect(null);
 		}
 
 		void OnDisable() {
@@ -51,15 +64,23 @@ namespace CreatureManager {
 			GoBack();
 		}
 
-		void GoBack() {
-			if (goBackToStart) {
-				StartMenu.gameObject.SetActive(true);
-			} else {
-				CreaturesMenu.gameObject.SetActive(true);
-			}
+		// -------------------------------------------------------------------------
 
+		void GoBack() {
+			selectedButtonIndex = 0;
+
+			//
+			(
+				goBackToStart
+					? InitialMenu.gameObject
+					: CreaturesMenu.gameObject
+			).SetActive(true);
+
+			//
 			gameObject.SetActive(false);
 		}
+
+		// -------------------------------------------------------------------------
 
 		void ConfigureCancelAction() {
 			if (Cancel != null) {
@@ -77,24 +98,39 @@ namespace CreatureManager {
 		}
 
 		public void OpenEditPartsMenu() {
+			selectedButtonIndex = 0;
+
+			//
 			EditPartsMenu.gameObject.SetActive(true);
 			EditPartsMenu.Configure(creature);
 
+			//
 			gameObject.SetActive(false);
 		}
 
 		public void OpenEditSkillsMenu() {
+			selectedButtonIndex = 1;
+
+			//
 			EditSkillsMenu.gameObject.SetActive(true);
 			EditSkillsMenu.Configure(creature);
 
+			//
 			gameObject.SetActive(false);
 		}
 
 		public void OpenEditNameMenu() {
+			selectedButtonIndex = 2;
+
+			//
 			EditNameMenu.gameObject.SetActive(true);
 			EditNameMenu.Configure(creature);
 
+			//
 			gameObject.SetActive(false);
 		}
+
+		// -------------------------------------------------------------------------
+
 	}
 }

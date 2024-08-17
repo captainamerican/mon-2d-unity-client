@@ -19,7 +19,7 @@ namespace CreatureManager {
 
 		[Header("Locals")]
 		[SerializeField] Canvas Canvas;
-		[SerializeField] StartMenu StartMenu;
+		[SerializeField] InitialMenu InitialMenu;
 		[SerializeField] List<GameObject> MenusToDisableOnLoad;
 
 		static public Action OnDone = () => Debug.Log("Close menu");
@@ -51,8 +51,8 @@ namespace CreatureManager {
 			//
 			MenusToDisableOnLoad.ForEach(menu => menu.SetActive(false));
 
-			StartMenu.gameObject.SetActive(true);
-			StartMenu.Configure(OnDone);
+			InitialMenu.gameObject.SetActive(true);
+			InitialMenu.Configure(OnDone);
 		}
 	}
 }

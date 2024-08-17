@@ -4,11 +4,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace CreatureManager {
-	public class EditNameMenu : MonoBehaviour {
+	public class EditPartsMenu : MonoBehaviour {
+		[Header("Globals")]
 		[SerializeField] Engine Engine;
 
+		[Header("Locals")]
 		[SerializeField] PlayerInput PlayerInput;
-		[SerializeField] EditStart EditStartMenu;
+
+		[Header("Menus")]
+		[SerializeField] EditInitialMenu EditInitialMenu;
 
 		Game.ConstructedCreature creature;
 
@@ -32,7 +36,7 @@ namespace CreatureManager {
 		}
 
 		void GoBack() {
-			EditStartMenu.gameObject.SetActive(true);
+			EditInitialMenu.gameObject.SetActive(true);
 
 			gameObject.SetActive(false);
 		}

@@ -2,20 +2,22 @@ using System.Collections.Generic;
 using System.Linq;
 using Game;
 using TMPro;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+// ----------------------------------------------------------------------------- 
+
 namespace CreatureManager {
 	public class CreaturesMenu : MonoBehaviour {
+
+		// -------------------------------------------------------------------------
+
 		[Header("Globals")]
 		[SerializeField] Engine Engine;
 
 		[Header("Locals")]
 		[SerializeField] PlayerInput PlayerInput;
-		[SerializeField] StartMenu StartMenu;
-		[SerializeField] EditStart EditStartMenu;
 
 		[SerializeField] Transform CreaturesParent;
 		[SerializeField] GameObject CreatureTemplate;
@@ -32,15 +34,24 @@ namespace CreatureManager {
 
 		[SerializeField] TextMeshProUGUI Description;
 
+		[Header("Menus")]
+		[SerializeField] InitialMenu InitialMenu;
+		[SerializeField] EditInitialMenu EditInitialMenu;
+
+		// -------------------------------------------------------------------------
+
 		InputAction Cancel;
 
 		List<Button> buttons = new();
+		int selectedButtonIndex = 0;
+
+		// -------------------------------------------------------------------------
 
 		void OnEnable() {
 			ConfigureCancelAction();
 			RemoveAllCreatures();
 			BuildCreaturesList();
-			FocusFirstCreature();
+			FocusPreviouslySelectedButton();
 		}
 
 		void OnDisable() {
@@ -55,11 +66,19 @@ namespace CreatureManager {
 			GoBack();
 		}
 
-		void GoBack() {
-			StartMenu.gameObject.SetActive(true);
+		// -------------------------------------------------------------------------
 
+		void GoBack() {
+			selectedButtonIndex = 0;
+
+			//
+			InitialMenu.gameObject.SetActive(true);
+
+			//
 			gameObject.SetActive(false);
 		}
+
+		// -------------------------------------------------------------------------
 
 		void ConfigureCancelAction() {
 			if (Cancel != null) {
@@ -81,9 +100,6 @@ namespace CreatureManager {
 					buttonGO.SetActive(true);
 
 					//
-					buttonGO.GetComponent<InformationButton>().Configure(() => DescribeCreature(creature));
-
-					//
 					var button = buttonGO.GetComponent<Button>();
 					button.onClick.AddListener(() => EditCreature(creature));
 
@@ -97,6 +113,9 @@ namespace CreatureManager {
 				int up = i == 0 ? buttons.Count - 1 : i - 1;
 				int down = i == buttons.Count - 1 ? 0 : i + 1;
 
+				int j = i;
+				ConstructedCreature creature = Engine.Profile.Creatures[i];
+
 				Button button = buttons[i];
 
 				Navigation navigation = button.navigation;
@@ -105,12 +124,20 @@ namespace CreatureManager {
 				navigation.selectOnDown = buttons[down];
 
 				button.navigation = navigation;
+
+				//
+				button
+					.GetComponent<InformationButton>()
+					.Configure(() => {
+						DescribeCreature(creature);
+						selectedButtonIndex = j;
+					});
 			}
 		}
 
 		void EditCreature(ConstructedCreature creature) {
-			EditStartMenu.Configure(creature);
-			EditStartMenu.gameObject.SetActive(true);
+			EditInitialMenu.Configure(creature);
+			EditInitialMenu.gameObject.SetActive(true);
 
 			gameObject.SetActive(false);
 		}
@@ -194,10 +221,10 @@ namespace CreatureManager {
 			}
 		}
 
-		void FocusFirstCreature() {
-			buttons[0].Select();
-			buttons[0].OnSelect(null);
-			buttons[0].GetComponent<InformationButton>().OnSelect(null);
+		void FocusPreviouslySelectedButton() {
+			buttons[selectedButtonIndex].Select();
+			buttons[selectedButtonIndex].OnSelect(null);
+			buttons[selectedButtonIndex].GetComponent<InformationButton>().OnSelect(null);
 		}
 
 		void RemoveAllCreatures() {
@@ -215,5 +242,7 @@ namespace CreatureManager {
 				Destroy(child);
 			});
 		}
+
+		// -------------------------------------------------------------------------
 	}
 }
