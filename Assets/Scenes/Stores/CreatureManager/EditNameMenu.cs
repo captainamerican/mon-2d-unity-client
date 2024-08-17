@@ -24,6 +24,10 @@ namespace CreatureManager {
 
 		[SerializeField] TextMeshProUGUI NameLabel;
 		[SerializeField] TextMeshProUGUI ModeLabel;
+		[SerializeField] TextMeshProUGUI CapsButtonLabel;
+		[SerializeField] TextMeshProUGUI ShiftButtonLabel;
+
+		[SerializeField] GameObject Cursor;
 
 		[Header("Menu")]
 		[SerializeField] EditInitialMenu EditInitialMenu;
@@ -56,8 +60,10 @@ namespace CreatureManager {
 			WhichMode = Mode.Alphabet;
 
 			//
-			ConfigureCancelAction();
 			SetMode();
+			ConfigureCancelAction();
+			UpdateShiftButtonLabel();
+			UpdateCapsButtonLabel();
 
 			//
 			AlphabetButtons[0].Select();
@@ -104,18 +110,38 @@ namespace CreatureManager {
 
 			//
 			UpdateName();
+			UpdateCursor();
+		}
+
+		public void ConfirmRename() {
+			creature.Name = newName.Trim();
+
+			//
+			GoBack();
+		}
+
+		public void CancelRename() {
+			GoBack();
 		}
 
 		public void ToggleCapslock() {
 			Shift = Shift == ShiftMode.Capslock
 				? ShiftMode.None
 				: ShiftMode.Capslock;
+
+			UpdateCapsButtonLabel();
+			UpdateShiftButtonLabel();
+			UpdateButtons();
 		}
 
 		public void ToggleShift() {
 			Shift = Shift == ShiftMode.Shift
 				? ShiftMode.None
 				: ShiftMode.Shift;
+
+			UpdateShiftButtonLabel();
+			UpdateCapsButtonLabel();
+			UpdateButtons();
 		}
 
 		public void ToggleMode() {
@@ -132,6 +158,7 @@ namespace CreatureManager {
 
 			//
 			UpdateName();
+			UpdateCursor();
 		}
 
 		void SetMode() {
@@ -142,22 +169,62 @@ namespace CreatureManager {
 		}
 
 		public void OnKeyTyped(string value) {
+			if (value == " " && newName.Length > 0 && newName[^1] == ' ') {
+				return;
+			}
+
+			//
 			string final = Shift != ShiftMode.None ? value.ToUpper() : value;
 			if (Shift == ShiftMode.Shift) {
 				Shift = ShiftMode.None;
+
+				UpdateShiftButtonLabel();
+				UpdateCapsButtonLabel();
+				UpdateButtons();
 			}
 
 			//
 			if (newName.Length < 16) {
 				newName += final;
+				newName = newName.TrimStart();
 			}
 
 			//
 			UpdateName();
+			UpdateCursor();
 		}
 
 		void UpdateName() {
-			NameLabel.text = $"Name: {newName}";
+			NameLabel.text = newName;
 		}
+
+		void UpdateShiftButtonLabel() {
+			ShiftButtonLabel.color = Shift == ShiftMode.Shift
+				? Color.black
+				: new Color(0, 0, 0, 0.5f);
+		}
+
+		void UpdateCapsButtonLabel() {
+			CapsButtonLabel.color = Shift == ShiftMode.Capslock
+				? Color.black
+				: new Color(0, 0, 0, 0.5f);
+		}
+
+		void UpdateCursor() {
+			Cursor.SetActive(newName.Length < 16);
+		}
+
+		void UpdateButtons() {
+			AlphabetButtons.ForEach(button => {
+				var label = button.GetComponentInChildren<TextMeshProUGUI>();
+
+				label.text = Shift > ShiftMode.None
+					? label.text.ToUpper()
+					: label.text.ToLower();
+			});
+		}
+
+		// -------------------------------------------------------------------------
+
 	}
 }
