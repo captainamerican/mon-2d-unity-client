@@ -670,8 +670,8 @@ namespace Battle {
 		}
 
 		IEnumerator AnimateFX(string name, Game.SkillFX fx, Animator animator, List<bool> done, int doneIndex) {
-			var clips = animator.runtimeAnimatorController.animationClips;
-			var clip = animator.runtimeAnimatorController.animationClips.First(clip => clip.name == name);
+			var clips = new List<AnimationClip>(animator.runtimeAnimatorController.animationClips);
+			var clip = clips.Find(clip => clip.name == name);
 			if (clip == null) {
 				Debug.LogError($"No animation clip named: {name}");
 				done[doneIndex] = true;

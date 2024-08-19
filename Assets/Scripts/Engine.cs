@@ -27,6 +27,7 @@ public class Engine : ScriptableObject {
 	public List<Item> CraftingEquipment = new();
 	public List<Item> AllItems = new();
 	public List<BodyPart> AllBodyParts = new();
+	public List<Skill> AllSkills = new();
 
 	[Header(("Current Profile"))]
 	public SaveFile Profile;

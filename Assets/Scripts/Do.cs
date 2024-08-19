@@ -47,6 +47,12 @@ public sealed class Do {
 		callback(easing(1));
 	}
 
+	static public void Times(int times, Action<int> callback) {
+		for (int i = 0; i < times; i++) {
+			callback(i);
+		}
+	}
+
 	static public List<T> Times<T>(int times, Func<int, T> callback) {
 		List<T> returnValue = new();
 

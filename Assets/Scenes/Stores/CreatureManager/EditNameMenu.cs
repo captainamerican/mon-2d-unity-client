@@ -47,8 +47,6 @@ namespace CreatureManager {
 
 		Game.ConstructedCreature creature;
 
-		InputAction Cancel;
-
 		ShiftMode Shift = ShiftMode.Shift;
 		Mode WhichMode = Mode.Alphabet;
 		string newName;
@@ -75,7 +73,6 @@ namespace CreatureManager {
 		}
 
 		void OnDestroy() {
-			Cancel.performed -= OnGoBack;
 		}
 
 		void OnGoBack(InputAction.CallbackContext ctx) {
@@ -93,13 +90,6 @@ namespace CreatureManager {
 		// -------------------------------------------------------------------------
 
 		void ConfigureCancelAction() {
-			if (Cancel != null) {
-				Cancel.performed -= OnGoBack;
-			}
-
-			//
-			Cancel = PlayerInput.currentActionMap.FindAction("Cancel");
-			Cancel.performed += OnGoBack;
 		}
 
 		// -------------------------------------------------------------------------

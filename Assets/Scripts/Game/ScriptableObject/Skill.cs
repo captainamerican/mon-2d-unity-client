@@ -11,6 +11,7 @@ public class Skill : ScriptableObject {
 
 	[Header("Stats")]
 	public int Cost = 1;
+	public int ExperienceToLearn = 100;
 
 	public List<Game.Effect> Effect = new();
 
