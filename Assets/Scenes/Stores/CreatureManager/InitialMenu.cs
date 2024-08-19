@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -60,7 +61,14 @@ namespace CreatureManager {
 		}
 
 		public void GoToCreatorMenu() {
-			EditInitialMenu.Configure(null);
+			EditInitialMenu.Configure(new EditingCreature {
+				IsNew = true,
+				Changed = false,
+				Creature = new Game.ConstructedCreature {
+					Id = Engine.GenerateRandomId(),
+					Name = "New Creature"
+				}
+			});
 			EditInitialMenu.gameObject.SetActive(true);
 
 			//
@@ -98,10 +106,7 @@ namespace CreatureManager {
 		}
 
 		void FocusPreviouslySelectedButton() {
-			var button = Buttons[selectedButtonIndex];
-
-			button.Select();
-			button.OnSelect(null);
+			Game.Button.Select(Buttons[selectedButtonIndex]);
 		}
 
 		// -------------------------------------------------------------------------

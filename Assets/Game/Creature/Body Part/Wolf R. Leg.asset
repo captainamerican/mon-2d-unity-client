@@ -15,3 +15,4 @@ MonoBehaviour:
   Base: {fileID: 11400000, guid: 3104dc948f663404bb18dc4c642af26d, type: 2}
   Part: 7
   Name: Wolf R. R. Leg
+  ExperienceToLevel: 500

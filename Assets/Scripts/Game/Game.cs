@@ -144,6 +144,14 @@ namespace Game {
 	}
 
 	[Serializable]
+	public class BodyPartEntry {
+		public string Id;
+		public BodyPart BodyPart;
+		public int Experience = 0;
+		public float Quality = 1;
+	}
+
+	[Serializable]
 	public class LearnedSkill {
 		public Skill Skill;
 		public float Experience = 0;
@@ -168,5 +176,18 @@ namespace Game {
 		public int Weight = 100;
 		public int Level = 1;
 		public ConstructedCreature Creature;
+	}
+
+	static public class Button {
+		static public void Select(UnityEngine.UI.Button button) {
+			button.Select();
+			button.OnSelect(null);
+
+			//
+			var informationButton = button.GetComponent<InformationButton>();
+			if (informationButton != null) {
+				informationButton.OnSelect(null);
+			}
+		}
 	}
 }

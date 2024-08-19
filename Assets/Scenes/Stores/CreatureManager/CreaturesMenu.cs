@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using Game;
+
 using TMPro;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -115,7 +116,7 @@ namespace CreatureManager {
 				int down = i == buttons.Count - 1 ? 0 : i + 1;
 
 				int j = i;
-				ConstructedCreature creature = Engine.Profile.Creatures[i];
+				Game.ConstructedCreature creature = Engine.Profile.Creatures[i];
 
 				Button button = buttons[i];
 
@@ -136,28 +137,32 @@ namespace CreatureManager {
 			}
 		}
 
-		void EditCreature(ConstructedCreature creature) {
-			EditInitialMenu.Configure(creature);
+		void EditCreature(Game.ConstructedCreature creature) {
+			EditInitialMenu.Configure(new EditingCreature {
+				IsNew = false,
+				Changed = false,
+				Creature = creature.Clone()
+			});
 			EditInitialMenu.gameObject.SetActive(true);
 
 			gameObject.SetActive(false);
 		}
 
-		void DescribeCreature(ConstructedCreature creature) {
-			HeadLabel.text = creature?.Head?.Name ?? "(none)";
-			TorsoLabel.text = creature?.Torso?.Name ?? "(none)";
-			TailLabel.text = creature?.Tail?.Name ?? "(none)";
-			LeftFrontAppendage.text = creature?.LeftFrontAppendage?.Name ?? "(none)";
-			LeftMiddleAppendage.text = creature?.LeftMiddleAppendage?.Name ?? "(none)";
-			LeftRearAppendage.text = creature?.LeftRearAppendage?.Name ?? "(none)";
-			RightFrontAppendage.text = creature?.RightFrontAppendage?.Name ?? "(none)";
-			RightMiddleAppendage.text = creature?.RightMiddleAppendage?.Name ?? "(none)";
-			RightRearAppendage.text = creature?.RightRearAppendage?.Name ?? "(none)";
+		void DescribeCreature(Game.ConstructedCreature creature) {
+			HeadLabel.text = creature?.Head?.BodyPart?.Name ?? "(none)";
+			TorsoLabel.text = creature?.Torso?.BodyPart?.Name ?? "(none)";
+			TailLabel.text = creature?.Tail?.BodyPart?.Name ?? "(none)";
+			LeftFrontAppendage.text = creature?.LeftFrontAppendage?.BodyPart?.Name ?? "(none)";
+			LeftMiddleAppendage.text = creature?.LeftMiddleAppendage?.BodyPart?.Name ?? "(none)";
+			LeftRearAppendage.text = creature?.LeftRearAppendage?.BodyPart?.Name ?? "(none)";
+			RightFrontAppendage.text = creature?.RightFrontAppendage?.BodyPart?.Name ?? "(none)";
+			RightMiddleAppendage.text = creature?.RightMiddleAppendage?.BodyPart?.Name ?? "(none)";
+			RightRearAppendage.text = creature?.RightRearAppendage?.BodyPart?.Name ?? "(none)";
 
 			Description.text = $@"{creature.AppendagesLabel()}".Trim();
 
-			switch (creature?.Torso?.Base?.Appendages ?? NumberOfAppendages.None) {
-				case NumberOfAppendages.OneLowerNoUpper:
+			switch (creature?.Torso.BodyPart.Base.Appendages ?? Game.NumberOfAppendages.None) {
+				case Game.NumberOfAppendages.OneLowerNoUpper:
 					LeftFrontAppendage.transform.parent.gameObject.SetActive(false);
 					LeftMiddleAppendage.transform.parent.gameObject.SetActive(false);
 					LeftRearAppendage.transform.parent.gameObject.SetActive(false);
@@ -166,7 +171,7 @@ namespace CreatureManager {
 					RightRearAppendage.transform.parent.gameObject.SetActive(false);
 					break;
 
-				case NumberOfAppendages.OneLowerTwoUpper:
+				case Game.NumberOfAppendages.OneLowerTwoUpper:
 					LeftFrontAppendage.transform.parent.gameObject.SetActive(true);
 					LeftMiddleAppendage.transform.parent.gameObject.SetActive(false);
 					LeftRearAppendage.transform.parent.gameObject.SetActive(false);
@@ -175,7 +180,7 @@ namespace CreatureManager {
 					RightRearAppendage.transform.parent.gameObject.SetActive(false);
 					break;
 
-				case NumberOfAppendages.TwoLowerNoUpper:
+				case Game.NumberOfAppendages.TwoLowerNoUpper:
 					LeftFrontAppendage.transform.parent.gameObject.SetActive(false);
 					LeftMiddleAppendage.transform.parent.gameObject.SetActive(false);
 					LeftRearAppendage.transform.parent.gameObject.SetActive(true);
@@ -184,7 +189,7 @@ namespace CreatureManager {
 					RightRearAppendage.transform.parent.gameObject.SetActive(true);
 					break;
 
-				case NumberOfAppendages.TwoLowerTwoUpper:
+				case Game.NumberOfAppendages.TwoLowerTwoUpper:
 					LeftFrontAppendage.transform.parent.gameObject.SetActive(true);
 					LeftMiddleAppendage.transform.parent.gameObject.SetActive(false);
 					LeftRearAppendage.transform.parent.gameObject.SetActive(true);
@@ -193,7 +198,7 @@ namespace CreatureManager {
 					RightRearAppendage.transform.parent.gameObject.SetActive(true);
 					break;
 
-				case NumberOfAppendages.FourLower:
+				case Game.NumberOfAppendages.FourLower:
 					LeftFrontAppendage.transform.parent.gameObject.SetActive(true);
 					LeftMiddleAppendage.transform.parent.gameObject.SetActive(false);
 					LeftRearAppendage.transform.parent.gameObject.SetActive(true);
@@ -202,7 +207,7 @@ namespace CreatureManager {
 					RightRearAppendage.transform.parent.gameObject.SetActive(true);
 					break;
 
-				case NumberOfAppendages.FourLowerTwoUpper:
+				case Game.NumberOfAppendages.FourLowerTwoUpper:
 					LeftFrontAppendage.transform.parent.gameObject.SetActive(true);
 					LeftMiddleAppendage.transform.parent.gameObject.SetActive(true);
 					LeftRearAppendage.transform.parent.gameObject.SetActive(true);
@@ -211,7 +216,7 @@ namespace CreatureManager {
 					RightRearAppendage.transform.parent.gameObject.SetActive(true);
 					break;
 
-				case NumberOfAppendages.SixLower:
+				case Game.NumberOfAppendages.SixLower:
 					LeftFrontAppendage.transform.parent.gameObject.SetActive(true);
 					LeftMiddleAppendage.transform.parent.gameObject.SetActive(true);
 					LeftRearAppendage.transform.parent.gameObject.SetActive(true);
@@ -228,9 +233,7 @@ namespace CreatureManager {
 			}
 
 			//
-			buttons[selectedButtonIndex].Select();
-			buttons[selectedButtonIndex].OnSelect(null);
-			buttons[selectedButtonIndex].GetComponent<InformationButton>().OnSelect(null);
+			Game.Button.Select(buttons[selectedButtonIndex]);
 		}
 
 		void RemoveAllCreatures() {

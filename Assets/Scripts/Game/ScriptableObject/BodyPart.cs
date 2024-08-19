@@ -5,4 +5,5 @@ public class BodyPart : ScriptableObject {
 	public CreatureBase Base;
 	public Game.PartOfBody Part;
 	public string Name;
+	public int ExperienceToLevel;
 }

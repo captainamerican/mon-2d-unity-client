@@ -15,20 +15,20 @@ namespace Game {
 		public List<Skill> Skills = new();
 
 		[Header("Appendages")]
-		public BodyPart Head;
-		public BodyPart Torso;
-		public BodyPart Tail;
+		public BodyPartEntry Head;
+		public BodyPartEntry Torso;
+		public BodyPartEntry Tail;
 
-		public BodyPart LeftFrontAppendage;
-		public BodyPart LeftMiddleAppendage;
-		public BodyPart LeftRearAppendage;
+		public BodyPartEntry LeftFrontAppendage;
+		public BodyPartEntry LeftMiddleAppendage;
+		public BodyPartEntry LeftRearAppendage;
 
-		public BodyPart RightFrontAppendage;
-		public BodyPart RightMiddleAppendage;
-		public BodyPart RightRearAppendage;
+		public BodyPartEntry RightFrontAppendage;
+		public BodyPartEntry RightMiddleAppendage;
+		public BodyPartEntry RightRearAppendage;
 
 		public string AppendagesLabel() {
-			switch (Torso.Base.Appendages) {
+			switch (Torso.BodyPart.Base.Appendages) {
 				case NumberOfAppendages.OneLowerNoUpper:
 				case NumberOfAppendages.OneLowerTwoUpper:
 					return "Uniped";
@@ -51,6 +51,24 @@ namespace Game {
 
 		public Skill GetSkillAt(int index) {
 			return (Skills.Count > index) ? Skills[index] : null;
+		}
+
+		public ConstructedCreature Clone() {
+			return new ConstructedCreature {
+				Id = Id,
+				Name = Name,
+				Health = Health,
+				Skills = new List<Skill>(Skills),
+				Head = Head,
+				Torso = Torso,
+				Tail = Tail,
+				LeftFrontAppendage = LeftFrontAppendage,
+				LeftMiddleAppendage = LeftMiddleAppendage,
+				LeftRearAppendage = LeftRearAppendage,
+				RightFrontAppendage = RightFrontAppendage,
+				RightMiddleAppendage = RightMiddleAppendage,
+				RightRearAppendage = RightRearAppendage
+			};
 		}
 	}
 }

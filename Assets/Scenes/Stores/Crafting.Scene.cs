@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using Game;
-
 using TMPro;
 
 using UnityEngine;
@@ -226,7 +224,7 @@ namespace Crafting {
 			);
 
 			Engine.AllItems.ForEach(item => {
-				List<RecipeIngredient> ingredients = item.Recipe;
+				List<Game.RecipeIngredient> ingredients = item.Recipe;
 				if (ingredients.Count < 1) {
 					return;
 				}
@@ -285,7 +283,7 @@ namespace Crafting {
 			ItemFlavorText.text = item.FlavorText;
 
 			//
-			List<RecipeIngredient> ingredients = item.Recipe
+			List<Game.RecipeIngredient> ingredients = item.Recipe
 				.OrderBy(ingredient => ingredient.Item.Name)
 				.ToList();
 			Do.Times(4, i => {

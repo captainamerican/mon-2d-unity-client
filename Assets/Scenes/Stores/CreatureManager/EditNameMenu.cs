@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using TMPro;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -45,7 +47,7 @@ namespace CreatureManager {
 			NumbersAndSymbols
 		}
 
-		Game.ConstructedCreature creature;
+		EditingCreature editing;
 
 		ShiftMode Shift = ShiftMode.Shift;
 		Mode WhichMode = Mode.Alphabet;
@@ -83,6 +85,7 @@ namespace CreatureManager {
 
 		void GoBack() {
 			EditInitialMenu.gameObject.SetActive(true);
+			EditInitialMenu.Configure(editing);
 
 			gameObject.SetActive(false);
 		}
@@ -94,9 +97,9 @@ namespace CreatureManager {
 
 		// -------------------------------------------------------------------------
 
-		public void Configure(Game.ConstructedCreature creature) {
-			this.creature = creature;
-			newName = creature.Name;
+		public void Configure(EditingCreature editingCreature) {
+			editing = editingCreature;
+			newName = editingCreature.Creature.Name;
 
 			//
 			UpdateName();
@@ -104,7 +107,8 @@ namespace CreatureManager {
 		}
 
 		public void ConfirmRename() {
-			creature.Name = newName.Trim();
+			editing.Creature.Name = newName.Trim();
+			editing.Changed = true;
 
 			//
 			GoBack();

@@ -42,10 +42,10 @@ public class Item : ScriptableObject {
 				return "Training Item";
 
 			case Game.ItemType.BodyPart:
-				return "BodyPart";
+				return "Body Part";
 
 			case Game.ItemType.KeyItem:
-				return "KeyItem";
+				return "Key Item";
 		}
 
 		return "Unknown";

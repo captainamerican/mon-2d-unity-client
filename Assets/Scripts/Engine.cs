@@ -42,7 +42,7 @@ public class Engine : ScriptableObject {
 		return Mode == EngineMode.PlayerControl;
 	}
 
-	public string GenerateRandomId() {
+	static public string GenerateRandomId() {
 		return Guid.NewGuid().ToString();
 	}
 }

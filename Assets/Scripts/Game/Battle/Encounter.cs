@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using Game;
-
 using TMPro;
 
 using UnityEngine;
@@ -72,11 +70,11 @@ namespace Battle {
 		InputAction CancelAction;
 
 		WorldEnemy.Enemy enemy;
-		ConstructedCreature enemyCreature;
+		Game.ConstructedCreature enemyCreature;
 		Combatant enemyCombatant;
 		int enemyLevel;
 
-		ConstructedCreature currentCreature;
+		Game.ConstructedCreature currentCreature;
 		Combatant creatureCombatant;
 		List<Combatant> creatureCombatants = new();
 		int currentCreatureIndex;
@@ -104,7 +102,7 @@ namespace Battle {
 			enemyCombatant = Combatant.New(enemyCreature.Name, enemyLevel, 5, 5, 5, 5, 5, 5, 999);
 
 			currentCreatureIndex = 0;
-			currentCreature = Engine.Profile.Party.Creatures[currentCreatureIndex];
+			currentCreature = Engine.Profile.GetPartyCreature(currentCreatureIndex);
 
 			creatureCombatants.Clear();
 			creatureCombatants.Add(
@@ -611,7 +609,7 @@ namespace Battle {
 
 				pages.Add($"{creatureCombatant.Name} collapsed!");
 
-				if (Engine.Profile.Party.AvailableToFight - 1 > 0) {
+				if (Engine.Profile.PartyMembersAvailableToFight - 1 > 0) {
 					Debug.Log("Choose another!");
 				} else {
 					pages.Add("No creatures left to fight...");
