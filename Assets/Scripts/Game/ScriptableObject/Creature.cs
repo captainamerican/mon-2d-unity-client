@@ -23,4 +23,8 @@ public class Creature : ScriptableObject {
 	public BodyPart RightAppendage1;
 	public BodyPart RightAppendage2;
 	public BodyPart RightAppendage3;
+
+	public Skill GetSkillAt(int index) {
+		return (Skills.Count > index) ? Skills[index] : null;
+	}
 }

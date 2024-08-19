@@ -48,5 +48,9 @@ namespace Game {
 			//
 			return "Nulped";
 		}
+
+		public Skill GetSkillAt(int index) {
+			return (Skills.Count > index) ? Skills[index] : null;
+		}
 	}
 }
