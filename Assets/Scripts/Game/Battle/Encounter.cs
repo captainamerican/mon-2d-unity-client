@@ -456,6 +456,7 @@ namespace Battle {
 					}
 
 					Button button = newItem.GetComponent<Button>();
+					button.onClick.RemoveAllListeners();
 					button.onClick.AddListener(() => OnItemSelected(entry.Item));
 					button
 					.GetComponent<InformationButton>()

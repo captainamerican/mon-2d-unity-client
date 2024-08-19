@@ -114,6 +114,7 @@ public class ItemsMenu : AbstractMenu {
 				// configure button
 				int buttonIndex = categoryButtons[entry.Item.Type].Count;
 				Button button = buttonGO.GetComponent<Button>();
+				button.onClick.RemoveAllListeners();
 				button.onClick.AddListener(() => OnItemSelected(entry));
 				button
 				.GetComponent<InformationButton>()

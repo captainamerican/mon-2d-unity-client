@@ -180,6 +180,7 @@ namespace Crafting {
 					// configure button
 					int buttonIndex = buttons.Count;
 					Button button = buttonGO.GetComponent<Button>();
+					button.onClick.RemoveAllListeners();
 					button
 						.onClick
 						.AddListener(() => OnItemSelected(item));
@@ -467,6 +468,7 @@ namespace Crafting {
 			UpdateVisibleButtons();
 			UpdateScrollbarThumb(index);
 		}
+
 		void UpdateVisibleButtons() {
 			for (int i = 0; i < buttons.Count; i++) {
 				bool enabled = i >= visibleButtonRangeMin && i <= visibleButtonRangeMax;

@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.UI;
 using UnityEngine.UI;
 
 // -----------------------------------------------------------------------------
@@ -27,6 +28,8 @@ namespace CreatureManager {
 		[SerializeField] Transform LearnedSkillParent;
 		[SerializeField] GameObject LearnedSkillTemplate;
 		[SerializeField] List<Button> Skills;
+		[SerializeField] GameObject Scrollbar;
+		[SerializeField] RectTransform ScrollbarThumb;
 
 		[Header("Menus")]
 		[SerializeField] EditInitialMenu EditInitialMenu;
@@ -43,11 +46,16 @@ namespace CreatureManager {
 		int selectedSkillIndex = 0;
 		int selectedLearnedSkillIndex = 0;
 
+		const int totalVisibleButtons = 6;
+		int visibleButtonRangeMin = 0;
+		int visibleButtonRangeMax = totalVisibleButtons;
+
 		// -------------------------------------------------------------------------
 
 		void OnEnable() {
 			ConfigureCancelAction();
 			ConfigureLearnedSkills();
+			UpdateVisibleButtonRange(0);
 		}
 
 		void OnDisable() {
@@ -55,11 +63,22 @@ namespace CreatureManager {
 		}
 
 		void OnDestroy() {
-			Cancel.performed -= OnGoBack;
+			Cancel.performed -= HandleCancelAction;
 		}
 
-		void OnGoBack(InputAction.CallbackContext ctx) {
-			GoBack();
+		void HandleCancelAction(InputAction.CallbackContext ctx) {
+			switch (buttonPhase) {
+				case ButtonPhase.LearnedSkillSelection:
+					buttonPhase = ButtonPhase.SkillSelection;
+
+					Skills[0].Select();
+					Skills[0].OnSelect(null);
+					break;
+
+				case ButtonPhase.SkillSelection:
+					GoBack();
+					break;
+			}
 		}
 
 		void GoBack() {
@@ -91,19 +110,18 @@ namespace CreatureManager {
 
 		void ConfigureCancelAction() {
 			if (Cancel != null) {
-				Cancel.performed -= OnGoBack;
+				Cancel.performed -= HandleCancelAction;
 			}
 
 			//
 			Cancel = PlayerInput.currentActionMap.FindAction("Cancel");
-			Cancel.performed += OnGoBack;
+			Cancel.performed += HandleCancelAction;
 		}
 
 		void ConfigureCreatureSkills() {
-			for (int i = 0; i < Skills.Count; i++) {
-				int up = i == 0 ? buttons.Count - 1 : i - 1;
-				int down = i == buttons.Count - 1 ? 0 : i + 1;
+			List<Button> creatureButtons = new();
 
+			for (int i = 0; i < Skills.Count; i++) {
 				int j = i;
 				Skill skill = i < creature.Skills.Count - 1
 					? creature.Skills[i]
@@ -120,6 +138,48 @@ namespace CreatureManager {
 						DescribeSkill(skill);
 						selectedSkillIndex = j;
 					});
+
+				button
+					.onClick
+					.RemoveAllListeners();
+				button
+					.onClick
+					.AddListener(() => {
+						buttonPhase = ButtonPhase.LearnedSkillSelection;
+
+						buttons[selectedLearnedSkillIndex].Select();
+						buttons[selectedLearnedSkillIndex].OnSelect(null);
+					});
+
+				//
+				Navigation navigation = button.navigation;
+				navigation.mode = Navigation.Mode.Explicit;
+				navigation.selectOnUp = null;
+				navigation.selectOnDown = null;
+
+				button.navigation = navigation;
+
+				//
+				if (i < creature.Skills.Count) {
+					creatureButtons.Add(button);
+				}
+			}
+
+			for (int i = 0; i < buttons.Count; i++) {
+				int up = i == 0 ? buttons.Count - 1 : i - 1;
+				int down = i == buttons.Count - 1 ? 0 : i + 1;
+
+				int j = i;
+
+				//
+				Button button = buttons[i];
+
+				Navigation navigation = button.navigation;
+				navigation.mode = Navigation.Mode.Explicit;
+				navigation.selectOnUp = buttons[up];
+				navigation.selectOnDown = buttons[down];
+
+				button.navigation = navigation;
 			}
 		}
 
@@ -194,11 +254,15 @@ namespace CreatureManager {
 				button
 					.GetComponent<InformationButton>()
 					.Configure(() => {
-						DescribeSkill(learnedSkill.Skill);
 						selectedLearnedSkillIndex = j;
+
+						//
+						DescribeSkill(learnedSkill.Skill);
+						UpdateVisibleButtonRange(j);
 					});
 
 				//
+				button.onClick.RemoveAllListeners();
 				button.onClick.AddListener(() => SetSkill(learnedSkill.Skill));
 			}
 		}
@@ -212,7 +276,10 @@ namespace CreatureManager {
 		void RemoveAllLearnedSkills() {
 			List<GameObject> toRemove = new();
 			foreach (Transform child in LearnedSkillParent) {
-				if (child.gameObject == LearnedSkillTemplate) {
+				if (
+					child.gameObject == LearnedSkillTemplate ||
+					child.gameObject == Scrollbar
+				) {
 					continue;
 				}
 
@@ -223,6 +290,60 @@ namespace CreatureManager {
 				child.SetActive(false);
 				Destroy(child);
 			});
+		}
+
+
+		// -------------------------------------------------------------------------
+
+		void UpdateVisibleButtonRange(int index) {
+			if (index < visibleButtonRangeMin) {
+				visibleButtonRangeMin = index;
+				visibleButtonRangeMax = index + totalVisibleButtons;
+			} else if (index > visibleButtonRangeMax) {
+				visibleButtonRangeMax = index;
+				visibleButtonRangeMin = index - totalVisibleButtons;
+			}
+
+			//
+			UpdateVisibleButtons();
+			UpdateScrollbarThumb(index);
+		}
+
+		void UpdateVisibleButtons() {
+			for (int i = 0; i < buttons.Count; i++) {
+				bool enabled = i >= visibleButtonRangeMin && i <= visibleButtonRangeMax;
+				var button = buttons[i].gameObject;
+				if (button == null) {
+					continue;
+				}
+
+				RectTransform rt = button.GetComponent<RectTransform>();
+				Vector2 sizeDelta = rt.sizeDelta;
+				sizeDelta.y = enabled ? 15 : 0;
+
+				rt.sizeDelta = sizeDelta;
+
+				foreach (Transform transform in button.transform) {
+					transform.gameObject.SetActive(enabled);
+				}
+			}
+		}
+
+		void UpdateScrollbarThumb(int index) {
+			ScrollbarThumb.gameObject.SetActive(buttons.Count > 0);
+
+			if (buttons.Count > 0) {
+				var parent = ScrollbarThumb.parent.GetComponent<RectTransform>();
+
+				float parentHeight = Mathf.Ceil(parent.rect.height);
+				float rawButtonHeight = buttons.Count > 1 ? parentHeight / buttons.Count : parentHeight;
+				float buttonHeight = Mathf.Round(Mathf.Clamp(rawButtonHeight, 1f, parentHeight));
+				float track = parentHeight - buttonHeight;
+				float offset = buttons.Count > 1 ? Mathf.Ceil(track * ((float) index / ((float) (buttons.Count - 1)))) : 0;
+
+				ScrollbarThumb.anchoredPosition = new Vector2(0, -offset);
+				ScrollbarThumb.sizeDelta = new Vector2(2, buttonHeight);
+			}
 		}
 
 		// -------------------------------------------------------------------------

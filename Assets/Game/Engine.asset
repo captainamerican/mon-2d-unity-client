@@ -63,7 +63,7 @@ MonoBehaviour:
     Wisdom: 5
     Party:
       Creatures:
-      - Id: 1
+      - Id: d2a39dea-a6cb-4bec-a919-f79ffc432f2f
         Name: Wolfie
         Health: 999
         Skills:
@@ -79,7 +79,7 @@ MonoBehaviour:
         RightMiddleAppendage: {fileID: 0}
         RightRearAppendage: {fileID: 11400000, guid: 85e82ee43d220d04ebc4cd7656e64f60, type: 2}
     Creatures:
-    - Id: 1
+    - Id: d2a39dea-a6cb-4bec-a919-f79ffc432f2f
       Name: Wolfie
       Health: 999
       Skills:
@@ -101,6 +101,18 @@ MonoBehaviour:
       Experience: 50
     - Skill: {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
       Experience: 0
+    - Skill: {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+      Experience: 1
+    - Skill: {fileID: 11400000, guid: 4092e0aa4412c4ad0bf3958b9333a655, type: 2}
+      Experience: 150
+    - Skill: {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
+      Experience: 500
+    - Skill: {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+      Experience: 100
+    - Skill: {fileID: 11400000, guid: 4092e0aa4412c4ad0bf3958b9333a655, type: 2}
+      Experience: 200
+    - Skill: {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
+      Experience: 300
     Inventory:
     - Item: {fileID: 11400000, guid: c750d805822613a4b8414526f8ed7001, type: 2}
       Amount: 89

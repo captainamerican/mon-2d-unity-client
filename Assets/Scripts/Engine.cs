@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Game;
@@ -39,6 +40,10 @@ public class Engine : ScriptableObject {
 
 	public bool PlayerHasControl() {
 		return Mode == EngineMode.PlayerControl;
+	}
+
+	public string GenerateRandomId() {
+		return Guid.NewGuid().ToString();
 	}
 }
 

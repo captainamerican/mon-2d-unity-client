@@ -101,6 +101,7 @@ namespace CreatureManager {
 
 					//
 					var button = buttonGO.GetComponent<Button>();
+					button.onClick.RemoveAllListeners();
 					button.onClick.AddListener(() => EditCreature(creature));
 
 					//
@@ -222,6 +223,11 @@ namespace CreatureManager {
 		}
 
 		void FocusPreviouslySelectedButton() {
+			if (buttons.Count < 1) {
+				return;
+			}
+
+			//
 			buttons[selectedButtonIndex].Select();
 			buttons[selectedButtonIndex].OnSelect(null);
 			buttons[selectedButtonIndex].GetComponent<InformationButton>().OnSelect(null);
