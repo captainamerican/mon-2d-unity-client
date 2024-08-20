@@ -78,17 +78,17 @@ MonoBehaviour:
       Torso:
         Id: 11-2
         BodyPart: {fileID: 11400000, guid: 32c7935e1a0eca241b24336af2736cd5, type: 2}
-        Experience: 0
+        Experience: 10
         Quality: 1
       Tail:
         Id: 11-3
         BodyPart: {fileID: 11400000, guid: bfe2fcd604f28438d952824c91f8560c, type: 2}
-        Experience: 0
+        Experience: 20
         Quality: 1
       LeftFrontAppendage:
         Id: 11-4
         BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
-        Experience: 0
+        Experience: 100
         Quality: 1
       LeftMiddleAppendage:
         Id: 
@@ -98,12 +98,12 @@ MonoBehaviour:
       LeftRearAppendage:
         Id: 11-5
         BodyPart: {fileID: 11400000, guid: ae3fb87bdf1d9f045ae2ad9a23901740, type: 2}
-        Experience: 0
+        Experience: 250
         Quality: 1
       RightFrontAppendage:
         Id: 11-6
         BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
-        Experience: 0
+        Experience: 500
         Quality: 1
       RightMiddleAppendage:
         Id: 
@@ -113,7 +113,7 @@ MonoBehaviour:
       RightRearAppendage:
         Id: 11-7
         BodyPart: {fileID: 11400000, guid: 85e82ee43d220d04ebc4cd7656e64f60, type: 2}
-        Experience: 0
+        Experience: 950
         Quality: 1
     Skills:
     - Skill: {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
