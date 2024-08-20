@@ -154,7 +154,7 @@ namespace Game {
 	[Serializable]
 	public class LearnedSkill {
 		public Skill Skill;
-		public float Experience = 0;
+		public int Experience = 0;
 	}
 
 	[Serializable]

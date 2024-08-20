@@ -25,7 +25,6 @@ namespace CreatureManager {
 		[SerializeField] List<Button> NumbersButtons;
 
 		[SerializeField] TextMeshProUGUI NameLabel;
-		[SerializeField] TextMeshProUGUI ModeLabel;
 		[SerializeField] TextMeshProUGUI CapsButtonLabel;
 		[SerializeField] TextMeshProUGUI ShiftButtonLabel;
 
@@ -66,8 +65,7 @@ namespace CreatureManager {
 			UpdateCapsButtonLabel();
 
 			//
-			AlphabetButtons[0].Select();
-			AlphabetButtons[0].OnSelect(null);
+			Game.Button.Select(AlphabetButtons[0]);
 		}
 
 		void OnDisable() {
@@ -156,10 +154,10 @@ namespace CreatureManager {
 		}
 
 		void SetMode() {
-			AlphabetParent.SetActive(WhichMode == Mode.Alphabet);
-			NumbersParent.SetActive(WhichMode == Mode.NumbersAndSymbols);
+			//AlphabetParent.SetActive(WhichMode == Mode.Alphabet);
+			//NumbersParent.SetActive(WhichMode == Mode.NumbersAndSymbols);
 
-			ModeLabel.text = WhichMode == Mode.Alphabet ? "Symbols" : "Alphabet";
+			// ModeLabel.text = WhichMode == Mode.Alphabet ? "Symbols" : "Alphabet";
 		}
 
 		public void OnKeyTyped(string value) {

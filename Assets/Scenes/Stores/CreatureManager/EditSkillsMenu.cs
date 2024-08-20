@@ -48,7 +48,7 @@ namespace CreatureManager {
 		int selectedSkillIndex = 0;
 		int selectedLearnedSkillIndex = 0;
 
-		const int totalVisibleButtons = 6;
+		const int totalVisibleButtons = 10;
 		int visibleButtonRangeMin = 0;
 		int visibleButtonRangeMax = totalVisibleButtons;
 
@@ -211,34 +211,8 @@ namespace CreatureManager {
 						LearnedSkillParent
 					);
 
-					var labels = buttonGO.GetComponentsInChildren<TextMeshProUGUI>();
-
-					// 
-					labels[0].text = learnedSkill.Skill.Name;
-
-					//
-					labels[1].text = "";
-					Do.Times(3, i => {
-						labels[1].text += learnedSkill.Experience >= learnedSkill.Skill.ExperienceToLearn * (i + 1)
-							? "★"
-							: "☆";
-					});
-
-					// too low-level
-					if (learnedSkill.Experience < learnedSkill.Skill.ExperienceToLearn * 1) {
-						labels.ToList().ForEach(label => {
-							label.color = new Color(0, 0, 0, 0.5f);
-						});
-					}
-
-					//
-					float rawLevel = 3f * ((float) learnedSkill.Experience / (float) (learnedSkill.Skill.ExperienceToLearn * 3f));
-					int level = Mathf.FloorToInt(rawLevel);
-					int nextLevel = level < 3 ? level + 1 : 3;
-					float ratio = (rawLevel - level);
-
-					var images = buttonGO.GetComponentsInChildren<Image>();
-					images[2].rectTransform.localScale = new Vector3(Mathf.Clamp(ratio, 0, 1), 1, 1);
+					buttonGO.GetComponent<SkillButton>()
+						.Configure(learnedSkill);
 
 					//
 					buttonGO.name = learnedSkill.Skill.Name;
@@ -411,7 +385,7 @@ namespace CreatureManager {
 				sizeDelta.y = enabled
 					? button == RemoveSkillButton
 						? 8
-						: 15
+						: 10
 					: 0;
 
 				rt.sizeDelta = sizeDelta;
@@ -435,7 +409,7 @@ namespace CreatureManager {
 				float offset = buttons.Count > 1 ? Mathf.Ceil(track * ((float) index / ((float) (buttons.Count - 1)))) : 0;
 
 				ScrollbarThumb.anchoredPosition = new Vector2(0, -offset);
-				ScrollbarThumb.sizeDelta = new Vector2(2, buttonHeight);
+				ScrollbarThumb.sizeDelta = new Vector2(4, buttonHeight);
 			}
 		}
 
