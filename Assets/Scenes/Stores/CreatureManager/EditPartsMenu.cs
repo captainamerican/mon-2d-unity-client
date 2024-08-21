@@ -43,7 +43,7 @@ namespace CreatureManager {
 		int selectedBodyPartIndex;
 		int selectedAvailableBodyPartIndex;
 
-		List<BodyPartButton> bodyPartButtons = new();
+		List<Button> buttons = new();
 
 		// -------------------------------------------------------------------------
 
@@ -92,6 +92,8 @@ namespace CreatureManager {
 			//
 			ConfigureBodyPartList();
 			ConfigureBodyPartButtons();
+
+			Game.Button.Select(BodyParts[0].GetComponent<Button>());
 		}
 
 		void ConfigureBodyPartList() {
@@ -183,25 +185,25 @@ namespace CreatureManager {
 		}
 
 		void ConfigureBodyPartButtons() {
-			bodyPartButtons.Clear();
+			buttons.Clear();
 
 			BodyParts.ForEach(bpb => {
 				if (bpb.gameObject.activeSelf) {
-					bodyPartButtons.Add(bpb);
+					buttons.Add(bpb.GetComponent<Button>());
 				}
 			});
 
-			for (int i = 0; i < bodyPartButtons.Count; i++) {
-				int up = i == 0 ? bodyPartButtons.Count - 1 : i - 1;
-				int down = i == bodyPartButtons.Count - 1 ? 0 : i + 1;
+			for (int i = 0; i < buttons.Count; i++) {
+				int up = i == 0 ? buttons.Count - 1 : i - 1;
+				int down = i == buttons.Count - 1 ? 0 : i + 1;
 
 				//
-				Button button = bodyPartButtons[i].GetComponent<Button>();
+				Button button = buttons[i];
 
 				Navigation navigation = button.navigation;
 				navigation.mode = Navigation.Mode.Explicit;
-				navigation.selectOnUp = bodyPartButtons[up].GetComponent<Button>();
-				navigation.selectOnDown = bodyPartButtons[down].GetComponent<Button>();
+				navigation.selectOnUp = buttons[up].GetComponent<Button>();
+				navigation.selectOnDown = buttons[down].GetComponent<Button>();
 
 				button.navigation = navigation;
 			}
