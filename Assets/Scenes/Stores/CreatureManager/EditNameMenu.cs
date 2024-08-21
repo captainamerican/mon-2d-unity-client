@@ -48,6 +48,8 @@ namespace CreatureManager {
 
 		EditingCreature editing;
 
+		InputAction Cancel;
+
 		ShiftMode Shift = ShiftMode.Shift;
 		Mode WhichMode = Mode.Alphabet;
 		string newName;
@@ -55,11 +57,13 @@ namespace CreatureManager {
 		// -------------------------------------------------------------------------
 
 		void OnEnable() {
+			ConfigureCancelAction();
+
+			//
 			Shift = ShiftMode.Shift;
 			WhichMode = Mode.Alphabet;
 
-			//
-			SetMode();
+			// 
 			ConfigureCancelAction();
 			UpdateShiftButtonLabel();
 			UpdateCapsButtonLabel();
@@ -73,9 +77,10 @@ namespace CreatureManager {
 		}
 
 		void OnDestroy() {
+			Cancel.performed -= HandleCancelAction;
 		}
 
-		void OnGoBack(InputAction.CallbackContext ctx) {
+		void HandleCancelAction(InputAction.CallbackContext _) {
 			GoBack();
 		}
 
@@ -91,6 +96,13 @@ namespace CreatureManager {
 		// -------------------------------------------------------------------------
 
 		void ConfigureCancelAction() {
+			if (Cancel != null) {
+				Cancel.performed -= HandleCancelAction;
+			}
+
+			//
+			Cancel = PlayerInput.currentActionMap.FindAction("Cancel");
+			Cancel.performed += HandleCancelAction;
 		}
 
 		// -------------------------------------------------------------------------
@@ -109,10 +121,6 @@ namespace CreatureManager {
 			editing.Changed = true;
 
 			//
-			GoBack();
-		}
-
-		public void CancelRename() {
 			GoBack();
 		}
 
@@ -140,9 +148,6 @@ namespace CreatureManager {
 			WhichMode = WhichMode == Mode.Alphabet
 				? Mode.NumbersAndSymbols
 				: Mode.Alphabet;
-
-			//
-			SetMode();
 		}
 
 		public void Backspace() {
@@ -151,13 +156,6 @@ namespace CreatureManager {
 			//
 			UpdateName();
 			UpdateCursor();
-		}
-
-		void SetMode() {
-			//AlphabetParent.SetActive(WhichMode == Mode.Alphabet);
-			//NumbersParent.SetActive(WhichMode == Mode.NumbersAndSymbols);
-
-			// ModeLabel.text = WhichMode == Mode.Alphabet ? "Symbols" : "Alphabet";
 		}
 
 		public void OnKeyTyped(string value) {

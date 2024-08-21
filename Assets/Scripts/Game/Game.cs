@@ -76,12 +76,7 @@ namespace Game {
 		Head,
 		Torso,
 		Tail,
-		FrontLeftAppendage,
-		MiddleLeftAppendage,
-		RearLeftAppendage,
-		FrontRightAppendage,
-		MiddleRightAppendage,
-		RearRightAppendage,
+		Appendage
 	}
 
 	public enum BodyPartTag {

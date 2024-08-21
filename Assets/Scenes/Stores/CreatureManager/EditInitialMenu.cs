@@ -61,8 +61,6 @@ namespace CreatureManager {
 		EditingCreature editing;
 
 		FocusPhase phase;
-
-		bool isNewCreature;
 		int selectedButtonIndex;
 
 		// -------------------------------------------------------------------------
@@ -112,7 +110,7 @@ namespace CreatureManager {
 
 			//
 			(
-				isNewCreature
+				editing.IsNew
 					? InitialMenu.gameObject
 					: CreaturesMenu.gameObject
 			).SetActive(true);
@@ -161,7 +159,7 @@ namespace CreatureManager {
 			editing = editingCreature;
 
 			//
-			Description.text = $"Edit '{this.editing.Creature.Name}'";
+			Description.text = $"Edit “{this.editing.Creature.Name}”";
 
 			//
 			ConfigureButtons();

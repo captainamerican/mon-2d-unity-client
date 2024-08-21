@@ -1,15 +1,13 @@
-using System;
 
 using Game;
 
 using TMPro;
 
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 // -----------------------------------------------------------------------------
 
-public class BodyPartButton : MonoBehaviour, ISelectHandler {
+public class BodyPartButton : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
@@ -20,15 +18,25 @@ public class BodyPartButton : MonoBehaviour, ISelectHandler {
 
 	// ---------------------------------------------------------------------------
 
-	Action onSelect;
+	public BodyPartEntry BodyPartEntry {
+		get;
+		private set;
+	}
 
 	// ---------------------------------------------------------------------------
 
-	public void Configure(BodyPartEntry bodyPartEntry, Action onSelect) {
-		this.onSelect = onSelect;
+	public void Configure(BodyPartEntry bodyPartEntry, Game.PartOfBody partOfBody, int leftOrRight = -1, int position = 0) {
+		BodyPartEntry = bodyPartEntry;
 
-		// 
+		//
 		if (bodyPartEntry?.BodyPart == null) {
+			string name = leftOrRight < 0 ? "" : leftOrRight > 0 ? "R. " : "L. ";
+			name += BodyPart.NameOfType(partOfBody);
+
+			NameLabel.text = $"({name})";
+			GradeLabel.text = "☆☆☆";
+			GradeProgress.localScale = new Vector3(0, 1, 1);
+			QualityProgress.localScale = new Vector3(0, 1, 1);
 			return;
 		}
 
@@ -55,10 +63,6 @@ public class BodyPartButton : MonoBehaviour, ISelectHandler {
 
 		//
 		QualityProgress.localScale = new Vector3(Mathf.Clamp01(bodyPartEntry.Quality), 1, 1);
-	}
-
-	public void OnSelect(BaseEventData _) {
-		onSelect?.Invoke();
 	}
 
 	// ---------------------------------------------------------------------------
