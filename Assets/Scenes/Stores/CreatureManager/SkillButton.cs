@@ -14,19 +14,31 @@ public class SkillButton : MonoBehaviour {
 	[SerializeField] TextMeshProUGUI GradeLabel;
 	[SerializeField] RectTransform GradeProgress;
 
-	// --------------------------------------------------------------------------- 
+	// ---------------------------------------------------------------------------
+
+	public LearnedSkill LearnedSkill {
+		get;
+		private set;
+	}
+
+
+	// ---------------------------------------------------------------------------
+
 
 	public void Configure(LearnedSkill learnedSkill) {
+		LearnedSkill = learnedSkill;
+
+		//
 		NameLabel.text = learnedSkill.Skill.Name;
 
 		//
 		int experience = learnedSkill.Experience;
 		int toLevel = learnedSkill.Skill.ExperienceToLearn;
 
-		float rawLevel = 3f * ((float) experience / (float) (toLevel * 3f));
+		float rawLevel = Mathf.Clamp(3f * ((float) experience / (float) (toLevel * 3f)), 0, 3);
 		int level = Mathf.FloorToInt(rawLevel);
 		int nextLevel = level < 3 ? level + 1 : 3;
-		float ratio = (rawLevel - level);
+		float ratio = level < 3 ? (rawLevel - level) : 1;
 
 		//
 		GradeProgress.localScale = new Vector3(Mathf.Clamp(ratio, 0, 1), 1, 1);

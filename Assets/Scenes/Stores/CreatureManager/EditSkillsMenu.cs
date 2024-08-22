@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+
+
 // -----------------------------------------------------------------------------
 
 namespace CreatureManager {
@@ -33,6 +35,16 @@ namespace CreatureManager {
 		[SerializeField] RectTransform ScrollbarThumb;
 		[SerializeField] Button RemoveSkillButton;
 
+		[Header("Move Information")]
+		[SerializeField] GameObject MoveInformation;
+		[SerializeField] TextMeshProUGUI MoveName;
+		[SerializeField] TextMeshProUGUI MagicCost;
+		[SerializeField] TextMeshProUGUI Grade;
+		[SerializeField] Transform GradeProgress;
+		[SerializeField] TextMeshProUGUI Tags;
+		[SerializeField] TextMeshProUGUI MoveDescription;
+
+
 		[Header("Menus")]
 		[SerializeField] EditInitialMenu EditInitialMenu;
 
@@ -51,6 +63,8 @@ namespace CreatureManager {
 		const int totalVisibleButtons = 10;
 		int visibleButtonRangeMin = 0;
 		int visibleButtonRangeMax = totalVisibleButtons;
+
+		int maxSkills = 0;
 
 		readonly Dictionary<Skill, bool> notYetLearned = new();
 
@@ -101,6 +115,7 @@ namespace CreatureManager {
 
 		public void Configure(EditingCreature editingCreature) {
 			editing = editingCreature;
+			maxSkills = editing.Creature.HeadMaxSkills;
 
 			//
 			ConfigureCreatureSkills();
@@ -163,9 +178,7 @@ namespace CreatureManager {
 						.onClick
 						.AddListener(() => {
 							buttonPhase = ButtonPhase.LearnedSkillSelection;
-
-							buttons[selectedLearnedSkillIndex].Select();
-							buttons[selectedLearnedSkillIndex].OnSelect(null);
+							Game.Button.Select(buttons[selectedLearnedSkillIndex]);
 						});
 				}
 
@@ -178,7 +191,7 @@ namespace CreatureManager {
 				button.navigation = navigation;
 
 				// 
-				if (i <= editing.Creature.Skills.Count) {
+				if (i <= editing.Creature.Skills.Count && i < maxSkills) {
 					creatureButtons.Add(button);
 				}
 			}
@@ -197,14 +210,28 @@ namespace CreatureManager {
 
 				button.navigation = navigation;
 			}
+
+			//
+			Do.Times(4, i => {
+				if (i < maxSkills) {
+					return;
+				}
+
+				Button button = Skills[i];
+				var label = button.GetComponentInChildren<TextMeshProUGUI>();
+				label.text = $"(Head Grade {i})";
+				label.color = new Color(0, 0, 0, 0.5f);
+			});
 		}
 
 		void ConfigureLearnedSkills() {
 			RemoveAllLearnedSkills();
 
-			//
+			// 
 			buttons.Clear();
 			buttons = Engine.Profile.Skills
+				.OrderByDescending(ls => ls.Experience >= ls.Skill.ExperienceToLearn)
+				.ThenBy(ls => ls.Skill.Name)
 				.Select(learnedSkill => {
 					var buttonGO = Instantiate(
 						LearnedSkillTemplate,
@@ -246,7 +273,9 @@ namespace CreatureManager {
 
 				//
 				int j = i;
-				Game.LearnedSkill learnedSkill = Engine.Profile.Skills[i - 1];
+				Game.LearnedSkill learnedSkill = button
+					.GetComponent<SkillButton>()
+					.LearnedSkill;
 
 				//
 				button
@@ -255,7 +284,7 @@ namespace CreatureManager {
 						selectedLearnedSkillIndex = j;
 
 						//
-						DescribeSkill(learnedSkill.Skill);
+						DescribeSkill(learnedSkill);
 						UpdateVisibleButtonRange(j);
 					});
 
@@ -270,7 +299,7 @@ namespace CreatureManager {
 					selectedLearnedSkillIndex = 0;
 
 					//
-					DescribeSkill(null);
+					DescribeSkill();
 					UpdateVisibleButtonRange(0);
 				});
 
@@ -304,17 +333,57 @@ namespace CreatureManager {
 					editing.Creature.Skills[selectedSkillIndex] = skill;
 				}
 			} else {
-				editing.Creature.Skills.Add(skill);
+				if (selectedSkillIndex < editing.Creature.Skills.Count) {
+					editing.Creature.Skills[selectedSkillIndex] = skill;
+				} else {
+					editing.Creature.Skills.Add(skill);
+				}
 			}
 
 			// 
 			ConfigureCreatureSkills();
 
-			//
+			// 
+			Game.Button.Select(Skills[selectedSkillIndex]);
+
 			editing.Changed = true;
 		}
 
-		void DescribeSkill(Skill skill) {
+		void DescribeSkill(Skill skill = null) {
+			DescribeSkill(
+				Engine.Profile.Skills.Find(ls => ls.Skill == skill)
+				?? new Game.LearnedSkill { Skill = skill }
+			);
+		}
+
+		void DescribeSkill(Game.LearnedSkill learnedSkill) {
+			MoveInformation.SetActive(learnedSkill?.Skill != null);
+			if (learnedSkill?.Skill == null) {
+				return;
+			}
+
+			//
+			int experience = learnedSkill.Experience;
+			int toLevel = learnedSkill.Skill.ExperienceToLearn;
+
+			float rawLevel = Mathf.Clamp(3f * ((float) experience / (float) (toLevel * 3f)), 0, 3);
+			int level = Mathf.FloorToInt(rawLevel);
+			int nextLevel = level < 3 ? level + 1 : 3;
+			float ratio = level < 3 ? (rawLevel - level) : 1;
+
+			//
+			MoveName.text = learnedSkill.Skill.Name;
+			MagicCost.text = $"{learnedSkill.Skill.Cost}";
+			MoveDescription.text = learnedSkill.Skill.Description;
+			GradeProgress.localScale = new Vector3(Mathf.Clamp(ratio, 0, 1), 1, 1);
+			Grade.text = string.Join(
+				"",
+				Do.Times(
+					3,
+					i => experience >= toLevel * (i + 1) ? "★" : "☆"
+				)
+			);
+			Tags.text = "(none)";
 		}
 
 		void RemoveAllLearnedSkills() {

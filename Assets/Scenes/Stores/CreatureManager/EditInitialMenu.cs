@@ -15,10 +15,7 @@ namespace CreatureManager {
 
 		enum FocusPhase {
 			Normal,
-			DeleteModal,
-			CancelModal,
-			IncompleteModal,
-			CantDeleteModal
+			SubModal
 		}
 
 		// -------------------------------------------------------------------------
@@ -42,6 +39,10 @@ namespace CreatureManager {
 		[Header("Abandon Chances Modal")]
 		[SerializeField] GameObject CancelModal;
 		[SerializeField] Button CancelChangesButton;
+
+		[Header("Missing Head Modal")]
+		[SerializeField] GameObject MissingHeadModal;
+		[SerializeField] Button MissingHeadButton;
 
 		[Header("Incomplete Modal")]
 		[SerializeField] GameObject IncompleteModal;
@@ -93,12 +94,8 @@ namespace CreatureManager {
 					CancelChanges();
 					break;
 
-				case FocusPhase.DeleteModal:
-					CancelDeleteCreature();
-					break;
-
-				case FocusPhase.CancelModal:
-					CancelCancelChanges();
+				case FocusPhase.SubModal:
+					CloseModals();
 					break;
 			}
 		}
@@ -106,7 +103,11 @@ namespace CreatureManager {
 		// -------------------------------------------------------------------------
 
 		void GoBack() {
+			CloseModals();
+
+			//
 			selectedButtonIndex = 0;
+			gameObject.SetActive(false);
 
 			//
 			(
@@ -114,12 +115,19 @@ namespace CreatureManager {
 					? InitialMenu.gameObject
 					: CreaturesMenu.gameObject
 			).SetActive(true);
-
-			//
-			gameObject.SetActive(false);
 		}
 
 		// -------------------------------------------------------------------------
+
+		public void Configure(EditingCreature editingCreature) {
+			editing = editingCreature;
+
+			//
+			Description.text = $"Edit “{this.editing.Creature.Name}”";
+
+			//
+			ConfigureButtons();
+		}
 
 		void ConfigureCancelAction() {
 			if (Cancel != null) {
@@ -151,19 +159,19 @@ namespace CreatureManager {
 				button.GetComponent<InformationButton>()
 					.Configure(() => selectedButtonIndex = j);
 			}
+
+			//
+			Buttons[1].GetComponentInChildren<TextMeshProUGUI>().text =
+				(editing.Creature.MissingHead)
+					? "Edit Skills ⚠"
+					: "Edit Skills";
+			Buttons[4].GetComponentInChildren<TextMeshProUGUI>().text =
+				(editing.Creature.IsComplete)
+					? "Complete"
+					: "Complete ⚠";
 		}
 
 		// -------------------------------------------------------------------------
-
-		public void Configure(EditingCreature editingCreature) {
-			editing = editingCreature;
-
-			//
-			Description.text = $"Edit “{this.editing.Creature.Name}”";
-
-			//
-			ConfigureButtons();
-		}
 
 		public void OpenEditPartsMenu() {
 			EditPartsMenu.gameObject.SetActive(true);
@@ -174,6 +182,12 @@ namespace CreatureManager {
 		}
 
 		public void OpenEditSkillsMenu() {
+			if (editing.Creature.MissingHead) {
+				MissingHead();
+				return;
+			}
+
+			//
 			EditSkillsMenu.gameObject.SetActive(true);
 			EditSkillsMenu.Configure(editing);
 
@@ -191,29 +205,49 @@ namespace CreatureManager {
 
 		// -------------------------------------------------------------------------
 
-		public void DeleteCreature() {
-			if (!editing.IsNew && Engine.Profile.Creatures.Count < 2) {
-				CantDeleteLastModal.SetActive(true);
-				Game.Button.Select(OkayCantDeleteLastButton);
+		public void SaveChanges() {
+			if (!editing.Creature.IsComplete) {
+				CreatureIncomplete();
 				return;
 			}
 
 			//
-			DeleteModal.SetActive(true);
-			Game.Button.Select(CancelDeletionButton);
-		}
-
-		public void ConfirmDeleteCreature() {
 			Engine.Profile.Creatures.RemoveAll(c => c.Id == editing.Creature.Id);
-			Engine.Profile.Party.Remove(editing.Creature.Id);
+			Engine.Profile.Creatures.Add(editing.Creature);
 
 			//
 			GoBack();
 		}
 
-		public void CancelDeleteCreature() {
-			CantDeleteLastModal.SetActive(false);
-			Game.Button.Select(Buttons[selectedButtonIndex]);
+		// -------------------------------------------------------------------------
+
+		public void DeleteCreature() {
+			if (
+				!editing.IsNew &&
+				Engine.Profile.Creatures.Count < 2
+			) {
+				CantDeleteLastCreature();
+				return;
+			}
+
+			//
+			ShowModal(DeleteModal, CancelDeletionButton);
+		}
+
+		public void OnDeleteCreature(int action) {
+			CloseModals();
+
+			//
+			if (action < 1) {
+				return;
+			}
+
+			//
+			Engine.Profile.Creatures.RemoveAll(c => c.Id == editing.Creature.Id);
+			Engine.Profile.Party.Remove(editing.Creature.Id);
+
+			//
+			GoBack();
 		}
 
 		// -------------------------------------------------------------------------
@@ -224,51 +258,74 @@ namespace CreatureManager {
 				return;
 			}
 
-			CancelModal.SetActive(true);
-			Game.Button.Select(CancelChangesButton);
+			//
+			ShowModal(CancelModal, CancelChangesButton);
 		}
 
-		public void ConfirmCancelChanges() {
-			GoBack();
-		}
+		public void OnCancelChanges(int action) {
+			CloseModals();
 
-		public void CancelCancelChanges() {
-			CancelModal.SetActive(false);
-			Game.Button.Select(Buttons[selectedButtonIndex]);
-		}
-
-		// -------------------------------------------------------------------------
-
-		public void CantDeleteLastCreature() {
-			CantDeleteLastModal.SetActive(true);
-			Game.Button.Select(OkayCantDeleteLastButton);
-		}
-
-		public void OkayCantDeleteLast() {
-			CantDeleteLastModal.SetActive(false);
-			Game.Button.Select(Buttons[selectedButtonIndex]);
-		}
-
-		// -------------------------------------------------------------------------
-
-		public void CreatureIncomplete() {
-			IncompleteModal.SetActive(true);
-			Game.Button.Select(OkayCantDeleteLastButton);
-		}
-
-		public void OkayIncompleteModal() {
-			IncompleteModal.SetActive(false);
-			Game.Button.Select(Buttons[selectedButtonIndex]);
-		}
-
-		// -------------------------------------------------------------------------
-
-		public void SaveChanges() {
-			Engine.Profile.Creatures.RemoveAll(c => c.Id == editing.Creature.Id);
-			Engine.Profile.Creatures.Add(editing.Creature);
+			//
+			if (action < 1) {
+				return;
+			}
 
 			//
 			GoBack();
+		}
+
+		// -------------------------------------------------------------------------
+
+		void MissingHead() {
+			ShowModal(MissingHeadModal, MissingHeadButton);
+		}
+
+		public void OnMissingHead() {
+			CloseModals();
+		}
+
+		// -------------------------------------------------------------------------
+
+		void CantDeleteLastCreature() {
+			ShowModal(CantDeleteLastModal, OkayCantDeleteLastButton);
+		}
+
+		public void OnCantDeleteLastCreature() {
+			CloseModals();
+		}
+
+		// -------------------------------------------------------------------------
+
+		void CreatureIncomplete() {
+			ShowModal(IncompleteModal, OkayIncompleteButton);
+		}
+
+		public void OnCreatureIncomplete() {
+			CloseModals();
+		}
+
+		// -------------------------------------------------------------------------
+
+		void ShowModal(GameObject modal, Button focus) {
+			phase = FocusPhase.SubModal;
+
+			//
+			modal.SetActive(true);
+			Game.Button.Select(focus);
+		}
+
+		void CloseModals() {
+			phase = FocusPhase.Normal;
+
+			//
+			IncompleteModal.SetActive(false);
+			MissingHeadModal.SetActive(false);
+			CantDeleteLastModal.SetActive(false);
+			CancelModal.SetActive(false);
+			DeleteModal.SetActive(false);
+
+			//
+			Game.Button.Select(Buttons[selectedButtonIndex]);
 		}
 
 		// -------------------------------------------------------------------------

@@ -152,24 +152,24 @@ namespace CreatureManager {
 					BodyParts[4].gameObject.SetActive(false);
 					BodyParts[5].gameObject.SetActive(false);
 					BodyParts[6].gameObject.SetActive(false);
-					BodyParts[7].gameObject.SetActive(false);
+					BodyParts[7].gameObject.SetActive(true);
 					BodyParts[8].gameObject.SetActive(false);
 					break;
 
 				case Game.NumberOfAppendages.OneLowerTwoUpper:
 					BodyParts[3].gameObject.SetActive(true);
 					BodyParts[4].gameObject.SetActive(false);
-					BodyParts[5].gameObject.SetActive(false);
-					BodyParts[6].gameObject.SetActive(true);
-					BodyParts[7].gameObject.SetActive(false);
+					BodyParts[5].gameObject.SetActive(true);
+					BodyParts[6].gameObject.SetActive(false);
+					BodyParts[7].gameObject.SetActive(true);
 					BodyParts[8].gameObject.SetActive(false);
 					break;
 
 				case Game.NumberOfAppendages.TwoLowerNoUpper:
 					BodyParts[3].gameObject.SetActive(false);
 					BodyParts[4].gameObject.SetActive(false);
-					BodyParts[5].gameObject.SetActive(true);
-					BodyParts[6].gameObject.SetActive(false);
+					BodyParts[5].gameObject.SetActive(false);
+					BodyParts[6].gameObject.SetActive(true);
 					BodyParts[7].gameObject.SetActive(false);
 					BodyParts[8].gameObject.SetActive(true);
 					break;

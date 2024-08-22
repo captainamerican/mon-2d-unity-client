@@ -47,10 +47,10 @@ public class BodyPartButton : MonoBehaviour {
 		int experience = bodyPartEntry.Experience;
 		int toLevel = bodyPartEntry.BodyPart.ExperienceToLevel;
 
-		float rawLevel = 3f * ((float) experience / (float) (toLevel * 3f));
+		float rawLevel = Mathf.Clamp(3f * ((float) experience / (float) (toLevel * 3f)), 0, 3);
 		int level = Mathf.FloorToInt(rawLevel);
 		int nextLevel = level < 3 ? level + 1 : 3;
-		float ratio = (rawLevel - level);
+		float ratio = level < 3 ? (rawLevel - level) : 1;
 
 		GradeProgress.localScale = new Vector3(Mathf.Clamp(ratio, 0, 1), 1, 1);
 		GradeLabel.text = string.Join(
