@@ -1,35 +1,180 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
+
+// -----------------------------------------------------------------------------
 
 namespace Game {
 	[Serializable]
 	public class ConstructedCreature {
+
+		// -------------------------------------------------------------------------
+
 		public string Id;
 		public string Name;
 
 		[Header("Live Stats")]
 		public int Health;
 
+		[Header("Skills")]
 		public List<Skill> Skills = new();
 
 		[Header("Appendages")]
 		public BodyPartEntry Head;
 		public BodyPartEntry Torso;
 		public BodyPartEntry Tail;
+		public List<BodyPartEntry> Appendages = new();
 
-		public BodyPartEntry LeftFrontAppendage;
-		public BodyPartEntry LeftMiddleAppendage;
-		public BodyPartEntry LeftRearAppendage;
+		// -------------------------------------------------------------------------
 
-		public BodyPartEntry RightFrontAppendage;
-		public BodyPartEntry RightMiddleAppendage;
-		public BodyPartEntry RightRearAppendage;
+		Dictionary<NumberOfAppendages, int> AppendageCount = new() {
+			{
+				NumberOfAppendages.None,
+				0
+			},
+			{
+				NumberOfAppendages.OneLowerNoUpper,
+				1
+			},
+			{
+				NumberOfAppendages.TwoLowerNoUpper,
+				2
+			},
+			{
+				NumberOfAppendages.NoLowerTwoUpper,
+				2
+			},
+			{
+				NumberOfAppendages.OneLowerTwoUpper,
+				3
+			},
+			{
+				NumberOfAppendages.TwoLowerTwoUpper,
+				4
+			},
+			{
+				NumberOfAppendages.FourLower,
+				4
+			},
+			{
+				NumberOfAppendages.FourLowerTwoUpper,
+				6
+			},
+			{
+				NumberOfAppendages.SixLower,
+				6
+			}
+		};
+
+		Dictionary<NumberOfAppendages, List<string>> NameOfAppendages = new() {
+			{
+				NumberOfAppendages.None,
+				new() {
+				}
+			},
+			{
+				NumberOfAppendages.OneLowerNoUpper,
+				new() {
+					"Lower",
+				}
+			},
+			{
+				NumberOfAppendages.TwoLowerNoUpper,
+				new() {
+					"L. Leg",
+					"R. Leg"
+				}
+			},
+			{
+				NumberOfAppendages.NoLowerTwoUpper,
+				new() {
+					"L. Arm",
+					"R. Arm"
+				}
+			},
+			{
+				NumberOfAppendages.OneLowerTwoUpper,
+				new() {
+					"L. Arm",
+					"R. Arm",
+					"Lower",
+				}
+			},
+			{
+				NumberOfAppendages.TwoLowerTwoUpper,
+				new() {
+					"L. Arm",
+					"R. Arm",
+					"L. Leg",
+					"R. Leg"
+				}
+			},
+			{
+				NumberOfAppendages.FourLower,
+				new() {
+					"L. Front Leg",
+					"R. Front Leg",
+					"L. Rear Leg",
+					"R. Rear Leg"
+				}
+			},
+			{
+				NumberOfAppendages.FourLowerTwoUpper,
+				new() {
+					"L. Arm",
+					"R. Arm",
+					"L. Front Leg",
+					"R. Front Leg",
+					"L. Rear Leg",
+					"R. Rear Leg"
+				}
+			},
+			{
+				NumberOfAppendages.SixLower,
+				new() {
+					"L. Front Leg",
+					"R. Front Leg",
+					"L. Middle Leg",
+					"R. Middle Leg",
+					"L. Rear Leg",
+					"R. Rear Leg"
+				}
+			}
+		};
+
+		// -------------------------------------------------------------------------
+
+		public string NameOfAppendage(int index) {
+			List<string> names = NameOfAppendages[
+				Torso?.BodyPart?.Base?.Appendages
+				?? NumberOfAppendages.None
+			];
+
+			//
+			return index < names.Count ? names[index] : "???";
+		}
+
+		public int HowManyAppendages {
+			get {
+				return AppendageCount[
+					Torso?.BodyPart?.Base?.Appendages
+					?? NumberOfAppendages.None
+				];
+			}
+
+		}
 
 		public bool MissingHead {
 			get {
 				return Head?.BodyPart == null;
+			}
+		}
+
+		public bool MissingTorso {
+			get {
+				return Torso?.BodyPart == null;
 			}
 		}
 
@@ -52,96 +197,23 @@ namespace Game {
 
 		public bool IsComplete {
 			get {
-				if (Skills.Count < 1) {
+				if (
+					Skills.Count < 1 ||
+					Head?.BodyPart == null ||
+					Torso?.BodyPart == null
+				) {
 					return false;
-				}
-
-				if (Head?.BodyPart == null || Torso?.BodyPart == null) {
-					return false;
-				}
-
-				switch (Torso.BodyPart.Base.Appendages) {
-					case NumberOfAppendages.OneLowerNoUpper:
-						if (RightMiddleAppendage?.BodyPart == null) {
-							return false;
-						}
-						break;
-
-					case NumberOfAppendages.OneLowerTwoUpper:
-						if (
-							LeftFrontAppendage?.BodyPart == null ||
-							RightFrontAppendage?.BodyPart == null ||
-							RightMiddleAppendage?.BodyPart == null
-						) {
-							return false;
-						}
-						break;
-
-					case NumberOfAppendages.TwoLowerNoUpper:
-						if (
-							LeftRearAppendage?.BodyPart == null ||
-							RightRearAppendage?.BodyPart == null
-						) {
-							return false;
-						}
-						break;
-
-					case NumberOfAppendages.TwoLowerTwoUpper:
-						if (
-							LeftFrontAppendage?.BodyPart == null ||
-							RightFrontAppendage?.BodyPart == null ||
-							LeftRearAppendage?.BodyPart == null ||
-							RightRearAppendage?.BodyPart == null
-						) {
-							return false;
-						}
-						break;
-
-					case NumberOfAppendages.FourLower:
-						if (
-							LeftFrontAppendage?.BodyPart == null ||
-							RightFrontAppendage?.BodyPart == null ||
-							LeftRearAppendage?.BodyPart == null ||
-							RightRearAppendage?.BodyPart == null
-						) {
-							return false;
-						}
-						break;
-
-					case NumberOfAppendages.FourLowerTwoUpper:
-						if (
-							LeftFrontAppendage?.BodyPart == null ||
-							RightFrontAppendage?.BodyPart == null ||
-							LeftMiddleAppendage?.BodyPart == null ||
-							RightMiddleAppendage?.BodyPart == null ||
-							LeftRearAppendage?.BodyPart == null ||
-							RightRearAppendage?.BodyPart == null
-						) {
-							return false;
-						}
-						break;
-
-					case NumberOfAppendages.SixLower:
-						if (
-							LeftFrontAppendage?.BodyPart == null ||
-							RightFrontAppendage?.BodyPart == null ||
-							LeftMiddleAppendage?.BodyPart == null ||
-							RightMiddleAppendage?.BodyPart == null ||
-							LeftRearAppendage?.BodyPart == null ||
-							RightRearAppendage?.BodyPart == null
-						) {
-							return false;
-						}
-						break;
 				}
 
 				//
-				return true;
+				int appendages = AppendageCount[Torso.BodyPart.Base.Appendages];
+				return Appendages.Sum(a => a?.BodyPart == null ? 0 : 1) >= appendages;
 			}
 		}
 
 		public string AppendagesLabel() {
 			switch (Torso.BodyPart.Base.Appendages) {
+				case NumberOfAppendages.NoLowerTwoUpper:
 				case NumberOfAppendages.OneLowerNoUpper:
 				case NumberOfAppendages.OneLowerTwoUpper:
 					return "Uniped";
@@ -166,6 +238,10 @@ namespace Game {
 			return (Skills.Count > index) ? Skills[index] : null;
 		}
 
+		public BodyPartEntry GetAppendage(int i) {
+			return i < (Appendages?.Count ?? 0) ? Appendages[i] : null;
+		}
+
 		public ConstructedCreature Clone() {
 			return new ConstructedCreature {
 				Id = Id,
@@ -175,13 +251,11 @@ namespace Game {
 				Head = Head,
 				Torso = Torso,
 				Tail = Tail,
-				LeftFrontAppendage = LeftFrontAppendage,
-				LeftMiddleAppendage = LeftMiddleAppendage,
-				LeftRearAppendage = LeftRearAppendage,
-				RightFrontAppendage = RightFrontAppendage,
-				RightMiddleAppendage = RightMiddleAppendage,
-				RightRearAppendage = RightRearAppendage
+				Appendages = Appendages
 			};
 		}
+
+		// -------------------------------------------------------------------------
+
 	}
 }

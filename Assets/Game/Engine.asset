@@ -65,11 +65,13 @@ MonoBehaviour:
     - Id: d2a39dea-a6cb-4bec-a919-f79ffc432f2f
       Name: Wolfie
       Health: 999
-      Skills: []
+      Skills:
+      - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+      - {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
       Head:
         Id: 11-1
         BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
-        Experience: 0
+        Experience: 501
         Quality: 1
       Torso:
         Id: 11-2
@@ -81,6 +83,23 @@ MonoBehaviour:
         BodyPart: {fileID: 11400000, guid: bfe2fcd604f28438d952824c91f8560c, type: 2}
         Experience: 20
         Quality: 1
+      Appendages:
+      - Id: 11-4
+        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+        Experience: 10
+        Quality: 0
+      - Id: 11-5
+        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+        Experience: 20
+        Quality: 0
+      - Id: 11-6
+        BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
+        Experience: 30
+        Quality: 0
+      - Id: 11-7
+        BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
+        Experience: 40
+        Quality: 0
       LeftFrontAppendage:
         Id: 11-4
         BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}

@@ -25,15 +25,12 @@ public class BodyPartButton : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
-	public void Configure(BodyPartEntry bodyPartEntry, Game.PartOfBody partOfBody, int leftOrRight = -1, int position = 0) {
+	public void Configure(BodyPartEntry bodyPartEntry, string defaultName = "???") {
 		BodyPartEntry = bodyPartEntry;
 
 		//
 		if (bodyPartEntry?.BodyPart == null) {
-			string name = leftOrRight < 0 ? "" : leftOrRight > 0 ? "R. " : "L. ";
-			name += BodyPart.NameOfType(partOfBody);
-
-			NameLabel.text = $"({name})";
+			NameLabel.text = $"({defaultName})";
 			GradeLabel.text = "☆☆☆";
 			GradeProgress.localScale = new Vector3(0, 1, 1);
 			QualityProgress.localScale = new Vector3(0, 1, 1);

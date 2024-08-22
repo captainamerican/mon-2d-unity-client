@@ -36,6 +36,23 @@ MonoBehaviour:
         BodyPart: {fileID: 11400000, guid: bfe2fcd604f28438d952824c91f8560c, type: 2}
         Experience: 0
         Quality: 1
+      Appendages:
+      - Id: 
+        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+        Experience: 0
+        Quality: 0
+      - Id: 
+        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+        Experience: 0
+        Quality: 0
+      - Id: 
+        BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
+        Experience: 0
+        Quality: 0
+      - Id: 
+        BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
+        Experience: 0
+        Quality: 0
       LeftFrontAppendage:
         Id: 
         BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}

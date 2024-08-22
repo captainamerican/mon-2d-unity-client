@@ -26,12 +26,8 @@ namespace CreatureManager {
 		[SerializeField] TextMeshProUGUI HeadLabel;
 		[SerializeField] TextMeshProUGUI TorsoLabel;
 		[SerializeField] TextMeshProUGUI TailLabel;
-		[SerializeField] TextMeshProUGUI LeftFrontAppendage;
-		[SerializeField] TextMeshProUGUI LeftMiddleAppendage;
-		[SerializeField] TextMeshProUGUI LeftRearAppendage;
-		[SerializeField] TextMeshProUGUI RightFrontAppendage;
-		[SerializeField] TextMeshProUGUI RightMiddleAppendage;
-		[SerializeField] TextMeshProUGUI RightRearAppendage;
+		[SerializeField] List<TextMeshProUGUI> AppendageLabels;
+		[SerializeField] List<TextMeshProUGUI> SkillLabels;
 
 		[SerializeField] TextMeshProUGUI Description;
 
@@ -149,81 +145,36 @@ namespace CreatureManager {
 		}
 
 		void DescribeCreature(Game.ConstructedCreature creature) {
-			HeadLabel.text = creature?.Head?.BodyPart?.Name ?? "(none)";
-			TorsoLabel.text = creature?.Torso?.BodyPart?.Name ?? "(none)";
-			TailLabel.text = creature?.Tail?.BodyPart?.Name ?? "(none)";
-			LeftFrontAppendage.text = creature?.LeftFrontAppendage?.BodyPart?.Name ?? "(none)";
-			LeftMiddleAppendage.text = creature?.LeftMiddleAppendage?.BodyPart?.Name ?? "(none)";
-			LeftRearAppendage.text = creature?.LeftRearAppendage?.BodyPart?.Name ?? "(none)";
-			RightFrontAppendage.text = creature?.RightFrontAppendage?.BodyPart?.Name ?? "(none)";
-			RightMiddleAppendage.text = creature?.RightMiddleAppendage?.BodyPart?.Name ?? "(none)";
-			RightRearAppendage.text = creature?.RightRearAppendage?.BodyPart?.Name ?? "(none)";
-
 			Description.text = $@"{creature.AppendagesLabel()}".Trim();
 
-			switch (creature?.Torso.BodyPart.Base.Appendages ?? Game.NumberOfAppendages.None) {
-				case Game.NumberOfAppendages.OneLowerNoUpper:
-					LeftFrontAppendage.transform.parent.gameObject.SetActive(false);
-					LeftMiddleAppendage.transform.parent.gameObject.SetActive(false);
-					LeftRearAppendage.transform.parent.gameObject.SetActive(false);
-					RightFrontAppendage.transform.parent.gameObject.SetActive(false);
-					RightMiddleAppendage.transform.parent.gameObject.SetActive(false);
-					RightRearAppendage.transform.parent.gameObject.SetActive(false);
-					break;
+			HeadLabel.text = creature?.Head?.BodyPart?.Name ?? "(Head)";
+			TorsoLabel.text = creature?.Torso?.BodyPart?.Name ?? "(Torso)";
+			TailLabel.text = creature?.Tail?.BodyPart?.Name ?? "(Tail)";
 
-				case Game.NumberOfAppendages.OneLowerTwoUpper:
-					LeftFrontAppendage.transform.parent.gameObject.SetActive(true);
-					LeftMiddleAppendage.transform.parent.gameObject.SetActive(false);
-					LeftRearAppendage.transform.parent.gameObject.SetActive(false);
-					RightFrontAppendage.transform.parent.gameObject.SetActive(true);
-					RightMiddleAppendage.transform.parent.gameObject.SetActive(false);
-					RightRearAppendage.transform.parent.gameObject.SetActive(false);
-					break;
+			for (int i = 0; i < AppendageLabels.Count; i++) {
+				var label = AppendageLabels[i];
 
-				case Game.NumberOfAppendages.TwoLowerNoUpper:
-					LeftFrontAppendage.transform.parent.gameObject.SetActive(false);
-					LeftMiddleAppendage.transform.parent.gameObject.SetActive(false);
-					LeftRearAppendage.transform.parent.gameObject.SetActive(true);
-					RightFrontAppendage.transform.parent.gameObject.SetActive(false);
-					RightMiddleAppendage.transform.parent.gameObject.SetActive(false);
-					RightRearAppendage.transform.parent.gameObject.SetActive(true);
-					break;
+				if (i >= (creature?.Appendages?.Count ?? 0)) {
+					label.transform.parent.gameObject.SetActive(false);
+					continue;
+				}
 
-				case Game.NumberOfAppendages.TwoLowerTwoUpper:
-					LeftFrontAppendage.transform.parent.gameObject.SetActive(true);
-					LeftMiddleAppendage.transform.parent.gameObject.SetActive(false);
-					LeftRearAppendage.transform.parent.gameObject.SetActive(true);
-					RightFrontAppendage.transform.parent.gameObject.SetActive(true);
-					RightMiddleAppendage.transform.parent.gameObject.SetActive(false);
-					RightRearAppendage.transform.parent.gameObject.SetActive(true);
-					break;
+				var appendage = creature.GetAppendage(i);
+				label.text = appendage == null
+					? creature.NameOfAppendage(i)
+					: appendage.BodyPart.Name;
+				label.transform.parent.gameObject.SetActive(true);
+			}
 
-				case Game.NumberOfAppendages.FourLower:
-					LeftFrontAppendage.transform.parent.gameObject.SetActive(true);
-					LeftMiddleAppendage.transform.parent.gameObject.SetActive(false);
-					LeftRearAppendage.transform.parent.gameObject.SetActive(true);
-					RightFrontAppendage.transform.parent.gameObject.SetActive(true);
-					RightMiddleAppendage.transform.parent.gameObject.SetActive(false);
-					RightRearAppendage.transform.parent.gameObject.SetActive(true);
-					break;
+			for (int i = 0; i < SkillLabels.Count; i++) {
+				if (i >= (creature?.Skills?.Count ?? 0)) {
+					SkillLabels[i].gameObject.SetActive(false);
+					continue;
+				}
 
-				case Game.NumberOfAppendages.FourLowerTwoUpper:
-					LeftFrontAppendage.transform.parent.gameObject.SetActive(true);
-					LeftMiddleAppendage.transform.parent.gameObject.SetActive(true);
-					LeftRearAppendage.transform.parent.gameObject.SetActive(true);
-					RightFrontAppendage.transform.parent.gameObject.SetActive(true);
-					RightMiddleAppendage.transform.parent.gameObject.SetActive(true);
-					RightRearAppendage.transform.parent.gameObject.SetActive(true);
-					break;
-
-				case Game.NumberOfAppendages.SixLower:
-					LeftFrontAppendage.transform.parent.gameObject.SetActive(true);
-					LeftMiddleAppendage.transform.parent.gameObject.SetActive(true);
-					LeftRearAppendage.transform.parent.gameObject.SetActive(true);
-					RightFrontAppendage.transform.parent.gameObject.SetActive(true);
-					RightMiddleAppendage.transform.parent.gameObject.SetActive(true);
-					RightRearAppendage.transform.parent.gameObject.SetActive(true);
-					break;
+				//
+				SkillLabels[i].text = creature.Skills[i].Name;
+				SkillLabels[i].gameObject.SetActive(true);
 			}
 		}
 

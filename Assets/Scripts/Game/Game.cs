@@ -68,7 +68,8 @@ namespace Game {
 		TwoLowerTwoUpper = 40,
 		FourLower = 50,
 		FourLowerTwoUpper = 60,
-		SixLower = 70
+		SixLower = 70,
+		NoLowerTwoUpper = 80,
 	}
 
 	public enum PartOfBody {

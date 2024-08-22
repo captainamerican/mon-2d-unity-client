@@ -131,93 +131,21 @@ namespace CreatureManager {
 		}
 
 		void ConfigureBodyPartList() {
-			BodyParts[0].Configure(editing.Creature.Head, Game.PartOfBody.Head);
-			BodyParts[1].Configure(editing.Creature.Torso, Game.PartOfBody.Torso);
-			BodyParts[2].Configure(editing.Creature.Tail, Game.PartOfBody.Tail);
-			BodyParts[3].Configure(editing.Creature.LeftFrontAppendage, Game.PartOfBody.Appendage, 0, 0);
-			BodyParts[4].Configure(editing.Creature.LeftMiddleAppendage, Game.PartOfBody.Appendage, 0, 1);
-			BodyParts[5].Configure(editing.Creature.LeftRearAppendage, Game.PartOfBody.Appendage, 0, 2);
-			BodyParts[6].Configure(editing.Creature.RightFrontAppendage, Game.PartOfBody.Appendage, 1, 0);
-			BodyParts[7].Configure(editing.Creature.RightMiddleAppendage, Game.PartOfBody.Appendage, 1, 1);
-			BodyParts[8].Configure(editing.Creature.RightRearAppendage, Game.PartOfBody.Appendage, 1, 2);
+			BodyParts[0].Configure(editing.Creature.Head, "Head");
+			BodyParts[1].Configure(editing.Creature.Torso, "Torso");
+			BodyParts[2].Configure(editing.Creature.Tail, "Tail");
 
-			// 
-			switch (
-				editing.Creature.Torso != null
-					? editing.Creature.Torso.BodyPart.Base.Appendages
-					: Game.NumberOfAppendages.None
-			) {
-				case Game.NumberOfAppendages.OneLowerNoUpper:
-					BodyParts[3].gameObject.SetActive(false);
-					BodyParts[4].gameObject.SetActive(false);
-					BodyParts[5].gameObject.SetActive(false);
-					BodyParts[6].gameObject.SetActive(false);
-					BodyParts[7].gameObject.SetActive(true);
-					BodyParts[8].gameObject.SetActive(false);
-					break;
+			for (int i = 3; i < BodyParts.Count; i++) {
+				var button = BodyParts[i];
 
-				case Game.NumberOfAppendages.OneLowerTwoUpper:
-					BodyParts[3].gameObject.SetActive(true);
-					BodyParts[4].gameObject.SetActive(false);
-					BodyParts[5].gameObject.SetActive(true);
-					BodyParts[6].gameObject.SetActive(false);
-					BodyParts[7].gameObject.SetActive(true);
-					BodyParts[8].gameObject.SetActive(false);
-					break;
+				var appendage = editing.Creature.GetAppendage(i - 3);
+				if (appendage == null) {
+					button.gameObject.SetActive(false);
+					continue;
+				}
 
-				case Game.NumberOfAppendages.TwoLowerNoUpper:
-					BodyParts[3].gameObject.SetActive(false);
-					BodyParts[4].gameObject.SetActive(false);
-					BodyParts[5].gameObject.SetActive(false);
-					BodyParts[6].gameObject.SetActive(true);
-					BodyParts[7].gameObject.SetActive(false);
-					BodyParts[8].gameObject.SetActive(true);
-					break;
-
-				case Game.NumberOfAppendages.TwoLowerTwoUpper:
-					BodyParts[3].gameObject.SetActive(true);
-					BodyParts[4].gameObject.SetActive(false);
-					BodyParts[5].gameObject.SetActive(true);
-					BodyParts[6].gameObject.SetActive(true);
-					BodyParts[7].gameObject.SetActive(false);
-					BodyParts[8].gameObject.SetActive(true);
-					break;
-
-				case Game.NumberOfAppendages.FourLower:
-					BodyParts[3].gameObject.SetActive(true);
-					BodyParts[4].gameObject.SetActive(false);
-					BodyParts[5].gameObject.SetActive(true);
-					BodyParts[6].gameObject.SetActive(true);
-					BodyParts[7].gameObject.SetActive(false);
-					BodyParts[8].gameObject.SetActive(true);
-					break;
-
-				case Game.NumberOfAppendages.FourLowerTwoUpper:
-					BodyParts[3].gameObject.SetActive(true);
-					BodyParts[4].gameObject.SetActive(true);
-					BodyParts[5].gameObject.SetActive(true);
-					BodyParts[6].gameObject.SetActive(true);
-					BodyParts[7].gameObject.SetActive(true);
-					BodyParts[8].gameObject.SetActive(true);
-					break;
-
-				case Game.NumberOfAppendages.SixLower:
-					BodyParts[3].gameObject.SetActive(true);
-					BodyParts[4].gameObject.SetActive(true);
-					BodyParts[5].gameObject.SetActive(true);
-					BodyParts[6].gameObject.SetActive(true);
-					BodyParts[7].gameObject.SetActive(true);
-					BodyParts[8].gameObject.SetActive(true);
-					break;
-
-				default:
-					BodyParts[3].gameObject.SetActive(false);
-					BodyParts[4].gameObject.SetActive(false);
-					BodyParts[5].gameObject.SetActive(false);
-					BodyParts[6].gameObject.SetActive(false);
-					BodyParts[7].gameObject.SetActive(false);
-					BodyParts[8].gameObject.SetActive(false);
-					break;
+				//
+				button.Configure(appendage, editing.Creature.NameOfAppendage(i - 3));
 			}
 		}
 
@@ -270,15 +198,16 @@ namespace CreatureManager {
 			availableButtons.Clear();
 			availableButtons.Add(RemoveButton);
 
-			//
+			// 
 			Engine.Profile.BodyParts
 				.Where(bodyPartEntry => bodyPartEntry.BodyPart.Part == newPartOfBody)
 				.ToList()
 				.ForEach(bodyPartEntry => {
 					var buttonGO = Instantiate(TemplateButton, AvailableBodyPartsList);
+					buttonGO.SetActive(true);
 
 					var bodyPartButton = buttonGO.GetComponent<BodyPartButton>();
-					bodyPartButton.Configure(bodyPartEntry, bodyPartEntry.BodyPart.Part);
+					bodyPartButton.Configure(bodyPartEntry, "???");
 
 					//
 					var button = buttonGO.GetComponent<Button>();
