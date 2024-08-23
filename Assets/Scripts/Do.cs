@@ -47,6 +47,12 @@ public sealed class Do {
 		callback(easing(1));
 	}
 
+	static public void Times(int times, Action callback) {
+		for (int i = 0; i < times; i++) {
+			callback();
+		}
+	}
+
 	static public void Times(int times, Action<int> callback) {
 		for (int i = 0; i < times; i++) {
 			callback(i);
@@ -76,8 +82,6 @@ public sealed class Do {
 	}
 
 	static public IEnumerator ForEach<T>(IEnumerable<T> enumerable, Func<T, IEnumerator> callback) {
-		List<T> returnValue = new();
-
 		foreach (T item in enumerable) {
 			yield return callback(item);
 		}

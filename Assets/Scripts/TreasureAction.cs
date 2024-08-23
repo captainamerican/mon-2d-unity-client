@@ -76,7 +76,7 @@ public class TreasureAction : MonoBehaviour {
 				? $"{lootdrop.Quantity} {lootdrop.Item.Name}"
 				: lootdrop.Item.Name
 			);
-			Engine.Profile.AdjustItem(lootdrop.Item, lootdrop.Quantity);
+			Engine.Profile.Inventory.AdjustItem(lootdrop.Item, lootdrop.Quantity);
 			totalItems += lootdrop.Quantity;
 		});
 		string term = totalItems > 1 ? "them" : "it";

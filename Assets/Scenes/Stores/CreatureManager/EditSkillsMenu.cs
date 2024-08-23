@@ -60,7 +60,7 @@ namespace CreatureManager {
 		int selectedSkillIndex = 0;
 		int selectedLearnedSkillIndex = 0;
 
-		const int totalVisibleButtons = 10;
+		const int totalVisibleButtons = 13;
 		int visibleButtonRangeMin = 0;
 		int visibleButtonRangeMax = totalVisibleButtons;
 
@@ -73,7 +73,6 @@ namespace CreatureManager {
 		void OnEnable() {
 			ConfigureCancelAction();
 			ConfigureLearnedSkills();
-			UpdateVisibleButtonRange(0);
 		}
 
 		void OnDisable() {
@@ -115,14 +114,15 @@ namespace CreatureManager {
 
 		public void Configure(EditingCreature editingCreature) {
 			editing = editingCreature;
-			maxSkills = editing.Creature.HeadMaxSkills;
+			maxSkills = editing.Creature?.Head?.MaxSkills ?? 0;
 
 			//
 			ConfigureCreatureSkills();
+			UpdateVisibleButtonRange(0);
 
 			//
 			buttonPhase = ButtonPhase.SkillSelection;
-			Game.Button.Select(Skills[0]);
+			Game.Btn.Select(Skills[0]);
 		}
 
 		// -------------------------------------------------------------------------
@@ -178,7 +178,7 @@ namespace CreatureManager {
 						.onClick
 						.AddListener(() => {
 							buttonPhase = ButtonPhase.LearnedSkillSelection;
-							Game.Button.Select(buttons[selectedLearnedSkillIndex]);
+							Game.Btn.Select(buttons[selectedLearnedSkillIndex]);
 						});
 				}
 
@@ -273,7 +273,7 @@ namespace CreatureManager {
 
 				//
 				int j = i;
-				Game.LearnedSkill learnedSkill = button
+				Game.SkillEntry learnedSkill = button
 					.GetComponent<SkillButton>()
 					.LearnedSkill;
 
@@ -309,7 +309,7 @@ namespace CreatureManager {
 
 		void SetSkill(Skill skill) {
 			buttonPhase = ButtonPhase.SkillSelection;
-			Game.Button.Select(Skills[selectedSkillIndex]);
+			Game.Btn.Select(Skills[selectedSkillIndex]);
 
 			//
 			if (notYetLearned[skill]) {
@@ -344,19 +344,17 @@ namespace CreatureManager {
 			ConfigureCreatureSkills();
 
 			// 
-			Game.Button.Select(Skills[selectedSkillIndex]);
-
-			editing.Changed = true;
+			Game.Btn.Select(Skills[selectedSkillIndex]);
 		}
 
 		void DescribeSkill(Skill skill = null) {
 			DescribeSkill(
 				Engine.Profile.Skills.Find(ls => ls.Skill == skill)
-				?? new Game.LearnedSkill { Skill = skill }
+				?? new Game.SkillEntry { Skill = skill }
 			);
 		}
 
-		void DescribeSkill(Game.LearnedSkill learnedSkill) {
+		void DescribeSkill(Game.SkillEntry learnedSkill) {
 			MoveInformation.SetActive(learnedSkill?.Skill != null);
 			if (learnedSkill?.Skill == null) {
 				return;
@@ -408,7 +406,7 @@ namespace CreatureManager {
 
 		public void RemoveSkill() {
 			buttonPhase = ButtonPhase.SkillSelection;
-			Game.Button.Select(Skills[selectedSkillIndex]);
+			Game.Btn.Select(Skills[selectedSkillIndex]);
 
 			//
 			Skill otherSkill = editing.Creature.GetSkillAt(selectedSkillIndex);
@@ -417,7 +415,6 @@ namespace CreatureManager {
 			}
 
 			editing.Creature.Skills.Remove(otherSkill);
-			editing.Changed = true;
 
 			//
 			ConfigureCreatureSkills();
@@ -452,10 +449,8 @@ namespace CreatureManager {
 
 				Vector2 sizeDelta = rt.sizeDelta;
 				sizeDelta.y = enabled
-					? button == RemoveSkillButton
-						? 8
-						: 10
-					: 0;
+					? 10
+					: 1;
 
 				rt.sizeDelta = sizeDelta;
 

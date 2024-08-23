@@ -429,7 +429,7 @@ namespace Battle {
 
 			// generate items 
 			List<Button> buttons = new();
-			Engine.Profile.Inventory
+			Engine.Profile.Inventory.All
 				.Where(entry =>
 					entry.Item != null
 					&& entry.Amount > 0
@@ -515,7 +515,7 @@ namespace Battle {
 
 			//
 			ApplyEffects(item.Effects, actor, receiver);
-			Engine.Profile.AdjustItem(item, -1);
+			Engine.Profile.Inventory.AdjustItem(item, -1);
 
 			// show skill fx(s)
 			yield return Wait.For(0.33f);

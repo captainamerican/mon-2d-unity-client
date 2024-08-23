@@ -9,10 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fc5697d55d669b4d988b5b1c1a1283e, type: 3}
+  m_Script: {fileID: 11500000, guid: 941772c597c3e4ac487fabbd4ee9d0bb, type: 3}
   m_Name: Wolf Rear Leg
   m_EditorClassIdentifier: 
-  Base: {fileID: 11400000, guid: 3104dc948f663404bb18dc4c642af26d, type: 2}
-  Part: 4
   Name: Wolf Rear Leg
   ExperienceToLevel: 500
+  Strength: 1
+  Endurance: 1
+  Dexterity: 1
+  Intelligence: 1
+  Wisdom: 1
+  Luck: 1
+  Tags: 

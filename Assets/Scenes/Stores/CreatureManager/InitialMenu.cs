@@ -12,6 +12,9 @@ namespace CreatureManager {
 
 		// -------------------------------------------------------------------------
 
+		[Header("Globals")]
+		[SerializeField] Engine Engine;
+
 		[Header("Locals")]
 		[SerializeField] PlayerInput PlayerInput;
 		[SerializeField] List<Button> Buttons;
@@ -63,11 +66,15 @@ namespace CreatureManager {
 		public void GoToCreatorMenu() {
 			EditInitialMenu.Configure(new EditingCreature {
 				IsNew = true,
-				Changed = false,
-				Creature = new Game.ConstructedCreature {
+				Creature = new() {
 					Id = Engine.GenerateRandomId(),
-					Name = "New Creature"
-				}
+					Name = "",
+				},
+				Original = new(),
+				AvailableHead = new(Engine.Profile.Storage.Head),
+				AvailableTorso = new(Engine.Profile.Storage.Torso),
+				AvailableTail = new(Engine.Profile.Storage.Tail),
+				AvailableAppendage = new(Engine.Profile.Storage.Appendage)
 			});
 			EditInitialMenu.gameObject.SetActive(true);
 
@@ -106,7 +113,7 @@ namespace CreatureManager {
 		}
 
 		void FocusPreviouslySelectedButton() {
-			Game.Button.Select(Buttons[selectedButtonIndex]);
+			Game.Btn.Select(Buttons[selectedButtonIndex]);
 		}
 
 		// -------------------------------------------------------------------------

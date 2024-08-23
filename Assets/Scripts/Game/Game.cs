@@ -60,7 +60,7 @@ namespace Game {
 		KeyItem = 60
 	}
 
-	public enum NumberOfAppendages {
+	public enum TypeOfAppendages {
 		None,
 		OneLowerNoUpper = 10,
 		OneLowerTwoUpper = 20,
@@ -86,9 +86,13 @@ namespace Game {
 		Claw = 10,
 		Teeth = 11,
 		OpposableThumb = 13,
+		Leg = 14,
+		Arm = 15,
+		Front = 16,
+		Rear = 17,
 
-		Magical = 100,
-		Physical = 101,
+		Physical = 100,
+		Magical = 101,
 
 		Fire = 200,
 		Earth = 201,
@@ -97,6 +101,8 @@ namespace Game {
 		Lighting = 204,
 		Holy = 205,
 		Dark = 206,
+		Poison = 207,
+		Infected = 208
 	}
 
 	public enum ChestId {
@@ -140,15 +146,7 @@ namespace Game {
 	}
 
 	[Serializable]
-	public class BodyPartEntry {
-		public string Id;
-		public BodyPart BodyPart;
-		public int Experience = 0;
-		public float Quality = 1;
-	}
-
-	[Serializable]
-	public class LearnedSkill {
+	public class SkillEntry {
 		public Skill Skill;
 		public int Experience = 0;
 	}
@@ -174,7 +172,7 @@ namespace Game {
 		public ConstructedCreature Creature;
 	}
 
-	static public class Button {
+	static public class Btn {
 		static public void Select(UnityEngine.UI.Button button) {
 			button.Select();
 			button.OnSelect(null);

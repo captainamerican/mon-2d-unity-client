@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using TMPro;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -83,7 +84,7 @@ public class ItemsMenu : AbstractMenu {
 		}
 
 		// generate buttons
-		Engine.Profile.Inventory
+		Engine.Profile.Inventory.All
 			.Where(entry => entry.Item != null && entry.Amount > 0)
 			.OrderBy(entry => entry.Item.Type)
 			.ToList()

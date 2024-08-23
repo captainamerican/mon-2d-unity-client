@@ -19,67 +19,37 @@ MonoBehaviour:
       Id: -1
       Name: Wolf
       Health: 999
-      Skills:
-      - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
       Head:
         Id: 
-        BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
         Experience: 0
         Quality: 1
+        BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
       Torso:
         Id: 
-        BodyPart: {fileID: 11400000, guid: 32c7935e1a0eca241b24336af2736cd5, type: 2}
         Experience: 0
         Quality: 1
+        BodyPart: {fileID: 11400000, guid: 67bc9622b0d0844c69eff5def65c7600, type: 2}
       Tail:
         Id: 
-        BodyPart: {fileID: 11400000, guid: bfe2fcd604f28438d952824c91f8560c, type: 2}
         Experience: 0
         Quality: 1
+        BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
       Appendages:
       - Id: 
-        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
         Experience: 0
         Quality: 0
+        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
       - Id: 
-        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
         Experience: 0
         Quality: 0
+        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
       - Id: 
-        BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
         Experience: 0
         Quality: 0
+        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
       - Id: 
-        BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
         Experience: 0
         Quality: 0
-      LeftFrontAppendage:
-        Id: 
-        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
-        Experience: 0
-        Quality: 1
-      LeftMiddleAppendage:
-        Id: 
-        BodyPart: {fileID: 0}
-        Experience: 0
-        Quality: 1
-      LeftRearAppendage:
-        Id: 
-        BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
-        Experience: 0
-        Quality: 1
-      RightFrontAppendage:
-        Id: 
-        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
-        Experience: 0
-        Quality: 1
-      RightMiddleAppendage:
-        Id: 
-        BodyPart: {fileID: 0}
-        Experience: 0
-        Quality: 1
-      RightRearAppendage:
-        Id: 
-        BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
-        Experience: 0
-        Quality: 1
+        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
+      Skills:
+      - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}

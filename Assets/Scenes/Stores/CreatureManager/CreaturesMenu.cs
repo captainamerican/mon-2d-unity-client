@@ -46,7 +46,6 @@ namespace CreatureManager {
 
 		void OnEnable() {
 			ConfigureCancelAction();
-			RemoveAllCreatures();
 			BuildCreaturesList();
 			FocusPreviouslySelectedButton();
 		}
@@ -88,7 +87,13 @@ namespace CreatureManager {
 		}
 
 		void BuildCreaturesList() {
+			buttons.ForEach(button => {
+				button.gameObject.SetActive(false);
+				Destroy(button.gameObject);
+			});
 			buttons.Clear();
+
+			//
 			buttons = Engine.Profile.Creatures
 				.Select(creature => {
 					var buttonGO = Instantiate(CreatureTemplate, CreaturesParent);
@@ -127,8 +132,8 @@ namespace CreatureManager {
 				button
 					.GetComponent<InformationButton>()
 					.Configure(() => {
-						DescribeCreature(creature);
 						selectedButtonIndex = j;
+						DescribeCreature(creature);
 					});
 			}
 		}
@@ -136,8 +141,12 @@ namespace CreatureManager {
 		void EditCreature(Game.ConstructedCreature creature) {
 			EditInitialMenu.Configure(new EditingCreature {
 				IsNew = false,
-				Changed = false,
-				Creature = creature.Clone()
+				Creature = creature.Clone(),
+				Original = creature,
+				AvailableHead = new(Engine.Profile.Storage.Head),
+				AvailableTorso = new(Engine.Profile.Storage.Torso),
+				AvailableTail = new(Engine.Profile.Storage.Tail),
+				AvailableAppendage = new(Engine.Profile.Storage.Appendage)
 			});
 			EditInitialMenu.gameObject.SetActive(true);
 
@@ -145,16 +154,16 @@ namespace CreatureManager {
 		}
 
 		void DescribeCreature(Game.ConstructedCreature creature) {
-			Description.text = $@"{creature.AppendagesLabel()}".Trim();
+			Description.text = $@"{creature.Torso?.BodyPart?.LocomotionLabel ?? "Incomplete"}".Trim();
 
-			HeadLabel.text = creature?.Head?.BodyPart?.Name ?? "(Head)";
-			TorsoLabel.text = creature?.Torso?.BodyPart?.Name ?? "(Torso)";
-			TailLabel.text = creature?.Tail?.BodyPart?.Name ?? "(Tail)";
+			HeadLabel.text = creature.Head?.BodyPart?.Name ?? HeadBodyPart.Label;
+			TorsoLabel.text = creature.Torso?.BodyPart?.Name ?? TorsoBodyPart.Label;
+			TailLabel.text = creature.Tail?.BodyPart?.Name ?? TailBodyPart.Label;
 
 			for (int i = 0; i < AppendageLabels.Count; i++) {
 				var label = AppendageLabels[i];
 
-				if (i >= (creature?.Appendages?.Count ?? 0)) {
+				if (i >= creature.Appendages.Count) {
 					label.transform.parent.gameObject.SetActive(false);
 					continue;
 				}
@@ -180,27 +189,16 @@ namespace CreatureManager {
 
 		void FocusPreviouslySelectedButton() {
 			if (buttons.Count < 1) {
+				selectedButtonIndex = 0;
 				return;
 			}
 
 			//
-			Game.Button.Select(buttons[selectedButtonIndex]);
-		}
-
-		void RemoveAllCreatures() {
-			List<GameObject> toRemove = new();
-			foreach (Transform child in CreaturesParent) {
-				if (child.gameObject == CreatureTemplate) {
-					continue;
-				}
-
-				toRemove.Add(child.gameObject);
+			if (selectedButtonIndex >= buttons.Count) {
+				selectedButtonIndex = buttons.Count - 1;
 			}
 
-			toRemove.ForEach(child => {
-				child.SetActive(false);
-				Destroy(child);
-			});
+			Game.Btn.Select(buttons[selectedButtonIndex]);
 		}
 
 		// -------------------------------------------------------------------------

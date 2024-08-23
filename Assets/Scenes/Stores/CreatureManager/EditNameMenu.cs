@@ -69,7 +69,7 @@ namespace CreatureManager {
 			UpdateCapsButtonLabel();
 
 			//
-			Game.Button.Select(AlphabetButtons[0]);
+			Game.Btn.Select(AlphabetButtons[0]);
 		}
 
 		void OnDisable() {
@@ -118,7 +118,6 @@ namespace CreatureManager {
 
 		public void ConfirmRename() {
 			editing.Creature.Name = newName.Trim();
-			editing.Changed = true;
 
 			//
 			GoBack();

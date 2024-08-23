@@ -1,4 +1,6 @@
 
+using System;
+
 using Game;
 
 using TMPro;
@@ -18,33 +20,118 @@ public class BodyPartButton : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
-	public BodyPartEntry BodyPartEntry {
-		get;
-		private set;
+	public BodyPartEntryBase BodyPartEntry {
+		get; private set;
 	}
 
 	// ---------------------------------------------------------------------------
 
-	public void Configure(BodyPartEntry bodyPartEntry, string defaultName = "???") {
-		BodyPartEntry = bodyPartEntry;
+	void Clear(string defaultName = "??") {
+		NameLabel.text = $"({defaultName})";
+		NameLabel.color = new Color(0, 0, 0, 0.5f);
+		GradeLabel.text = "☆☆☆";
+		GradeLabel.color = new Color(0, 0, 0, 0.5f);
+		GradeProgress.localScale = new Vector3(0, 1, 1);
+		QualityProgress.localScale = new Vector3(0, 1, 1);
+	}
+
+	public void Configure(BodyPartEntryBase entry) {
+		switch (entry.GetType().Name) {
+			case nameof(HeadBodyPartEntry):
+				Configure((HeadBodyPartEntry) entry);
+				break;
+			case nameof(TorsoBodyPartEntry):
+				Configure((TorsoBodyPartEntry) entry);
+				break;
+			case nameof(TailBodyPartEntry):
+				Configure((TailBodyPartEntry) entry);
+				break;
+			case nameof(AppendageBodyPartEntry):
+				Configure((AppendageBodyPartEntry) entry);
+				break;
+		}
+	}
+
+	public void Configure(HeadBodyPartEntry entry) {
+		BodyPartEntry = entry;
 
 		//
-		if (bodyPartEntry?.BodyPart == null) {
-			NameLabel.text = $"({defaultName})";
-			GradeLabel.text = "☆☆☆";
-			GradeProgress.localScale = new Vector3(0, 1, 1);
-			QualityProgress.localScale = new Vector3(0, 1, 1);
+		Clear(HeadBodyPart.Label);
+		if (entry?.BodyPart == null) {
+			return;
+		}
+
+		// 
+		Configure(
+			entry.BodyPart.Name,
+			entry.Experience,
+			entry.BodyPart.ExperienceToLevel,
+			entry.Quality
+		);
+	}
+
+	public void Configure(TorsoBodyPartEntry entry) {
+		BodyPartEntry = entry;
+
+		//
+		Clear(TorsoBodyPart.Label);
+		if (entry?.BodyPart == null) {
 			return;
 		}
 
 		//
-		NameLabel.text = bodyPartEntry.BodyPart.Name;
+		Configure(
+			entry.BodyPart.Name,
+			entry.Experience,
+			entry.BodyPart.ExperienceToLevel,
+			entry.Quality
+		);
+	}
+
+	public void Configure(TailBodyPartEntry entry) {
+		BodyPartEntry = entry;
 
 		//
-		int experience = bodyPartEntry.Experience;
-		int toLevel = bodyPartEntry.BodyPart.ExperienceToLevel;
+		Clear(TailBodyPart.Label);
+		if (entry?.BodyPart == null) {
+			return;
+		}
 
-		float rawLevel = Mathf.Clamp(3f * ((float) experience / (float) (toLevel * 3f)), 0, 3);
+		//
+		Configure(
+			entry.BodyPart.Name,
+			entry.Experience,
+			entry.BodyPart.ExperienceToLevel,
+			entry.Quality
+		);
+	}
+
+	public void Configure(AppendageBodyPartEntry entry, string defaultName = "???") {
+		BodyPartEntry = entry;
+
+		//
+		Clear(defaultName);
+		if (entry?.BodyPart == null) {
+			return;
+		}
+
+		//
+		Configure(
+			entry.BodyPart.Name,
+			entry.Experience,
+			entry.BodyPart.ExperienceToLevel,
+			entry.Quality
+		);
+	}
+
+	public void Configure(string name, int experience, int toLevel, float quality) {
+		NameLabel.text = name;
+		NameLabel.color = Color.black;
+
+		// 
+		float rawLevel = toLevel > 0
+			? Mathf.Clamp(3f * ((float) experience / (float) (toLevel * 3f)), 0, 3)
+			: 0;
 		int level = Mathf.FloorToInt(rawLevel);
 		int nextLevel = level < 3 ? level + 1 : 3;
 		float ratio = level < 3 ? (rawLevel - level) : 1;
@@ -57,9 +144,10 @@ public class BodyPartButton : MonoBehaviour {
 				i => experience >= toLevel * (i + 1) ? "★" : "☆"
 			)
 		);
+		GradeLabel.color = Color.black;
 
 		//
-		QualityProgress.localScale = new Vector3(Mathf.Clamp01(bodyPartEntry.Quality), 1, 1);
+		QualityProgress.localScale = new Vector3(Mathf.Clamp01(quality), 1, 1);
 	}
 
 	// ---------------------------------------------------------------------------

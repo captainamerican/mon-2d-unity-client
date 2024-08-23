@@ -16,7 +16,7 @@ public class SkillButton : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
-	public LearnedSkill LearnedSkill {
+	public SkillEntry LearnedSkill {
 		get;
 		private set;
 	}
@@ -25,7 +25,7 @@ public class SkillButton : MonoBehaviour {
 	// ---------------------------------------------------------------------------
 
 
-	public void Configure(LearnedSkill learnedSkill) {
+	public void Configure(SkillEntry learnedSkill) {
 		LearnedSkill = learnedSkill;
 
 		//

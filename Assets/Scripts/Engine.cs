@@ -27,7 +27,7 @@ public class Engine : ScriptableObject {
 	[Header("Game Data")]
 	public List<Item> CraftingEquipment = new();
 	public List<Item> AllItems = new();
-	public List<BodyPart> AllBodyParts = new();
+	public List<BodyPartBase> AllBodyParts = new();
 	public List<Skill> AllSkills = new();
 
 	[Header(("Current Profile"))]

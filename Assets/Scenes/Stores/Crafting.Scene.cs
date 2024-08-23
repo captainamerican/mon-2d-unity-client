@@ -214,7 +214,7 @@ namespace Crafting {
 				iventoryItemCount[item] = 0;
 				canBeCrafted[item] = false;
 			});
-			Engine.Profile.Inventory.ForEach(entry => {
+			Engine.Profile.Inventory.All.ForEach(entry => {
 				iventoryItemCount[entry.Item] += entry.Amount;
 			});
 
@@ -382,11 +382,16 @@ namespace Crafting {
 			QuantityModal.SetActive(false);
 
 			//
-			selectedItem.Recipe.ForEach(ingredient => {
-				Engine.Profile.AdjustItem(ingredient.Item, -(ingredient.Quantity * selectedQuantity));
-			});
+			selectedItem.Recipe.ForEach(ingredient =>
+				Engine.Profile.Inventory
+				.AdjustItem(
+					ingredient.Item,
+					-(ingredient.Quantity * selectedQuantity)
+				)
+			);
 
-			Engine.Profile.AdjustItem(selectedItem, selectedQuantity);
+			Engine.Profile.Inventory
+				.AdjustItem(selectedItem, selectedQuantity);
 
 			//
 			selectedItem = null;

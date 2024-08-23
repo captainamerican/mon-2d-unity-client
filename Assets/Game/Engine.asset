@@ -46,9 +46,9 @@ MonoBehaviour:
   AllBodyParts:
   - {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
   - {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
-  - {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
-  - {fileID: 11400000, guid: bfe2fcd604f28438d952824c91f8560c, type: 2}
-  - {fileID: 11400000, guid: 32c7935e1a0eca241b24336af2736cd5, type: 2}
+  - {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+  - {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+  - {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
   AllSkills:
   - {fileID: 11400000, guid: 4092e0aa4412c4ad0bf3958b9333a655, type: 2}
   - {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
@@ -65,71 +65,40 @@ MonoBehaviour:
     - Id: d2a39dea-a6cb-4bec-a919-f79ffc432f2f
       Name: Wolfie
       Health: 999
-      Skills:
-      - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
-      - {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
       Head:
         Id: 11-1
-        BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
-        Experience: 501
+        Experience: 0
         Quality: 1
+        BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
       Torso:
         Id: 11-2
-        BodyPart: {fileID: 11400000, guid: 32c7935e1a0eca241b24336af2736cd5, type: 2}
         Experience: 10
         Quality: 1
+        BodyPart: {fileID: 11400000, guid: 67bc9622b0d0844c69eff5def65c7600, type: 2}
       Tail:
         Id: 11-3
-        BodyPart: {fileID: 11400000, guid: bfe2fcd604f28438d952824c91f8560c, type: 2}
         Experience: 20
         Quality: 1
+        BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
       Appendages:
       - Id: 11-4
+        Experience: 0
+        Quality: 1
         BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
-        Experience: 10
-        Quality: 0
       - Id: 11-5
+        Experience: 0
+        Quality: 1
         BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
-        Experience: 20
-        Quality: 0
       - Id: 11-6
-        BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
-        Experience: 30
-        Quality: 0
+        Experience: 0
+        Quality: 1
+        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
       - Id: 11-7
-        BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
-        Experience: 40
-        Quality: 0
-      LeftFrontAppendage:
-        Id: 11-4
-        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
-        Experience: 100
-        Quality: 1
-      LeftMiddleAppendage:
-        Id: 
-        BodyPart: {fileID: 0}
         Experience: 0
         Quality: 1
-      LeftRearAppendage:
-        Id: 11-5
-        BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
-        Experience: 250
-        Quality: 1
-      RightFrontAppendage:
-        Id: 11-6
-        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
-        Experience: 500
-        Quality: 1
-      RightMiddleAppendage:
-        Id: 
-        BodyPart: {fileID: 0}
-        Experience: 0
-        Quality: 1
-      RightRearAppendage:
-        Id: 11-7
-        BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
-        Experience: 950
-        Quality: 1
+        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
+      Skills:
+      - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
     Skills:
     - Skill: {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
       Experience: 100
@@ -138,48 +107,39 @@ MonoBehaviour:
     - Skill: {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
       Experience: 542
     Inventory:
-    - Item: {fileID: 11400000, guid: c750d805822613a4b8414526f8ed7001, type: 2}
-      Amount: 89
-    - Item: {fileID: 11400000, guid: 217e612b1f7c0654bba074d9603f8dfd, type: 2}
-      Amount: 99
-    - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
-      Amount: 61
-    - Item: {fileID: 11400000, guid: 86769bce9cebadd43bdce798f5bb6bd9, type: 2}
-      Amount: 99
-    - Item: {fileID: 11400000, guid: 24f33a5e94da2784ba3bf95ab1faba80, type: 2}
-      Amount: 8
-    - Item: {fileID: 11400000, guid: 4946364cd5591c44e9bfb4e9462b83f4, type: 2}
-      Amount: 0
-    - Item: {fileID: 11400000, guid: b6c88033d33be3b429e23a1a9d791052, type: 2}
-      Amount: 0
-    - Item: {fileID: 11400000, guid: 4af48ebdb3973cf4cb5688ca3da76542, type: 2}
-      Amount: 0
-    - Item: {fileID: 11400000, guid: 8a8e3e4b6c53dda48942f1200783689d, type: 2}
-      Amount: 0
-    - Item: {fileID: 11400000, guid: e0ce7962ad717584b93065c3458de731, type: 2}
-      Amount: 0
-    - Item: {fileID: 11400000, guid: c4fd8335ceaa2604b932993e694beb74, type: 2}
-      Amount: 1
-    BodyParts:
-    - Id: 10-1
-      BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
-      Experience: 0
-      Quality: 0
-    - Id: 10-2
-      BodyPart: {fileID: 11400000, guid: 32c7935e1a0eca241b24336af2736cd5, type: 2}
-      Experience: 0
-      Quality: 0
-    - Id: 10-3
-      BodyPart: {fileID: 11400000, guid: bfe2fcd604f28438d952824c91f8560c, type: 2}
-      Experience: 0
-      Quality: 0
-    - Id: 10-4
-      BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
-      Experience: 0
-      Quality: 0
-    - Id: 10-5
-      BodyPart: {fileID: 11400000, guid: 80dd9058aff99f448be7bd1bb410a5e1, type: 2}
-      Experience: 0
-      Quality: 0
+      All: []
+    Storage:
+      Head:
+      - Id: 12-1
+        Experience: 0
+        Quality: 0
+        BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
+      Torso:
+      - Id: 12-2
+        Experience: 0
+        Quality: 0
+        BodyPart: {fileID: 11400000, guid: 67bc9622b0d0844c69eff5def65c7600, type: 2}
+      Tail:
+      - Id: 12-3
+        Experience: 0
+        Quality: 0
+        BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+      Appendage:
+      - Id: 12-4
+        Experience: 0
+        Quality: 0
+        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+      - Id: 12-5
+        Experience: 0
+        Quality: 0
+        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+      - Id: 12-6
+        Experience: 0
+        Quality: 0
+        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
+      - Id: 12-7
+        Experience: 0
+        Quality: 0
+        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
     SpiritsDefeated: 
     OpenedChests: 

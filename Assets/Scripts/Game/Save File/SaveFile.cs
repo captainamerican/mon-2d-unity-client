@@ -20,10 +20,12 @@ namespace Game {
 		public int Magic = 30;
 		public int Wisdom = 5;
 
-		[Header("Creature")]
+		[Header("Data")]
 		public List<string> Party = new();
 		public List<ConstructedCreature> Creatures = new();
-		public List<LearnedSkill> Skills = new();
+		public List<SkillEntry> Skills = new();
+		public Inventory Inventory = new();
+		public BodyPartStorage Storage = new();
 
 		// -------------------------------------------------------------------------
 
@@ -48,50 +50,6 @@ namespace Game {
 			return Creatures.Find(c => c.Id == id);
 		}
 
-		// -------------------------------------------------------------------------
-
-		[Header("Inventoryies")]
-		public List<InventoryEntry> Inventory = new();
-		public List<BodyPartEntry> BodyParts = new();
-
-		public int GetItemQuantity(Item item) {
-			return Inventory.Find(e => e.Item == item)?.Amount ?? 0;
-		}
-
-		public bool HasItem(Item item) {
-			return GetItemQuantity(item) > 0;
-		}
-
-		public void AddBodyPart(BodyPart bodyPart, float quality = 1) {
-			BodyParts.Add(new BodyPartEntry {
-				Id = Engine.GenerateRandomId(),
-				BodyPart = bodyPart,
-				Quality = quality,
-				Experience = 0
-			});
-		}
-
-		public void ReturnBodyPart(BodyPartEntry entry) {
-			BodyParts.Remove(entry);
-			BodyParts.Add(entry);
-		}
-
-		public void AdjustItem(Item item, int quantity) {
-			if (item.Type == ItemType.BodyPart) {
-				return;
-			}
-
-			//
-			InventoryEntry entry = Inventory.Find(e => e.Item == item);
-			bool hadEntry = entry != null;
-
-			entry ??= new InventoryEntry() { Item = item };
-			entry.Amount = Mathf.Clamp(entry.Amount + quantity, 0, 99);
-
-			if (!hadEntry) {
-				Inventory.Add(entry);
-			}
-		}
 
 		// -------------------------------------------------------------------------
 

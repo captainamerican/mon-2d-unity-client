@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using TMPro;
 
@@ -74,7 +75,7 @@ namespace CreatureManager {
 			CancelModal.SetActive(false);
 
 			//
-			Game.Button.Select(Buttons[selectedButtonIndex]);
+			Game.Btn.Select(Buttons[selectedButtonIndex]);
 
 			//
 			phase = FocusPhase.Normal;
@@ -123,7 +124,8 @@ namespace CreatureManager {
 			editing = editingCreature;
 
 			//
-			Description.text = $"Edit “{this.editing.Creature.Name}”";
+			string name = editing.Creature.Name.Trim();
+			Description.text = $"Edit “{(name == "" ? "New Creature" : name)}”";
 
 			//
 			ConfigureButtons();
@@ -161,10 +163,18 @@ namespace CreatureManager {
 			}
 
 			//
+			Buttons[0].GetComponentInChildren<TextMeshProUGUI>().text =
+				(!editing.Creature.HasAllRequiredBodyParts)
+					? "Body Parts ⚠"
+					: "Body Parts";
 			Buttons[1].GetComponentInChildren<TextMeshProUGUI>().text =
-				(editing.Creature.MissingHead)
-					? "Edit Skills ⚠"
-					: "Edit Skills";
+				(editing.Creature.MissingHead || !editing.Creature.HasAtLeastOneSkill)
+					? "Skills ⚠"
+					: "Skills";
+			Buttons[2].GetComponentInChildren<TextMeshProUGUI>().text =
+				(!editing.Creature.HasSetName)
+					? "Name ⚠"
+					: "Name";
 			Buttons[4].GetComponentInChildren<TextMeshProUGUI>().text =
 				(editing.Creature.IsComplete)
 					? "Complete"
@@ -214,6 +224,10 @@ namespace CreatureManager {
 			//
 			Engine.Profile.Creatures.RemoveAll(c => c.Id == editing.Creature.Id);
 			Engine.Profile.Creatures.Add(editing.Creature);
+			Engine.Profile.Storage.Head = editing.AvailableHead;
+			Engine.Profile.Storage.Torso = editing.AvailableTorso;
+			Engine.Profile.Storage.Tail = editing.AvailableTail;
+			Engine.Profile.Storage.Appendage = editing.AvailableAppendage;
 
 			//
 			GoBack();
@@ -241,6 +255,13 @@ namespace CreatureManager {
 			if (action < 1) {
 				return;
 			}
+
+			Engine.Profile.Storage.Head.Add(editing.Creature.Head);
+			Engine.Profile.Storage.Torso.Add(editing.Creature.Torso);
+			Engine.Profile.Storage.Tail.Add(editing.Creature.Tail);
+			editing.Creature.Appendages.ForEach(
+				Engine.Profile.Storage.Appendage.Add
+			);
 
 			//
 			Engine.Profile.Creatures.RemoveAll(c => c.Id == editing.Creature.Id);
@@ -311,7 +332,7 @@ namespace CreatureManager {
 
 			//
 			modal.SetActive(true);
-			Game.Button.Select(focus);
+			Game.Btn.Select(focus);
 		}
 
 		void CloseModals() {
@@ -325,7 +346,7 @@ namespace CreatureManager {
 			DeleteModal.SetActive(false);
 
 			//
-			Game.Button.Select(Buttons[selectedButtonIndex]);
+			Game.Btn.Select(Buttons[selectedButtonIndex]);
 		}
 
 		// -------------------------------------------------------------------------
