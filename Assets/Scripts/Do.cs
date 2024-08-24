@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 
@@ -84,6 +85,46 @@ public sealed class Do {
 	static public IEnumerator ForEach<T>(IEnumerable<T> enumerable, Func<T, IEnumerator> callback) {
 		foreach (T item in enumerable) {
 			yield return callback(item);
+		}
+	}
+
+	static public IEnumerator ForEach<T>(IEnumerable<T> enumerable, Func<T, int, int, IEnumerator> callback) {
+		int total = enumerable.Count();
+		int index = 0;
+		foreach (T item in enumerable) {
+			yield return callback(item, index, total);
+			index += 1;
+		}
+	}
+
+	static public IEnumerator ForEach<T>(IEnumerable<T> enumerable, Func<T, int, IEnumerator> callback) {
+		int index = 0;
+		foreach (T item in enumerable) {
+			yield return callback(item, index);
+			index += 1;
+		}
+	}
+
+	static public void ForEach<T>(IEnumerable<T> enumerable, Action<T> callback) {
+		foreach (T item in enumerable) {
+			callback(item);
+		}
+	}
+
+	static public void ForEach<T>(IEnumerable<T> enumerable, Action<T, int, int> callback) {
+		int total = enumerable.Count();
+		int index = 0;
+		foreach (T item in enumerable) {
+			callback(item, index, total);
+			index += 1;
+		}
+	}
+
+	static public void ForEach<T>(IEnumerable<T> enumerable, Action<T, int> callback) {
+		int index = 0;
+		foreach (T item in enumerable) {
+			callback(item, index);
+			index += 1;
 		}
 	}
 

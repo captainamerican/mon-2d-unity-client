@@ -43,7 +43,9 @@ namespace CreatureManager {
 		}
 
 		void OnDestroy() {
-			Cancel.performed -= OnGoBack;
+			if (Cancel != null) {
+				Cancel.performed -= OnGoBack;
+			}
 		}
 
 		void OnGoBack(InputAction.CallbackContext ctx) {

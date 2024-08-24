@@ -50,7 +50,16 @@ namespace Village {
 		}
 
 		public void OpenTrainer() {
-			Debug.Log("Open Trainer");
+			Engine.Mode = EngineMode.Menu;
+			Player.Stop();
+
+			StartCoroutine(
+				Trainer.Scene.Load(
+					() => StartCoroutine(
+						ReturnFromStore(Trainer.Scene.Unload)
+					)
+				)
+			);
 		}
 
 		public void OpenStorage() {

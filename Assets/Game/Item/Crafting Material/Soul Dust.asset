@@ -15,7 +15,7 @@ MonoBehaviour:
   Type: 30
   UseInBattle: 0
   Name: Soul Dust
-  Description: Hones a body part's spiritual locality.
+  Description: Improves a body part's quality.
   FlavorText: Smells like copper and lemon somehow.
   SortName: soul-dust
   Recipe: []
