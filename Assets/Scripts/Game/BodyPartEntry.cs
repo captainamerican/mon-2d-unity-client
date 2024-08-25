@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Game {
 	[Serializable]
 	public class BodyPartEntryBase {
-		public string Id;
+		public string Id = Game.Id.Generate();
 		public int Experience = 0;
 		public float Quality = 1;
 	}

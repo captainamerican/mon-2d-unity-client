@@ -12,7 +12,7 @@ namespace Game {
 
 		// -------------------------------------------------------------------------
 
-		public string Id;
+		public string Id = Game.Id.Generate();
 		public string Name = "";
 
 		[Header("Live Stats")]

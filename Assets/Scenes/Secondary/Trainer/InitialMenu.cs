@@ -25,6 +25,9 @@ namespace Trainer {
 		[SerializeField] List<InformationButton> InformationButtons;
 		[SerializeField] List<string> Descriptions;
 
+		[Header("Menus")]
+		[SerializeField] SoulDustExtractorMenu SoulDustExtractorMenu;
+
 		// -------------------------------------------------------------------------
 
 		InputAction Cancel;
@@ -33,6 +36,12 @@ namespace Trainer {
 		int currentButtonIndex;
 
 		// -------------------------------------------------------------------------
+
+		void OnEnable() {
+			ConfigureCancel();
+			ConfigureOptions();
+			SelectCurrentOption();
+		}
 
 		void OnDisable() {
 			OnDestroy();
@@ -56,11 +65,6 @@ namespace Trainer {
 
 		public void Configure(Action goBack) {
 			this.goBack = goBack;
-
-			//
-			ConfigureCancel();
-			ConfigureOptions();
-			SelectCurrentOption();
 		}
 
 		void ConfigureCancel() {
@@ -95,13 +99,12 @@ namespace Trainer {
 		// -------------------------------------------------------------------------
 
 		public void OptionSelected(int index) {
-			Debug.Log($"Option: {index}");
-
 			switch (index) {
 				case 0:
 					break;
 
 				case 1:
+					SoulDustExtractorMenu.gameObject.SetActive(true);
 					break;
 
 				case 2:
@@ -113,6 +116,9 @@ namespace Trainer {
 				default:
 					return;
 			}
+
+			//
+			gameObject.SetActive(false);
 		}
 
 		// -------------------------------------------------------------------------
