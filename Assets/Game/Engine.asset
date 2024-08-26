@@ -109,13 +109,9 @@ MonoBehaviour:
     Inventory:
       All:
       - Item: {fileID: 11400000, guid: ddcc1527333d34b829687e19bdd3c16d, type: 2}
-        Amount: 5506
+        Amount: 0
     Storage:
-      Head: []
-      Torso: []
-      Tail: []
-      Appendage: []
-      ReclaimableHead:
+      Head:
       - Id: 
         Experience: 503
         Quality: 0
@@ -128,22 +124,18 @@ MonoBehaviour:
         Experience: 500
         Quality: 0
         BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
-      ReclaimableTorso: []
-      ReclaimableTail:
-      - Id: 12-3
-        Experience: 999
-        Quality: 0
-        BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+      Torso: []
+      Tail:
       - Id: 13-3
         Experience: 1000
         Quality: 0
         BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+      Appendage: []
+      ReclaimableHead: []
+      ReclaimableTorso: []
+      ReclaimableTail:
       - Id: 14-3
         Experience: 1001
-        Quality: 0
-        BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
-      - Id: 15-3
-        Experience: 1002
         Quality: 0
         BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
       ReclaimableAppendage: []

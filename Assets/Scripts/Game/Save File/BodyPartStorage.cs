@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 
@@ -26,7 +27,7 @@ namespace Game {
 		// -------------------------------------------------------------------------
 
 		public void Add(HeadBodyPart head, float quality = 0, int experience = 0) {
-			Head.Add(new HeadBodyPartEntry {
+			Add(new HeadBodyPartEntry {
 				Id = Id.Generate(),
 				BodyPart = head,
 				Quality = quality,
@@ -35,7 +36,7 @@ namespace Game {
 		}
 
 		public void Add(TorsoBodyPart torso, float quality = 0, int experience = 0) {
-			Torso.Add(new TorsoBodyPartEntry {
+			Add(new TorsoBodyPartEntry {
 				Id = Id.Generate(),
 				BodyPart = torso,
 				Quality = quality,
@@ -44,7 +45,7 @@ namespace Game {
 		}
 
 		public void Add(TailBodyPart tail, float quality = 0, int experience = 0) {
-			Tail.Add(new TailBodyPartEntry {
+			Add(new TailBodyPartEntry {
 				Id = Id.Generate(),
 				BodyPart = tail,
 				Quality = quality,
@@ -53,12 +54,40 @@ namespace Game {
 		}
 
 		public void Add(AppendageBodyPart appendage, float quality = 0, int experience = 0) {
-			Appendage.Add(new AppendageBodyPartEntry {
+			Add(new AppendageBodyPartEntry {
 				Id = Id.Generate(),
 				BodyPart = appendage,
 				Quality = quality,
 				Experience = experience
 			});
+		}
+
+		public void Add(BodyPartEntryBase entry) {
+			if (entry is HeadBodyPartEntry head) {
+				Add(head);
+			} else if (entry is TorsoBodyPartEntry torso) {
+				Add(torso);
+			} else if (entry is TailBodyPartEntry tail) {
+				Add(tail);
+			} else if (entry is AppendageBodyPartEntry appendage) {
+				Add(appendage);
+			}
+		}
+
+		public void Add(HeadBodyPartEntry entry) {
+			Head.Add(entry);
+		}
+
+		public void Add(TorsoBodyPartEntry entry) {
+			Torso.Add(entry);
+		}
+
+		public void Add(TailBodyPartEntry entry) {
+			Tail.Add(entry);
+		}
+
+		public void Add(AppendageBodyPartEntry entry) {
+			Appendage.Add(entry);
 		}
 
 		public void Remove(BodyPartEntryBase entry) {
@@ -102,19 +131,23 @@ namespace Game {
 		}
 
 		public void AddToReclaimable(HeadBodyPartEntry entry) {
-			ReclaimableHead.Add(entry);
+			ReclaimableHead.Insert(0, entry);
+			PruneReclaimables();
 		}
 
 		public void AddToReclaimable(TorsoBodyPartEntry entry) {
-			ReclaimableTorso.Add(entry);
+			ReclaimableTorso.Insert(0, entry);
+			PruneReclaimables();
 		}
 
 		public void AddToReclaimable(TailBodyPartEntry entry) {
-			ReclaimableTail.Add(entry);
+			ReclaimableTail.Insert(0, entry);
+			PruneReclaimables();
 		}
 
 		public void AddToReclaimable(AppendageBodyPartEntry entry) {
-			ReclaimableAppendage.Add(entry);
+			ReclaimableAppendage.Insert(0, entry);
+			PruneReclaimables();
 		}
 
 		public void RemoveFromReclaimable(BodyPartEntryBase entry) {
@@ -143,6 +176,24 @@ namespace Game {
 
 		public void RemoveFromReclaimable(AppendageBodyPartEntry entry) {
 			ReclaimableAppendage.Remove(entry);
+		}
+
+		void PruneReclaimables() {
+			if (ReclaimableHead.Count > 20) {
+				ReclaimableHead.RemoveRange(20, ReclaimableHead.Count - 20);
+			}
+
+			if (ReclaimableTorso.Count > 20) {
+				ReclaimableTorso.RemoveRange(20, ReclaimableTorso.Count - 20);
+			}
+
+			if (ReclaimableTail.Count > 20) {
+				ReclaimableTail.RemoveRange(20, ReclaimableTail.Count - 20);
+			}
+
+			if (ReclaimableAppendage.Count > 20) {
+				ReclaimableAppendage.RemoveRange(20, ReclaimableAppendage.Count - 20);
+			}
 		}
 
 		// -------------------------------------------------------------------------

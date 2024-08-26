@@ -10,7 +10,7 @@ using UnityEngine.UI;
 // -----------------------------------------------------------------------------
 
 namespace Trainer {
-	public class SoulDustExtractorMenu : MonoBehaviour {
+	public class BodyPartReclaimationMenu : MonoBehaviour {
 
 		// -------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ namespace Trainer {
 
 		[Header("Information")]
 		[SerializeField] TextMeshProUGUI CurrentLabel;
-		[SerializeField] TextMeshProUGUI ExtractLabel;
+		[SerializeField] TextMeshProUGUI CostLabel;
 		[SerializeField] TextMeshProUGUI TotalLabel;
 
 
@@ -57,7 +57,7 @@ namespace Trainer {
 		int selectedButtonIndex;
 
 		readonly List<Button> buttons = new();
-		readonly List<Game.BodyPartEntryBase> bodyParts = new();
+		readonly List<Game.BodyPartEntryBase> bodyPartEntries = new();
 
 		// -------------------------------------------------------------------------
 
@@ -143,30 +143,17 @@ namespace Trainer {
 
 			//
 			buttons.Clear();
-			bodyParts.Clear();
+			bodyPartEntries.Clear();
 
 			//
 			List<Game.BodyPartEntryBase> items = new();
-			Engine.Profile.Storage.Head.ForEach(entry => items.Add(entry));
-			Engine.Profile.Storage.Torso.ForEach(entry => items.Add(entry));
-			Engine.Profile.Storage.Tail.ForEach(entry => items.Add(entry));
-			Engine.Profile.Storage.Appendage.ForEach(entry => items.Add(entry));
+			Engine.Profile.Storage.ReclaimableHead.ForEach(entry => items.Add(entry));
+			Engine.Profile.Storage.ReclaimableTorso.ForEach(entry => items.Add(entry));
+			Engine.Profile.Storage.ReclaimableTail.ForEach(entry => items.Add(entry));
+			Engine.Profile.Storage.ReclaimableAppendage.ForEach(entry => items.Add(entry));
 
 			items
-				.Where(entry => {
-					if (entry is Game.HeadBodyPartEntry head) {
-						return head.Experience >= head.BodyPart.ExperienceToLevel;
-					} else if (entry is Game.TorsoBodyPartEntry torso) {
-						return torso.Experience >= torso.BodyPart.ExperienceToLevel;
-					} else if (entry is Game.TailBodyPartEntry tail) {
-						return tail.Experience >= tail.BodyPart.ExperienceToLevel;
-					} else if (entry is Game.AppendageBodyPartEntry appendage) {
-						return appendage.Experience >= appendage.BodyPart.ExperienceToLevel;
-					}
-
-					return false;
-				})
-				.OrderByDescending(entry => entry.Experience)
+				.OrderBy(entry => entry.Experience)
 				.ThenBy(entry => {
 					if (entry is Game.HeadBodyPartEntry head) {
 						return head.BodyPart.Name;
@@ -213,7 +200,7 @@ namespace Trainer {
 
 			//
 			buttons.Add(button);
-			bodyParts.Add(entry);
+			bodyPartEntries.Add(entry);
 		}
 
 		void ConfigureNavigation() {
@@ -231,6 +218,13 @@ namespace Trainer {
 				button.navigation = navigation;
 
 				//
+				var entry = bodyPartEntries[i];
+				bool canAfford = (Engine.Profile.Inventory.GetItemQuantity(SoulDust) >= entry.Experience);
+				var labels = button.GetComponentsInChildren<TextMeshProUGUI>();
+				labels[0].color = canAfford ? Color.black : new Color(0, 0, 0, 0.5f);
+				labels[1].color = labels[0].color;
+
+				//
 				int j = i;
 				button.GetComponent<InformationButton>()
 				.Configure(() => {
@@ -239,10 +233,10 @@ namespace Trainer {
 
 					//
 					int current = Engine.Profile.Inventory.GetItemQuantity(SoulDust);
-					int extract = bodyParts[j].Experience;
-					int total = current + extract;
+					int extract = bodyPartEntries[j].Experience;
+					int total = current - extract;
 
-					ExtractLabel.text = $"{extract:n0}";
+					CostLabel.text = $"{extract:n0}";
 					TotalLabel.text = $"{total:n0}";
 				});
 			}
@@ -251,10 +245,14 @@ namespace Trainer {
 		// -------------------------------------------------------------------------
 
 		void OnButtonSelected() {
-			var entry = bodyParts[selectedButtonIndex];
+			var entry = bodyPartEntries[selectedButtonIndex];
+			if ((Engine.Profile.Inventory.GetItemQuantity(SoulDust) < entry.Experience)) {
+				return;
+			}
 
+			//
 			UpdateItemLabel(entry);
-			ResultLabel.text = $"Extract will result in {entry.Experience:N0} Soul Dust.";
+			ResultLabel.text = $"Reclaimation will cost {entry.Experience:N0} Soul Dust.";
 
 			//
 			QuantityModal.SetActive(true);
@@ -276,18 +274,18 @@ namespace Trainer {
 			}
 		}
 
-		public void ExtractSoulDust(int action) {
+		public void ReclaimBodyBody(int action) {
 			if (action < 1) {
 				GoBackToList();
 				return;
 			}
 
 			//
-			var entry = bodyParts[selectedButtonIndex];
+			var entry = bodyPartEntries[selectedButtonIndex];
 
-			Engine.Profile.Inventory.AdjustItem(SoulDust, entry.Experience);
-			Engine.Profile.Storage.AddToReclaimable(entry);
-			Engine.Profile.Storage.Remove(entry);
+			Engine.Profile.Inventory.AdjustItem(SoulDust, -entry.Experience);
+			Engine.Profile.Storage.RemoveFromReclaimable(entry);
+			Engine.Profile.Storage.Add(entry);
 
 			//
 			QuantityModal.SetActive(false);
@@ -299,7 +297,7 @@ namespace Trainer {
 
 			//
 			buttons.RemoveAt(selectedButtonIndex);
-			bodyParts.RemoveAt(selectedButtonIndex);
+			bodyPartEntries.RemoveAt(selectedButtonIndex);
 
 			//
 			ConfigureNavigation();
@@ -321,7 +319,7 @@ namespace Trainer {
 
 		void UpdateCurrentLabel() {
 			CurrentLabel.text = $"{Engine.Profile.Inventory.GetItemQuantity(SoulDust):N0}";
-			ExtractLabel.text = "0";
+			CostLabel.text = "0";
 			TotalLabel.text = CurrentLabel.text;
 		}
 
