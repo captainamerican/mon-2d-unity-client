@@ -176,6 +176,10 @@ namespace Game {
 
 	static public class Btn {
 		static public void Select(UnityEngine.UI.Button button) {
+			if (button == null) {
+				throw new SystemException("Button was null");
+			}
+
 			button.Select();
 			button.OnSelect(null);
 

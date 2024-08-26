@@ -28,7 +28,7 @@ namespace Game {
 			bool hadEntry = entry != null;
 
 			entry ??= new InventoryEntry() { Item = item };
-			entry.Amount = Mathf.Clamp(entry.Amount + quantity, 0, 99);
+			entry.Amount = Mathf.Clamp(entry.Amount + quantity, 0, 999999);
 
 			if (!hadEntry) {
 				All.Add(entry);

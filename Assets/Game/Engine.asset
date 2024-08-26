@@ -107,39 +107,45 @@ MonoBehaviour:
     - Skill: {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
       Experience: 542
     Inventory:
-      All: []
+      All:
+      - Item: {fileID: 11400000, guid: ddcc1527333d34b829687e19bdd3c16d, type: 2}
+        Amount: 5506
     Storage:
-      Head:
-      - Id: 12-1
-        Experience: 0
+      Head: []
+      Torso: []
+      Tail: []
+      Appendage: []
+      ReclaimableHead:
+      - Id: 
+        Experience: 503
         Quality: 0
         BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
-      Torso:
-      - Id: 12-2
-        Experience: 0
+      - Id: 
+        Experience: 501
         Quality: 0
-        BodyPart: {fileID: 11400000, guid: 67bc9622b0d0844c69eff5def65c7600, type: 2}
-      Tail:
+        BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
+      - Id: 
+        Experience: 500
+        Quality: 0
+        BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
+      ReclaimableTorso: []
+      ReclaimableTail:
       - Id: 12-3
-        Experience: 0
+        Experience: 999
         Quality: 0
         BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
-      Appendage:
-      - Id: 12-4
-        Experience: 0
+      - Id: 13-3
+        Experience: 1000
         Quality: 0
-        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
-      - Id: 12-5
-        Experience: 0
+        BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+      - Id: 14-3
+        Experience: 1001
         Quality: 0
-        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
-      - Id: 12-6
-        Experience: 0
+        BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+      - Id: 15-3
+        Experience: 1002
         Quality: 0
-        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
-      - Id: 12-7
-        Experience: 0
-        Quality: 0
-        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
+        BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+      ReclaimableAppendage: []
     SpiritsDefeated: 
     OpenedChests: 
