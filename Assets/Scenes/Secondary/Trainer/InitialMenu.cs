@@ -28,6 +28,7 @@ namespace Trainer {
 		[Header("Menus")]
 		[SerializeField] SoulDustExtractorMenu SoulDustExtractorMenu;
 		[SerializeField] BodyPartReclaimationMenu BodyPartReclaimationMenu;
+		[SerializeField] BodyPartQualityRestorationMenu BodyPartQualityRestorationMenu;
 
 		// -------------------------------------------------------------------------
 
@@ -109,6 +110,7 @@ namespace Trainer {
 					break;
 
 				case 2:
+					BodyPartQualityRestorationMenu.gameObject.SetActive(true);
 					break;
 
 				case 3:

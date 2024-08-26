@@ -10,13 +10,14 @@ using UnityEngine.UI;
 // -----------------------------------------------------------------------------
 
 namespace Trainer {
-	public class SoulDustExtractorMenu : MonoBehaviour {
+	public class BodyPartQualityRestorationMenu : MonoBehaviour {
 
 		// -------------------------------------------------------------------------
 
 		public enum Phase {
 			Normal,
-			SubModal
+			SubModal,
+			QuantityModal
 		}
 
 		// -------------------------------------------------------------------------
@@ -33,15 +34,16 @@ namespace Trainer {
 
 		[Header("Information")]
 		[SerializeField] TextMeshProUGUI CurrentLabel;
-		[SerializeField] TextMeshProUGUI ExtractLabel;
-		[SerializeField] TextMeshProUGUI TotalLabel;
-
 
 		[Header("Quantity Modal")]
 		[SerializeField] GameObject QuantityModal;
 		[SerializeField] TextMeshProUGUI ItemLabel;
-		[SerializeField] TextMeshProUGUI ResultLabel;
-		[SerializeField] Button QuantityCancelButton;
+		[SerializeField] TextMeshProUGUI CostLabel;
+		[SerializeField] TextMeshProUGUI LeftOverLabel;
+		[SerializeField] TextMeshProUGUI RatioLabel;
+		[SerializeField] RectTransform RatioThumb;
+		[SerializeField] InformationButton ConfirmButton;
+		[SerializeField] InformationButton CancelButton;
 
 		[Header("Warning Modal")]
 		[SerializeField] GameObject WarningModal;
@@ -52,12 +54,19 @@ namespace Trainer {
 		// -------------------------------------------------------------------------
 
 		InputAction Cancel;
+		InputAction CategoryLeft;
+		InputAction CategoryRight;
 
 		Phase phase;
 		int selectedButtonIndex;
 
 		readonly List<Button> buttons = new();
 		readonly List<Game.BodyPartEntryBase> bodyPartEntries = new();
+
+		float durationUntilNextTrigger;
+
+		int qualityLevelsToRestore = 0;
+		int maxQualityLevelsToRestore = 0;
 
 		// -------------------------------------------------------------------------
 
@@ -99,6 +108,7 @@ namespace Trainer {
 					break;
 
 				case Phase.SubModal:
+				case Phase.QuantityModal:
 					GoBackToList();
 					break;
 			}
@@ -118,6 +128,65 @@ namespace Trainer {
 			//
 			phase = Phase.Normal;
 		}
+		private void Update() {
+			if (phase == Phase.QuantityModal) {
+				bool left = CategoryLeft.IsPressed();
+				bool right = CategoryRight.IsPressed();
+				if (left || right) {
+					durationUntilNextTrigger -= Time.unscaledDeltaTime;
+					if (durationUntilNextTrigger < 0) {
+						durationUntilNextTrigger = 0.1f;
+
+						if (left) {
+							DecreaseQuantity();
+						}
+
+						if (right) {
+							IncreaseQuantity();
+						}
+					}
+				}
+
+			}
+		}
+
+		void DecreaseQuantity() {
+			qualityLevelsToRestore -= 1;
+			if (qualityLevelsToRestore < 1) {
+				qualityLevelsToRestore = maxQualityLevelsToRestore;
+			}
+
+			//
+			UpdateCostAndRemainingLabels();
+			UpdateRatioThumb();
+		}
+
+		void IncreaseQuantity() {
+			qualityLevelsToRestore += 1;
+			if (qualityLevelsToRestore > maxQualityLevelsToRestore) {
+				qualityLevelsToRestore = 1;
+			}
+
+			//
+			UpdateCostAndRemainingLabels();
+			UpdateRatioThumb();
+		}
+
+		void UpdateRatioThumb() {
+			var parent = RatioThumb.parent.GetComponent<RectTransform>();
+
+			float parentWidth = Mathf.Ceil(parent.rect.width);
+			float rawButtonWidth = maxQualityLevelsToRestore > 0 ? parentWidth / (maxQualityLevelsToRestore + 1) : parentWidth;
+			float buttonWidth = Mathf.Round(Mathf.Clamp(rawButtonWidth, 10f, parentWidth));
+			float track = parentWidth - buttonWidth;
+			float offset = maxQualityLevelsToRestore > 0 ? Mathf.Ceil(track * ((float) (qualityLevelsToRestore - 1) / ((float) (maxQualityLevelsToRestore)))) : 0;
+
+			RatioThumb.anchoredPosition = new Vector2(offset, 0);
+			RatioThumb.sizeDelta = new Vector2(buttonWidth, 4);
+
+			//
+			RatioLabel.text = $"{100 - maxQualityLevelsToRestore + qualityLevelsToRestore}";
+		}
 
 		// -------------------------------------------------------------------------
 
@@ -129,6 +198,10 @@ namespace Trainer {
 
 		void ConfigureInput() {
 			RemoveInputCallbacks();
+
+			//
+			CategoryLeft = PlayerInput.currentActionMap.FindAction("CategoryLeft");
+			CategoryRight = PlayerInput.currentActionMap.FindAction("CategoryRight");
 
 			//
 			Cancel = PlayerInput.currentActionMap.FindAction("Cancel");
@@ -153,20 +226,8 @@ namespace Trainer {
 			Engine.Profile.Storage.Appendage.ForEach(entry => items.Add(entry));
 
 			items
-				.Where(entry => {
-					if (entry is Game.HeadBodyPartEntry head) {
-						return head.Experience >= head.BodyPart.ExperienceToLevel;
-					} else if (entry is Game.TorsoBodyPartEntry torso) {
-						return torso.Experience >= torso.BodyPart.ExperienceToLevel;
-					} else if (entry is Game.TailBodyPartEntry tail) {
-						return tail.Experience >= tail.BodyPart.ExperienceToLevel;
-					} else if (entry is Game.AppendageBodyPartEntry appendage) {
-						return appendage.Experience >= appendage.BodyPart.ExperienceToLevel;
-					}
-
-					return false;
-				})
-				.OrderByDescending(entry => entry.Experience)
+				.Where(entry => entry.Quality < 1)
+				.OrderBy(entry => entry.Quality)
 				.ThenBy(entry => {
 					if (entry is Game.HeadBodyPartEntry head) {
 						return head.BodyPart.Name;
@@ -182,6 +243,12 @@ namespace Trainer {
 				})
 				.ToList()
 				.ForEach(ConfigureButton);
+
+			//
+			RatioThumb.GetComponent<InformationButton>()
+				.Configure(() => phase = Phase.QuantityModal);
+			ConfirmButton.Configure(() => phase = Phase.SubModal);
+			CancelButton.Configure(() => phase = Phase.SubModal);
 		}
 
 		void ConfigureButton(Game.BodyPartEntryBase entry) {
@@ -236,14 +303,6 @@ namespace Trainer {
 				.Configure(() => {
 					selectedButtonIndex = j;
 					ScrollView.UpdateVisibleButtonRange(buttons, selectedButtonIndex);
-
-					//
-					int current = Engine.Profile.Inventory.GetItemQuantity(SoulDust);
-					int extract = bodyPartEntries[j].Experience;
-					int total = Mathf.Clamp(current + extract, 0, 999999);
-
-					ExtractLabel.text = $"{extract:n0}";
-					TotalLabel.text = $"{total:n0}";
 				});
 			}
 		}
@@ -251,19 +310,22 @@ namespace Trainer {
 		// -------------------------------------------------------------------------
 
 		void OnButtonSelected() {
-
-
 			var entry = bodyPartEntries[selectedButtonIndex];
 
+			//
+			qualityLevelsToRestore = 1;
+			maxQualityLevelsToRestore = 100 - Mathf.RoundToInt(entry.Quality * 100);
+
 			UpdateItemLabel(entry);
-			ResultLabel.text = $"Extract will result in {entry.Experience:N0} Soul Dust.";
+			UpdateCostAndRemainingLabels();
+			UpdateRatioThumb();
 
 			//
 			QuantityModal.SetActive(true);
-			Game.Btn.Select(QuantityCancelButton);
+			Game.Btn.Select(RatioThumb.GetComponent<Button>());
 
 			//
-			phase = Phase.SubModal;
+			phase = Phase.QuantityModal;
 		}
 
 		void UpdateItemLabel(Game.BodyPartEntryBase entry) {
@@ -278,7 +340,7 @@ namespace Trainer {
 			}
 		}
 
-		public void ExtractSoulDust(int action) {
+		public void RestoreQuality(int action) {
 			if (action < 1) {
 				GoBackToList();
 				return;
@@ -286,26 +348,33 @@ namespace Trainer {
 
 			//
 			var entry = bodyPartEntries[selectedButtonIndex];
+			entry.Quality = Mathf.Clamp01(entry.Quality + 0.01f * qualityLevelsToRestore);
 
-			Engine.Profile.Inventory.AdjustItem(SoulDust, entry.Experience);
-			Engine.Profile.Storage.AddToReclaimable(entry);
-			Engine.Profile.Storage.Remove(entry);
+			int cost = qualityLevelsToRestore * 10;
+			Engine.Profile.Inventory.AdjustItem(SoulDust, -cost);
 
 			//
 			QuantityModal.SetActive(false);
 
 			//
 			var button = buttons[selectedButtonIndex];
-			button.gameObject.SetActive(false);
-			Destroy(button.gameObject);
+			button.GetComponent<BodyPartButton>()
+				.Configure(entry);
 
 			//
-			buttons.RemoveAt(selectedButtonIndex);
-			bodyPartEntries.RemoveAt(selectedButtonIndex);
+			if (entry.Quality >= 1) {
+				button.gameObject.SetActive(false);
+				Destroy(button.gameObject);
+
+				//
+				buttons.RemoveAt(selectedButtonIndex);
+				bodyPartEntries.RemoveAt(selectedButtonIndex);
+			}
 
 			//
 			ConfigureNavigation();
 			UpdateCurrentLabel();
+			UpdateCostAndRemainingLabels();
 
 			//
 			if (buttons.Count < 1) {
@@ -313,6 +382,7 @@ namespace Trainer {
 				ScrollView.UpdateVisibleButtonRange(buttons, 0);
 			} else {
 				selectedButtonIndex = Mathf.Clamp(selectedButtonIndex, 0, buttons.Count - 1);
+
 				Game.Btn.Select(buttons[selectedButtonIndex]);
 				ScrollView.UpdateVisibleButtonRange(buttons, selectedButtonIndex);
 			}
@@ -323,8 +393,18 @@ namespace Trainer {
 
 		void UpdateCurrentLabel() {
 			CurrentLabel.text = $"{Engine.Profile.Inventory.GetItemQuantity(SoulDust):N0}";
-			ExtractLabel.text = "0";
-			TotalLabel.text = CurrentLabel.text;
+		}
+
+		void UpdateCostAndRemainingLabels() {
+			int cost = qualityLevelsToRestore * 10;
+			int remainder = Engine.Profile.Inventory.GetItemQuantity(SoulDust) - cost;
+
+			CostLabel.text = $"{cost:n0}";
+			LeftOverLabel.text = $"{remainder:n0}";
+		}
+
+		public void FocusConfirmButton() {
+			Game.Btn.Select(ConfirmButton.GetComponent<Button>());
 		}
 
 		// -------------------------------------------------------------------------

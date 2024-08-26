@@ -108,7 +108,7 @@ namespace Crafting {
 				bool left = CategoryLeft.IsPressed();
 				bool right = CategoryRight.IsPressed();
 				if (left || right) {
-					durationUntilNextTrigger -= Time.deltaTime;
+					durationUntilNextTrigger -= Time.unscaledDeltaTime;
 					if (durationUntilNextTrigger < 0) {
 						durationUntilNextTrigger = 0.1f;
 
