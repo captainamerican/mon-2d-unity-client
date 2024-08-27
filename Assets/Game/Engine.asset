@@ -59,10 +59,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
   - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
   Profile:
-    Level: 4
-    Experience: 49
-    ExperienceForNextLevel: 162
-    Magic: 21
+    Level: 5
+    Experience: 67
+    ExperienceForNextLevel: 239
+    Magic: 16
     Wisdom: 5
     Party:
     - d2a39dea-a6cb-4bec-a919-f79ffc432f2f
@@ -119,6 +119,10 @@ MonoBehaviour:
         Amount: 2
       - Item: {fileID: 11400000, guid: 3614303c099ad488eb67d96849e0feac, type: 2}
         Amount: 99
+      - Item: {fileID: 11400000, guid: 1d7d7d45a98774d0db987e1a4af1398b, type: 2}
+        Amount: 99
+      - Item: {fileID: 11400000, guid: 10360a571bfde48f59f7272535dcd766, type: 2}
+        Amount: 99
     Storage:
       Head:
       - Id: 
@@ -167,22 +171,22 @@ MonoBehaviour:
       Appendage:
       - Id: g9zpb4YQXdkLH27k
         Experience: 0
-        Quality: 1
+        Quality: 0
         BodyPart: {fileID: 0}
-      - Id: 
-        Experience: 123
-        Quality: 0.5
+      - Id: g9zpb4YQXdkLH27j
+        Experience: 1
+        Quality: 0
         BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
       - Id: qe85dMHiHWMb1hUN
         Experience: 0
-        Quality: 1
+        Quality: 0
         BodyPart: {fileID: 0}
       - Id: yGinHbgKCDzpBTyj
         Experience: 0
-        Quality: 1
+        Quality: 0
         BodyPart: {fileID: 0}
       Enhancer:
-        Item: {fileID: 0}
-        Amount: 0
+        Item: {fileID: 11400000, guid: 3614303c099ad488eb67d96849e0feac, type: 2}
+        Amount: 99
     SpiritsDefeated: 
     OpenedChests: 

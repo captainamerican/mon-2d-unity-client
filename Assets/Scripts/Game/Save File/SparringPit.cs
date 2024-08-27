@@ -63,11 +63,14 @@ namespace Game {
 		}
 
 		public void Train() {
-			int experience = 5;
+			int baseExperience = 5;
+			int experience = baseExperience;
 			float qualityDecrease = 0;
+			bool enhancerExists = false;
 
+			//
 			if (Enhancer?.Item != null && (Enhancer?.Amount ?? 0) > 0) {
-				Enhancer.Amount -= 1;
+				enhancerExists = true;
 
 				//
 				List<Effect> effects = Enhancer.Item.Effects;
@@ -81,39 +84,71 @@ namespace Game {
 				float xpBoost = (float) boost.Strength / (float) 100;
 				float bqRatio = (float) downside.Strength / (float) 100;
 
-				experience = (int) Mathf.Round((float) experience * xpBoost);
-				qualityDecrease = bqRatio;
+				experience = Mathf.CeilToInt((float) experience * xpBoost);
+				qualityDecrease = Mathf.Clamp(bqRatio, 0.01f, 1f);
+			}
+
+			//
+			bool usedEnhancer = false;
+			if (Head?.BodyPart != null) {
+				if (Head.Quality > 0) {
+					usedEnhancer = true;
+
+					//
+					Head.Experience += experience;
+					Head.Quality = Mathf.Clamp01(Head.Quality - qualityDecrease);
+				} else {
+					Head.Experience += 1;
+				}
+			}
+
+			if (Torso?.BodyPart != null) {
+				if (Torso.Quality > 0) {
+					usedEnhancer = true;
+
+					//
+					Torso.Experience += experience;
+					Torso.Quality = Mathf.Clamp01(Torso.Quality - qualityDecrease);
+				} else {
+					Torso.Experience += 1;
+				}
+			}
+
+			if (Tail?.BodyPart != null) {
+				if (Tail.Quality > 0) {
+					usedEnhancer = true;
+
+					//
+					Tail.Experience += experience;
+					Tail.Quality = Mathf.Clamp01(Tail.Quality - qualityDecrease);
+				} else {
+					Tail.Experience += 1;
+				}
+			}
+
+			Appendage.ForEach(appendage => {
+				if (appendage?.BodyPart != null) {
+					if (appendage.Quality > 0) {
+						usedEnhancer = true;
+
+						//
+						appendage.Experience += experience;
+						appendage.Quality = Mathf.Clamp01(appendage.Quality - qualityDecrease);
+					} else {
+						appendage.Experience += 1;
+					}
+				}
+			});
+
+			//
+			if (enhancerExists && usedEnhancer) {
+				Enhancer.Amount -= 1;
 
 				//
 				if (Enhancer.Amount < 1) {
 					Enhancer = null;
 				}
 			}
-
-			//
-			if (Head?.BodyPart != null && Head.Quality > 0) {
-				Head.Experience += experience;
-				Head.Quality -= qualityDecrease;
-			}
-
-			if (Torso?.BodyPart != null && Torso.Quality > 0) {
-				Torso.Experience += experience;
-				Torso.Quality -= qualityDecrease;
-			}
-
-			if (Tail?.BodyPart != null && Tail.Quality > 0) {
-				Tail.Experience += experience;
-				Tail.Quality -= qualityDecrease;
-			}
-
-			Appendage.ForEach(appendage => {
-				if (appendage?.BodyPart == null && appendage.Quality > 0) {
-					return;
-				}
-
-				appendage.Experience += experience;
-				appendage.Quality -= qualityDecrease;
-			});
 		}
 
 		// -------------------------------------------------------------------------

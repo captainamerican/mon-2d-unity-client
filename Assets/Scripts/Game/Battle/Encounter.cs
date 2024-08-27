@@ -221,6 +221,10 @@ namespace Battle {
 				$"Lethia gained {experience} experience."
 			};
 
+			//
+			Engine.Profile.SparringPit.Train();
+
+			//
 			Engine.Profile.Experience += experience;
 			if (Engine.Profile.Experience > Engine.Profile.ExperienceForNextLevel) {
 				Engine.Profile.Level += 1;
