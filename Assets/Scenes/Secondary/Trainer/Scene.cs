@@ -14,7 +14,7 @@ namespace Trainer {
 
 		static public string Name = "Trainer";
 
-		static Action OnDone;
+		static Action OnDone = () => Debug.Log("Close Menu");
 
 		// -------------------------------------------------------------------------
 

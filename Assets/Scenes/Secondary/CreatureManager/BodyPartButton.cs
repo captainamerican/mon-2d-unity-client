@@ -26,7 +26,7 @@ public class BodyPartButton : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
-	void Clear(string defaultName = "??") {
+	void Clear(string defaultName) {
 		NameLabel.text = $"({defaultName})";
 		NameLabel.color = new Color(0, 0, 0, 0.5f);
 		GradeLabel.text = "☆☆☆";
@@ -52,11 +52,11 @@ public class BodyPartButton : MonoBehaviour {
 		}
 	}
 
-	public void Configure(HeadBodyPartEntry entry) {
+	public void Configure(HeadBodyPartEntry entry, string defaultName = null) {
 		BodyPartEntry = entry;
 
 		//
-		Clear(HeadBodyPart.Label);
+		Clear(HeadBodyPart.Label ?? defaultName ?? "??");
 		if (entry?.BodyPart == null) {
 			return;
 		}

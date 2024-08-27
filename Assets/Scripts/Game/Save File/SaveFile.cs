@@ -26,6 +26,7 @@ namespace Game {
 		public List<SkillEntry> Skills = new();
 		public Inventory Inventory = new();
 		public BodyPartStorage Storage = new();
+		public SparringPit SparringPit = new();
 
 		// -------------------------------------------------------------------------
 

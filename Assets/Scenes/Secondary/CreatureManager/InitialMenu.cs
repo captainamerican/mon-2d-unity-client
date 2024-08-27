@@ -69,7 +69,7 @@ namespace CreatureManager {
 			EditInitialMenu.Configure(new EditingCreature {
 				IsNew = true,
 				Creature = new() {
-					Id = Engine.GenerateRandomId(),
+					Id = Game.Id.Generate(),
 					Name = "",
 				},
 				Original = new(),

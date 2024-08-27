@@ -25,26 +25,14 @@ public class Item : ScriptableObject {
 	public List<Game.SkillFX> FX = new();
 
 	static public string TypeName(Game.ItemType type) {
-		switch (type) {
-			case Game.ItemType.None:
-				return "None";
-
-			case Game.ItemType.Consumable:
-				return "Consumable";
-
-			case Game.ItemType.Reusable:
-				return "Reusable";
-
-			case Game.ItemType.CraftingMaterial:
-				return "Crafting Material";
-
-			case Game.ItemType.TrainingItem:
-				return "Training Item";
-
-			case Game.ItemType.KeyItem:
-				return "Key Item";
-		}
-
-		return "Unknown";
+		return type switch {
+			Game.ItemType.None => "None",
+			Game.ItemType.Consumable => "Consumable",
+			Game.ItemType.Reusable => "Reusable",
+			Game.ItemType.CraftingMaterial => "Crafting Material",
+			Game.ItemType.TrainingItem => "Training Item",
+			Game.ItemType.KeyItem => "Key Item",
+			_ => "Unknown",
+		};
 	}
 }

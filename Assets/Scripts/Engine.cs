@@ -41,10 +41,6 @@ public class Engine : ScriptableObject {
 	public bool PlayerHasControl() {
 		return Mode == EngineMode.PlayerControl;
 	}
-
-	static public string GenerateRandomId() {
-		return Guid.NewGuid().ToString();
-	}
 }
 
 public class NextScene {

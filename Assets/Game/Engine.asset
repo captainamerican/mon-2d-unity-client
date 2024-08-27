@@ -47,6 +47,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4946364cd5591c44e9bfb4e9462b83f4, type: 2}
   - {fileID: 11400000, guid: 24f33a5e94da2784ba3bf95ab1faba80, type: 2}
   - {fileID: 11400000, guid: e3e0de087d74f824085ff2b878d1402e, type: 2}
+  - {fileID: 11400000, guid: 3614303c099ad488eb67d96849e0feac, type: 2}
   AllBodyParts:
   - {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
   - {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
@@ -113,9 +114,11 @@ MonoBehaviour:
     Inventory:
       All:
       - Item: {fileID: 11400000, guid: ddcc1527333d34b829687e19bdd3c16d, type: 2}
-        Amount: 993604
+        Amount: 9999
       - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
         Amount: 2
+      - Item: {fileID: 11400000, guid: 3614303c099ad488eb67d96849e0feac, type: 2}
+        Amount: 99
     Storage:
       Head:
       - Id: 
@@ -145,5 +148,41 @@ MonoBehaviour:
       ReclaimableTorso: []
       ReclaimableTail: []
       ReclaimableAppendage: []
+    SparringPit:
+      Head:
+        Id: 51AzyzxTZPTuVQCV
+        Experience: 0
+        Quality: 1
+        BodyPart: {fileID: 0}
+      Torso:
+        Id: Lymd9XYpAzO4KpHu
+        Experience: 0
+        Quality: 1
+        BodyPart: {fileID: 0}
+      Tail:
+        Id: XVWgJPkJdGLVz0UE
+        Experience: 0
+        Quality: 1
+        BodyPart: {fileID: 0}
+      Appendage:
+      - Id: g9zpb4YQXdkLH27k
+        Experience: 0
+        Quality: 1
+        BodyPart: {fileID: 0}
+      - Id: 
+        Experience: 123
+        Quality: 0.5
+        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+      - Id: qe85dMHiHWMb1hUN
+        Experience: 0
+        Quality: 1
+        BodyPart: {fileID: 0}
+      - Id: yGinHbgKCDzpBTyj
+        Experience: 0
+        Quality: 1
+        BodyPart: {fileID: 0}
+      Enhancer:
+        Item: {fileID: 0}
+        Amount: 0
     SpiritsDefeated: 
     OpenedChests: 
