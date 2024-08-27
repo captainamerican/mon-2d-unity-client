@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a3f39f2d62f4ab79e8d21a283de14a, type: 3}
   m_Name: Engine
   m_EditorClassIdentifier: 
-  Mode: 2
+  Mode: 1
   CraftingEquipment:
   - {fileID: 11400000, guid: ca6b50a578453ef4f84b5c3e5b418c36, type: 2}
   - {fileID: 11400000, guid: ddadc47a61c029f488c69f352d8e19be, type: 2}
@@ -27,6 +27,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5026663fea7ba864b84de5a1c8705e46, type: 2}
   - {fileID: 11400000, guid: ca6b50a578453ef4f84b5c3e5b418c36, type: 2}
   - {fileID: 11400000, guid: fb273829a68ccc246982d6cdcc6fb720, type: 2}
+  - {fileID: 11400000, guid: cbc078ce3c8bd48f291a46f4921c6ad4, type: 2}
+  - {fileID: 11400000, guid: 7b7fdd64c37c2473f8c2282b49edcd43, type: 2}
+  - {fileID: 11400000, guid: 10360a571bfde48f59f7272535dcd766, type: 2}
+  - {fileID: 11400000, guid: 1d7d7d45a98774d0db987e1a4af1398b, type: 2}
   - {fileID: 11400000, guid: 44c588fc9d11e92469ef2ca42d44ef06, type: 2}
   - {fileID: 11400000, guid: 09181c479adb26046a5d7680ed25f9ba, type: 2}
   - {fileID: 11400000, guid: fc031aec91cbce94e8daf8af09cdd351, type: 2}
@@ -109,13 +113,15 @@ MonoBehaviour:
     Inventory:
       All:
       - Item: {fileID: 11400000, guid: ddcc1527333d34b829687e19bdd3c16d, type: 2}
-        Amount: 999999
+        Amount: 993604
+      - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
+        Amount: 2
     Storage:
-      Head: []
-      Torso: []
-      Tail: []
-      Appendage: []
-      ReclaimableHead:
+      Head:
+      - Id: 
+        Experience: 500
+        Quality: 1
+        BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
       - Id: 
         Experience: 501
         Quality: 1
@@ -124,20 +130,20 @@ MonoBehaviour:
         Experience: 503
         Quality: 1
         BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
-      - Id: 
-        Experience: 500
-        Quality: 0.11
-        BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
-      ReclaimableTorso: []
-      ReclaimableTail:
-      - Id: 14-3
-        Experience: 1001
-        Quality: 0
-        BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+      Torso: []
+      Tail:
       - Id: 13-3
         Experience: 1000
-        Quality: 0
+        Quality: 1
         BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+      - Id: 14-3
+        Experience: 1001
+        Quality: 1
+        BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+      Appendage: []
+      ReclaimableHead: []
+      ReclaimableTorso: []
+      ReclaimableTail: []
       ReclaimableAppendage: []
     SpiritsDefeated: 
     OpenedChests: 

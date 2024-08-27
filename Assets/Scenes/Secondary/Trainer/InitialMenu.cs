@@ -26,6 +26,7 @@ namespace Trainer {
 		[SerializeField] List<string> Descriptions;
 
 		[Header("Menus")]
+		[SerializeField] SparringPitMenu SparringPitMenu;
 		[SerializeField] SoulDustExtractorMenu SoulDustExtractorMenu;
 		[SerializeField] BodyPartReclaimationMenu BodyPartReclaimationMenu;
 		[SerializeField] BodyPartQualityRestorationMenu BodyPartQualityRestorationMenu;
@@ -103,6 +104,7 @@ namespace Trainer {
 		public void OptionSelected(int index) {
 			switch (index) {
 				case 0:
+					SparringPitMenu.gameObject.SetActive(true);
 					break;
 
 				case 1:

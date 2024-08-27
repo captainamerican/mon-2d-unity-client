@@ -10,25 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21752b5b22dda476f96222be4c2a446a, type: 3}
-  m_Name: Lotion (F)
+  m_Name: Lotion (S)
   m_EditorClassIdentifier: 
-  Type: 40
+  Type: 10
   UseInBattle: 0
-  Name: Lotion (F)
-  Description: Improves body part quality a little.
+  Name: Lotion (S)
+  Description: Improves body part quality to maximum.
   FlavorText: Contains organic anti-oxidants.
-  SortName: lotion-0
+  SortName: lotion-6
   Recipe:
-  - Item: {fileID: 11400000, guid: c750d805822613a4b8414526f8ed7001, type: 2}
+  - Item: {fileID: 11400000, guid: fc031aec91cbce94e8daf8af09cdd351, type: 2}
     Quantity: 1
   - Item: {fileID: 11400000, guid: 217e612b1f7c0654bba074d9603f8dfd, type: 2}
+    Quantity: 6
+  - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
+    Quantity: 6
+  - Item: {fileID: 11400000, guid: 78f381f3e6da53d4ab7333523c1f59ca, type: 2}
     Quantity: 1
   Targets: 14000000
   Effects:
   - Type: 40
     Status: 0
     Duration: 0
-    Strength: 10
+    Strength: 999
     Variance: 0
     ApplyToSelf: 0
   FX: []
