@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
+  m_Name: Body Part Quality
+  m_EditorClassIdentifier: 
+  Name: Body Part Quality
+  Information: 'Pumping magic into body parts burns the essence just a bit. Each
+    battle takes a toll I will have to eventually repair with the <i>Infussoleum</i>.
+
+
+    There
+    are lotions I can craft to do this as well, but the necessary equipment has gone
+    missing.'

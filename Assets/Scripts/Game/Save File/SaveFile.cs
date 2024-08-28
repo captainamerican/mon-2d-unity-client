@@ -29,6 +29,12 @@ namespace Game {
 		public SparringPit SparringPit = new();
 		public Options Options = new();
 
+		public List<BodyPartBase> AcquiredBodyPart = new();
+		public List<Skill> AcquiredSkills = new();
+		public List<Item> AcquiredItem = new();
+		public List<SpiritWisdom> AcquiredSpiritWisdom = new();
+		public List<Tag> AcquiredTags = new();
+
 		// -------------------------------------------------------------------------
 
 		public int PartyMembersAvailableToFight {

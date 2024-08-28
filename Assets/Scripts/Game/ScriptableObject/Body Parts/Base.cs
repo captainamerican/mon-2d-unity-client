@@ -18,7 +18,7 @@ public class BodyPartBase : ScriptableObject {
 	public int Wisdom = 1;
 	public int Luck = 1;
 
-	public List<Game.BodyPartTag> Tags = new();
+	public List<Tag> Tags = new();
 
 	// ---------------------------------------------------------------------------
 

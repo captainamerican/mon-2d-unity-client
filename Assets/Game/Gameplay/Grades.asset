@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
+  m_Name: Grades
+  m_EditorClassIdentifier: 
+  Name: Grades
+  Information: "As a body part's experience increases, it reaches thresholds known
+    as \u201Cgrades\u201D. Broadly speaking, there are three grades. For all body
+    parts, the higher the grade, the closer the body part is to its living capabilities.\n\nThe
+    head body part is special: I can equip more skills into one as the grade grows."

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
+  m_Name: Reclaimator
+  m_EditorClassIdentifier: 
+  Name: Reclaimator
+  Information: 'The Infussoleum renders body parts unusuable but does not destroy
+    them. The result is more akin to a flowers pressed into a book. With enough <i>Soul
+    Dust</i>, the body part can be restored to useful function.
+
+
+    That being
+    said, there''s not much room to store everything, so I keep only the most recent.
+
+
+    The
+    machine is my least favorite because it has a hand pump that must be actuated
+    manually. Wait, couldn''t I just use one of my...'

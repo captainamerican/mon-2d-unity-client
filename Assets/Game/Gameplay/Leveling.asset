@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
+  m_Name: Leveling
+  m_EditorClassIdentifier: 
+  Name: Leveling
+  Information: "The dead cannot learn. But I do. The body parts may gain \u201Cexperience\u201D,
+    but it more like infused magic enhancing a sort of muscle memory. My powers grow
+    as I command my creatures. When one of them uses an attack, it's my magical power
+    that is used."

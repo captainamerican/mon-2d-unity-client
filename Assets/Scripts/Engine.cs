@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 using Game;
@@ -29,6 +28,9 @@ public class Engine : ScriptableObject {
 	public List<Item> AllItems = new();
 	public List<BodyPartBase> AllBodyParts = new();
 	public List<Skill> AllSkills = new();
+	public List<SpiritWisdom> AllSpiritWisdom = new();
+	public List<Gameplay> AllGameplay = new();
+	public List<Tag> AllTags = new();
 
 	[Header(("Current Profile"))]
 	public SaveFile Profile;

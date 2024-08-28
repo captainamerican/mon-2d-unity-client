@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class CompendiumMenu : AbstractMenu {
+public class Compendium2Menu : AbstractMenu {
 	[SerializeField] PlayerInput PlayerInput;
 
 	InputAction Cancel;

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
+  m_Name: Crafting Items
+  m_EditorClassIdentifier: 
+  Name: Crafting Items
+  Information: "Few ever come to the islands. And I haven't seen another necromancer
+    in... a long time. I've had to learn how to cook my own food and craft basic
+    items like potions. \n\nSadly, I don't have all the <i>equipment</i> necessary
+    to craft some of the more complicated items. But I've regained enough of myself
+    to start venturing deeper into the islands. Hopefully I'll come across what I
+    need before too long."

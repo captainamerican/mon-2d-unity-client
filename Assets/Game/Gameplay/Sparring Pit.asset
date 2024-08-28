@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
+  m_Name: Sparring Pit
+  m_EditorClassIdentifier: 
+  Name: Sparring Pit
+  Information: "The pit features a mannequin fashioned by a necromancer who loved
+    sparring. I can install spare body parts and with a little magic, the parts gain
+    experience without direct manipulation. \n\nIt doesn't happen automatically.
+    But when I come back after a few battles of my own, I can feel extra energy radiating
+    from installed body parts.\n\nThe mannequin is <i>missing pieces</i>. I remember
+    hearing how the creator liked to drag the mannequin around the islands. So maybe
+    I'll come across them one day."

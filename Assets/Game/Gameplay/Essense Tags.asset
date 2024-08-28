@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
+  m_Name: Essense Tags
+  m_EditorClassIdentifier: 
+  Name: Essence Tags
+  Information: "I could attach a head to the leg bone of a creature's torso, but
+    it wouldn't be very useful. \n\nSkills and Appendages are assigned a variety
+    of tags to help categorize them. Aligning the tags on the skills with the tags
+    on the relevant body parts will boost the skill's effectiveness.\n\nI have been
+    able to create new side effects like status ailments by combining certain body
+    part tags with certain skill tags."
