@@ -22,6 +22,7 @@ namespace Menu {
 
 		[Header("Menus")]
 		[SerializeField] CompendiumMenu CompendiumMenu;
+		[SerializeField] CreaturesMenu CreaturesMenu;
 
 		// -------------------------------------------------------------------------
 
@@ -99,6 +100,7 @@ namespace Menu {
 					break;
 
 				case 1:
+					CreaturesMenu.gameObject.SetActive(true);
 					break;
 
 				case 2:

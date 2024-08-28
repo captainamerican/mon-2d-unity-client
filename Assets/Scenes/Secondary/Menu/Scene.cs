@@ -38,6 +38,7 @@ namespace Menu {
 		[Header("Menus")]
 		[SerializeField] InitialMenu InitialMenu;
 		[SerializeField] CompendiumMenu CompendiumMenu;
+		[SerializeField] CreaturesMenu CreaturesMenu;
 
 		// -------------------------------------------------------------------------
 
@@ -48,6 +49,7 @@ namespace Menu {
 		IEnumerator Start() {
 			InitialMenu.gameObject.SetActive(false);
 			CompendiumMenu.gameObject.SetActive(false);
+			CreaturesMenu.gameObject.SetActive(false);
 
 			//
 			yield return Wait.ForReal(0.5f);

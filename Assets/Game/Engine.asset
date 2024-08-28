@@ -85,9 +85,10 @@ MonoBehaviour:
     Magic: 16
     Wisdom: 5
     Party:
-    - d2a39dea-a6cb-4bec-a919-f79ffc432f2f
+    - f79ffc432f2f
+    - 1234567
     Creatures:
-    - Id: d2a39dea-a6cb-4bec-a919-f79ffc432f2f
+    - Id: f79ffc432f2f
       Name: Wolfie
       Health: 999
       Head:
@@ -105,6 +106,43 @@ MonoBehaviour:
         Experience: 20
         Quality: 1
         BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+      Appendages:
+      - Id: 11-4
+        Experience: 0
+        Quality: 1
+        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+      - Id: 11-5
+        Experience: 0
+        Quality: 1
+        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+      - Id: 11-6
+        Experience: 0
+        Quality: 1
+        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
+      - Id: 11-7
+        Experience: 0
+        Quality: 1
+        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
+      Skills:
+      - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+    - Id: 1234567
+      Name: Wolfie 2
+      Health: 999
+      Head:
+        Id: 11-1
+        Experience: 0
+        Quality: 1
+        BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
+      Torso:
+        Id: 11-2
+        Experience: 10
+        Quality: 1
+        BodyPart: {fileID: 11400000, guid: 67bc9622b0d0844c69eff5def65c7600, type: 2}
+      Tail:
+        Id: 
+        Experience: 0
+        Quality: 0
+        BodyPart: {fileID: 0}
       Appendages:
       - Id: 11-4
         Experience: 0
