@@ -21,6 +21,7 @@ namespace Loader {
 
 		IEnumerator Start() {
 			yield return Do.For(0.25f, ratio => CanvasGroup.alpha = Mathf.Lerp(0, 1, ratio));
+			yield return Dialogue.Scene.Unload();
 
 			//
 			List<UnityEngine.SceneManagement.Scene> scenesToRemove = new();
@@ -40,6 +41,8 @@ namespace Loader {
 				AsyncOperation removeScene = SceneManager.UnloadSceneAsync(scene, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
 				yield return Wait.Until(() => removeScene.isDone);
 			}
+
+			//
 
 			//
 			AsyncOperation clearResources = Resources.UnloadUnusedAssets();

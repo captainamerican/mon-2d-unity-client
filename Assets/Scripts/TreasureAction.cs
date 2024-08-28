@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -57,14 +58,14 @@ public class TreasureAction : MonoBehaviour {
 
 	public void OpenChest() {
 		if (Engine.Profile.OpenedChest(Id)) {
-			WorldDialogue.Display("Nothing here!");
+			StartCoroutine(ShowDialogue("Nothing here!"));
 			return;
 		}
 
 		Engine.Profile.OpenChest(Id);
 
 		if (Drops.Count < 1) {
-			WorldDialogue.Display("Nothing here!");
+			StartCoroutine(ShowDialogue("Nothing here!"));
 			return;
 		}
 
@@ -81,9 +82,18 @@ public class TreasureAction : MonoBehaviour {
 		});
 		string term = totalItems > 1 ? "them" : "it";
 
-		WorldDialogue.Display(
+		//
+		StartCoroutine(
+			ShowDialogue(
 				$"You found {String.Join(" and ", drops.ToArray())}.",
 				$"You place {term} in your bag."
+			)
 		);
+	}
+
+	IEnumerator ShowDialogue(params string[] pages) {
+		Engine.Mode = EngineMode.Dialogue;
+		yield return Dialogue.Scene.Display(pages);
+		Engine.Mode = EngineMode.PlayerControl;
 	}
 }

@@ -32,6 +32,7 @@ namespace Village {
 				Engine.NextScene = null;
 			}
 
+			yield return Dialogue.Scene.Load();
 			yield return Loader.Scene.Clear();
 			Engine.SetMode(EngineMode.PlayerControl);
 		}

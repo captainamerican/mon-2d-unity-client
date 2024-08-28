@@ -188,5 +188,7 @@ MonoBehaviour:
       Enhancer:
         Item: {fileID: 11400000, guid: 3614303c099ad488eb67d96849e0feac, type: 2}
         Amount: 99
+    Options:
+      DialogueSpeed: 0.25
     SpiritsDefeated: 
     OpenedChests: 

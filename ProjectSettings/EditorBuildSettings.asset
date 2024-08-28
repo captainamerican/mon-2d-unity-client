@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Loader/Loader.unity
     guid: 0634dcdd5584443b3b4cf7f69f6010a0
   - enabled: 1
+    path: Assets/Scenes/Secondary/Dialogue/Dialogue.unity
+    guid: 48ac7e49ffbe341e59481e6a6f122810
+  - enabled: 1
     path: Assets/Scenes/Secondary/Crafting/Crafting.unity
     guid: 262d0b9562403354987e13cc5f2ed463
   - enabled: 1

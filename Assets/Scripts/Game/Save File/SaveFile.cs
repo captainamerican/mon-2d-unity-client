@@ -27,6 +27,7 @@ namespace Game {
 		public Inventory Inventory = new();
 		public BodyPartStorage Storage = new();
 		public SparringPit SparringPit = new();
+		public Options Options = new();
 
 		// -------------------------------------------------------------------------
 

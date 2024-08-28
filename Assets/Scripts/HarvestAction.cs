@@ -51,14 +51,22 @@ public class HarvestAction : MonoBehaviour {
 		}
 
 		if (isPicked) {
-			WorldDialogue.Display(
+			StartCoroutine(
+				ShowDialogue(
 					"Nothing here!",
 					"I'll come back later."
+				)
 			);
 			return;
 		}
 
 		Harvest();
+	}
+
+	IEnumerator ShowDialogue(params string[] pages) {
+		Engine.Mode = EngineMode.Dialogue;
+		yield return Dialogue.Scene.Display(pages);
+		Engine.Mode = EngineMode.PlayerControl;
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision) {
@@ -94,10 +102,12 @@ public class HarvestAction : MonoBehaviour {
 		});
 		string term = totalItems > 1 ? "them" : "it";
 
-
-		WorldDialogue.Display(
+		//
+		StartCoroutine(
+			ShowDialogue(
 				$"You harvested {String.Join(" and ", drops.ToArray())}.",
 				$"You place {term} in your bag."
+			)
 		);
 		StartCoroutine(PostHarvest());
 	}

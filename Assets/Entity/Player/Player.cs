@@ -51,10 +51,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update() {
-		if (
-			Engine.Mode != EngineMode.PlayerControl ||
-			PlayerInput.currentActionMap.name != "PlayerControl"
-		) {
+		if (Engine.Mode != EngineMode.PlayerControl) {
 			return;
 		}
 
@@ -82,10 +79,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		if (
-			Engine.Mode != EngineMode.PlayerControl ||
-			PlayerInput.currentActionMap.name != "PlayerControl"
-		) {
+		if (Engine.Mode != EngineMode.PlayerControl) {
 			return;
 		}
 
