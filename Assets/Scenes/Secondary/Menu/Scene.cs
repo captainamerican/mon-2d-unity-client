@@ -21,8 +21,11 @@ namespace Menu {
 
 		static public IEnumerator Unload() {
 			if (Self != null) {
+				Debug.Log("huh");
 				yield return SceneManager.UnloadSceneAsync(Name, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
 			}
+
+			yield return null;
 		}
 
 		// -------------------------------------------------------------------------

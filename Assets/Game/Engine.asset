@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a3f39f2d62f4ab79e8d21a283de14a, type: 3}
   m_Name: Engine
   m_EditorClassIdentifier: 
-  Mode: 1
+  Mode: 10
   CraftingEquipment:
   - {fileID: 11400000, guid: ca6b50a578453ef4f84b5c3e5b418c36, type: 2}
   - {fileID: 11400000, guid: ddadc47a61c029f488c69f352d8e19be, type: 2}
@@ -248,6 +248,11 @@ MonoBehaviour:
         Amount: 99
     Options:
       DialogueSpeed: 0.25
+      MusicVolume: 0.66
+      SFXVolume: 0.66
+      BattleAnimations: 1
+      CheatMenu: 0
+      Speedrunning: 0
     AcquiredBodyPart: []
     AcquiredSkills: []
     AcquiredItem: []

@@ -29,8 +29,8 @@ namespace Village {
 			NextScene nextScene = Engine.NextScene;
 			if (nextScene != null) {
 				Player.transform.position = nextScene.Destination;
-				Engine.NextScene = null;
 			}
+			Engine.NextScene = null;
 
 			yield return Dialogue.Scene.Load();
 			yield return Menu.Scene.Load();

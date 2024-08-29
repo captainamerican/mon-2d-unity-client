@@ -21,7 +21,7 @@ namespace Loader {
 		}
 
 		IEnumerator Start() {
-			yield return Do.For(0.25f, ratio => CanvasGroup.alpha = Mathf.Lerp(0, 1, ratio));
+			yield return Do.ForReal(0.25f, ratio => CanvasGroup.alpha = Mathf.Lerp(0, 1, ratio));
 			yield return Dialogue.Scene.Unload();
 			yield return Menu.Scene.Unload();
 
@@ -44,13 +44,15 @@ namespace Loader {
 				yield return Wait.Until(() => removeScene.isDone);
 			}
 
-			//
+			// just in case
+			Time.timeScale = 1;
 
 			//
 			AsyncOperation clearResources = Resources.UnloadUnusedAssets();
 			yield return Wait.Until(() => clearResources.isDone);
-			yield return Wait.For(0.25f);
+			yield return Wait.ForReal(0.25f);
 
+			//
 			SceneManager.LoadSceneAsync(Engine?.NextScene?.Name ?? StartScreen.Scene.Name, LoadSceneMode.Additive);
 		}
 

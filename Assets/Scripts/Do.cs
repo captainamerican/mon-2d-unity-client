@@ -37,7 +37,7 @@ public sealed class Do {
 		//
 		float elapsed = 0;
 		while (elapsed < duration) {
-			elapsed += Time.fixedUnscaledDeltaTime;
+			elapsed += Time.unscaledDeltaTime;
 			callback(easing(Mathf.Clamp01(elapsed / duration)));
 
 			//

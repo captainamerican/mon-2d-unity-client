@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // -----------------------------------------------------------------------------
@@ -37,6 +38,10 @@ namespace Menu {
 		[SerializeField] TMP_Dropdown CheatMenu;
 		[SerializeField] TMP_Dropdown Speedrunning;
 
+		[Header("Confirm Exit Dialog")]
+		[SerializeField] GameObject ConfirmExitDialog;
+		[SerializeField] Button CancelConfirm;
+
 		[Header("Go Back")]
 		[SerializeField] InitialMenu InitialMenu;
 
@@ -50,6 +55,7 @@ namespace Menu {
 
 		void OnEnable() {
 			phase = Phase.Normal;
+			ConfirmExitDialog.SetActive(false);
 
 			//
 			ConfigureInput();
@@ -90,6 +96,7 @@ namespace Menu {
 			phase = Phase.Normal;
 
 			//
+			ConfirmExitDialog.SetActive(false);
 			EventSystem.current.SetSelectedGameObject(ReturnToStart);
 		}
 
@@ -142,6 +149,24 @@ namespace Menu {
 
 		public void SpeedrunningChanged(int index) {
 			Engine.Profile.Options.Speedrunning = index == 0;
+		}
+
+		public void ConfirmExitToStart() {
+			phase = Phase.SubModal;
+
+			ConfirmExitDialog.SetActive(true);
+			Game.Btn.Select(CancelConfirm);
+		}
+
+		public void OnExitToStart(int action) {
+			if (action < 1) {
+				GoBackToNormal();
+				return;
+			}
+
+			//
+			Engine.NextScene = new NextScene { Name = StartScreen.Scene.Name };
+			SceneManager.LoadSceneAsync(Loader.Scene.Name, LoadSceneMode.Additive);
 		}
 
 		// -------------------------------------------------------------------------

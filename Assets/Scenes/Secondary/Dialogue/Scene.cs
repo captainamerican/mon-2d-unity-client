@@ -26,6 +26,8 @@ namespace Dialogue {
 			if (Self != null) {
 				yield return SceneManager.UnloadSceneAsync(Name, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
 			}
+
+			yield return null;
 		}
 
 		static public IEnumerator Display(string[] pages, string speaker = null) {

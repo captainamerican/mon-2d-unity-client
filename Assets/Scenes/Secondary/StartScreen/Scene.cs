@@ -13,6 +13,7 @@ namespace StartScreen {
 		[SerializeField] Button StartButton;
 
 		IEnumerator Start() {
+			Engine.NextScene = null;
 			yield return Loader.Scene.Clear();
 
 			Game.Btn.Select(StartButton);
