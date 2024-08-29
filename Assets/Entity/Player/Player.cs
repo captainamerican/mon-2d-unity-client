@@ -89,7 +89,7 @@ public class Player : MonoBehaviour {
 
 	void ModeChanged(EngineMode mode) {
 		switch (mode) {
-			case EngineMode.Menu:
+			case EngineMode.Store:
 				direction = PlayerDirection.Down;
 				nextDirection = PlayerDirection.Down;
 				animator.Play(DirectionMap[direction]);

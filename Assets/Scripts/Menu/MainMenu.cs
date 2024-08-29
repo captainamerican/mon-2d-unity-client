@@ -52,7 +52,7 @@ public class MainMenu : MonoBehaviour {
 			Cancel.performed += ShouldIClose;
 
 			// 
-			Engine.SetMode(EngineMode.Menu);
+			Engine.SetMode(EngineMode.Store);
 
 			//
 			MainMenuObject.SetActive(true);

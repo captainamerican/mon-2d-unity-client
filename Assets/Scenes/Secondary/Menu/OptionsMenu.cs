@@ -104,7 +104,7 @@ namespace Menu {
 		}
 
 		void ConfigureControls() {
-			DialogueSpeed.value = Engine.Profile.Options.DialogueSpeed;
+			DialogueSpeed.value = 1 - Engine.Profile.Options.DialogueSpeed;
 			MusicVolume.value = Engine.Profile.Options.MusicVolume;
 			SFXVolume.value = Engine.Profile.Options.SFXVolume;
 			BattleAnimations.value = Engine.Profile.Options.BattleAnimations ? 0 : 1;
@@ -119,6 +119,30 @@ namespace Menu {
 		}
 
 		// -------------------------------------------------------------------------
+
+		public void OnDialogueSpeedChanged(float newValue) {
+			Engine.Profile.Options.DialogueSpeed = Mathf.Clamp01(1 - newValue);
+		}
+
+		public void MusicVolumeChanged(float newValue) {
+			Engine.Profile.Options.MusicVolume = Mathf.Clamp01(newValue);
+		}
+
+		public void SFXVolumeChanged(float newValue) {
+			Engine.Profile.Options.SFXVolume = Mathf.Clamp01(newValue);
+		}
+
+		public void BattleAnimationsChanged(int index) {
+			Engine.Profile.Options.BattleAnimations = index == 0;
+		}
+
+		public void CheatMenuChanged(int index) {
+			Engine.Profile.Options.CheatMenu = index == 0;
+		}
+
+		public void SpeedrunningChanged(int index) {
+			Engine.Profile.Options.Speedrunning = index == 0;
+		}
 
 		// -------------------------------------------------------------------------
 	}

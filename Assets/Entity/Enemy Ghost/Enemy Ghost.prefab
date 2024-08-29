@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6097dfefa7b9849f085b5dbf58f2fb91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Engine: {fileID: 11400000, guid: d52e74a9d3dfb4333b90830cca87a9c8, type: 2}
   Personality: 1
   Alertness: 0
   DomainRadius: 10
@@ -55,11 +56,12 @@ MonoBehaviour:
   Body: {fileID: 9153985415985808455}
   Agent: {fileID: 4702888687446667979}
   Alert: {fileID: 3801925950478874496}
+  EncounterProbability: {fileID: 11400000, guid: 3726735ce88828540b827aac58cd8c07, type: 2}
   Speed: 2
   Acceleration: 2
   ActionDelay: 0.5
-  ActionSpeed: 15
-  ActionAcceleration: 999
+  ActionSpeed: 14.5
+  ActionAcceleration: 99
 --- !u!1 &3801925950478874496
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,12 +6,13 @@ using UnityEngine;
 
 public enum EngineMode {
 	None,
-	PlayerControl,
-	Menu,
-	Dialogue,
-	Cutscene,
-	Battle,
-	NextScene
+	PlayerControl = 1,
+	Menu = 10,
+	Store = 20,
+	Dialogue = 30,
+	Cutscene = 40,
+	Battle = 50,
+	NextScene = 60
 }
 
 public delegate void EngineModeChangedEvent(EngineMode mode);

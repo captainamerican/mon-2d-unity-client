@@ -1,6 +1,7 @@
 using System.Collections;
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 // -----------------------------------------------------------------------------
@@ -10,7 +11,7 @@ namespace Menu {
 
 		// -------------------------------------------------------------------------
 
-		static public string Name = "Dialogue";
+		static public string Name = "Menu";
 
 		static Scene Self;
 
@@ -24,15 +25,10 @@ namespace Menu {
 			}
 		}
 
-		static public IEnumerator Display() {
-			Debug.Assert(Self != null, "Menu scene wasn't loaded!");
-
-			//
-			return Self.Show();
-		}
-
 		// -------------------------------------------------------------------------
 
+		[SerializeField] Engine Engine;
+		[SerializeField] PlayerInput PlayerInput;
 		[SerializeField] Canvas Canvas;
 
 		[Header("Menus")]
@@ -43,25 +39,40 @@ namespace Menu {
 
 		// -------------------------------------------------------------------------
 
+		InputAction Menu;
+
+		// -------------------------------------------------------------------------
+
 		void Awake() {
 			Self = this;
-		}
 
-		IEnumerator Start() {
+			//
+			OnDestroy();
+
+			//
+			Menu = PlayerInput.currentActionMap.FindAction("Menu");
+			Menu.performed += OpenMenu;
+
+			//
 			InitialMenu.gameObject.SetActive(false);
 			CompendiumMenu.gameObject.SetActive(false);
 			CreaturesMenu.gameObject.SetActive(false);
 			OptionsMenu.gameObject.SetActive(false);
+		}
 
-			//
-			yield return Wait.ForReal(0.5f);
-			yield return Show();
-			Debug.Log("Done");
+		void OnDisable() {
+			OnDestroy();
+		}
+
+		void OnDestroy() {
+			if (Menu != null) {
+				Menu.performed -= OpenMenu;
+			}
 		}
 
 		// -------------------------------------------------------------------------
 
-		public IEnumerator Show() {
+		IEnumerator Show() {
 			Canvas.gameObject.SetActive(true);
 
 			InitialMenu.gameObject.SetActive(true);
@@ -69,6 +80,23 @@ namespace Menu {
 
 			//
 			return Wait.Until(() => !Canvas.isActiveAndEnabled);
+		}
+
+		void OpenMenu(InputAction.CallbackContext _) {
+			if (!Engine.PlayerHasControl()) {
+				return;
+			}
+
+			//
+			StartCoroutine(ShowingMenu());
+		}
+
+		IEnumerator ShowingMenu() {
+			Engine.Mode = EngineMode.Menu;
+			Time.timeScale = 0;
+			yield return Show();
+			Engine.Mode = EngineMode.PlayerControl;
+			Time.timeScale = 1;
 		}
 
 		// -------------------------------------------------------------------------

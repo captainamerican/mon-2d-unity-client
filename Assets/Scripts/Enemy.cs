@@ -28,6 +28,8 @@ namespace WorldEnemy {
 
 	[SelectionBase]
 	public class Enemy : MonoBehaviour {
+		[SerializeField] Engine Engine;
+
 		[SerializeField]
 		Personality Personality;
 
@@ -95,6 +97,10 @@ namespace WorldEnemy {
 		}
 
 		void LateUpdate() {
+			if (!Engine.PlayerHasControl()) {
+				return;
+			}
+
 			if (Alertness != Alertness.Fleeing && Alertness != Alertness.Chasing) {
 				return;
 			}
@@ -128,6 +134,10 @@ namespace WorldEnemy {
 			float elapsed = 0;
 
 			yield return Wait.Until(() => {
+				if (!Engine.PlayerHasControl()) {
+					return false;
+				}
+
 				elapsed += Time.deltaTime;
 				if (elapsed > 5f) {
 					return true;
@@ -156,9 +166,17 @@ namespace WorldEnemy {
 		}
 
 		IEnumerator WaitingToMove() {
-			if (UnityEngine.Random.value > 0.8f) {
-				yield return Wait.For(UnityEngine.Random.Range(0.25f, 4f));
+			float waitDuration = UnityEngine.Random.Range(0.25f, 4f);
+			WaitForEndOfFrame waitForEndOfFrame = new();
+
+			while (waitDuration > 0) {
+				if (Engine.PlayerHasControl()) {
+					waitDuration -= Time.deltaTime;
+				}
+
+				yield return waitForEndOfFrame;
 			}
+
 			ChooseNextDestination();
 		}
 

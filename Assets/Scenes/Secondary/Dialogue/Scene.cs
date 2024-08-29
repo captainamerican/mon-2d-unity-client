@@ -87,6 +87,9 @@ namespace Dialogue {
 		// -------------------------------------------------------------------------
 
 		public IEnumerator DisplayText(string[] pages, string speaker = null) {
+			Engine.Mode = EngineMode.Dialogue;
+			Time.timeScale = 0;
+
 			// usually the player is holding down the submit button
 			// when a dialogue window is launched.
 			yield return Wait.Until(() => !Submit.WasPressedThisFrame());
@@ -116,6 +119,10 @@ namespace Dialogue {
 			SpeakerContainer.SetActive(false);
 			TextContainer.SetActive(false);
 			Canvas.SetActive(false);
+
+			//
+			Engine.Mode = EngineMode.Dialogue;
+			Time.timeScale = 1;
 		}
 
 		// -------------------------------------------------------------------------
