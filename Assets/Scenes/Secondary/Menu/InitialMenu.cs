@@ -23,6 +23,7 @@ namespace Menu {
 		[Header("Menus")]
 		[SerializeField] CompendiumMenu CompendiumMenu;
 		[SerializeField] CreaturesMenu CreaturesMenu;
+		[SerializeField] OptionsMenu OptionsMenu;
 
 		// -------------------------------------------------------------------------
 
@@ -103,10 +104,8 @@ namespace Menu {
 					CreaturesMenu.gameObject.SetActive(true);
 					break;
 
-				case 2:
-					break;
-
-				case 3:
+				case 5:
+					OptionsMenu.gameObject.SetActive(true);
 					break;
 
 				default:

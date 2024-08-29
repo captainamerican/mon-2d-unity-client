@@ -39,6 +39,7 @@ namespace Menu {
 		[SerializeField] InitialMenu InitialMenu;
 		[SerializeField] CompendiumMenu CompendiumMenu;
 		[SerializeField] CreaturesMenu CreaturesMenu;
+		[SerializeField] OptionsMenu OptionsMenu;
 
 		// -------------------------------------------------------------------------
 
@@ -50,6 +51,7 @@ namespace Menu {
 			InitialMenu.gameObject.SetActive(false);
 			CompendiumMenu.gameObject.SetActive(false);
 			CreaturesMenu.gameObject.SetActive(false);
+			OptionsMenu.gameObject.SetActive(false);
 
 			//
 			yield return Wait.ForReal(0.5f);
