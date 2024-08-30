@@ -15,8 +15,8 @@ MonoBehaviour:
   Type: 30
   UseInBattle: 0
   Name: Soul Dust
-  Description: Improves a body part's quality.
-  FlavorText: Smells like copper and lemon somehow.
+  Description: Used in crafting and the Infussoleum for reparing body parts.
+  FlavorText: Smells like copper and lemon.
   SortName: soul-dust
   Recipe: []
   Targets: 

@@ -37,6 +37,7 @@ namespace Menu {
 		[SerializeField] InitialMenu InitialMenu;
 		[SerializeField] CompendiumMenu CompendiumMenu;
 		[SerializeField] CreaturesMenu CreaturesMenu;
+		[SerializeField] InventoryMenu InventoryMenu;
 		[SerializeField] OptionsMenu OptionsMenu;
 		[SerializeField] StatusMenu StatusMenu;
 		[SerializeField] WorldMapMenu WorldMapMenu;
@@ -64,6 +65,7 @@ namespace Menu {
 			InitialMenu.gameObject.SetActive(false);
 			CompendiumMenu.gameObject.SetActive(false);
 			CreaturesMenu.gameObject.SetActive(false);
+			InventoryMenu.gameObject.SetActive(false);
 			OptionsMenu.gameObject.SetActive(false);
 			StatusMenu.gameObject.SetActive(false);
 			WorldMapMenu.gameObject.SetActive(false);

@@ -23,6 +23,7 @@ namespace Menu {
 		[Header("Menus")]
 		[SerializeField] CompendiumMenu CompendiumMenu;
 		[SerializeField] CreaturesMenu CreaturesMenu;
+		[SerializeField] InventoryMenu InventoryMenu;
 		[SerializeField] OptionsMenu OptionsMenu;
 		[SerializeField] StatusMenu StatusMenu;
 		[SerializeField] WorldMapMenu WorldMapMenu;
@@ -104,6 +105,10 @@ namespace Menu {
 
 				case 1:
 					CreaturesMenu.gameObject.SetActive(true);
+					break;
+
+				case 2:
+					InventoryMenu.gameObject.SetActive(true);
 					break;
 
 				case 3:
