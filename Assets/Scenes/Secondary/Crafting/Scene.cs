@@ -11,14 +11,26 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+// -----------------------------------------------------------------------------
+
 namespace Crafting {
 	public class Scene : MonoBehaviour {
+
+		// -------------------------------------------------------------------------
+
 		public const string Name = "Crafting";
 
-		public enum Phase {
-			Base,
-			Modal
+		static public IEnumerator Load(Action onDone) {
+			OnDone = onDone;
+
+			yield return SceneManager.LoadSceneAsync(Name, LoadSceneMode.Additive);
 		}
+
+		static public IEnumerator Unload() {
+			yield return SceneManager.UnloadSceneAsync(Name, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
+		}
+
+		// -------------------------------------------------------------------------
 
 		[Header("Globals")]
 		[SerializeField] Engine Engine;
@@ -34,17 +46,24 @@ namespace Crafting {
 		[SerializeField] TextMeshProUGUI ItemDescription;
 		[SerializeField] TextMeshProUGUI ItemFlavorText;
 
-		[SerializeField] List<TextMeshProUGUI> Ingredients;
+		[SerializeField] TextMeshProUGUI Ingredients;
 		[SerializeField] TextMeshProUGUI CanHasLabel;
 
-		[SerializeField] RectTransform ScrollbarThumb;
+		[SerializeField] ScrollView ScrollView;
 
 		[Header("Quantity Modal")]
 		[SerializeField] GameObject QuantityModal;
-		[SerializeField] TextMeshProUGUI QuantityMinimum;
 		[SerializeField] TextMeshProUGUI QuantityMaximum;
 		[SerializeField] TextMeshProUGUI QuantityLabel;
-		[SerializeField] RectTransform QuantityThumb;
+		[SerializeField] Slider Quantity;
+		[SerializeField] Button QuantityCancelButton;
+
+		// -------------------------------------------------------------------------
+
+		public enum Phase {
+			Base,
+			Modal
+		}
 
 		readonly Dictionary<Item, int> iventoryItemCount = new();
 		readonly Dictionary<Item, bool> canBeCrafted = new();
@@ -52,98 +71,61 @@ namespace Crafting {
 		readonly Dictionary<Item, int> timesCanBeCrated = new();
 		readonly List<Button> buttons = new();
 
-		int visibleButtonRangeMin = 0;
-		int visibleButtonRangeMax = 8;
 		int currentButtonIndex = 0;
-
-		const int quantityRatio = 37;
-		const int quantityWidth = 8;
-		int quantityMin = 0;
-		int quantityMax = 0;
-		int selectedQuantity = 0;
 		Item selectedItem;
 
-		float durationUntilNextTrigger;
-
 		Phase phase;
-		InputAction CategoryLeft;
-		InputAction CategoryRight;
-		InputAction Submit;
 		InputAction Cancel;
 
 		static Action OnDone;
 
-		static public IEnumerator Load(Action onDone) {
-			OnDone = onDone;
+		// -------------------------------------------------------------------------
 
-			yield return SceneManager.LoadSceneAsync(Name, LoadSceneMode.Additive);
-		}
-
-		static public IEnumerator Unload() {
-			yield return SceneManager.UnloadSceneAsync(Name, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
-		}
-
-		private void Awake() {
-			if (EventSystem.current == null) {
-				DebugEventSystem.enabled = true;
-			}
-
-			if (Camera.main == null) {
-				DebugCamera.enabled = true;
-			}
-		}
-
-		void Start() {
-			Submit = PlayerInput.currentActionMap.FindAction("Submit");
-			CategoryLeft = PlayerInput.currentActionMap.FindAction("CategoryLeft");
-			CategoryRight = PlayerInput.currentActionMap.FindAction("CategoryRight");
-			Cancel = PlayerInput.currentActionMap.FindAction("Cancel");
+		void Awake() {
+			RemoveInput();
+			Cancel = Game.Control.Get(PlayerInput, "Cancel");
 
 			// 
 			Configure();
 		}
 
-		private void Update() {
-			if (phase == Phase.Modal) {
-				bool left = CategoryLeft.IsPressed();
-				bool right = CategoryRight.IsPressed();
-				if (left || right) {
-					durationUntilNextTrigger -= Time.unscaledDeltaTime;
-					if (durationUntilNextTrigger < 0) {
-						durationUntilNextTrigger = 0.1f;
+		void OnDisable() {
+			OnDestroy();
+		}
 
-						if (left) {
-							DecreaseQuantity();
-						}
+		void OnDestroy() {
+			Cancel.performed -= CloseMenu;
+		}
 
-						if (right) {
-							IncreaseQuantity();
-						}
-					}
-				}
-
+		void RemoveInput() {
+			if (Cancel != null) {
+				Cancel.performed -= CloseMenu;
 			}
 		}
 
-		private void OnDestroy() {
-			Submit.performed -= CraftItem;
-			Cancel.performed -= CloseMenu;
-		}
+		// -------------------------------------------------------------------------
 
 		void CloseMenu(InputAction.CallbackContext ctx) {
-			Cancel.performed -= CloseMenu;
+			switch (phase) {
+				case Phase.Base:
+					RemoveInput();
+					RemoveNavigation();
 
-			RemoveNavigation();
+					buttons.Clear();
+					canBeCrafted.Clear();
+					hasEquipmentToCraft.Clear();
+					iventoryItemCount.Clear();
 
-			buttons.Clear();
-			canBeCrafted.Clear();
-			hasEquipmentToCraft.Clear();
-			iventoryItemCount.Clear();
+					//
+					OnDone?.Invoke();
+					break;
 
-			//
-			OnDone?.Invoke();
+				case Phase.Modal:
+					CloseQuantityModal();
+					break;
+
+			}
 		}
-
 
 		void Configure() {
 			phase = Phase.Base;
@@ -286,26 +268,23 @@ namespace Crafting {
 			List<Game.RecipeIngredient> ingredients = item.Recipe
 				.OrderBy(ingredient => ingredient.Item.Name)
 				.ToList();
-			Do.Times(4, i => {
-				var label = Ingredients[i];
-				if (i > ingredients.Count - 1) {
-					label.text = "";
-					return "";
+			Ingredients.text = string.Join("\n", Do.Times(4, i => {
+				if (i >= ingredients.Count) {
+					return " ";
 				}
 
 				//
 				var ingredient = ingredients[i];
-				label.text = $"{ingredient.Quantity}x {ingredient.Item.Name}";
 
 				//
-				return "";
-			});
+				return $"{ingredient.Quantity}x {ingredient.Item.Name}";
+			}));
 
 			//
 			CanHasLabel.text = $"{timesCanBeCrated[item]:D2}/{iventoryItemCount[item]:D2}";
 
 			//
-			UpdateVisibleButtonRange(index);
+			ScrollView.UpdateVisibleButtonRange(buttons, index);
 		}
 
 		void OnItemSelected(Item item) {
@@ -313,8 +292,7 @@ namespace Crafting {
 				return;
 			}
 
-			//
-			EventSystem.current.SetSelectedGameObject(null);
+			// 
 			StartCoroutine(ShowQuantityModal(item));
 		}
 
@@ -324,79 +302,40 @@ namespace Crafting {
 			//
 			phase = Phase.Modal;
 
-			//
-			Submit.performed += CraftItem;
-
-			Cancel.performed -= CloseMenu;
-			Cancel.performed += CloseQuantityModal;
-
 			// 
 			QuantityModal.SetActive(true);
 
-			QuantityMinimum.text = $"01";
-			QuantityMaximum.text = $"{timesCanBeCrated[item]:D2}";
-
 			//
 			selectedItem = item;
-			selectedQuantity = 1;
 
-			quantityMin = 1;
-			quantityMax = timesCanBeCrated[item];
+			QuantityMaximum.text = $"{timesCanBeCrated[item]:D2}";
+			Quantity.value = 1;
+			Quantity.maxValue = timesCanBeCrated[item];
+
+			QuantityLabel.text = "01";
 
 			//
-			UpdateQuantityGauge();
+			EventSystem.current.SetSelectedGameObject(Quantity.gameObject);
 		}
 
-		void DecreaseQuantity() {
-			selectedQuantity -= 1;
-			if (selectedQuantity < quantityMin) {
-				selectedQuantity = quantityMax;
+		public void CraftItem(int action) {
+			CloseQuantityModal();
+			if (action < 0) {
+				return;
 			}
 
-			UpdateQuantityGauge();
-		}
-
-		void IncreaseQuantity() {
-			selectedQuantity += 1;
-			if (selectedQuantity > quantityMax) {
-				selectedQuantity = quantityMin;
-			}
-
-			UpdateQuantityGauge();
-		}
-
-		void UpdateQuantityGauge() {
-			const float total = quantityRatio - quantityWidth;
-			int max = quantityMax - quantityMin;
-			float ratio = max > 0 ? (float) (selectedQuantity - quantityMin) / (float) (max) : 1;
-
-			QuantityThumb.anchoredPosition = new Vector2(total * ratio, 0);
-			QuantityLabel.text = $"{selectedQuantity:D2}";
-		}
-
-		void CraftItem(InputAction.CallbackContext ctx) {
-			Submit.performed -= CraftItem;
-			Cancel.performed -= CloseQuantityModal;
-
 			//
-			QuantityModal.SetActive(false);
-
-			//
+			int quantity = Mathf.FloorToInt(Quantity.value);
 			selectedItem.Recipe.ForEach(ingredient =>
 				Engine.Profile.Inventory
 				.AdjustItem(
 					ingredient.Item,
-					-(ingredient.Quantity * selectedQuantity)
+					-(ingredient.Quantity * quantity)
 				)
 			);
 
 			Engine.Profile.Inventory
-				.AdjustItem(selectedItem, selectedQuantity);
-
-			//
-			selectedItem = null;
-			selectedQuantity = 0;
-			quantityMax = 0;
+				.AdjustItem(selectedItem, quantity);
 
 			//
 			StartCoroutine(Reset());
@@ -415,11 +354,12 @@ namespace Crafting {
 			Configure();
 		}
 
-		void CloseQuantityModal(InputAction.CallbackContext ctx) {
-			Submit.performed -= CraftItem;
-			Cancel.performed -= CloseQuantityModal;
+		public void OnQuantityChanged(float quantity) {
+			QuantityLabel.text = $"{quantity:d2}";
+		}
 
-			Cancel.performed += CloseMenu;
+		void CloseQuantityModal() {
+			phase = Phase.Base;
 
 			//
 			QuantityModal.SetActive(false);
@@ -456,57 +396,6 @@ namespace Crafting {
 
 				button.onClick.RemoveAllListeners();
 			});
-		}
-
-		void UpdateVisibleButtonRange(int index) {
-			if (index < visibleButtonRangeMin) {
-				visibleButtonRangeMin = index;
-				visibleButtonRangeMax = index + 8;
-			} else if (index > visibleButtonRangeMax) {
-				visibleButtonRangeMax = index;
-				visibleButtonRangeMin = index - 8;
-			}
-
-			//
-			UpdateVisibleButtons();
-			UpdateScrollbarThumb(index);
-		}
-
-		void UpdateVisibleButtons() {
-			for (int i = 0; i < buttons.Count; i++) {
-				bool enabled = i >= visibleButtonRangeMin && i <= visibleButtonRangeMax;
-				var button = buttons[i].gameObject;
-				if (button == null) {
-					continue;
-				}
-
-				RectTransform rt = button.GetComponent<RectTransform>();
-				Vector2 sizeDelta = rt.sizeDelta;
-				sizeDelta.y = enabled ? 10 : 0;
-
-				rt.sizeDelta = sizeDelta;
-
-				foreach (var label in button.GetComponentsInChildren<TextMeshProUGUI>(true)) {
-					label.gameObject.SetActive(enabled);
-				}
-			}
-		}
-
-		void UpdateScrollbarThumb(int index) {
-			ScrollbarThumb.gameObject.SetActive(buttons.Count > 0);
-
-			if (buttons.Count > 0) {
-				var parent = ScrollbarThumb.parent.GetComponent<RectTransform>();
-
-				float parentHeight = Mathf.Ceil(parent.rect.height);
-				float rawButtonHeight = buttons.Count > 1 ? parentHeight / buttons.Count : parentHeight;
-				float buttonHeight = Mathf.Round(Mathf.Clamp(rawButtonHeight, 1f, parentHeight));
-				float track = parentHeight - buttonHeight;
-				float offset = buttons.Count > 1 ? Mathf.Ceil(track * ((float) index / ((float) (buttons.Count - 1)))) : 0;
-
-				ScrollbarThumb.anchoredPosition = new Vector2(0, -offset);
-				ScrollbarThumb.sizeDelta = new Vector2(2, buttonHeight);
-			}
 		}
 	}
 }

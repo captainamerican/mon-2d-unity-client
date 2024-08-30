@@ -34,7 +34,7 @@ namespace Menu {
 
 			WorldMapContent.SetActive(true);
 
-			if (Camera.main.transform.parent.CompareTag("Player")) {
+			if (Camera.main.transform.parent != null && Camera.main.transform.parent.CompareTag("Player")) {
 				cameraSize = Camera.main.orthographicSize;
 				Camera.main.orthographicSize = 32;
 
@@ -52,7 +52,7 @@ namespace Menu {
 		}
 
 		void OnGoBack(InputAction.CallbackContext _) {
-			if (Camera.main.transform.parent.CompareTag("Player")) {
+			if (Camera.main.transform.parent != null && Camera.main.transform.parent.CompareTag("Player")) {
 				Camera.main.transform.parent.position = cameraPosition;
 				Camera.main.orthographicSize = cameraSize;
 			}
