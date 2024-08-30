@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Reclaimator
   m_EditorClassIdentifier: 
   Name: Reclaimator
-  Information: 'The Infussoleum renders body parts unusuable but does not destroy
-    them. The result is more akin to a flowers pressed into a book. With enough <i>Soul
-    Dust</i>, the body part can be restored to useful function.
+  Information: 'The <i>Extractalis</i> renders body parts unusuable but does not
+    destroy them. The result is akin to flowers pressed into a book. With enough
+    <i>Soul Dust</i>, the body part can be restored to useful function.
 
 
-    That being
-    said, there''s not much room to store everything, so I keep only the most recent.
+    That
+    being said, there''s not much room to store everything, so I keep only the most
+    recent.
 
 
-    The
-    machine is my least favorite because it has a hand pump that must be actuated
-    manually. Wait, couldn''t I just use one of my...'
+    The machine is my least favorite because it has a hand pump that
+    must be actuated manually. Wait, couldn''t I just use one of my...'

@@ -121,7 +121,7 @@ namespace Menu {
 
 		void GoBackToSubCategory() {
 			phase = Phase.SubCategory;
-			InformationDialogRectTransform.sizeDelta = new Vector2(79, 78);
+			InformationDialogRectTransform.sizeDelta = new Vector2(79, 76);
 
 			//
 			Game.Btn.Select(subCategoryButtons[selectedSubCategoryIndex]);

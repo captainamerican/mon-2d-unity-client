@@ -106,7 +106,7 @@ namespace Menu {
 			RemoveInputCallbacks();
 
 			//
-			Cancel = PlayerInput.currentActionMap.FindAction("Cancel");
+			Cancel = Game.Control.Get(PlayerInput, "Cancel");
 			Cancel.performed += OnGoBack;
 		}
 
@@ -167,6 +167,22 @@ namespace Menu {
 			//
 			Engine.NextScene = new NextScene { Name = StartScreen.Scene.Name };
 			SceneManager.LoadSceneAsync(Loader.Scene.Name, LoadSceneMode.Additive);
+		}
+
+		// -------------------------------------------------------------------------
+
+		public void SubmodalHasControl() {
+			phase = Phase.SubModal;
+
+			Cancel.performed -= OnGoBack;
+		}
+
+		public void RestoreNormal() {
+			phase = Phase.Normal;
+
+			// 
+			RemoveInputCallbacks();
+			Cancel.performed += OnGoBack;
 		}
 
 		// -------------------------------------------------------------------------

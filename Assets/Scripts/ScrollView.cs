@@ -31,8 +31,13 @@ public class ScrollView : MonoBehaviour {
 		}
 
 		//
+		UpdateIfScrollbarIsVisible(buttons);
 		UpdateVisibleButtons(buttons);
 		UpdateScrollbarThumb(buttons, index);
+	}
+
+	void UpdateIfScrollbarIsVisible(List<Button> buttons) {
+		Scrollbar.SetActive(buttons.Count - 1 > totalVisibleButtons);
 	}
 
 	void UpdateVisibleButtons(List<Button> buttons) {

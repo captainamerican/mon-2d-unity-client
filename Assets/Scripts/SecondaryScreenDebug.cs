@@ -7,11 +7,16 @@ public class SecondaryScreenDebug : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
+	[SerializeField] Engine Engine;
+
 	[SerializeField] EventSystem LocalEventSystem;
 	[SerializeField] Camera LocalCamera;
 	[SerializeField] AudioListener LocalAudioListener;
 
 	[SerializeField] Canvas Canvas;
+
+	[SerializeField] bool ResetEngineMode;
+	[SerializeField] EngineMode EngineModeReset;
 
 
 	// --------------------------------------------------------------------------- 
@@ -28,6 +33,11 @@ public class SecondaryScreenDebug : MonoBehaviour {
 
 		//
 		Canvas.worldCamera = Camera.main;
+
+		//
+		if (ResetEngineMode) {
+			Engine.Mode = EngineModeReset;
+		}
 	}
 
 	// ---------------------------------------------------------------------------

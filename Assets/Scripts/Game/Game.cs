@@ -3,6 +3,7 @@
 using NanoidDotNet;
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Game {
 	public enum EffectType {
@@ -197,6 +198,12 @@ namespace Game {
 
 		static public string Generate() {
 			return Nanoid.Generate(alphabet, 16);
+		}
+	}
+
+	static public class Control {
+		static public InputAction Get(PlayerInput playerInput, string action) {
+			return playerInput.currentActionMap.FindAction(action);
 		}
 	}
 }
