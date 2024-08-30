@@ -39,6 +39,10 @@ namespace Menu {
 		[SerializeField] CreaturesMenu CreaturesMenu;
 		[SerializeField] OptionsMenu OptionsMenu;
 		[SerializeField] StatusMenu StatusMenu;
+		[SerializeField] WorldMapMenu WorldMapMenu;
+
+		[Header("World Map")]
+		[SerializeField] GameObject WorldMapContent;
 
 		// -------------------------------------------------------------------------
 
@@ -62,6 +66,9 @@ namespace Menu {
 			CreaturesMenu.gameObject.SetActive(false);
 			OptionsMenu.gameObject.SetActive(false);
 			StatusMenu.gameObject.SetActive(false);
+			WorldMapMenu.gameObject.SetActive(false);
+
+			WorldMapContent.SetActive(false);
 		}
 
 		void OnDisable() {
