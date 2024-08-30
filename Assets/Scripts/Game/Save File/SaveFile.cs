@@ -19,6 +19,7 @@ namespace Game {
 
 		public int Magic = 30;
 		public int Wisdom = 5;
+		public float Hunger = 1;
 
 		[Header("Data")]
 		public List<string> Party = new();
@@ -34,6 +35,7 @@ namespace Game {
 		public List<Item> AcquiredItem = new();
 		public List<SpiritWisdom> AcquiredSpiritWisdom = new();
 		public List<Tag> AcquiredTags = new();
+		public List<Lore> AcquiredLore = new();
 
 		// -------------------------------------------------------------------------
 
@@ -58,6 +60,12 @@ namespace Game {
 			return Creatures.Find(c => c.Id == id);
 		}
 
+
+		public int MagicTotal {
+			get {
+				return Mathf.RoundToInt(Mathf.Clamp((float) Wisdom * (5f + ((float) Level / 2f)), 1, 999));
+			}
+		}
 
 		// -------------------------------------------------------------------------
 

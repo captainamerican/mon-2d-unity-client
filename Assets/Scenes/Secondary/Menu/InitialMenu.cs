@@ -24,6 +24,7 @@ namespace Menu {
 		[SerializeField] CompendiumMenu CompendiumMenu;
 		[SerializeField] CreaturesMenu CreaturesMenu;
 		[SerializeField] OptionsMenu OptionsMenu;
+		[SerializeField] StatusMenu StatusMenu;
 
 		// -------------------------------------------------------------------------
 
@@ -102,6 +103,10 @@ namespace Menu {
 
 				case 1:
 					CreaturesMenu.gameObject.SetActive(true);
+					break;
+
+				case 4:
+					StatusMenu.gameObject.SetActive(true);
 					break;
 
 				case 5:

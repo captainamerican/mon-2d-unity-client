@@ -38,6 +38,7 @@ namespace Menu {
 		[SerializeField] CompendiumMenu CompendiumMenu;
 		[SerializeField] CreaturesMenu CreaturesMenu;
 		[SerializeField] OptionsMenu OptionsMenu;
+		[SerializeField] StatusMenu StatusMenu;
 
 		// -------------------------------------------------------------------------
 
@@ -60,6 +61,7 @@ namespace Menu {
 			CompendiumMenu.gameObject.SetActive(false);
 			CreaturesMenu.gameObject.SetActive(false);
 			OptionsMenu.gameObject.SetActive(false);
+			StatusMenu.gameObject.SetActive(false);
 		}
 
 		void OnDisable() {

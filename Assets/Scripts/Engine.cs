@@ -32,6 +32,7 @@ public class Engine : ScriptableObject {
 	public List<SpiritWisdom> AllSpiritWisdom = new();
 	public List<Gameplay> AllGameplay = new();
 	public List<Tag> AllTags = new();
+	public List<Lore> AllLore = new();
 
 	[Header(("Current Profile"))]
 	public SaveFile Profile;

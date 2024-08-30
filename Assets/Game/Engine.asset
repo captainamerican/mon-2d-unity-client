@@ -78,12 +78,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 518e5b533cd834d74a8f27586224bf7b, type: 2}
   AllTags:
   - {fileID: 11400000, guid: 23c7c7d6cb2b445349a266070087152d, type: 2}
+  AllLore: []
   Profile:
     Level: 5
     Experience: 67
     ExperienceForNextLevel: 239
     Magic: 16
     Wisdom: 5
+    Hunger: 1
     Party:
     - f79ffc432f2f
     - 1234567
@@ -252,11 +254,12 @@ MonoBehaviour:
       SFXVolume: 0.66
       BattleAnimations: 1
       CheatMenu: 0
-      Speedrunning: 0
+      Speedrunning: 1
     AcquiredBodyPart: []
     AcquiredSkills: []
     AcquiredItem: []
     AcquiredSpiritWisdom: []
     AcquiredTags: []
+    AcquiredLore: []
     SpiritsDefeated: 
     OpenedChests: 
