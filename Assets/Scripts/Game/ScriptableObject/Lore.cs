@@ -5,5 +5,5 @@ public class Lore : ScriptableObject {
 	public string Name;
 
 	[TextArea(2, 20)]
-	public string Information;
+	public string Text;
 }

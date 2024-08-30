@@ -22,6 +22,9 @@ namespace Menu {
 
 		InputAction Cancel;
 
+		float cameraSize;
+		Vector3 cameraPosition;
+
 		// --------------------------------------------------------------------------
 
 		void OnEnable() {
@@ -30,6 +33,14 @@ namespace Menu {
 			Cancel.performed += OnGoBack;
 
 			WorldMapContent.SetActive(true);
+
+			if (Camera.main.transform.parent.CompareTag("Player")) {
+				cameraSize = Camera.main.orthographicSize;
+				Camera.main.orthographicSize = 32;
+
+				cameraPosition = Camera.main.transform.parent.position;
+				Camera.main.transform.parent.position = Vector3.zero;
+			}
 		}
 
 		void OnDisable() {
@@ -41,6 +52,12 @@ namespace Menu {
 		}
 
 		void OnGoBack(InputAction.CallbackContext _) {
+			if (Camera.main.transform.parent.CompareTag("Player")) {
+				Camera.main.transform.parent.position = cameraPosition;
+				Camera.main.orthographicSize = cameraSize;
+			}
+
+			//
 			InitialMenu.gameObject.SetActive(true);
 
 			//

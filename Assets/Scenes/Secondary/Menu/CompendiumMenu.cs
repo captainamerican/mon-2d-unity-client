@@ -3,6 +3,8 @@ using System.Linq;
 
 using TMPro;
 
+using Unity.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -121,7 +123,7 @@ namespace Menu {
 
 		void GoBackToSubCategory() {
 			phase = Phase.SubCategory;
-			InformationDialogRectTransform.sizeDelta = new Vector2(79, 76);
+			InformationDialogRectTransform.sizeDelta = new Vector2(79, 67);
 
 			//
 			Game.Btn.Select(subCategoryButtons[selectedSubCategoryIndex]);
@@ -301,6 +303,31 @@ namespace Menu {
 						break;
 
 					case 5:
+						var loreButtons = Engine.AllLore
+							.OrderBy(lore => lore.Name)
+							.Select(lore => {
+								bool acquired = Engine.Profile.AcquiredLore.Contains(lore);
+
+								//
+								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
+
+								//
+								TextMeshProUGUI label = buttonGO.GetComponentInChildren<TextMeshProUGUI>();
+								label.text = acquired ? lore.Name : "--";
+
+								//
+								CompendiumButton compendiumButton = buttonGO.GetComponent<CompendiumButton>();
+								compendiumButton.Type = CompendiumButtonType.SpiritWisdom;
+								compendiumButton.Lore = lore;
+
+								//
+								return buttonGO.GetComponent<Button>();
+							});
+						subCategoryButtons.AddRange(loreButtons);
+						subCategoryCache.Add(selectedCategoryIndex, loreButtons);
+						break;
+
+					case 6:
 						var gameplayButtons = Engine.AllGameplay
 							.OrderBy(gameplay => gameplay.Name)
 							.Select(gameplay => {
@@ -425,6 +452,16 @@ namespace Menu {
 
 					}
 					break;
+				case CompendiumButtonType.Lore:
+					if (!Engine.Profile.AcquiredLore.Contains(compendiumButton.Lore)) {
+						TextInformation.text = $"Lore not yet discovered.";
+						TextInformationContainer.SetActive(true);
+					} else {
+						TextInformation.text = $"{compendiumButton.Lore.Name}\n\n{compendiumButton.Lore.Text}";
+						TextInformationContainer.SetActive(true);
+
+					}
+					break;
 
 				case CompendiumButtonType.Gameplay:
 					TextInformation.text = $"{compendiumButton.Gameplay.Name}\n\n{compendiumButton.Gameplay.Information}";
@@ -485,6 +522,11 @@ namespace Menu {
 					break;
 
 				case 5:
+					current = Engine.Profile.AcquiredLore.Count;
+					total = Engine.AllLore.Count;
+					break;
+
+				case 6:
 					current = Engine.AllGameplay.Count;
 					total = current;
 					break;

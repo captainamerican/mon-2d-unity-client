@@ -8,7 +8,8 @@ namespace Menu {
 		Item,
 		SpiritWisdom,
 		Gameplay,
-		Tag
+		Tag,
+		Lore
 	}
 
 	public class CompendiumButton : MonoBehaviour {
@@ -19,5 +20,6 @@ namespace Menu {
 		public SpiritWisdom SpiritWisdom;
 		public Gameplay Gameplay;
 		public Tag Tag;
+		public Lore Lore;
 	}
 }
