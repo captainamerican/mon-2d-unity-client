@@ -213,7 +213,7 @@ namespace Dialogue {
 			currentRectTransform.anchoredPosition = a1;
 
 			//
-			yield return Do.ForReal(3f, i => {
+			yield return Do.ForReal(0.5f, i => {
 				currentRectTransform.anchoredPosition = Vector2.Lerp(a1, b1, i);
 				oldRectTransform.anchoredPosition = Vector2.Lerp(a2, b2, i);
 			});
