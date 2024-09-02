@@ -77,7 +77,7 @@ namespace Crafting {
 		Phase phase;
 		InputAction Cancel;
 
-		static Action OnDone;
+		static Action OnDone = () => Debug.Log("Close");
 
 		// -------------------------------------------------------------------------
 
@@ -176,14 +176,10 @@ namespace Crafting {
 			AddNavigation();
 
 			// selected first button
-			buttons[currentButtonIndex].Select();
-			buttons[currentButtonIndex].OnSelect(null);
-			buttons[currentButtonIndex].GetComponent<InformationButton>().OnSelect(null);
+			Game.Btn.Select(buttons[currentButtonIndex]);
 
 			//
 			Cancel.performed += CloseMenu;
-
-			Canvas.worldCamera = Camera.main;
 		}
 
 		void RebuildDictionaries() {

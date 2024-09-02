@@ -27,6 +27,7 @@ namespace Menu {
 		[SerializeField] OptionsMenu OptionsMenu;
 		[SerializeField] StatusMenu StatusMenu;
 		[SerializeField] WorldMapMenu WorldMapMenu;
+		[SerializeField] SaveLoadMenu SaveLoadMenu;
 
 		// -------------------------------------------------------------------------
 
@@ -121,6 +122,10 @@ namespace Menu {
 
 				case 5:
 					OptionsMenu.gameObject.SetActive(true);
+					break;
+
+				case 6:
+					SaveLoadMenu.gameObject.SetActive(true);
 					break;
 
 				default:

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a3f39f2d62f4ab79e8d21a283de14a, type: 3}
   m_Name: Engine
   m_EditorClassIdentifier: 
-  Mode: 10
-  MapId: 0
+  Mode: 20
+  MapId: 10
   CraftingEquipment:
   - {fileID: 11400000, guid: ca6b50a578453ef4f84b5c3e5b418c36, type: 2}
   - {fileID: 11400000, guid: ddadc47a61c029f488c69f352d8e19be, type: 2}
@@ -77,6 +77,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 87a36a6ece8074c2b8faf53f1a5244c6, type: 2}
   - {fileID: 11400000, guid: 0b6c7ad99ee934a6890050d1ab2f13c1, type: 2}
   - {fileID: 11400000, guid: 518e5b533cd834d74a8f27586224bf7b, type: 2}
+  - {fileID: 11400000, guid: 1fa1a1f5688d6465499114101563a2b2, type: 2}
   AllTags:
   - {fileID: 11400000, guid: 23c7c7d6cb2b445349a266070087152d, type: 2}
   AllLore: []
@@ -177,13 +178,19 @@ MonoBehaviour:
       - Item: {fileID: 11400000, guid: ddcc1527333d34b829687e19bdd3c16d, type: 2}
         Amount: 9999
       - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
-        Amount: 2
+        Amount: 999
       - Item: {fileID: 11400000, guid: 3614303c099ad488eb67d96849e0feac, type: 2}
         Amount: 99
       - Item: {fileID: 11400000, guid: 1d7d7d45a98774d0db987e1a4af1398b, type: 2}
         Amount: 99
       - Item: {fileID: 11400000, guid: 10360a571bfde48f59f7272535dcd766, type: 2}
         Amount: 99
+      - Item: {fileID: 11400000, guid: 10360a571bfde48f59f7272535dcd766, type: 2}
+        Amount: 99
+      - Item: {fileID: 11400000, guid: 217e612b1f7c0654bba074d9603f8dfd, type: 2}
+        Amount: 99
+      - Item: {fileID: 11400000, guid: ca6b50a578453ef4f84b5c3e5b418c36, type: 2}
+        Amount: 1
     Storage:
       Head:
       - Id: 

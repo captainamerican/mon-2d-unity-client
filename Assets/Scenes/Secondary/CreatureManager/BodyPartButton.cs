@@ -56,7 +56,7 @@ public class BodyPartButton : MonoBehaviour {
 		BodyPartEntry = entry;
 
 		//
-		Clear(HeadBodyPart.Label ?? defaultName ?? "??");
+		Clear(HeadBodyPart.Label ?? defaultName ?? "???");
 		if (entry?.BodyPart == null) {
 			return;
 		}

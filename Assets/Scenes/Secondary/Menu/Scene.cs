@@ -41,6 +41,7 @@ namespace Menu {
 		[SerializeField] OptionsMenu OptionsMenu;
 		[SerializeField] StatusMenu StatusMenu;
 		[SerializeField] WorldMapMenu WorldMapMenu;
+		[SerializeField] SaveLoadMenu SaveLoadMenu;
 
 		[Header("World Map")]
 		[SerializeField] GameObject WorldMapContent;
@@ -69,6 +70,7 @@ namespace Menu {
 			OptionsMenu.gameObject.SetActive(false);
 			StatusMenu.gameObject.SetActive(false);
 			WorldMapMenu.gameObject.SetActive(false);
+			SaveLoadMenu.gameObject.SetActive(false);
 
 			WorldMapContent.SetActive(false);
 		}

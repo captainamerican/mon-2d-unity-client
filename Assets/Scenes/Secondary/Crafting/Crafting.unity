@@ -452,7 +452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -958,14 +958,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 673779673}
+  - component: {fileID: 673779682}
   - component: {fileID: 673779674}
-  - component: {fileID: 673779675}
   - component: {fileID: 673779676}
+  - component: {fileID: 673779675}
   - component: {fileID: 673779677}
   - component: {fileID: 673779679}
   - component: {fileID: 673779678}
   - component: {fileID: 673779680}
-  - component: {fileID: 673779682}
   - component: {fileID: 673779681}
   m_Layer: 0
   m_Name: Crafting.Scene
@@ -1650,7 +1650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3048,7 +3048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0

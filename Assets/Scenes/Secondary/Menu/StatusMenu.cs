@@ -64,29 +64,11 @@ namespace Menu {
 			HungerRatio.localScale = new Vector3(Mathf.Clamp01(Engine.Profile.Hunger), 1, 1);
 
 			//
-			int total = 0;
-			total += Engine.AllBodyParts.Count;
-			total += Engine.AllGameplay.Count;
-			total += Engine.AllItems.Count;
-			total += Engine.AllLore.Count;
-			total += Engine.AllSkills.Count;
-			total += Engine.AllSpiritWisdom.Count;
-			total += Engine.AllTags.Count;
+			var completion = Engine.SaveFileCompletion();
 
-			int current = 0;
-			current += Engine.Profile.AcquiredBodyPart.Count;
-			current += Engine.AllGameplay.Count;
-			current += Engine.Profile.AcquiredItem.Count;
-			current += Engine.Profile.AcquiredLore.Count;
-			current += Engine.Profile.AcquiredSkills.Count;
-			current += Engine.Profile.AcquiredSpiritWisdom.Count;
-			current += Engine.Profile.AcquiredTags.Count;
-
-			float completionRatio = total > 0 ? (float) current / (float) total : 0;
-
-			CompletionPercentLabel.text = completionRatio < 1 ? $"{completionRatio * 100:n2}%" : "100%";
-			CompletionLabel.text = $"{current}/{total}";
-			CompletionRatio.localScale = new Vector3(Mathf.Clamp01(completionRatio), 1, 1);
+			CompletionPercentLabel.text = completion.ratio < 1 ? $"{completion.ratio * 100:n2}%" : "100%";
+			CompletionLabel.text = $"{completion.current}/{completion.total}";
+			CompletionRatio.localScale = new Vector3(Mathf.Clamp01(completion.ratio), 1, 1);
 
 			//
 			RemoveInputCallbacks();

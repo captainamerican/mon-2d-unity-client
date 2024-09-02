@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -12,7 +11,8 @@ public class ScrollView : MonoBehaviour {
 
 	[SerializeField] GameObject Scrollbar;
 	[SerializeField] RectTransform ScrollbarThumb;
-	[SerializeField] int totalVisibleButtons = 8;
+	[SerializeField] int TotalVisibleButtons = 8;
+	[SerializeField] int ButtonHeight = 10;
 
 	// ---------------------------------------------------------------------------
 
@@ -24,10 +24,10 @@ public class ScrollView : MonoBehaviour {
 	public void UpdateVisibleButtonRange(List<Button> buttons, int index) {
 		if (index < visibleButtonRangeMin) {
 			visibleButtonRangeMin = index;
-			visibleButtonRangeMax = index + totalVisibleButtons;
+			visibleButtonRangeMax = index + TotalVisibleButtons;
 		} else if (index > visibleButtonRangeMax) {
 			visibleButtonRangeMax = index;
-			visibleButtonRangeMin = index - totalVisibleButtons;
+			visibleButtonRangeMin = index - TotalVisibleButtons;
 		}
 
 		//
@@ -37,7 +37,7 @@ public class ScrollView : MonoBehaviour {
 	}
 
 	void UpdateIfScrollbarIsVisible(List<Button> buttons) {
-		Scrollbar.SetActive(buttons.Count - 1 > totalVisibleButtons);
+		Scrollbar.SetActive(buttons.Count - 1 > TotalVisibleButtons);
 	}
 
 	void UpdateVisibleButtons(List<Button> buttons) {
@@ -53,7 +53,7 @@ public class ScrollView : MonoBehaviour {
 
 			Vector2 sizeDelta = rt.sizeDelta;
 			sizeDelta.y = enabled
-				? 10
+				? ButtonHeight
 				: 1;
 
 			rt.sizeDelta = sizeDelta;

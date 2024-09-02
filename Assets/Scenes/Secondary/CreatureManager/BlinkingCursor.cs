@@ -1,5 +1,7 @@
 using TMPro;
+
 using UnityEngine;
+using UnityEngine.UI;
 
 // -----------------------------------------------------------------------------
 
@@ -7,7 +9,7 @@ public class BlinkingCursor : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
-	[SerializeField] TextMeshProUGUI Cursor;
+	[SerializeField] Image Cursor;
 
 	// ---------------------------------------------------------------------------
 
@@ -15,7 +17,7 @@ public class BlinkingCursor : MonoBehaviour {
 	Color nextColor;
 	bool hidden;
 
-	const float time = 0.5f;
+	const float time = 0.66f;
 	Color off = new(0, 0, 0, 0);
 	Color on = new(0, 0, 0, 1);
 

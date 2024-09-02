@@ -12,6 +12,10 @@ namespace Game {
 
 		// -------------------------------------------------------------------------
 
+		[Header("File")]
+		public int FileIndex = -1;
+		public bool IsAutoSave = false;
+
 		[Header("Stats")]
 		public int Level = 1;
 		public int Experience = 0;
@@ -20,6 +24,8 @@ namespace Game {
 		public int Magic = 30;
 		public int Wisdom = 5;
 		public float Hunger = 1;
+
+		public float PlaytimeAsSeconds;
 
 		[Header("Data")]
 		public List<string> Party = new();
@@ -68,6 +74,23 @@ namespace Game {
 		public int MagicTotal {
 			get {
 				return Mathf.RoundToInt(Mathf.Clamp((float) Wisdom * (5f + ((float) Level / 2f)), 1, 999));
+			}
+		}
+
+		public string PlayTimeAsString {
+
+			get {
+				float time = PlaytimeAsSeconds;
+
+				int hours = Mathf.FloorToInt(time / 3600f);
+				int minutes = Mathf.FloorToInt((time - hours) / 60f);
+				int seconds = Mathf.FloorToInt(time % 60f);
+				int microseconds = Mathf.FloorToInt((time - Mathf.FloorToInt(time)) * 1000);
+
+				//
+				return Options.Speedrunning
+					? $"{hours:d2}:{minutes:d2}:{seconds:d2}.{microseconds:d3}"
+					: $"{hours:d2}:{minutes:d2}:{seconds:d2}";
 			}
 		}
 

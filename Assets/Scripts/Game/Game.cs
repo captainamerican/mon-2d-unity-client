@@ -206,4 +206,10 @@ namespace Game {
 			return playerInput.currentActionMap.FindAction(action);
 		}
 	}
+
+	public class CompletionData {
+		public int current;
+		public int total;
+		public float ratio;
+	}
 }

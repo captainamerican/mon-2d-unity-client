@@ -26,6 +26,12 @@ public enum MapId {
 	Forest04 = 16
 }
 
+public class NextScene {
+	public string Name;
+	public Vector3 Destination;
+	public object Data;
+}
+
 public delegate void EngineModeChangedEvent(EngineMode mode);
 
 [CreateAssetMenu(fileName = "Engine", menuName = "MoN/Engine")]
@@ -58,10 +64,35 @@ public class Engine : ScriptableObject {
 	public bool PlayerHasControl() {
 		return Mode == EngineMode.PlayerControl;
 	}
-}
 
-public class NextScene {
-	public string Name;
-	public Vector3 Destination;
-	public object Data;
+	public CompletionData SaveFileCompletion() {
+		return SaveFileCompletion(Profile);
+	}
+
+	public CompletionData SaveFileCompletion(SaveFile saveFile) {
+		int total = 0;
+		total += AllBodyParts.Count;
+		total += AllItems.Count;
+		total += AllLore.Count;
+		total += AllSkills.Count;
+		total += AllSpiritWisdom.Count;
+		total += AllTags.Count;
+
+		int current = 0;
+		current += saveFile.AcquiredBodyPart.Count;
+		current += saveFile.AcquiredItem.Count;
+		current += saveFile.AcquiredLore.Count;
+		current += saveFile.AcquiredSkills.Count;
+		current += saveFile.AcquiredSpiritWisdom.Count;
+		current += saveFile.AcquiredTags.Count;
+
+		float ratio = total > 0 ? (float) current / (float) total : 0;
+
+		//
+		return new() {
+			current = current,
+			total = total,
+			ratio = ratio
+		};
+	}
 }

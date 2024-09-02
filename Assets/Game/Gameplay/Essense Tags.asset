@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Essense Tags
   m_EditorClassIdentifier: 
   Name: Essence Tags
-  Information: "I could attach a head to the leg bone of a creature's torso, but
+  Information: "I could attach a head to the hip socket of a creature's torso, but
     it wouldn't be very useful. \n\nSkills and Appendages are assigned a variety
-    of tags to help categorize them. Aligning the tags on the skills with the tags
-    on the relevant body parts will boost the skill's effectiveness.\n\nI have been
-    able to create new side effects like status ailments by combining certain body
-    part tags with certain skill tags."
+    of <i>tags</i> to help categorize them. Aligning the tags on the skills with
+    the tags on the relevant body parts will boost the skill's effectiveness.\n\nI
+    have been able to create new side effects like status ailments by combining certain
+    body part tags with certain skill tags."

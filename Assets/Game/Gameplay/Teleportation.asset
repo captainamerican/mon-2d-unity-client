@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
+  m_Name: Teleportation
+  m_EditorClassIdentifier: 
+  Name: Teleporation
+  Information: 'Lets me instantly travel between certain locations.
+
+
+    Developed
+    during the First Age in cooperation with Church clerics. A synthesis of the two
+    magicks considered theretofore impossible. It was a triumph for necromancers,
+    industry, and society at large.
+
+
+    Unfortunately, rapid adoption led to the
+    downfall of certain industries which exacerbated into a global conflict that
+    ended the age and, soon thereafter, rendered the necromancers extinct.'
