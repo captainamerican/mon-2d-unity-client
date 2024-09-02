@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Engine
   m_EditorClassIdentifier: 
   Mode: 10
+  MapId: 0
   CraftingEquipment:
   - {fileID: 11400000, guid: ca6b50a578453ef4f84b5c3e5b418c36, type: 2}
   - {fileID: 11400000, guid: ddadc47a61c029f488c69f352d8e19be, type: 2}
@@ -261,5 +262,6 @@ MonoBehaviour:
     AcquiredSpiritWisdom: []
     AcquiredTags: []
     AcquiredLore: []
+    TeleportUnlocked: 0a000000
     SpiritsDefeated: 
     OpenedChests: 

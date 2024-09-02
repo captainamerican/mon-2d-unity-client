@@ -4,6 +4,7 @@ using TMPro;
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // -----------------------------------------------------------------------------
@@ -26,6 +27,16 @@ namespace Menu {
 
 		[SerializeField] Sprite CurrentSprite;
 		[SerializeField] TextMeshProUGUI LocationLabel;
+
+		[SerializeField] TextMeshProUGUI TeleportNotice;
+
+		[Header("Teleport Dialog")]
+		[SerializeField] GameObject TeleportDialog;
+		[SerializeField] Button TeleportCancelButton;
+
+		[Header("Already Here Dialog")]
+		[SerializeField] GameObject AlreadyHereDialog;
+		[SerializeField] Button AlreadyHereCancelButton;
 
 		[Header("Go Back")]
 		[SerializeField] InitialMenu InitialMenu;
@@ -68,6 +79,16 @@ namespace Menu {
 			}
 		};
 
+		Dictionary<MapId, string> teleportLocations = new() {
+			{
+				MapId.Village,
+				Village.Scene.Name
+			},
+		};
+
+		MapId teleportLocation;
+		Button focusedButton;
+
 		// --------------------------------------------------------------------------
 
 		void OnEnable() {
@@ -75,6 +96,7 @@ namespace Menu {
 			Cancel = Game.Control.Get(PlayerInput, "Cancel");
 			Cancel.performed += OnGoBack;
 
+			TeleportDialog.SetActive(false);
 			WorldMapContent.SetActive(true);
 
 			//
@@ -87,25 +109,36 @@ namespace Menu {
 			}
 
 			//
-			MapButtons.ForEach(mapButton => {
-				mapButton.GetComponent<InformationButton>()
-					.Configure(() => HighlightLocation(mapButton.MapId));
-			});
-
-			//
 			MapId mapId = Engine.MapId;
 			if (mapId == MapId.Other) {
 				mapId = MapId.Village;
 			}
 
-			Button button = MapButtons
-				.Find(mb => mb.MapId == mapId)
-				?.GetComponent<Button>();
-			if (button == null) {
-				return;
-			}
+			// 
+			MapButtons.ForEach(mapButton => {
+				MapId mapId = mapButton.MapId;
+				Button button = mapButton.GetComponent<Button>();
 
-			Game.Btn.Select(button);
+				//
+				mapButton
+				.GetComponent<InformationButton>()
+					.Configure(() => HighlightLocation(mapId));
+
+				//
+				if (Engine.Profile.TeleportUnlocked.Contains(mapId)) {
+					button.onClick.RemoveAllListeners();
+					button.onClick.AddListener(() => {
+						focusedButton = button;
+
+						Teleport(mapId);
+					});
+				}
+
+				//
+				if (mapButton.MapId == mapId) {
+					Game.Btn.Select(button);
+				}
+			});
 		}
 
 		void OnDisable() {
@@ -139,6 +172,10 @@ namespace Menu {
 		}
 
 		void HighlightLocation(MapId mapId) {
+			bool canTeleport = Engine.Profile.TeleportUnlocked.Contains(mapId);
+
+			//
+			TeleportNotice.gameObject.SetActive(canTeleport);
 			SpriteRenderers.ForEach(s => s.sprite = null);
 
 			//
@@ -150,6 +187,38 @@ namespace Menu {
 			//
 			mapButton.GetComponent<SpriteRenderer>().sprite = CurrentSprite;
 			LocationLabel.text = mapNames[mapId];
+		}
+
+		void Teleport(MapId mapId) {
+			if (Engine.MapId == mapId) {
+				AlreadyHereDialog.SetActive(true);
+				Game.Btn.Select(AlreadyHereCancelButton);
+				return;
+			}
+
+			//
+			teleportLocation = mapId;
+
+			//
+			TeleportDialog.SetActive(true);
+			Game.Btn.Select(TeleportCancelButton);
+		}
+
+		public void OnTeleport(int action) {
+			TeleportDialog.SetActive(false);
+			AlreadyHereDialog.SetActive(false);
+
+			if (action < 1) {
+				Game.Btn.Select(focusedButton);
+				return;
+			}
+
+			//
+			Engine.NextScene = new NextScene {
+				Name = teleportLocations[teleportLocation]
+			};
+
+			SceneManager.LoadSceneAsync(Loader.Scene.Name, LoadSceneMode.Additive);
 		}
 
 		// -------------------------------------------------------------------------

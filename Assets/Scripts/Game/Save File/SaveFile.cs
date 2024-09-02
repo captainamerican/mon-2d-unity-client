@@ -37,6 +37,10 @@ namespace Game {
 		public List<Tag> AcquiredTags = new();
 		public List<Lore> AcquiredLore = new();
 
+		public List<MapId> TeleportUnlocked = new() {
+			MapId.Village
+		};
+
 		// -------------------------------------------------------------------------
 
 		public int PartyMembersAvailableToFight {
