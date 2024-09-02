@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 
 namespace Game {
 	public enum EffectType {
-		None,
+		None = 0,
+
 		Health = 10,
 		Magic = 20,
 		Status = 30,
@@ -47,15 +48,35 @@ namespace Game {
 		LuckDebuff = 1055
 	}
 
+	public enum BodyPartId {
+		None = 0,
+
+		WolfHead = 1001,
+		WolfTorso = 1002,
+		WolfTail = 1003,
+		WolfFrontLeg = 1004,
+		WolfRearLeg = 1004,
+	}
+
+	public enum SkillId {
+		None = 0,
+
+		Scratch = 1,
+		Bite = 2,
+		Kick = 3
+	}
+
 	public enum ApplicableTarget {
-		None,
+		None = 0,
+
 		Player = 10,
 		Creature = 20,
 		Enemy = 30
 	}
 
 	public enum ItemType {
-		None,
+		None = 0,
+
 		Consumable = 10,
 		Reusable = 20,
 		CraftingMaterial = 30,
@@ -65,7 +86,8 @@ namespace Game {
 	}
 
 	public enum TypeOfAppendages {
-		None,
+		None = 0,
+
 		OneLowerNoUpper = 10,
 		OneLowerTwoUpper = 20,
 		TwoLowerNoUpper = 30,
@@ -77,15 +99,16 @@ namespace Game {
 	}
 
 	public enum PartOfBody {
-		None,
+		None = 0,
+
 		Head,
 		Torso,
 		Tail,
 		Appendage
 	}
 
-	public enum BodyPartTag {
-		None,
+	public enum EssenceTag {
+		None = 0,
 
 		Claw = 10,
 		Teeth = 11,
@@ -110,14 +133,29 @@ namespace Game {
 	}
 
 	public enum ChestId {
-		None,
+		None = 0,
+
 		ForestEntranceFirst,
 		ForestEntranceSecond,
 		ForestCaveFirst
 	}
 
 	public enum SpiritId {
+		None = 0,
+
 		ForestEntrance01
+	}
+
+	public enum ItemId {
+		None = 0
+			,
+		PotionS = 1000,
+		PotionA = 1001,
+		PotionB = 1002,
+		PotionC = 1003,
+		PotionD = 1004,
+		PotionE = 1005,
+		PotionF = 1006,
 	}
 
 	[Serializable]
@@ -176,8 +214,23 @@ namespace Game {
 		public ConstructedCreature Creature;
 	}
 
-	static public class Btn {
-		static public void Select(UnityEngine.UI.Button button) {
+	static public class Focus {
+		static public void This(UnityEngine.UI.Slider slider) {
+			if (slider == null) {
+				throw new SystemException("Slider was null");
+			}
+
+			slider.Select();
+			slider.OnSelect(null);
+
+			//
+			var informationButton = slider.GetComponent<InformationButton>();
+			if (informationButton != null) {
+				informationButton.OnSelect(null);
+			}
+		}
+
+		static public void This(UnityEngine.UI.Button button) {
 			if (button == null) {
 				throw new SystemException("Button was null");
 			}

@@ -93,7 +93,7 @@ namespace Menu {
 		}
 
 		void SelectCurrentOption() {
-			Game.Btn.Select(Buttons[currentButtonIndex]);
+			Game.Focus.This(Buttons[currentButtonIndex]);
 		}
 
 		// -------------------------------------------------------------------------

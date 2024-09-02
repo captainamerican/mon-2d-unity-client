@@ -143,10 +143,10 @@ namespace CreatureManager {
 				IsNew = false,
 				Creature = creature.Clone(),
 				Original = creature,
-				AvailableHead = new(Engine.Profile.Storage.Head),
-				AvailableTorso = new(Engine.Profile.Storage.Torso),
-				AvailableTail = new(Engine.Profile.Storage.Tail),
-				AvailableAppendage = new(Engine.Profile.Storage.Appendage)
+				AvailableHead = new(Engine.Profile.BodyPartStorage.Head),
+				AvailableTorso = new(Engine.Profile.BodyPartStorage.Torso),
+				AvailableTail = new(Engine.Profile.BodyPartStorage.Tail),
+				AvailableAppendage = new(Engine.Profile.BodyPartStorage.Appendage)
 			});
 			EditInitialMenu.gameObject.SetActive(true);
 
@@ -198,7 +198,7 @@ namespace CreatureManager {
 				selectedButtonIndex = buttons.Count - 1;
 			}
 
-			Game.Btn.Select(buttons[selectedButtonIndex]);
+			Game.Focus.This(buttons[selectedButtonIndex]);
 		}
 
 		// -------------------------------------------------------------------------

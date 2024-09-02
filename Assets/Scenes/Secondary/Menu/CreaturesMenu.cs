@@ -55,7 +55,7 @@ namespace Menu {
 			ConfigureCreatureButtons();
 
 			// 
-			Game.Btn.Select(Creatures[0]);
+			Game.Focus.This(Creatures[0]);
 		}
 
 		void OnDisable() {
@@ -89,7 +89,7 @@ namespace Menu {
 			phase = Phase.Normal;
 
 			//
-			Game.Btn.Select(Creatures[selectedCreatureIndex]);
+			Game.Focus.This(Creatures[selectedCreatureIndex]);
 		}
 
 		// ------------------------------------------------------------------------- 
@@ -250,7 +250,7 @@ namespace Menu {
 						//
 						phase = Phase.Normal;
 						selectedCreatureIndex = swapCreatureIndex;
-						Game.Btn.Select(Creatures[selectedCreatureIndex]);
+						Game.Focus.This(Creatures[selectedCreatureIndex]);
 						break;
 					}
 			}

@@ -4,6 +4,8 @@ using Game;
 
 using UnityEngine;
 
+// ---------------------------------------------------------------------------
+
 public enum EngineMode {
 	None,
 	PlayerControl = 1,
@@ -34,27 +36,31 @@ public class NextScene {
 
 public delegate void EngineModeChangedEvent(EngineMode mode);
 
+// -----------------------------------------------------------------------------
+
 [CreateAssetMenu(fileName = "Engine", menuName = "MoN/Engine")]
 public class Engine : ScriptableObject {
-	public EngineMode Mode;
+
+	// ---------------------------------------------------------------------------
+
 	public event EngineModeChangedEvent ModeChanged;
 
-	public MapId MapId;
-
+	public EngineMode Mode;
 	public NextScene NextScene = null;
+
+	public SaveFile Profile;
 
 	[Header("Game Data")]
 	public List<Item> CraftingEquipment = new();
-	public List<Item> AllItems = new();
-	public List<BodyPartBase> AllBodyParts = new();
-	public List<Skill> AllSkills = new();
-	public List<SpiritWisdom> AllSpiritWisdom = new();
-	public List<Gameplay> AllGameplay = new();
-	public List<Tag> AllTags = new();
-	public List<Lore> AllLore = new();
+	public List<Item> Items = new();
+	public List<BodyPartBase> BodyParts = new();
+	public List<Skill> Skills = new();
+	public List<SpiritWisdom> SpiritWisdom = new();
+	public List<Gameplay> Gameplay = new();
+	public List<Tag> Tags = new();
+	public List<Lore> Lore = new();
 
-	[Header(("Current Profile"))]
-	public SaveFile Profile;
+	// ---------------------------------------------------------------------------
 
 	public void SetMode(EngineMode mode) {
 		Mode = mode;
@@ -71,20 +77,20 @@ public class Engine : ScriptableObject {
 
 	public CompletionData SaveFileCompletion(SaveFile saveFile) {
 		int total = 0;
-		total += AllBodyParts.Count;
-		total += AllItems.Count;
-		total += AllLore.Count;
-		total += AllSkills.Count;
-		total += AllSpiritWisdom.Count;
-		total += AllTags.Count;
+		total += BodyParts.Count;
+		total += Items.Count;
+		total += Lore.Count;
+		total += Skills.Count;
+		total += SpiritWisdom.Count;
+		total += Tags.Count;
 
 		int current = 0;
-		current += saveFile.AcquiredBodyPart.Count;
-		current += saveFile.AcquiredItem.Count;
-		current += saveFile.AcquiredLore.Count;
-		current += saveFile.AcquiredSkills.Count;
-		current += saveFile.AcquiredSpiritWisdom.Count;
-		current += saveFile.AcquiredTags.Count;
+		current += saveFile.Acquired.BodyPart.Count;
+		current += saveFile.Acquired.Item.Count;
+		current += saveFile.Acquired.Lore.Count;
+		current += saveFile.Acquired.Skill.Count;
+		current += saveFile.Acquired.SpiritWisdom.Count;
+		current += saveFile.Acquired.Tag.Count;
 
 		float ratio = total > 0 ? (float) current / (float) total : 0;
 
@@ -95,4 +101,7 @@ public class Engine : ScriptableObject {
 			ratio = ratio
 		};
 	}
+
+	// ---------------------------------------------------------------------------
+
 }

@@ -38,7 +38,7 @@ namespace Menu {
 
 			//
 			Dialog.SetActive(true);
-			Game.Btn.Select(ConfirmButton);
+			Game.Focus.This(ConfirmButton);
 		}
 
 		public void ConfirmChanges() {
@@ -56,7 +56,7 @@ namespace Menu {
 			OptionsMenu.RestoreNormal();
 
 			//
-			Game.Btn.Select(EditControlsButton);
+			Game.Focus.This(EditControlsButton);
 			Dialog.SetActive(false);
 		}
 

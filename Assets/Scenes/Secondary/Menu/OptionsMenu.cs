@@ -155,7 +155,7 @@ namespace Menu {
 			phase = Phase.SubModal;
 
 			ConfirmExitDialog.SetActive(true);
-			Game.Btn.Select(CancelConfirm);
+			Game.Focus.This(CancelConfirm);
 		}
 
 		public void OnExitToStart(int action) {

@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21752b5b22dda476f96222be4c2a446a, type: 3}
   m_Name: Experience Pill
   m_EditorClassIdentifier: 
+  Slug: experience-pill-f
   Type: 40
   UseInBattle: 0
-  Name: Experience Pill
+  Name: Experience Pill (F)
   Description: Enhances sparring pit results a small amount.
   FlavorText: Stealing from the future.
-  SortName: experience-pill
+  SortName: experience-pill-0
   Recipe: []
   Targets: 
   Effects:

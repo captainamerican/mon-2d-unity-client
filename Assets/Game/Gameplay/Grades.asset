@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
   m_Name: Grades
   m_EditorClassIdentifier: 
+  Slug: grades
   Name: Grades
   Information: "As a body part's experience increases, it reaches thresholds known
     as \u201Cgrades\u201D. Broadly speaking, there are three grades. For all body

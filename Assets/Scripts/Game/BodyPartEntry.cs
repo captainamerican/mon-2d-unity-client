@@ -8,10 +8,14 @@ namespace Game {
 		public string Id = Game.Id.Generate();
 		public int Experience = 0;
 		public float Quality = 1;
+
+
 	}
 
 	[Serializable]
-	public class HeadBodyPartEntry : BodyPartEntryBase {
+	public class HeadBodyPartEntry : BodyPartEntryBase, ISerializationCallbackReceiver {
+		[SerializeField, HideInInspector] string bodyPartSlug;
+
 		public HeadBodyPart BodyPart;
 
 		public int MaxSkills {
@@ -36,6 +40,17 @@ namespace Game {
 				//
 				return Mathf.FloorToInt(rawLevel);
 			}
+		}
+
+
+		void ISerializationCallbackReceiver.OnAfterDeserialize() {
+			if (BodyPart == null && bodyPartSlug != "") {
+				BodyPart = (HeadBodyPart) FuckYouUnity.Engine.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
+			}
+		}
+
+		void ISerializationCallbackReceiver.OnBeforeSerialize() {
+			bodyPartSlug = BodyPart?.Slug;
 		}
 	}
 

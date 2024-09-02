@@ -69,7 +69,7 @@ namespace CreatureManager {
 			UpdateCapsButtonLabel();
 
 			//
-			Game.Btn.Select(AlphabetButtons[0]);
+			Game.Focus.This(AlphabetButtons[0]);
 		}
 
 		void OnDisable() {

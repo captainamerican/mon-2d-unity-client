@@ -2,6 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Lore", menuName = "MoN/Lore")]
 public class Lore : ScriptableObject {
+	public string Slug;
 	public string Name;
 
 	[TextArea(2, 20)]

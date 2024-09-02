@@ -1,9 +1,17 @@
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
 
+// ---------------------------------------------------------------------------
+
+[Serializable]
 [CreateAssetMenu(fileName = "Skill", menuName = "MoN/Skill")]
 public class Skill : ScriptableObject {
+
+	// --------------------------------------------------------------------------- 
+
+	public string Slug;
 	public string Name;
 
 	[TextArea(2, 10)]
@@ -18,4 +26,7 @@ public class Skill : ScriptableObject {
 
 	[Header("FX")]
 	public List<Game.SkillFX> FX = new();
+
+	// ---------------------------------------------------------------------------
+
 }

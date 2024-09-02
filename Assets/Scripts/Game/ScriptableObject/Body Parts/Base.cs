@@ -9,6 +9,7 @@ public class BodyPartBase : ScriptableObject {
 
 	// ---------------------------------------------------------------------------
 
+	public string Slug;
 	public string Name;
 	public int ExperienceToLevel;
 	public int Strength = 1;

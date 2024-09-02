@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21752b5b22dda476f96222be4c2a446a, type: 3}
   m_Name: Coffee Beans
   m_EditorClassIdentifier: 
+  Slug: coffee-beans
   Type: 30
   UseInBattle: 0
   Name: Coffee Beans

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 253b874f4059c417a9d82bb2bffe7b3d, type: 3}
   m_Name: Wolf Torso
   m_EditorClassIdentifier: 
+  Slug: wolf-torso
   Name: Wolf Torso
   ExperienceToLevel: 500
   Strength: 1
@@ -20,5 +21,5 @@ MonoBehaviour:
   Intelligence: 1
   Wisdom: 1
   Luck: 1
-  Tags: 
+  Tags: []
   TypeOfAppendages: 50

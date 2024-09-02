@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
   m_Name: Appendages
   m_EditorClassIdentifier: 
+  Slug: appendages
   Name: Appendages
   Information: 'The torso of a creature determines how many appendages a creature
     will have. From none to six. The fun is in figuring out a nice combination!

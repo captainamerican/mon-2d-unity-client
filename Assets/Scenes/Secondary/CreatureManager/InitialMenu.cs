@@ -73,10 +73,10 @@ namespace CreatureManager {
 					Name = "",
 				},
 				Original = new(),
-				AvailableHead = new(Engine.Profile.Storage.Head),
-				AvailableTorso = new(Engine.Profile.Storage.Torso),
-				AvailableTail = new(Engine.Profile.Storage.Tail),
-				AvailableAppendage = new(Engine.Profile.Storage.Appendage)
+				AvailableHead = new(Engine.Profile.BodyPartStorage.Head),
+				AvailableTorso = new(Engine.Profile.BodyPartStorage.Torso),
+				AvailableTail = new(Engine.Profile.BodyPartStorage.Tail),
+				AvailableAppendage = new(Engine.Profile.BodyPartStorage.Appendage)
 			});
 			EditInitialMenu.gameObject.SetActive(true);
 
@@ -115,7 +115,7 @@ namespace CreatureManager {
 		}
 
 		void FocusPreviouslySelectedButton() {
-			Game.Btn.Select(Buttons[selectedButtonIndex]);
+			Game.Focus.This(Buttons[selectedButtonIndex]);
 		}
 
 		// -------------------------------------------------------------------------

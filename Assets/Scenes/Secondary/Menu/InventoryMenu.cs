@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -68,15 +69,30 @@ namespace Menu {
 			ConfigureInput();
 			ConfigureList();
 
-			CategoryButtons.ForEach(informationButton => {
+			for (int i = 0; i < CategoryButtons.Count; i++) {
+				int j = i;
+
+				var informationButton = CategoryButtons[i];
 				informationButton.Configure(() => {
 					ItemInformation.SetActive(false);
+
+					//
+					categoryIndex = j;
+
+					ConfigureList();
+
+					//
+					ScrollView.UpdateVisibleButtonRange(buttons, 0);
 				});
-			});
+			}
 
 			//
+			ItemInformation.SetActive(false);
+			ScrollView.UpdateVisibleButtonRange(buttons, 0);
 			if (buttons.Count > 0) {
-				Game.Btn.Select(buttons[0]);
+				Game.Focus.This(buttons[0]);
+			} else {
+				Game.Focus.This(CategoryButtons[categoryIndex].GetComponent<Button>());
 			}
 		}
 
@@ -154,14 +170,34 @@ namespace Menu {
 				});
 
 			//
-			CategoryLabel.text = categoryLabels[categoryIndex];
-		}
+			Button categoryButton = CategoryButtons[categoryIndex].GetComponent<Button>();
+			Navigation categoryNavigation = categoryButton.navigation;
 
-		public void ChangeCategory(int newCategory) {
-			categoryIndex = newCategory;
+			categoryNavigation.selectOnUp = (buttons.Count > 0) ? buttons.Last() : null;
+			categoryNavigation.selectOnDown = (buttons.Count > 0) ? buttons[0] : null;
+			categoryButton.navigation = categoryNavigation;
 
 			//
-			ConfigureList();
+			for (int i = 0; i < buttons.Count; i++) {
+				int up = i - 1;
+				int down = i + 1;
+
+				Button button = buttons[i];
+
+				Navigation navigation = button.navigation;
+				navigation.mode = Navigation.Mode.Explicit;
+				navigation.selectOnUp = up < 0
+					? categoryButton
+					: buttons[up];
+				navigation.selectOnDown = down >= buttons.Count
+					? categoryButton
+					: buttons[down];
+
+				button.navigation = navigation;
+			}
+
+			//
+			CategoryLabel.text = categoryLabels[categoryIndex];
 		}
 
 		// -------------------------------------------------------------------------

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21752b5b22dda476f96222be4c2a446a, type: 3}
   m_Name: Mannequin Part D
   m_EditorClassIdentifier: 
+  Slug: mannequin-part-d
   Type: 60
   UseInBattle: 0
   Name: Mannequin Part D

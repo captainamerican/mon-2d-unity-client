@@ -101,7 +101,7 @@ namespace CreatureManager {
 
 		void GoBackToBodyPartList() {
 			phase = FocusPhase.BodyPart;
-			Game.Btn.Select(buttons[selectedBodyPartIndex]);
+			Game.Focus.This(buttons[selectedBodyPartIndex]);
 			UpdateVisibleButtonRange(0);
 		}
 
@@ -123,7 +123,7 @@ namespace CreatureManager {
 			UpdateVisibleButtonRange(0);
 
 			//
-			Game.Btn.Select(buttons[0]);
+			Game.Focus.This(buttons[0]);
 		}
 
 		void ConfigureCancelAction() {
@@ -349,7 +349,7 @@ namespace CreatureManager {
 
 		void OnBodyPartSelected() {
 			phase = FocusPhase.AvailableBodyPart;
-			Game.Btn.Select(availableButtons[0]);
+			Game.Focus.This(availableButtons[0]);
 		}
 
 		void SetBodyPart(Game.BodyPartEntryBase entry) {
@@ -410,7 +410,7 @@ namespace CreatureManager {
 
 			phase = FocusPhase.BodyPart;
 			selectedAvailableBodyPartIndex = 0;
-			Game.Btn.Select(buttons[selectedBodyPartIndex]);
+			Game.Focus.This(buttons[selectedBodyPartIndex]);
 		}
 
 		void RemoveBodyPart() {
@@ -459,7 +459,7 @@ namespace CreatureManager {
 
 			//
 			phase = FocusPhase.BodyPart;
-			Game.Btn.Select(buttons[selectedBodyPartIndex]);
+			Game.Focus.This(buttons[selectedBodyPartIndex]);
 		}
 
 		// -------------------------------------------------------------------------

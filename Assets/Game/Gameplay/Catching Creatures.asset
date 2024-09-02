@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
   m_Name: Catching Creatures
   m_EditorClassIdentifier: 
+  Slug: catching-creatures
   Name: Catching Creatures
   Information: 'I''m a necromancer, not a zookeeper. I build creatures from the <i>remains</i>
     of my defeated foes.

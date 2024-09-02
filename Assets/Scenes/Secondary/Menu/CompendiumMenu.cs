@@ -76,7 +76,7 @@ namespace Menu {
 			ScrollView.UpdateVisibleButtonRange(subCategoryButtons, 0);
 
 			// 
-			Game.Btn.Select(Categories[0]);
+			Game.Focus.This(Categories[0]);
 		}
 
 		void OnDisable() {
@@ -118,7 +118,7 @@ namespace Menu {
 			InformationDialog.SetActive(false);
 
 			//
-			Game.Btn.Select(Categories[selectedCategoryIndex]);
+			Game.Focus.This(Categories[selectedCategoryIndex]);
 		}
 
 		void GoBackToSubCategory() {
@@ -126,7 +126,7 @@ namespace Menu {
 			InformationDialogRectTransform.sizeDelta = new Vector2(79, 67);
 
 			//
-			Game.Btn.Select(subCategoryButtons[selectedSubCategoryIndex]);
+			Game.Focus.This(subCategoryButtons[selectedSubCategoryIndex]);
 		}
 
 		// ------------------------------------------------------------------------- 
@@ -178,10 +178,10 @@ namespace Menu {
 			} else {
 				switch (selectedCategoryIndex) {
 					case 0:
-						var bodyPartButtons = Engine.AllBodyParts
+						var bodyPartButtons = Engine.BodyParts
 							.OrderBy(bodyPart => bodyPart.Name)
 							.Select(bodyPart => {
-								bool acquired = Engine.Profile.AcquiredBodyPart.Contains(bodyPart);
+								bool acquired = Engine.Profile.Acquired.Has(bodyPart);
 
 								//
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -203,10 +203,10 @@ namespace Menu {
 						break;
 
 					case 1:
-						var skillButtons = Engine.AllSkills
+						var skillButtons = Engine.Skills
 							.OrderBy(skill => skill.Name)
 							.Select(skill => {
-								bool acquired = Engine.Profile.AcquiredSkills.Contains(skill);
+								bool acquired = Engine.Profile.Acquired.Has(skill);
 
 								//
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -228,10 +228,10 @@ namespace Menu {
 						break;
 
 					case 2:
-						var tagButtons = Engine.AllTags
+						var tagButtons = Engine.Tags
 							.OrderBy(tag => tag.Name)
 							.Select(tag => {
-								bool acquired = Engine.Profile.AcquiredTags.Contains(tag);
+								bool acquired = Engine.Profile.Acquired.Has(tag);
 
 								//
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -253,10 +253,10 @@ namespace Menu {
 						break;
 
 					case 3:
-						var itemButtons = Engine.AllItems
+						var itemButtons = Engine.Items
 							.OrderBy(item => item.Name)
 							.Select(item => {
-								bool acquired = Engine.Profile.AcquiredItem.Contains(item);
+								bool acquired = Engine.Profile.Acquired.Has(item);
 
 								//
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -278,10 +278,10 @@ namespace Menu {
 						break;
 
 					case 4:
-						var spiritWisdomButtons = Engine.AllSpiritWisdom
+						var spiritWisdomButtons = Engine.SpiritWisdom
 							.OrderBy(spiritWisdom => spiritWisdom.Name)
 							.Select(spiritWisdom => {
-								bool acquired = Engine.Profile.AcquiredSpiritWisdom.Contains(spiritWisdom);
+								bool acquired = Engine.Profile.Acquired.Has(spiritWisdom);
 
 								//
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -303,10 +303,10 @@ namespace Menu {
 						break;
 
 					case 5:
-						var loreButtons = Engine.AllLore
+						var loreButtons = Engine.Lore
 							.OrderBy(lore => lore.Name)
 							.Select(lore => {
-								bool acquired = Engine.Profile.AcquiredLore.Contains(lore);
+								bool acquired = Engine.Profile.Acquired.Has(lore);
 
 								//
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -317,7 +317,7 @@ namespace Menu {
 
 								//
 								CompendiumButton compendiumButton = buttonGO.GetComponent<CompendiumButton>();
-								compendiumButton.Type = CompendiumButtonType.SpiritWisdom;
+								compendiumButton.Type = CompendiumButtonType.Lore;
 								compendiumButton.Lore = lore;
 
 								//
@@ -328,7 +328,7 @@ namespace Menu {
 						break;
 
 					case 6:
-						var gameplayButtons = Engine.AllGameplay
+						var gameplayButtons = Engine.Gameplay
 							.OrderBy(gameplay => gameplay.Name)
 							.Select(gameplay => {
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -399,7 +399,7 @@ namespace Menu {
 			//
 			phase = Phase.SubCategory;
 
-			Game.Btn.Select(subCategoryButtons[0]);
+			Game.Focus.This(subCategoryButtons[0]);
 		}
 
 		void OnSubCategoryButtonHighlighted(int index) {
@@ -416,7 +416,7 @@ namespace Menu {
 
 			switch (compendiumButton.Type) {
 				case CompendiumButtonType.BodyPart:
-					if (!Engine.Profile.AcquiredBodyPart.Contains(compendiumButton.BodyPart)) {
+					if (!Engine.Profile.Acquired.Has(compendiumButton.BodyPart)) {
 						TextInformation.text = $"Body part not yet acquired.";
 						TextInformationContainer.SetActive(true);
 					} else {
@@ -425,7 +425,7 @@ namespace Menu {
 					}
 					break;
 				case CompendiumButtonType.Skill:
-					if (!Engine.Profile.AcquiredSkills.Contains(compendiumButton.Skill)) {
+					if (!Engine.Profile.Acquired.Has(compendiumButton.Skill)) {
 						TextInformation.text = $"Skill not yet observed.";
 						TextInformationContainer.SetActive(true);
 					} else {
@@ -434,7 +434,7 @@ namespace Menu {
 					}
 					break;
 				case CompendiumButtonType.Item:
-					if (!Engine.Profile.AcquiredItem.Contains(compendiumButton.Item)) {
+					if (!Engine.Profile.Acquired.Has(compendiumButton.Item)) {
 						TextInformation.text = $"Item not yet acquired.";
 						TextInformationContainer.SetActive(true);
 					} else {
@@ -443,7 +443,7 @@ namespace Menu {
 					}
 					break;
 				case CompendiumButtonType.SpiritWisdom:
-					if (!Engine.Profile.AcquiredSpiritWisdom.Contains(compendiumButton.SpiritWisdom)) {
+					if (!Engine.Profile.Acquired.Has(compendiumButton.SpiritWisdom)) {
 						TextInformation.text = $"Spirit musing not yet heard.";
 						TextInformationContainer.SetActive(true);
 					} else {
@@ -453,7 +453,7 @@ namespace Menu {
 					}
 					break;
 				case CompendiumButtonType.Lore:
-					if (!Engine.Profile.AcquiredLore.Contains(compendiumButton.Lore)) {
+					if (!Engine.Profile.Acquired.Has(compendiumButton.Lore)) {
 						TextInformation.text = $"Lore not yet discovered.";
 						TextInformationContainer.SetActive(true);
 					} else {
@@ -469,7 +469,7 @@ namespace Menu {
 					break;
 
 				case CompendiumButtonType.Tag:
-					if (!Engine.Profile.AcquiredTags.Contains(compendiumButton.Tag)) {
+					if (!Engine.Profile.Acquired.Has(compendiumButton.Tag)) {
 						TextInformation.text = $"Essense Tag not yet observed.";
 						TextInformationContainer.SetActive(true);
 					} else {
@@ -497,37 +497,37 @@ namespace Menu {
 			//
 			switch (selectedCategoryIndex) {
 				case 0:
-					current = Engine.Profile.AcquiredBodyPart.Count;
-					total = Engine.AllBodyParts.Count;
+					current = Engine.Profile.Acquired.BodyPart.Count;
+					total = Engine.BodyParts.Count;
 					break;
 
 				case 1:
-					current = Engine.Profile.AcquiredItem.Count;
-					total = Engine.AllSkills.Count;
+					current = Engine.Profile.Acquired.Item.Count;
+					total = Engine.Skills.Count;
 					break;
 
 				case 2:
-					current = Engine.Profile.AcquiredTags.Count;
-					total = Engine.AllTags.Count;
+					current = Engine.Profile.Acquired.Tag.Count;
+					total = Engine.Tags.Count;
 					break;
 
 				case 3:
-					current = Engine.Profile.AcquiredSkills.Count;
-					total = Engine.AllItems.Count;
+					current = Engine.Profile.Acquired.Skill.Count;
+					total = Engine.Items.Count;
 					break;
 
 				case 4:
-					current = Engine.Profile.AcquiredSpiritWisdom.Count;
-					total = Engine.AllSpiritWisdom.Count;
+					current = Engine.Profile.Acquired.SpiritWisdom.Count;
+					total = Engine.SpiritWisdom.Count;
 					break;
 
 				case 5:
-					current = Engine.Profile.AcquiredLore.Count;
-					total = Engine.AllLore.Count;
+					current = Engine.Profile.Acquired.Lore.Count;
+					total = Engine.Lore.Count;
 					break;
 
 				case 6:
-					current = Engine.AllGameplay.Count;
+					current = Engine.Gameplay.Count;
 					total = current;
 					break;
 			}

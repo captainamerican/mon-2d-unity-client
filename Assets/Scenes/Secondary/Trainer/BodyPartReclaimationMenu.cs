@@ -80,7 +80,7 @@ namespace Trainer {
 			if (buttons.Count < 1) {
 				WarningModal.SetActive(true);
 			} else {
-				Game.Btn.Select(buttons[0]);
+				Game.Focus.This(buttons[0]);
 			}
 		}
 
@@ -113,7 +113,7 @@ namespace Trainer {
 
 		void GoBackToList() {
 			QuantityModal.SetActive(false);
-			Game.Btn.Select(buttons[selectedButtonIndex]);
+			Game.Focus.This(buttons[selectedButtonIndex]);
 
 			//
 			phase = Phase.Normal;
@@ -147,10 +147,10 @@ namespace Trainer {
 
 			//
 			List<Game.BodyPartEntryBase> items = new();
-			Engine.Profile.Storage.ReclaimableHead.ForEach(entry => items.Add(entry));
-			Engine.Profile.Storage.ReclaimableTorso.ForEach(entry => items.Add(entry));
-			Engine.Profile.Storage.ReclaimableTail.ForEach(entry => items.Add(entry));
-			Engine.Profile.Storage.ReclaimableAppendage.ForEach(entry => items.Add(entry));
+			Engine.Profile.BodyPartStorage.ReclaimableHead.ForEach(entry => items.Add(entry));
+			Engine.Profile.BodyPartStorage.ReclaimableTorso.ForEach(entry => items.Add(entry));
+			Engine.Profile.BodyPartStorage.ReclaimableTail.ForEach(entry => items.Add(entry));
+			Engine.Profile.BodyPartStorage.ReclaimableAppendage.ForEach(entry => items.Add(entry));
 
 			items
 				.OrderBy(entry => entry.Experience)
@@ -256,7 +256,7 @@ namespace Trainer {
 
 			//
 			QuantityModal.SetActive(true);
-			Game.Btn.Select(QuantityCancelButton);
+			Game.Focus.This(QuantityCancelButton);
 
 			//
 			phase = Phase.SubModal;
@@ -284,8 +284,8 @@ namespace Trainer {
 			var entry = bodyPartEntries[selectedButtonIndex];
 
 			Engine.Profile.Inventory.AdjustItem(SoulDust, -entry.Experience);
-			Engine.Profile.Storage.RemoveFromReclaimable(entry);
-			Engine.Profile.Storage.Add(entry);
+			Engine.Profile.BodyPartStorage.RemoveFromReclaimable(entry);
+			Engine.Profile.BodyPartStorage.Add(entry);
 
 			//
 			QuantityModal.SetActive(false);
@@ -309,7 +309,7 @@ namespace Trainer {
 				ScrollView.UpdateVisibleButtonRange(buttons, 0);
 			} else {
 				selectedButtonIndex = Mathf.Clamp(selectedButtonIndex, 0, buttons.Count - 1);
-				Game.Btn.Select(buttons[selectedButtonIndex]);
+				Game.Focus.This(buttons[selectedButtonIndex]);
 				ScrollView.UpdateVisibleButtonRange(buttons, selectedButtonIndex);
 			}
 

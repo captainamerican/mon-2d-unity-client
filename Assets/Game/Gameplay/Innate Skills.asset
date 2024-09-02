@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
   m_Name: Innate Skills
   m_EditorClassIdentifier: 
+  Slug: innate-skills
   Name: Innate Skills
   Information: The heads of creatures have innate knowledge. Skills they just know.
     All creatures will have at least one innate skill. I can not replace an innate

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
   m_Name: Body Part Quality
   m_EditorClassIdentifier: 
+  Slug: body-part-quality
   Name: Body Part Quality
   Information: 'Pumping magic into body parts burns the essence just a bit. Each
     battle takes a toll I will have to eventually repair with the <i>Infussoleum</i>.

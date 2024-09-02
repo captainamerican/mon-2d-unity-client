@@ -137,7 +137,7 @@ namespace Crafting {
 			RebuildDictionaries();
 
 			Engine
-				.AllItems
+				.Items
 				.Where(item => HasEquipmentToCraft(item) && item.Recipe.Count > 0)
 				.OrderBy(item => item.SortName)
 				.ToList()
@@ -176,7 +176,7 @@ namespace Crafting {
 			AddNavigation();
 
 			// selected first button
-			Game.Btn.Select(buttons[currentButtonIndex]);
+			Game.Focus.This(buttons[currentButtonIndex]);
 
 			//
 			Cancel.performed += CloseMenu;
@@ -188,7 +188,7 @@ namespace Crafting {
 			iventoryItemCount.Clear();
 
 			//
-			Engine.AllItems.ForEach(item => {
+			Engine.Items.ForEach(item => {
 				iventoryItemCount[item] = 0;
 				canBeCrafted[item] = false;
 			});
@@ -201,7 +201,7 @@ namespace Crafting {
 				item => iventoryItemCount[item] > 0 ? 1 : 0
 			);
 
-			Engine.AllItems.ForEach(item => {
+			Engine.Items.ForEach(item => {
 				List<Game.RecipeIngredient> ingredients = item.Recipe;
 				if (ingredients.Count < 1) {
 					return;

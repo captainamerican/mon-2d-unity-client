@@ -9,7 +9,7 @@ public class HeadBodyPart : BodyPartBase {
 
 	// ---------------------------------------------------------------------------
 
-	public List<Skill> InnateSkills = new();
+	public List<Skill> InnateSkills;
 
 	public static new string Label {
 		get {

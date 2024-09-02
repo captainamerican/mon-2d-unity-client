@@ -122,7 +122,7 @@ namespace CreatureManager {
 
 			//
 			buttonPhase = ButtonPhase.SkillSelection;
-			Game.Btn.Select(Skills[0]);
+			Game.Focus.This(Skills[0]);
 		}
 
 		// -------------------------------------------------------------------------
@@ -178,7 +178,7 @@ namespace CreatureManager {
 						.onClick
 						.AddListener(() => {
 							buttonPhase = ButtonPhase.LearnedSkillSelection;
-							Game.Btn.Select(buttons[selectedLearnedSkillIndex]);
+							Game.Focus.This(buttons[selectedLearnedSkillIndex]);
 						});
 				}
 
@@ -309,7 +309,7 @@ namespace CreatureManager {
 
 		void SetSkill(Skill skill) {
 			buttonPhase = ButtonPhase.SkillSelection;
-			Game.Btn.Select(Skills[selectedSkillIndex]);
+			Game.Focus.This(Skills[selectedSkillIndex]);
 
 			//
 			if (notYetLearned[skill]) {
@@ -344,7 +344,7 @@ namespace CreatureManager {
 			ConfigureCreatureSkills();
 
 			// 
-			Game.Btn.Select(Skills[selectedSkillIndex]);
+			Game.Focus.This(Skills[selectedSkillIndex]);
 		}
 
 		void DescribeSkill(Skill skill = null) {
@@ -406,7 +406,7 @@ namespace CreatureManager {
 
 		public void RemoveSkill() {
 			buttonPhase = ButtonPhase.SkillSelection;
-			Game.Btn.Select(Skills[selectedSkillIndex]);
+			Game.Focus.This(Skills[selectedSkillIndex]);
 
 			//
 			Skill otherSkill = editing.Creature.GetSkillAt(selectedSkillIndex);

@@ -109,34 +109,34 @@ namespace Menu {
 			}
 
 			//
-			MapId mapId = Engine.MapId;
+			MapId mapId = Engine.Profile.MapId;
 			if (mapId == MapId.Other) {
 				mapId = MapId.Village;
 			}
 
 			// 
 			MapButtons.ForEach(mapButton => {
-				MapId mapId = mapButton.MapId;
+				MapId mapButtonMapId = mapButton.MapId;
 				Button button = mapButton.GetComponent<Button>();
 
 				//
 				mapButton
 				.GetComponent<InformationButton>()
-					.Configure(() => HighlightLocation(mapId));
+					.Configure(() => HighlightLocation(mapButtonMapId));
 
 				//
-				if (Engine.Profile.TeleportUnlocked.Contains(mapId)) {
+				if (Engine.Profile.TeleportUnlocked.Contains(mapButtonMapId)) {
 					button.onClick.RemoveAllListeners();
 					button.onClick.AddListener(() => {
 						focusedButton = button;
 
-						Teleport(mapId);
+						Teleport(mapButtonMapId);
 					});
 				}
 
 				//
-				if (mapButton.MapId == mapId) {
-					Game.Btn.Select(button);
+				if (mapButtonMapId == mapId) {
+					Game.Focus.This(button);
 				}
 			});
 		}
@@ -190,9 +190,9 @@ namespace Menu {
 		}
 
 		void Teleport(MapId mapId) {
-			if (Engine.MapId == mapId) {
+			if (Engine.Profile.MapId == mapId) {
 				AlreadyHereDialog.SetActive(true);
-				Game.Btn.Select(AlreadyHereCancelButton);
+				Game.Focus.This(AlreadyHereCancelButton);
 				return;
 			}
 
@@ -201,7 +201,7 @@ namespace Menu {
 
 			//
 			TeleportDialog.SetActive(true);
-			Game.Btn.Select(TeleportCancelButton);
+			Game.Focus.This(TeleportCancelButton);
 		}
 
 		public void OnTeleport(int action) {
@@ -209,7 +209,7 @@ namespace Menu {
 			AlreadyHereDialog.SetActive(false);
 
 			if (action < 1) {
-				Game.Btn.Select(focusedButton);
+				Game.Focus.This(focusedButton);
 				return;
 			}
 

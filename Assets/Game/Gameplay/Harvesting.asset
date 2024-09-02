@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
   m_Name: Harvesting
   m_EditorClassIdentifier: 
+  Slug: harvesting
   Name: Harvesting
   Information: The islands are full of mundane and fantastical vegetation. Some are
     edible, most are useful for <i>crafting</i> items. They replenish themselves

@@ -85,7 +85,7 @@ namespace Trainer {
 			ScrollView.UpdateVisibleButtonRange(buttons, 0);
 
 			//
-			Game.Btn.Select(slots[0]);
+			Game.Focus.This(slots[0]);
 		}
 
 		void OnDisable() {
@@ -120,8 +120,8 @@ namespace Trainer {
 			EnhancerInformation.SetActive(false);
 			AppendageInformation.SetActive(false);
 
-			//
-			Game.Btn.Select(slots[selectedSlotIndex]);
+			// 
+			Game.Focus.This(slots[selectedSlotIndex]);
 
 			//
 			phase = Phase.Normal;
@@ -265,12 +265,12 @@ namespace Trainer {
 
 			//
 			phase = Phase.Selecting;
-			Game.Btn.Select(buttons[0]);
+			Game.Focus.This(buttons[0]);
 		}
 
 		void SlotButtonSelected() {
 			phase = Phase.Selecting;
-			Game.Btn.Select(buttons[0]);
+			Game.Focus.This(buttons[0]);
 		}
 
 		void JuiceButtonHighlighted() {
@@ -324,16 +324,16 @@ namespace Trainer {
 
 				switch (slotType) {
 					case 1:
-						Engine.Profile.Storage.Head.ForEach(entry => items.Add(entry));
+						Engine.Profile.BodyPartStorage.Head.ForEach(entry => items.Add(entry));
 						break;
 					case 2:
-						Engine.Profile.Storage.Torso.ForEach(entry => items.Add(entry));
+						Engine.Profile.BodyPartStorage.Torso.ForEach(entry => items.Add(entry));
 						break;
 					case 3:
-						Engine.Profile.Storage.Tail.ForEach(entry => items.Add(entry));
+						Engine.Profile.BodyPartStorage.Tail.ForEach(entry => items.Add(entry));
 						break;
 					case 4:
-						Engine.Profile.Storage.Appendage.ForEach(entry => items.Add(entry));
+						Engine.Profile.BodyPartStorage.Appendage.ForEach(entry => items.Add(entry));
 						break;
 				}
 
@@ -382,7 +382,7 @@ namespace Trainer {
 			// 
 			button.GetComponent<InformationButton>()
 			.Configure(() => {
-				selectedSlotIndex = j;
+				selectedButtonIndex = j;
 				ScrollView.UpdateVisibleButtonRange(buttons, selectedButtonIndex);
 
 				//
@@ -492,7 +492,7 @@ namespace Trainer {
 			GoBackToNormal();
 
 			//
-			Game.Btn.Select(slots.Last());
+			Game.Focus.This(slots.Last());
 		}
 
 		void OnButtonSelected(Game.BodyPartEntryBase entry) {
@@ -506,7 +506,7 @@ namespace Trainer {
 			}
 
 			//
-			Engine.Profile.Storage.Remove(entry);
+			Engine.Profile.BodyPartStorage.Remove(entry);
 
 			//
 			ConfigureAvailableSlots();
@@ -527,7 +527,7 @@ namespace Trainer {
 					Engine.Profile.SparringPit.Head = null;
 
 					if (head?.BodyPart != null) {
-						Engine.Profile.Storage.Add(head);
+						Engine.Profile.BodyPartStorage.Add(head);
 					}
 					break;
 				case 2:
@@ -535,15 +535,15 @@ namespace Trainer {
 					Engine.Profile.SparringPit.Torso = null;
 
 					if (torso?.BodyPart != null) {
-						Engine.Profile.Storage.Add(torso);
+						Engine.Profile.BodyPartStorage.Add(torso);
 					}
 					break;
 				case 3:
 					var tail = Engine.Profile.SparringPit.Tail;
-					Engine.Profile.SparringPit.Torso = null;
+					Engine.Profile.SparringPit.Tail = null;
 
 					if (tail?.BodyPart != null) {
-						Engine.Profile.Storage.Add(tail);
+						Engine.Profile.BodyPartStorage.Add(tail);
 					}
 					break;
 				case 4:
@@ -552,7 +552,7 @@ namespace Trainer {
 					Engine.Profile.SparringPit.SetAppendage(null, slotIndex);
 
 					if (appendage?.BodyPart != null) {
-						Engine.Profile.Storage.Add(appendage);
+						Engine.Profile.BodyPartStorage.Add(appendage);
 					}
 					break;
 

@@ -21,7 +21,8 @@ namespace World {
 			Engine.NextScene = null;
 
 			//
-			Engine.MapId = MapId;
+			Engine.Profile.MapId = MapId;
+			Engine.Profile.CurrentLocation = Player.transform.position;
 
 			//
 			yield return Dialogue.Scene.Load();

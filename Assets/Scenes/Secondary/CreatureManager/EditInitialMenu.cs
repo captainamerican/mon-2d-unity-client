@@ -75,7 +75,7 @@ namespace CreatureManager {
 			CancelModal.SetActive(false);
 
 			//
-			Game.Btn.Select(Buttons[selectedButtonIndex]);
+			Game.Focus.This(Buttons[selectedButtonIndex]);
 
 			//
 			phase = FocusPhase.Normal;
@@ -224,10 +224,10 @@ namespace CreatureManager {
 			//
 			Engine.Profile.Creatures.RemoveAll(c => c.Id == editing.Creature.Id);
 			Engine.Profile.Creatures.Add(editing.Creature);
-			Engine.Profile.Storage.Head = editing.AvailableHead;
-			Engine.Profile.Storage.Torso = editing.AvailableTorso;
-			Engine.Profile.Storage.Tail = editing.AvailableTail;
-			Engine.Profile.Storage.Appendage = editing.AvailableAppendage;
+			Engine.Profile.BodyPartStorage.Head = editing.AvailableHead;
+			Engine.Profile.BodyPartStorage.Torso = editing.AvailableTorso;
+			Engine.Profile.BodyPartStorage.Tail = editing.AvailableTail;
+			Engine.Profile.BodyPartStorage.Appendage = editing.AvailableAppendage;
 
 			//
 			GoBack();
@@ -256,11 +256,11 @@ namespace CreatureManager {
 				return;
 			}
 
-			Engine.Profile.Storage.Head.Add(editing.Creature.Head);
-			Engine.Profile.Storage.Torso.Add(editing.Creature.Torso);
-			Engine.Profile.Storage.Tail.Add(editing.Creature.Tail);
+			Engine.Profile.BodyPartStorage.Head.Add(editing.Creature.Head);
+			Engine.Profile.BodyPartStorage.Torso.Add(editing.Creature.Torso);
+			Engine.Profile.BodyPartStorage.Tail.Add(editing.Creature.Tail);
 			editing.Creature.Appendages.ForEach(
-				Engine.Profile.Storage.Appendage.Add
+				Engine.Profile.BodyPartStorage.Appendage.Add
 			);
 
 			//
@@ -332,7 +332,7 @@ namespace CreatureManager {
 
 			//
 			modal.SetActive(true);
-			Game.Btn.Select(focus);
+			Game.Focus.This(focus);
 		}
 
 		void CloseModals() {
@@ -346,7 +346,7 @@ namespace CreatureManager {
 			DeleteModal.SetActive(false);
 
 			//
-			Game.Btn.Select(Buttons[selectedButtonIndex]);
+			Game.Focus.This(Buttons[selectedButtonIndex]);
 		}
 
 		// -------------------------------------------------------------------------

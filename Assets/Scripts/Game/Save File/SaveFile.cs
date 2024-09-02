@@ -15,6 +15,8 @@ namespace Game {
 		[Header("File")]
 		public int FileIndex = -1;
 		public bool IsAutoSave = false;
+		public MapId MapId;
+		public Vector3 CurrentLocation;
 
 		[Header("Stats")]
 		public int Level = 1;
@@ -28,24 +30,21 @@ namespace Game {
 		public float PlaytimeAsSeconds;
 
 		[Header("Data")]
-		public List<string> Party = new();
-		public List<ConstructedCreature> Creatures = new();
-		public List<SkillEntry> Skills = new();
-		public Inventory Inventory = new();
-		public BodyPartStorage Storage = new();
-		public SparringPit SparringPit = new();
-		public Options Options = new();
-
-		public List<BodyPartBase> AcquiredBodyPart = new();
-		public List<Skill> AcquiredSkills = new();
-		public List<Item> AcquiredItem = new();
-		public List<SpiritWisdom> AcquiredSpiritWisdom = new();
-		public List<Tag> AcquiredTags = new();
-		public List<Lore> AcquiredLore = new();
+		public List<string> Party;
+		public List<ConstructedCreature> Creatures;
+		public List<SkillEntry> Skills;
 
 		public List<MapId> TeleportUnlocked = new() {
 			MapId.Village
 		};
+
+		public Options Options;
+		public Inventory Inventory;
+		public BodyPartStorage BodyPartStorage;
+		public SparringPit SparringPit;
+		public Acquired Acquired;
+		public TreasureChests TreasureChests;
+		public Spirits Spirits;
 
 		// -------------------------------------------------------------------------
 
@@ -92,40 +91,6 @@ namespace Game {
 					? $"{hours:d2}:{minutes:d2}:{seconds:d2}.{microseconds:d3}"
 					: $"{hours:d2}:{minutes:d2}:{seconds:d2}";
 			}
-		}
-
-		// -------------------------------------------------------------------------
-
-		[Header("Spirits")]
-		public List<SpiritId> SpiritsDefeated = new();
-
-		public bool DefeatedSpirit(SpiritId spiritId) {
-			return SpiritsDefeated.Contains(spiritId);
-		}
-
-		public void DefeatSpirit(SpiritId spiritId) {
-			if (DefeatedSpirit(spiritId)) {
-				return;
-			}
-
-			SpiritsDefeated.Add(spiritId);
-		}
-
-		// -------------------------------------------------------------------------
-
-		[Header("Chests")]
-		public List<ChestId> OpenedChests = new();
-
-		public bool OpenedChest(ChestId chestId) {
-			return OpenedChests.Contains(chestId);
-		}
-
-		public void OpenChest(ChestId chestId) {
-			if (OpenedChest(chestId)) {
-				return;
-			}
-
-			OpenedChests.Add(chestId);
 		}
 
 		// -------------------------------------------------------------------------

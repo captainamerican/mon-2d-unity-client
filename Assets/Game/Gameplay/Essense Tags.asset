@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
   m_Name: Essense Tags
   m_EditorClassIdentifier: 
+  Slug: essence-tags
   Name: Essence Tags
   Information: "I could attach a head to the hip socket of a creature's torso, but
     it wouldn't be very useful. \n\nSkills and Appendages are assigned a variety

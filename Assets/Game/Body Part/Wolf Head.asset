@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcbd8494343b45549c0a411f4d6dd06, type: 3}
   m_Name: Wolf Head
   m_EditorClassIdentifier: 
+  Slug: wolf-head
   Name: Wolf Head
   ExperienceToLevel: 500
   Strength: 1
@@ -20,7 +21,7 @@ MonoBehaviour:
   Intelligence: 1
   Wisdom: 1
   Luck: 1
-  Tags: 
+  Tags: []
   InnateSkills:
   - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
   - {fileID: 11400000, guid: 4092e0aa4412c4ad0bf3958b9333a655, type: 2}

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
   m_Name: Leveling
   m_EditorClassIdentifier: 
+  Slug: leveling
   Name: Leveling
   Information: "The dead cannot learn. But I do. The body parts may gain \u201Cexperience\u201D,
     but it more like infused magic enhancing a sort of muscle memory. My powers grow

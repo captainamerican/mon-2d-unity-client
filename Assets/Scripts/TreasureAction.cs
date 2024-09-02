@@ -57,12 +57,12 @@ public class TreasureAction : MonoBehaviour {
 	}
 
 	public void OpenChest() {
-		if (Engine.Profile.OpenedChest(Id)) {
+		if (Engine.Profile.TreasureChests.Opened(Id)) {
 			StartCoroutine(ShowDialogue("Nothing here!"));
 			return;
 		}
 
-		Engine.Profile.OpenChest(Id);
+		Engine.Profile.TreasureChests.Open(Id);
 
 		if (Drops.Count < 1) {
 			StartCoroutine(ShowDialogue("Nothing here!"));

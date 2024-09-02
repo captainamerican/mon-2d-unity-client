@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0bc7689d7517430883743c88d942e29, type: 3}
   m_Name: Enhancers
   m_EditorClassIdentifier: 
+  Slug: enhancers
   Name: Enhancers
   Information: "Notes left behind in the Sparring Pit mention \u201Cenhancers\u201D
     which can be crafted. These increase the amount of experience earned by body

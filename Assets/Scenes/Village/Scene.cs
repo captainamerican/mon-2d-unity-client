@@ -33,7 +33,8 @@ namespace Village {
 			Engine.NextScene = null;
 
 			//
-			Engine.MapId = MapId.Village;
+			Engine.Profile.MapId = MapId.Village;
+			Engine.Profile.CurrentLocation = Player.transform.position;
 
 			//
 			yield return Dialogue.Scene.Load();

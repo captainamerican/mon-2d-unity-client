@@ -2,6 +2,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Spirit Wisdom", menuName = "MoN/Spirit Wisdom")]
 public class SpiritWisdom : ScriptableObject {
+	public string Slug;
 	public string Name;
 	public Game.SpiritId SpiritId;
 

@@ -16,7 +16,7 @@ namespace StartScreen {
 			Engine.NextScene = null;
 			yield return Loader.Scene.Clear();
 
-			Game.Btn.Select(StartButton);
+			Game.Focus.This(StartButton);
 		}
 
 		//

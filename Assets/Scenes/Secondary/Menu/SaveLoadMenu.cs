@@ -39,6 +39,7 @@ namespace Menu {
 		[SerializeField] GameObject FileList;
 		[SerializeField] GameObject SaveFileTemplate;
 		[SerializeField] SaveFileButton AutosaveFile;
+		[SerializeField] Button AutosaveButton;
 		[SerializeField] Button CreateNew;
 
 		[Header("Overwrite Modal")]
@@ -66,6 +67,7 @@ namespace Menu {
 
 		readonly List<Button> fileButtons = new();
 		readonly List<Game.SaveFile> saveFiles = new();
+		Game.SaveFile autosave;
 
 		// --------------------------------------------------------------------------
 
@@ -134,19 +136,19 @@ namespace Menu {
 
 			//
 			ClearList();
-			GenerateSaveFileList(true);
+			GenerateSaveFileList(false);
 			AddCreateNewIfPossible();
 			UpdateFileButtonNavigation(SaveFile);
 			ShowFileList();
 		}
 
 		public void ShowLoadList() {
-			selectedInitialIndex = 1;
+			selectedInitialIndex = 0;
 			selectedFileIndex = 0;
 
 			//
 			ClearList();
-			GenerateSaveFileList(false);
+			GenerateSaveFileList(true);
 			UpdateFileButtonNavigation(LoadFile);
 			ShowFileList();
 		}
@@ -154,23 +156,13 @@ namespace Menu {
 		void AddCreateNewIfPossible() {
 			if (saveFiles.Count < 100) {
 				CreateNew.gameObject.SetActive(true);
-				fileButtons.Add(CreateNew);
+				fileButtons.Insert(0, CreateNew);
 			}
 		}
 
 		void GenerateSaveFileList(bool includeAutosave) {
 			saveFiles.ForEach(saveFile => {
-				if (saveFile.IsAutoSave) {
-					if (!includeAutosave) {
-						return;
-					}
-
-					//
-					AutosaveFile.gameObject.SetActive(true);
-					AutosaveFile.Configure(saveFiles[0]);
-
-					//
-					fileButtons.Add(AutosaveFile.GetComponent<Button>());
+				if (saveFile.IsAutoSave && saveFile == saveFiles[0]) {
 					return;
 				}
 
@@ -184,12 +176,25 @@ namespace Menu {
 				//
 				fileButtons.Add(saveFileButton.GetComponent<Button>());
 			});
+
+			//
+			AutosaveFile.gameObject.SetActive(false);
+			if (includeAutosave && autosave != null) {
+				AutosaveFile.gameObject.SetActive(true);
+				AutosaveFile.Configure(autosave);
+
+				//
+				fileButtons.Insert(0, AutosaveButton);
+			}
 		}
 
 		void ShowFileList() {
 			phase = Phase.FileMenu;
 
 			//
+			ConfirmOverwriteModal.SetActive(false);
+			ConfirmLoadModal.SetActive(false);
+			ConfirmDeleteModal.SetActive(false);
 			WhichMenu.SetActive(false);
 			FileList.SetActive(true);
 			ScrollView.UpdateVisibleButtonRange(fileButtons, selectedFileIndex);
@@ -213,7 +218,10 @@ namespace Menu {
 				//
 				int j = i;
 				button.GetComponent<InformationButton>()
-					.Configure(() => selectedFileIndex = j);
+					.Configure(() => {
+						selectedFileIndex = j;
+						ScrollView.UpdateVisibleButtonRange(fileButtons, j);
+					});
 
 				button.onClick.RemoveAllListeners();
 				button.onClick.AddListener(onClick);
@@ -242,6 +250,13 @@ namespace Menu {
 					var saveFile = JsonUtility.FromJson<Game.SaveFile>(json);
 					saveFiles.Add(saveFile);
 				});
+
+			//
+			if (saveFiles.Count > 0 && saveFiles[0].IsAutoSave && saveFiles[0].FileIndex == 0) {
+				Debug.Log("autsoave");
+				autosave = saveFiles[0];
+				saveFiles.Remove(autosave);
+			}
 		}
 
 		void ClearList() {
@@ -249,8 +264,9 @@ namespace Menu {
 			CreateNew.gameObject.SetActive(false);
 
 			//
-			fileButtons.Remove(AutosaveFile.GetComponent<Button>());
+			fileButtons.Remove(AutosaveButton);
 			fileButtons.Remove(CreateNew);
+
 			fileButtons.ForEach(button => {
 				button.gameObject.SetActive(false);
 				Destroy(button.gameObject);
@@ -267,12 +283,12 @@ namespace Menu {
 		}
 
 		void HighlightWhichButton() {
-			Game.Btn.Select(WhichMenuButtons[selectedInitialIndex]);
+			Game.Focus.This(WhichMenuButtons[selectedInitialIndex]);
 		}
 
 		void HighlightFileButton() {
 			if (fileButtons.Count > 0) {
-				Game.Btn.Select(fileButtons[selectedFileIndex]);
+				Game.Focus.This(fileButtons[selectedFileIndex]);
 			} else {
 				EventSystem.current.SetSelectedGameObject(null);
 			}
@@ -283,22 +299,36 @@ namespace Menu {
 				ConfirmSave(1);
 				return;
 			}
+
+			//
+			phase = Phase.Confirm;
+			ConfirmOverwriteModal.SetActive(true);
+			Game.Focus.This(ConfirmOverwriteCancel);
 		}
 
 		public void LoadFile() {
+
+			//
+			phase = Phase.Confirm;
+			ConfirmLoadModal.SetActive(true);
+			Game.Focus.This(ConfirmLoadCancel);
+
 		}
 
 		public void DeleteFile() {
 		}
 
 		public void ConfirmSave(int action) {
-			if (action < 0) {
+			if (action < 1) {
 				ShowFileList();
 				return;
 			}
 
 			//
-			Engine.Profile.FileIndex = 100 - (selectedFileIndex + 1);
+			Engine.Profile.FileIndex = (fileButtons[selectedFileIndex] == CreateNew)
+				? 100 - (saveFiles.Count + 1)
+				: saveFiles[selectedFileIndex].FileIndex;
+
 			string path = $"{Application.persistentDataPath}/save_{Engine.Profile.FileIndex:d2}.lethia1";
 			string json = JsonUtility.ToJson(Engine.Profile);
 
@@ -323,6 +353,17 @@ namespace Menu {
 		}
 
 		public void ConfirmLoad(int action) {
+			if (action < 1) {
+				ShowFileList();
+				return;
+			}
+
+			//
+			var saveFile = (autosave != null && fileButtons[selectedFileIndex] == AutosaveButton)
+				? autosave
+				: saveFiles[autosave != null ? selectedFileIndex - 1 : selectedFileIndex];
+
+			Debug.Log(saveFile);
 		}
 
 		public void ConfirmDelete(int action) {

@@ -10,6 +10,7 @@ public class SaveFileButton : MonoBehaviour {
 
 	[SerializeField] Engine Engine;
 
+	[SerializeField] TextMeshProUGUI SaveLabel;
 	[SerializeField] TextMeshProUGUI LevelLabel;
 	[SerializeField] TextMeshProUGUI CompletionLabel;
 	[SerializeField] TextMeshProUGUI PlaytimeLabel;
@@ -17,6 +18,8 @@ public class SaveFileButton : MonoBehaviour {
 	// ---------------------------------------------------------------------------
 
 	public void Configure(Game.SaveFile saveFile) {
+		SaveLabel.text = saveFile.IsAutoSave ? "Autosave" : $"Save #{100 - saveFile.FileIndex:d2}";
+
 		LevelLabel.text = $"Lvl {saveFile.Level}";
 
 		var completion = Engine.SaveFileCompletion(saveFile);
