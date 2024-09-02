@@ -8,8 +8,6 @@ namespace Game {
 		public string Id = Game.Id.Generate();
 		public int Experience = 0;
 		public float Quality = 1;
-
-
 	}
 
 	[Serializable]
@@ -42,9 +40,8 @@ namespace Game {
 			}
 		}
 
-
 		void ISerializationCallbackReceiver.OnAfterDeserialize() {
-			if (BodyPart == null && bodyPartSlug != "") {
+			if (bodyPartSlug != "") {
 				BodyPart = (HeadBodyPart) FuckYouUnity.Engine.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
 			}
 		}
@@ -55,7 +52,9 @@ namespace Game {
 	}
 
 	[Serializable]
-	public class TorsoBodyPartEntry : BodyPartEntryBase {
+	public class TorsoBodyPartEntry : BodyPartEntryBase, ISerializationCallbackReceiver {
+		[SerializeField, HideInInspector] string bodyPartSlug;
+
 		public TorsoBodyPart BodyPart;
 
 		public int Grade {
@@ -69,10 +68,22 @@ namespace Game {
 				return Mathf.FloorToInt(rawLevel);
 			}
 		}
+
+		void ISerializationCallbackReceiver.OnAfterDeserialize() {
+			if (bodyPartSlug != "") {
+				BodyPart = (TorsoBodyPart) FuckYouUnity.Engine.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
+			}
+		}
+
+		void ISerializationCallbackReceiver.OnBeforeSerialize() {
+			bodyPartSlug = BodyPart?.Slug;
+		}
 	}
 
 	[Serializable]
-	public class TailBodyPartEntry : BodyPartEntryBase {
+	public class TailBodyPartEntry : BodyPartEntryBase, ISerializationCallbackReceiver {
+		[SerializeField, HideInInspector] string bodyPartSlug;
+
 		public TailBodyPart BodyPart;
 
 		public int Grade {
@@ -86,10 +97,22 @@ namespace Game {
 				return Mathf.FloorToInt(rawLevel);
 			}
 		}
+
+		void ISerializationCallbackReceiver.OnAfterDeserialize() {
+			if (bodyPartSlug != "") {
+				BodyPart = (TailBodyPart) FuckYouUnity.Engine.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
+			}
+		}
+
+		void ISerializationCallbackReceiver.OnBeforeSerialize() {
+			bodyPartSlug = BodyPart?.Slug;
+		}
 	}
 
 	[Serializable]
-	public class AppendageBodyPartEntry : BodyPartEntryBase {
+	public class AppendageBodyPartEntry : BodyPartEntryBase, ISerializationCallbackReceiver {
+		[SerializeField, HideInInspector] string bodyPartSlug;
+
 		public AppendageBodyPart BodyPart;
 
 		public int Grade {
@@ -102,6 +125,16 @@ namespace Game {
 				//
 				return Mathf.FloorToInt(rawLevel);
 			}
+		}
+
+		void ISerializationCallbackReceiver.OnAfterDeserialize() {
+			if (bodyPartSlug != "") {
+				BodyPart = (AppendageBodyPart) FuckYouUnity.Engine.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
+			}
+		}
+
+		void ISerializationCallbackReceiver.OnBeforeSerialize() {
+			bodyPartSlug = BodyPart?.Slug;
 		}
 	}
 
