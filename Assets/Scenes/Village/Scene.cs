@@ -32,6 +32,10 @@ namespace Village {
 			}
 			Engine.NextScene = null;
 
+			//
+			Engine.MapId = MapId.Village;
+
+			//
 			yield return Dialogue.Scene.Load();
 			yield return Menu.Scene.Load();
 			yield return Loader.Scene.Clear();

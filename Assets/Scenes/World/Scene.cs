@@ -5,11 +5,13 @@ using UnityEngine;
 namespace World {
 
 	public class Scene : MonoBehaviour {
-		[SerializeField]
-		Engine Engine;
+		[Header("Globals")]
+		[SerializeField] Engine Engine;
 
-		[SerializeField]
-		GameObject Player;
+		[Header("Locals")]
+		[SerializeField] MapId MapId;
+		[SerializeField] string MapName;
+		[SerializeField] GameObject Player;
 
 		IEnumerator Start() {
 			NextScene nextScene = Engine.NextScene;
@@ -17,6 +19,9 @@ namespace World {
 				Player.transform.position = nextScene.Destination;
 			}
 			Engine.NextScene = null;
+
+			//
+			Engine.MapId = MapId;
 
 			//
 			yield return Dialogue.Scene.Load();

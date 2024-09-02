@@ -15,12 +15,25 @@ public enum EngineMode {
 	NextScene = 60
 }
 
+public enum MapId {
+	Other,
+	Village = 10,
+	Forest01 = 11,
+	ForestCave01 = 12,
+	Forest02 = 13,
+	ForestCave02 = 14,
+	Forest03 = 15,
+	Forest04 = 16
+}
+
 public delegate void EngineModeChangedEvent(EngineMode mode);
 
 [CreateAssetMenu(fileName = "Engine", menuName = "MoN/Engine")]
 public class Engine : ScriptableObject {
 	public EngineMode Mode;
 	public event EngineModeChangedEvent ModeChanged;
+
+	public MapId MapId;
 
 	public NextScene NextScene = null;
 
