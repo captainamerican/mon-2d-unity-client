@@ -363,7 +363,12 @@ namespace Menu {
 				? autosave
 				: saveFiles[autosave != null ? selectedFileIndex - 1 : selectedFileIndex];
 
-			Debug.Log(saveFile);
+			//
+			Loader.Scene.Load(new Game.NextScene {
+				Name = saveFile.SceneName,
+				Destination = saveFile.CurrentLocation,
+				SaveFile = saveFile
+			});
 		}
 
 		public void ConfirmDelete(int action) {

@@ -31,13 +31,10 @@ namespace StartScreen {
 		// -------------------------------------------------------------------------
 
 		public void StartGame() {
-			Engine.NextScene = new Game.NextScene {
+			Loader.Scene.Load(new Game.NextScene {
 				Name = Village.Scene.Name,
 				Destination = Village.Scene.Location_Main
-			};
-
-			//
-			SceneManager.LoadSceneAsync("Loader", LoadSceneMode.Additive);
+			});
 		}
 
 		// -------------------------------------------------------------------------

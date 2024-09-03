@@ -27,13 +27,10 @@ public class ExitStage : MonoBehaviour {
 	// ---------------------------------------------------------------------------
 
 	void LoadNextScene() {
-		Engine.NextScene = new Game.NextScene {
+		Loader.Scene.Load(new Game.NextScene {
 			Name = SceneName,
 			Destination = Destination
-		};
-
-		//
-		SceneManager.LoadSceneAsync("Loader", LoadSceneMode.Additive);
+		});
 	}
 
 	// ---------------------------------------------------------------------------

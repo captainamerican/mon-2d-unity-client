@@ -12,6 +12,8 @@ namespace Game {
 		public PlayerDirection PlayerDirection;
 		public object Data;
 
+		public SaveFile SaveFile;
+
 		// -------------------------------------------------------------------------
 
 	}

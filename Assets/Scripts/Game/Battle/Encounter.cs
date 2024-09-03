@@ -625,11 +625,10 @@ namespace Battle {
 					enemy.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2;
 
 					//
-					Engine.NextScene = new Game.NextScene {
+					Loader.Scene.Load(new Game.NextScene {
 						Name = Village.Scene.Name,
 						Destination = Village.Scene.Location_Tree
-					};
-					SceneManager.LoadSceneAsync("Loader", LoadSceneMode.Additive);
+					});
 					yield break;
 				}
 			} else if (enemyCombatant.IsDead) {

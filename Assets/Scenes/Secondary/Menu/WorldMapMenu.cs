@@ -214,11 +214,9 @@ namespace Menu {
 			}
 
 			//
-			Engine.NextScene = new Game.NextScene {
+			Loader.Scene.Load(new Game.NextScene {
 				Name = teleportLocations[teleportLocation]
-			};
-
-			SceneManager.LoadSceneAsync(Loader.Scene.Name, LoadSceneMode.Additive);
+			});
 		}
 
 		// -------------------------------------------------------------------------

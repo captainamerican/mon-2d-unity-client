@@ -18,6 +18,7 @@ namespace Game {
 		public float PlaytimeAsSeconds;
 
 		[Header("Location")]
+		public string SceneName;
 		public MapId MapId;
 		public Vector3 CurrentLocation;
 

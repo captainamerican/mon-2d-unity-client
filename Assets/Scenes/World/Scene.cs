@@ -28,6 +28,7 @@ namespace World {
 
 			//
 			Engine.Profile.MapId = MapId;
+			Engine.Profile.SceneName = MapName;
 			Engine.Profile.CurrentLocation = Player.transform.position;
 
 			//

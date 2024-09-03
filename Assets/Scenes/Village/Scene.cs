@@ -41,6 +41,7 @@ namespace Village {
 			Engine.NextScene = null;
 
 			//
+			Engine.Profile.SceneName = Name;
 			Engine.Profile.MapId = Game.MapId.Village;
 			Engine.Profile.CurrentLocation = Player.transform.position;
 

@@ -88,7 +88,7 @@ public class Player : MonoBehaviour {
 		}
 
 		rb.MovePosition(rb.position + MovementSpeed * Time.fixedDeltaTime * movement.normalized);
-
+		Engine.Profile.CurrentLocation = transform.position;
 	}
 
 	void ModeChanged(EngineMode mode) {

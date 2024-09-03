@@ -163,8 +163,7 @@ namespace Menu {
 			}
 
 			//
-			Engine.NextScene = new Game.NextScene { Name = StartScreen.Scene.Name };
-			SceneManager.LoadSceneAsync(Loader.Scene.Name, LoadSceneMode.Additive);
+			Loader.Scene.Load(new Game.NextScene { Name = StartScreen.Scene.Name });
 		}
 
 		// -------------------------------------------------------------------------
