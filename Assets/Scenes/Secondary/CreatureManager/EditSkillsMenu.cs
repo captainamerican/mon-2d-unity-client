@@ -347,14 +347,14 @@ namespace CreatureManager {
 
 		void DescribeSkill(Skill skill = null) {
 			DescribeSkill(
-				Engine.Profile.Skills.Find(s => s.SkillId == skill.Id)
-				?? new Game.SkillEntry { SkillId = skill.Id }
+				Engine.Profile.Skills.Find(s => s.SkillId == skill?.Id)
+				?? new Game.SkillEntry { SkillId = skill?.Id ?? Game.SkillId.None }
 			);
 		}
 
 		void DescribeSkill(Game.SkillEntry learnedSkill) {
-			MoveInformation.SetActive(learnedSkill?.Skill != null);
-			if (learnedSkill?.Skill == null) {
+			MoveInformation.SetActive((learnedSkill?.SkillId ?? Game.SkillId.None) != Game.SkillId.None);
+			if ((learnedSkill?.SkillId ?? Game.SkillId.None) == Game.SkillId.None) {
 				return;
 			}
 

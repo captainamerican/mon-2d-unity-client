@@ -416,20 +416,20 @@ namespace CreatureManager {
 		void RemoveBodyPart() {
 			switch (selectedBodyPartIndex) {
 				case 0:
-					if (editing.Creature.Head != null) {
+					if ((editing.Creature?.Head?.BodyPartId ?? Game.BodyPartId.None) != Game.BodyPartId.None) {
 						editing.AvailableHead.Add(editing.Creature.Head);
 						editing.Creature.Head = null;
 					}
 					break;
 				case 1:
-					if (editing.Creature.Torso != null) {
+					if ((editing.Creature?.Torso?.BodyPartId ?? Game.BodyPartId.None) != Game.BodyPartId.None) {
 						editing.AvailableTorso.Add(editing.Creature.Torso);
 						editing.Creature.Torso = null;
 
 						//
 						editing.Creature.Appendages.ForEach(
 							entry => {
-								if (entry != null) {
+								if ((entry?.BodyPartId ?? Game.BodyPartId.None) != Game.BodyPartId.None) {
 									editing.AvailableAppendage.Add(entry);
 								}
 							});
@@ -437,7 +437,7 @@ namespace CreatureManager {
 					}
 					break;
 				case 2:
-					if (editing.Creature.Tail != null) {
+					if ((editing.Creature.Tail?.BodyPartId ?? Game.BodyPartId.None) != Game.BodyPartId.None) {
 						editing.AvailableTail.Add(editing.Creature.Tail);
 						editing.Creature.Tail = null;
 					}

@@ -18,20 +18,12 @@ namespace Game {
 
 		public int MaxSkills {
 			get {
-
-				int experience = Experience;
-				int toLevel = BodyPart.ExperienceToLevel;
-				float rawLevel = Mathf.Clamp(3f * ((float) experience / (float) (toLevel * 3f)), 0, 3);
-				int level = Mathf.FloorToInt(rawLevel);
-
-				//
-				return 1 + level;
+				return 1 + Grade;
 			}
 		}
 
 		public int Grade {
 			get {
-
 				int experience = Experience;
 				int toLevel = BodyPart.ExperienceToLevel;
 				float rawLevel = Mathf.Clamp(3f * ((float) experience / (float) (toLevel * 3f)), 0, 3);

@@ -10,7 +10,6 @@ public class BodyPartBase : ScriptableObject {
 	// ---------------------------------------------------------------------------
 
 	public Game.BodyPartId Id;
-	public string Slug;
 	public string Name;
 	public int ExperienceToLevel;
 	public int Strength = 1;

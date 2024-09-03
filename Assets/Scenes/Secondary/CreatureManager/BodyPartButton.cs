@@ -57,7 +57,7 @@ public class BodyPartButton : MonoBehaviour {
 
 		//
 		Clear(HeadBodyPart.Label ?? defaultName ?? "???");
-		if (entry?.BodyPart == null) {
+		if ((entry?.BodyPartId ?? BodyPartId.None) == BodyPartId.None) {
 			return;
 		}
 
@@ -75,7 +75,7 @@ public class BodyPartButton : MonoBehaviour {
 
 		//
 		Clear(TorsoBodyPart.Label);
-		if (entry?.BodyPart == null) {
+		if ((entry?.BodyPartId ?? BodyPartId.None) == BodyPartId.None) {
 			return;
 		}
 
@@ -93,7 +93,7 @@ public class BodyPartButton : MonoBehaviour {
 
 		//
 		Clear(TailBodyPart.Label);
-		if (entry?.BodyPart == null) {
+		if ((entry?.BodyPartId ?? BodyPartId.None) == BodyPartId.None) {
 			return;
 		}
 
@@ -111,7 +111,7 @@ public class BodyPartButton : MonoBehaviour {
 
 		//
 		Clear(defaultName);
-		if (entry?.BodyPart == null) {
+		if ((entry?.BodyPartId ?? BodyPartId.None) == BodyPartId.None) {
 			return;
 		}
 

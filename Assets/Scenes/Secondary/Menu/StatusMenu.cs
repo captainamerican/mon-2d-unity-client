@@ -92,7 +92,7 @@ namespace Menu {
 		}
 
 		void Update() {
-			float time = Time.unscaledTime;
+			float time = Engine.Profile.PlaytimeAsSeconds;
 
 			int hours = Mathf.FloorToInt(time / 3600f);
 			int minutes = Mathf.FloorToInt((time - hours) / 60f);

@@ -154,7 +154,7 @@ namespace CreatureManager {
 		}
 
 		void DescribeCreature(Game.Creature creature) {
-			Description.text = $@"{creature.Torso?.BodyPart?.LocomotionLabel ?? "Incomplete"}".Trim();
+			Description.text = $@"{creature?.Torso?.BodyPart?.LocomotionLabel ?? "Incomplete"}".Trim();
 
 			HeadLabel.text = creature.Head?.BodyPart?.Name ?? HeadBodyPart.Label;
 			TorsoLabel.text = creature.Torso?.BodyPart?.Name ?? TorsoBodyPart.Label;

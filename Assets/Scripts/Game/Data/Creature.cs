@@ -31,13 +31,13 @@ namespace Game {
 
 		public bool MissingHead {
 			get {
-				return Head?.BodyPartId == BodyPartId.None;
+				return (Head?.BodyPartId ?? BodyPartId.None) == BodyPartId.None;
 			}
 		}
 
 		public bool MissingTorso {
 			get {
-				return Torso?.BodyPartId == BodyPartId.None;
+				return (Torso?.BodyPartId ?? BodyPartId.None) == BodyPartId.None;
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace Game {
 		}
 		public bool HasSetName {
 			get {
-				return Name.Trim() != "";
+				return (Name?.Trim() ?? "") != "";
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace Game {
 				//
 				int appendages = Torso.BodyPart.HowManyAppendages;
 				return Appendages.Sum(
-					a => a?.BodyPartId == BodyPartId.None ? 0 : 1
+					a => (a?.BodyPartId ?? BodyPartId.None) == BodyPartId.None ? 0 : 1
 				) >= appendages;
 			}
 		}
@@ -80,7 +80,7 @@ namespace Game {
 		}
 
 		public AppendageBodyPartEntry GetAppendage(int i) {
-			return i < (Appendages?.Count ?? 0)
+			return i < Appendages.Count
 				? Appendages[i]
 				: null;
 		}

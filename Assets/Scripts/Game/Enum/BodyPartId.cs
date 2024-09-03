@@ -6,6 +6,6 @@
 		WolfTorso = 1002,
 		WolfTail = 1003,
 		WolfFrontLeg = 1004,
-		WolfRearLeg = 1004,
+		WolfRearLeg = 1005,
 	}
 }
