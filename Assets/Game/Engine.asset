@@ -57,21 +57,21 @@ MonoBehaviour:
         Experience: 0
         Quality: 1
       - Id: 11-6
-        BodyPartId: 1004
+        BodyPartId: 1005
         Experience: 0
         Quality: 1
       - Id: 11-7
-        BodyPartId: 1004
+        BodyPartId: 1005
         Experience: 0
         Quality: 1
       Skills: e8030000
     Skills:
     - SkillId: 1000
-      Experience: 100
+      Experience: 500
     - SkillId: 1010
-      Experience: 50
+      Experience: 0
     - SkillId: 1020
-      Experience: 542
+      Experience: 0
     Options:
       DialogueSpeed: 0.25
       MusicVolume: 0.66
@@ -84,7 +84,25 @@ MonoBehaviour:
       - ItemId: 3004
         Amount: 999
       - ItemId: 3003
-        Amount: 2
+        Amount: 99
+      - ItemId: 3002
+        Amount: 99
+      - ItemId: 3005
+        Amount: 99
+      - ItemId: 3001
+        Amount: 99
+      - ItemId: 5000
+        Amount: 1
+      - ItemId: 5001
+        Amount: 1
+      - ItemId: 5000
+        Amount: 1
+      - ItemId: 5006
+        Amount: 1
+      - ItemId: 5007
+        Amount: 1
+      - ItemId: 3000
+        Amount: 99
     BodyPartStorage:
       Head:
       - Id: 123easdf
@@ -106,16 +124,16 @@ MonoBehaviour:
         BodyPartId: 1004
         Experience: 0
         Quality: 0
-      - Id: 3oi2
+      - Id: 4gq435y
         BodyPartId: 1004
         Experience: 0
         Quality: 0
-      - Id: 3oi2
-        BodyPartId: 1004
+      - Id: k867utyt
+        BodyPartId: 1005
         Experience: 0
         Quality: 0
-      - Id: 3oi2
-        BodyPartId: 1004
+      - Id: 4i673j5wrht
+        BodyPartId: 1005
         Experience: 0
         Quality: 0
       ReclaimableHead: []

@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941772c597c3e4ac487fabbd4ee9d0bb, type: 3}
   m_Name: Wolf Rear Leg
   m_EditorClassIdentifier: 
-  Id: 1004
-  Slug: wolf-rear-leg
+  Id: 1005
   Name: Wolf Rear Leg
   ExperienceToLevel: 500
   Strength: 1

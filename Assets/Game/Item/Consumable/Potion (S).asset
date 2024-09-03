@@ -20,13 +20,13 @@ MonoBehaviour:
   FlavorText: Looks like medicine. Smells like medicine.
   SortName: potion-6
   Recipe:
-  - ItemId: 0
-    Quantity: 6
-  - ItemId: 0
+  - ItemId: 1005
     Quantity: 1
-  - ItemId: 0
+  - ItemId: 3003
+    Quantity: 6
+  - ItemId: 3002
     Quantity: 4
-  - ItemId: 0
+  - ItemId: 3004
     Quantity: 1
   Targets: 140000001e000000
   Effects:

@@ -20,9 +20,9 @@ MonoBehaviour:
   FlavorText: Contains organic anti-oxidants.
   SortName: lotion-1
   Recipe:
-  - ItemId: 0
+  - ItemId: 1010
     Quantity: 1
-  - ItemId: 0
+  - ItemId: 3002
     Quantity: 1
   Targets: 14000000
   Effects:

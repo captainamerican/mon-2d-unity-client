@@ -20,9 +20,9 @@ MonoBehaviour:
   FlavorText: Smells amazing.
   SortName: coffee-0
   Recipe:
-  - ItemId: 0
+  - ItemId: 3000
     Quantity: 1
-  - ItemId: 0
+  - ItemId: 3005
     Quantity: 1
   Targets: 0a000000
   Effects:

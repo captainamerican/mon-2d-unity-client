@@ -177,6 +177,7 @@ namespace Crafting {
 			// selected first button
 			Game.Focus.This(buttons[currentButtonIndex]);
 
+
 			//
 			Cancel.performed += CloseMenu;
 		}
@@ -306,9 +307,10 @@ namespace Crafting {
 
 			QuantityMaximum.text = $"{timesCanBeCrated[item]:D2}";
 			Quantity.value = 1;
-			Quantity.maxValue = timesCanBeCrated[item];
+			Quantity.minValue = 0;
+			Quantity.maxValue = timesCanBeCrated[item] + 1;
 
-			QuantityLabel.text = "01";
+			OnQuantityChanged(1);
 
 			//
 			EventSystem.current.SetSelectedGameObject(Quantity.gameObject);
@@ -351,7 +353,14 @@ namespace Crafting {
 		}
 
 		public void OnQuantityChanged(float quantity) {
-			QuantityLabel.text = $"{quantity:d2}";
+			if (quantity < 1) {
+				Quantity.value = timesCanBeCrated[selectedItem];
+			} else if (quantity > timesCanBeCrated[selectedItem]) {
+				Quantity.value = 1;
+			}
+
+			//
+			QuantityLabel.text = $"{Mathf.RoundToInt(Quantity.value)}";
 		}
 
 		void CloseQuantityModal() {

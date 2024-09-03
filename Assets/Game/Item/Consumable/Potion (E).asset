@@ -20,9 +20,9 @@ MonoBehaviour:
   FlavorText: Looks like medicine. Smells like medicine.
   SortName: potion-1
   Recipe:
-  - ItemId: 0
+  - ItemId: 1000
     Quantity: 1
-  - ItemId: 0
+  - ItemId: 3003
     Quantity: 1
   Targets: 140000001e000000
   Effects:
