@@ -69,7 +69,7 @@ namespace Game {
 			bool enhancerExists = false;
 
 			//
-			if (Enhancer?.ItemId != ItemId.None && (Enhancer?.Amount ?? 0) > 0) {
+			if ((Enhancer?.ItemId ?? ItemId.None) != ItemId.None && (Enhancer?.Amount ?? 0) > 0) {
 				enhancerExists = true;
 
 				//
@@ -90,7 +90,7 @@ namespace Game {
 
 			//
 			bool usedEnhancer = false;
-			if (Head?.BodyPartId != BodyPartId.None) {
+			if ((Head?.BodyPartId ?? BodyPartId.None) != BodyPartId.None) {
 				if (Head.Quality > 0) {
 					usedEnhancer = true;
 
@@ -102,7 +102,7 @@ namespace Game {
 				}
 			}
 
-			if (Torso?.BodyPartId != BodyPartId.None) {
+			if ((Torso?.BodyPartId ?? BodyPartId.None) != BodyPartId.None) {
 				if (Torso.Quality > 0) {
 					usedEnhancer = true;
 
@@ -114,7 +114,7 @@ namespace Game {
 				}
 			}
 
-			if (Tail?.BodyPartId != BodyPartId.None) {
+			if ((Tail?.BodyPartId ?? BodyPartId.None) != BodyPartId.None) {
 				if (Tail.Quality > 0) {
 					usedEnhancer = true;
 
@@ -127,7 +127,7 @@ namespace Game {
 			}
 
 			Appendage.ForEach(appendage => {
-				if (appendage?.BodyPartId != BodyPartId.None) {
+				if ((appendage?.BodyPartId ?? BodyPartId.None) != BodyPartId.None) {
 					if (appendage.Quality > 0) {
 						usedEnhancer = true;
 

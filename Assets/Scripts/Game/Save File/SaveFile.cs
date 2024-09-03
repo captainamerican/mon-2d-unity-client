@@ -15,6 +15,7 @@ namespace Game {
 		[Header("File")]
 		public int FileIndex = -1;
 		public bool IsAutoSave = false;
+		public DateTime SavedAt;
 		public float PlaytimeAsSeconds;
 
 		[Header("Location")]
@@ -32,16 +33,16 @@ namespace Game {
 		public float Hunger = 1;
 
 		[Header("Data")]
-		public List<string> Party;
-		public List<Creature> Creatures;
-		public List<SkillEntry> Skills;
+		public List<string> Party = new();
+		public List<Creature> Creatures = new();
+		public List<SkillEntry> Skills = new();
 
-		public Options Options;
-		public Inventory Inventory;
-		public BodyPartStorage BodyPartStorage;
-		public SparringPit SparringPit;
-		public Tally Acquired;
-		public Tally Seen;
+		public Options Options = new();
+		public Inventory Inventory = new();
+		public BodyPartStorage BodyPartStorage = new();
+		public SparringPit SparringPit = new();
+		public Tally Acquired = new();
+		public Tally Seen = new();
 
 		// -------------------------------------------------------------------------
 

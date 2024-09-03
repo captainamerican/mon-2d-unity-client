@@ -329,6 +329,7 @@ namespace Menu {
 				? 100 - (saveFiles.Count + 1)
 				: saveFiles[selectedFileIndex].FileIndex;
 			Engine.Profile.IsAutoSave = false;
+			Engine.Profile.SavedAt = DateTime.Now;
 
 			string path = $"{Application.persistentDataPath}/save_{Engine.Profile.FileIndex:d2}.lethia1";
 			string json = JsonUtility.ToJson(Engine.Profile);

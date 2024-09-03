@@ -12,16 +12,16 @@ namespace Game {
 		// -------------------------------------------------------------------------
 
 		[Header("Storage")]
-		public List<HeadBodyPartEntry> Head;
-		public List<TorsoBodyPartEntry> Torso;
-		public List<TailBodyPartEntry> Tail;
-		public List<AppendageBodyPartEntry> Appendage;
+		public List<HeadBodyPartEntry> Head = new();
+		public List<TorsoBodyPartEntry> Torso = new();
+		public List<TailBodyPartEntry> Tail = new();
+		public List<AppendageBodyPartEntry> Appendage = new();
 
 		[Header("Reclaimable")]
-		public List<HeadBodyPartEntry> ReclaimableHead;
-		public List<TorsoBodyPartEntry> ReclaimableTorso;
-		public List<TailBodyPartEntry> ReclaimableTail;
-		public List<AppendageBodyPartEntry> ReclaimableAppendage;
+		public List<HeadBodyPartEntry> ReclaimableHead = new();
+		public List<TorsoBodyPartEntry> ReclaimableTorso = new();
+		public List<TailBodyPartEntry> ReclaimableTail = new();
+		public List<AppendageBodyPartEntry> ReclaimableAppendage = new();
 
 		// -------------------------------------------------------------------------
 

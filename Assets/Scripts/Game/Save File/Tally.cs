@@ -9,13 +9,13 @@ namespace Game {
 
 		// ------------------------------------------------------------------------- 
 
-		public List<BodyPartBase> BodyPart;
-		public List<Skill> Skill;
-		public List<Item> Item;
-		public List<SpiritWisdom> SpiritWisdom;
-		public List<EssenceTag> Tag;
-		public List<Lore> Lore;
-		public List<ChestId> TreasureChest;
+		public List<BodyPartBase> BodyPart = new();
+		public List<Skill> Skill = new();
+		public List<Item> Item = new();
+		public List<SpiritWisdom> SpiritWisdom = new();
+		public List<EssenceTag> Tag = new();
+		public List<Lore> Lore = new();
+		public List<ChestId> TreasureChest = new();
 		public List<MapId> TeleportLocation = new() {
 			MapId.Village
 		};
@@ -31,8 +31,7 @@ namespace Game {
 					SpiritWisdom.Count +
 					Tag.Count +
 					Lore.Count +
-					TreasureChest.Count +
-					TeleportLocation.Count
+					TreasureChest.Count
 				;
 			}
 		}

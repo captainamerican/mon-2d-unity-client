@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.IO;
 
 using UnityEngine;
@@ -23,10 +25,11 @@ public class CreateAutosave : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
-	void Start() {
-		timeUntilShutdown = 3f;
+	IEnumerator Start() {
+		timeUntilShutdown = 2.5f;
 
 		//
+		yield return Wait.ForReal(0.1f);
 		CreateTheAutosave();
 	}
 
@@ -55,6 +58,7 @@ public class CreateAutosave : MonoBehaviour {
 	void CreateTheAutosave() {
 		Engine.Profile.FileIndex = 0;
 		Engine.Profile.IsAutoSave = true;
+		Engine.Profile.SavedAt = DateTime.Now;
 
 		string path = $"{Application.persistentDataPath}/save_00.lethia1";
 		string json = JsonUtility.ToJson(Engine.Profile);

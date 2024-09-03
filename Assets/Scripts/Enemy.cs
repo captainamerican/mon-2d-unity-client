@@ -181,41 +181,41 @@ namespace WorldEnemy {
 		}
 
 		private void OnDrawGizmos() {
-			if (!EditorApplication.isPlaying) {
-				Gizmos.color = Color.magenta;
-				Gizmos.DrawWireSphere(transform.position, DomainRadius);
+			//if (!EditorApplication.isPlaying) {
+			//	Gizmos.color = Color.magenta;
+			//	Gizmos.DrawWireSphere(transform.position, DomainRadius);
 
-				Gizmos.color = Color.black;
-				Gizmos.DrawSphere(destination, 0.5f);
+			//	Gizmos.color = Color.black;
+			//	Gizmos.DrawSphere(destination, 0.5f);
 
-				Gizmos.color = Color.blue;
-				Gizmos.DrawWireSphere(BodyTransform.position, ActionRadius);
+			//	Gizmos.color = Color.blue;
+			//	Gizmos.DrawWireSphere(BodyTransform.position, ActionRadius);
 
-				Gizmos.color = Color.red;
-				Gizmos.DrawWireSphere(BodyTransform.position, AwarenessRadius);
-			} else {
-				switch (Alertness) {
-					case Alertness.Unaware:
-						Gizmos.color = Color.magenta;
-						Gizmos.DrawWireSphere(transform.position, DomainRadius);
+			//	Gizmos.color = Color.red;
+			//	Gizmos.DrawWireSphere(BodyTransform.position, AwarenessRadius);
+			//} else {
+			//	switch (Alertness) {
+			//		case Alertness.Unaware:
+			//			Gizmos.color = Color.magenta;
+			//			Gizmos.DrawWireSphere(transform.position, DomainRadius);
 
-						Gizmos.color = Color.red;
-						Gizmos.DrawWireSphere(BodyTransform.position, AwarenessRadius);
+			//			Gizmos.color = Color.red;
+			//			Gizmos.DrawWireSphere(BodyTransform.position, AwarenessRadius);
 
-						Gizmos.color = Color.black;
-						Gizmos.DrawSphere(destination, 0.5f);
-						break;
+			//			Gizmos.color = Color.black;
+			//			Gizmos.DrawSphere(destination, 0.5f);
+			//			break;
 
-					case Alertness.Alert:
-						break;
+			//		case Alertness.Alert:
+			//			break;
 
-					case Alertness.Chasing:
-					case Alertness.Fleeing:
-						Gizmos.color = Color.blue;
-						Gizmos.DrawWireSphere(alertedPosition, ActionRadius);
-						break;
-				}
-			}
+			//		case Alertness.Chasing:
+			//		case Alertness.Fleeing:
+			//			Gizmos.color = Color.blue;
+			//			Gizmos.DrawWireSphere(alertedPosition, ActionRadius);
+			//			break;
+			//	}
+			//}
 		}
 
 		public void Stop() {
