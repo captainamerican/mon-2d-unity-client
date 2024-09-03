@@ -219,7 +219,7 @@ namespace Trainer {
 			JuiceItemButton.gameObject.SetActive(false);
 			JuiceButton.gameObject.SetActive(false);
 
-			if (Engine.Profile.SparringPit.Enhancer?.Item != null) {
+			if ((Engine.Profile.SparringPit.Enhancer?.ItemId ?? Game.ItemId.None) != Game.ItemId.None) {
 				JuiceItemButton.GetComponent<InformationButton>()
 					.Configure(JuiceItemButtonHighlighted);
 				JuiceItemButton.onClick.RemoveAllListeners();
