@@ -353,14 +353,16 @@ namespace Crafting {
 		}
 
 		public void OnQuantityChanged(float quantity) {
-			if (quantity < 1) {
-				Quantity.value = timesCanBeCrated[selectedItem];
-			} else if (quantity > timesCanBeCrated[selectedItem]) {
-				Quantity.value = 1;
+			if (quantity <= Quantity.minValue) {
+				Quantity.value = Quantity.maxValue - 1;
+				quantity = Quantity.value;
+			} else if (quantity >= Quantity.maxValue) {
+				Quantity.value = Quantity.minValue + 1;
+				quantity = Quantity.value;
 			}
 
 			//
-			QuantityLabel.text = $"{Mathf.RoundToInt(Quantity.value)}";
+			QuantityLabel.text = $"{Mathf.RoundToInt(quantity)}";
 		}
 
 		void CloseQuantityModal() {

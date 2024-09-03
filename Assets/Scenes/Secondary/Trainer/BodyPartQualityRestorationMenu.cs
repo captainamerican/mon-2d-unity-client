@@ -127,6 +127,14 @@ namespace Trainer {
 		}
 
 		public void UpdateQuantity(float quantity) {
+			if (quantity <= Quantity.minValue) {
+				Quantity.value = Quantity.maxValue - 1;
+				quantity = Quantity.value;
+			} else if (quantity >= Quantity.maxValue) {
+				Quantity.value = Quantity.minValue + 1;
+				quantity = Quantity.value;
+			}
+
 			qualityLevelsToRestore = Mathf.FloorToInt(quantity);
 			UpdateCostAndRemainingLabels();
 		}
@@ -261,8 +269,8 @@ namespace Trainer {
 			//
 			QuantityModal.SetActive(true);
 
-			Quantity.minValue = 1;
-			Quantity.maxValue = maxQualityLevelsToRestore;
+			Quantity.minValue = 0;
+			Quantity.maxValue = maxQualityLevelsToRestore + 1;
 
 			Game.Focus.This(Quantity);
 

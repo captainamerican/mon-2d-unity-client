@@ -16,10 +16,10 @@ MonoBehaviour:
   Profile:
     FileIndex: 0
     IsAutoSave: 1
-    PlaytimeAsSeconds: 319.72852
+    PlaytimeAsSeconds: 619.3565
     SceneName: Village
     MapId: 10
-    CurrentLocation: {x: -12.542945, y: 9.800939, z: 0}
+    CurrentLocation: {x: 4.1400003, y: 9.535014, z: 0}
     Level: 5
     Experience: 103
     ExperienceForNextLevel: 239
@@ -82,37 +82,37 @@ MonoBehaviour:
     Inventory:
       All:
       - ItemId: 3004
-        Amount: 999
+        Amount: 629
       - ItemId: 3003
         Amount: 99
       - ItemId: 3002
         Amount: 99
       - ItemId: 3005
-        Amount: 99
+        Amount: 97
       - ItemId: 3001
         Amount: 99
       - ItemId: 5000
         Amount: 1
       - ItemId: 5001
         Amount: 1
-      - ItemId: 5000
-        Amount: 1
       - ItemId: 5006
         Amount: 1
       - ItemId: 5007
         Amount: 1
       - ItemId: 3000
-        Amount: 99
+        Amount: 97
+      - ItemId: 1020
+        Amount: 2
     BodyPartStorage:
       Head:
       - Id: 123easdf
         BodyPartId: 1001
-        Experience: 0
+        Experience: 1000
         Quality: 0
       Torso:
       - Id: q345yrgesda
         BodyPartId: 1002
-        Experience: 0
+        Experience: 1000
         Quality: 0
       Tail:
       - Id: 24u5yqe4w
@@ -120,18 +120,14 @@ MonoBehaviour:
         Experience: 0
         Quality: 0
       Appendage:
-      - Id: 35i6u24y13t
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 0
-      - Id: 4gq435y
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 0
       - Id: k867utyt
         BodyPartId: 1005
         Experience: 0
         Quality: 0
+      - Id: 35i6u24y13t
+        BodyPartId: 1004
+        Experience: 0
+        Quality: 0.37
       - Id: 4i673j5wrht
         BodyPartId: 1005
         Experience: 0
@@ -157,14 +153,14 @@ MonoBehaviour:
         Experience: 1000
         Quality: 1
       Appendage:
-      - Id: g9zpb4YQXdkLH27k
+      - Id: 727C1QpoQAqNLIGo
         BodyPartId: 0
         Experience: 0
-        Quality: 0
-      - Id: g9zpb4YQXdkLH27j
+        Quality: 1
+      - Id: jKABZ3A6jiy15aRb
         BodyPartId: 0
-        Experience: 1
-        Quality: 0
+        Experience: 0
+        Quality: 1
       - Id: qe85dMHiHWMb1hUN
         BodyPartId: 0
         Experience: 0
