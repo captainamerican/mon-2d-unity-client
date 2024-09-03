@@ -181,7 +181,7 @@ namespace CreatureManager {
 
 				//
 				int j = i;
-				Game.BodyPartEntryBase bodyPartEntryBase = button
+				Game.BodyPartEntry bodyPartEntryBase = button
 					.GetComponent<BodyPartButton>()
 					.BodyPartEntry;
 				button.GetComponent<InformationButton>()
@@ -195,7 +195,7 @@ namespace CreatureManager {
 			}
 		}
 
-		void DescribeBodyPart(Game.BodyPartEntryBase _) {
+		void DescribeBodyPart(Game.BodyPartEntry _) {
 		}
 
 		void UpdateAvailableBodyPartList(Game.PartOfBody newPartOfBody, bool forceRefresh = false) {
@@ -352,7 +352,7 @@ namespace CreatureManager {
 			Game.Focus.This(availableButtons[0]);
 		}
 
-		void SetBodyPart(Game.BodyPartEntryBase entry) {
+		void SetBodyPart(Game.BodyPartEntry entry) {
 			switch (selectedBodyPartIndex) {
 				case 0:
 					Game.HeadBodyPartEntry headEntry = (Game.HeadBodyPartEntry) entry;

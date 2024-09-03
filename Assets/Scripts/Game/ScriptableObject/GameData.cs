@@ -11,35 +11,35 @@ public class GameData : ScriptableObject {
 
 	// ---------------------------------------------------------------------------
 
-	public List<Item> CraftingEquipment = new();
-	public List<Item> Items = new();
-	public List<BodyPartBase> BodyParts = new();
-	public List<Skill> Skills = new();
-	public List<SpiritWisdom> SpiritWisdom = new();
-	public List<EssenceTag> Tags = new();
-	public List<Lore> Lore = new();
+	public List<Item> CraftingEquipment;
+	public List<Item> Items;
+	public List<BodyPartBase> BodyParts;
+	public List<Skill> Skills;
+	public List<SpiritWisdom> SpiritWisdom;
+	public List<EssenceTag> Tags;
+	public List<Lore> Lore;
 
 	[Header("\"Static\"")]
-	public List<Gameplay> Gameplay = new();
+	public List<Gameplay> Gameplay;
 
 	// ---------------------------------------------------------------------------
 
-	Dictionary<ItemId, Item> craftingEquipmentById = new();
-	Dictionary<ItemId, Item> itemsById = new();
-	Dictionary<BodyPartId, BodyPartBase> bodyPartsById = new();
-	Dictionary<SkillId, Skill> skillsById = new();
-	Dictionary<string, SpiritWisdom> spiritWisdombyId = new();
-	Dictionary<EssenceTagId, EssenceTag> tagsById = new();
-	Dictionary<string, Lore> loreById = new();
+	readonly Dictionary<ItemId, Item> craftingEquipmentById = new();
+	readonly Dictionary<ItemId, Item> itemsById = new();
+	readonly Dictionary<BodyPartId, BodyPartBase> bodyPartsById = new();
+	readonly Dictionary<SkillId, Skill> skillsById = new();
+	readonly Dictionary<SpiritId, SpiritWisdom> spiritWisdomById = new();
+	readonly Dictionary<EssenceTagId, EssenceTag> tagsById = new();
+	readonly Dictionary<LoreId, Lore> loreById = new();
 
-	// ---------------------------------------------------------------------------
+	// --------------------------------------------------------------------------- 
 
 	public void BuildDictionaries() {
 		craftingEquipmentById.Clear();
 		itemsById.Clear();
 		bodyPartsById.Clear();
 		skillsById.Clear();
-		spiritWisdombyId.Clear();
+		spiritWisdomById.Clear();
 		tagsById.Clear();
 		loreById.Clear();
 
@@ -48,10 +48,23 @@ public class GameData : ScriptableObject {
 		Items.ForEach(item => itemsById[item.Id] = item);
 		BodyParts.ForEach(bodyPart => bodyPartsById[bodyPart.Id] = bodyPart);
 		Skills.ForEach(skill => skillsById[skill.Id] = skill);
+		SpiritWisdom.ForEach(spiritWisdom => spiritWisdomById[spiritWisdom.Id] = spiritWisdom);
 		Tags.ForEach(tag => tagsById[tag.Id] = tag);
 	}
 
 	// ---------------------------------------------------------------------------
+
+	public int Total {
+		get {
+			return Items.Count +
+				BodyParts.Count +
+				Skills.Count +
+				SpiritWisdom.Count +
+				Tags.Count +
+				Lore.Count
+			;
+		}
+	}
 
 	public Item Get(ItemId id) {
 		return itemsById[id];

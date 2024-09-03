@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7fed5e31c41b4ed18ed816c7a9404ea, type: 3}
   m_Name: Kick
   m_EditorClassIdentifier: 
-  Slug: kick
+  Id: 1010
   Name: Kick
   Description: Put your back into it.
   Cost: 2
@@ -24,7 +24,7 @@ MonoBehaviour:
     Strength: -50
     Variance: 0.33
     ApplyToSelf: 0
-  Tags: []
+  Tags: 
   FX:
   - Actor: 0
     Delay: 0

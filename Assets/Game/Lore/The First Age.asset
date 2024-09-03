@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca1b695d24f4646d4a882ae4980d581d, type: 3}
   m_Name: The First Age
   m_EditorClassIdentifier: 
-  Slug: the-first-age
+  Id: 1000
   Name: The First Age
   Text: "The first age of peace. The last age of balance. \n\nNecromancers had made
     inroads with local populations on the mainland. The field workers had come to

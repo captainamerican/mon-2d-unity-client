@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21752b5b22dda476f96222be4c2a446a, type: 3}
   m_Name: Lotion (B)
   m_EditorClassIdentifier: 
-  Slug: lotion-b
+  Id: 1014
   Type: 10
   UseInBattle: 0
   Name: Lotion (B)
@@ -20,11 +20,11 @@ MonoBehaviour:
   FlavorText: Contains organic anti-oxidants.
   SortName: lotion-4
   Recipe:
-  - Item: {fileID: 11400000, guid: fbf54697ef7ecb544a5a0a22e90b6894, type: 2}
+  - ItemId: 0
     Quantity: 1
-  - Item: {fileID: 11400000, guid: 217e612b1f7c0654bba074d9603f8dfd, type: 2}
+  - ItemId: 0
     Quantity: 4
-  - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
+  - ItemId: 0
     Quantity: 4
   Targets: 14000000
   Effects:

@@ -32,24 +32,19 @@ namespace Game {
 
 		[Header("Data")]
 		public List<string> Party;
-		public List<ConstructedCreature> Creatures;
+		public List<Creature> Creatures;
 		public List<SkillEntry> Skills;
-
-		public List<MapId> TeleportUnlocked = new() {
-			MapId.Village
-		};
 
 		public Options Options;
 		public Inventory Inventory;
 		public BodyPartStorage BodyPartStorage;
 		public SparringPit SparringPit;
-		public Acquired Acquired;
-		public TreasureChests TreasureChests;
-		public Spirits Spirits;
+		public Tally Acquired;
+		public Tally Seen;
 
 		// -------------------------------------------------------------------------
 
-		public int PartyMembersAvailableToFight {
+		public int CreaturesAvailableToFight {
 			get {
 				return Creatures
 					.Where(c => Party.Contains(c.Id) && c.Health > 0)
@@ -57,7 +52,7 @@ namespace Game {
 			}
 		}
 
-		public ConstructedCreature GetPartyCreature(int index) {
+		public Creature GetPartyCreature(int index) {
 			if (index > Party.Count - 1) {
 				return null;
 

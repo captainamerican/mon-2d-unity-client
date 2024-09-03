@@ -148,9 +148,7 @@ namespace CreatureManager {
 
 			for (int i = 0; i < Skills.Count; i++) {
 				int j = i;
-				Skill skill = editing.Creature.Skills.Count > i
-					? editing.Creature.Skills[i]
-					: null;
+				Skill skill = editing.Creature.GetSkill(i);
 
 				Button button = Skills[i];
 				TextMeshProUGUI label = button.GetComponentInChildren<TextMeshProUGUI>();
@@ -317,26 +315,26 @@ namespace CreatureManager {
 			}
 
 			//
-			if (editing.Creature.Skills.Contains(skill)) {
-				int index = editing.Creature.Skills.IndexOf(skill);
+			if (editing.Creature.Skills.Contains(skill.Id)) {
+				int index = editing.Creature.Skills.IndexOf(skill.Id);
 				if (index == selectedSkillIndex) {
 					return;
 				}
 
 				//
-				Skill otherSkill = editing.Creature.GetSkillAt(selectedSkillIndex);
+				Skill otherSkill = editing.Creature.GetSkill(selectedSkillIndex);
 				if (otherSkill == null) {
 					editing.Creature.Skills.RemoveAt(index);
-					editing.Creature.Skills.Add(skill);
+					editing.Creature.Skills.Add(skill.Id);
 				} else {
-					editing.Creature.Skills[index] = otherSkill;
-					editing.Creature.Skills[selectedSkillIndex] = skill;
+					editing.Creature.Skills[index] = otherSkill.Id;
+					editing.Creature.Skills[selectedSkillIndex] = skill.Id;
 				}
 			} else {
 				if (selectedSkillIndex < editing.Creature.Skills.Count) {
-					editing.Creature.Skills[selectedSkillIndex] = skill;
+					editing.Creature.Skills[selectedSkillIndex] = skill.Id;
 				} else {
-					editing.Creature.Skills.Add(skill);
+					editing.Creature.Skills.Add(skill.Id);
 				}
 			}
 
@@ -349,8 +347,8 @@ namespace CreatureManager {
 
 		void DescribeSkill(Skill skill = null) {
 			DescribeSkill(
-				Engine.Profile.Skills.Find(ls => ls.Skill == skill)
-				?? new Game.SkillEntry { Skill = skill }
+				Engine.Profile.Skills.Find(s => s.SkillId == skill.Id)
+				?? new Game.SkillEntry { SkillId = skill.Id }
 			);
 		}
 
@@ -409,12 +407,12 @@ namespace CreatureManager {
 			Game.Focus.This(Skills[selectedSkillIndex]);
 
 			//
-			Skill otherSkill = editing.Creature.GetSkillAt(selectedSkillIndex);
+			Skill otherSkill = editing.Creature.GetSkill(selectedSkillIndex);
 			if (otherSkill == null) {
 				return;
 			}
 
-			editing.Creature.Skills.Remove(otherSkill);
+			editing.Creature.Skills.Remove(otherSkill.Id);
 
 			//
 			ConfigureCreatureSkills();

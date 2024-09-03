@@ -1,24 +1,17 @@
 ﻿using System;
 
-
 // -----------------------------------------------------------------------------
 
 namespace Game {
 	[Serializable]
-	public class LootDrop {
+	public class BodyPartEntry {
 
 		// -------------------------------------------------------------------------
 
-		public ItemId ItemId;
-		public int Quantity = 1;
-
-		// -------------------------------------------------------------------------
-
-		public Item Item {
-			get {
-				return Database.Engine.GameData.Get(ItemId);
-			}
-		}
+		public string Id = Game.Id.Generate();
+		public BodyPartId BodyPartId;
+		public int Experience = 0;
+		public float Quality = 1;
 
 		// -------------------------------------------------------------------------
 

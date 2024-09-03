@@ -51,21 +51,8 @@ public class Engine : ScriptableObject {
 	}
 
 	public CompletionData SaveFileCompletion(SaveFile saveFile) {
-		int total = 0;
-		total += GameData.BodyParts.Count;
-		total += GameData.Items.Count;
-		total += GameData.Lore.Count;
-		total += GameData.Skills.Count;
-		total += GameData.SpiritWisdom.Count;
-		total += GameData.Tags.Count;
-
-		int current = 0;
-		current += saveFile.Acquired.BodyPart.Count;
-		current += saveFile.Acquired.Item.Count;
-		current += saveFile.Acquired.Lore.Count;
-		current += saveFile.Acquired.Skill.Count;
-		current += saveFile.Acquired.SpiritWisdom.Count;
-		current += saveFile.Acquired.Tag.Count;
+		int total = GameData.Total;
+		int current = saveFile.Acquired.Total;
 
 		float ratio = total > 0 ? (float) current / (float) total : 0;
 

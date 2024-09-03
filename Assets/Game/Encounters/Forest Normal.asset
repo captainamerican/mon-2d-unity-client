@@ -21,35 +21,34 @@ MonoBehaviour:
       Health: 999
       Head:
         Id: 
+        BodyPartId: 1001
         Experience: 0
         Quality: 1
-        BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
       Torso:
         Id: 
+        BodyPartId: 1002
         Experience: 0
         Quality: 1
-        BodyPart: {fileID: 11400000, guid: 67bc9622b0d0844c69eff5def65c7600, type: 2}
       Tail:
         Id: 
+        BodyPartId: 1003
         Experience: 0
         Quality: 1
-        BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
       Appendages:
       - Id: 
+        BodyPartId: 1004
         Experience: 0
         Quality: 0
-        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
       - Id: 
+        BodyPartId: 1004
         Experience: 0
         Quality: 0
-        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
       - Id: 
+        BodyPartId: 1004
         Experience: 0
         Quality: 0
-        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
       - Id: 
+        BodyPartId: 1004
         Experience: 0
         Quality: 0
-        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
-      Skills:
-      - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+      Skills: e8030000

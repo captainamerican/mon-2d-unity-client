@@ -125,7 +125,7 @@ namespace Menu {
 					.Configure(() => HighlightLocation(mapButtonMapId));
 
 				//
-				if (Engine.Profile.TeleportUnlocked.Contains(mapButtonMapId)) {
+				if (Engine.Profile.Acquired.Has(mapButtonMapId)) {
 					button.onClick.RemoveAllListeners();
 					button.onClick.AddListener(() => {
 						focusedButton = button;
@@ -172,7 +172,7 @@ namespace Menu {
 		}
 
 		void HighlightLocation(Game.MapId mapId) {
-			bool canTeleport = Engine.Profile.TeleportUnlocked.Contains(mapId);
+			bool canTeleport = Engine.Profile.Acquired.Has(mapId);
 
 			//
 			TeleportNotice.gameObject.SetActive(canTeleport);

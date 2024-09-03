@@ -20,7 +20,7 @@ public class BodyPartButton : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
-	public BodyPartEntryBase BodyPartEntry {
+	public BodyPartEntry BodyPartEntry {
 		get; private set;
 	}
 
@@ -35,7 +35,7 @@ public class BodyPartButton : MonoBehaviour {
 		QualityProgress.localScale = new Vector3(0, 1, 1);
 	}
 
-	public void Configure(BodyPartEntryBase entry) {
+	public void Configure(BodyPartEntry entry) {
 		switch (entry.GetType().Name) {
 			case nameof(HeadBodyPartEntry):
 				Configure((HeadBodyPartEntry) entry);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using UnityEngine;
 
@@ -13,23 +12,23 @@ namespace Game {
 		// -------------------------------------------------------------------------
 
 		[Header("Storage")]
-		public List<HeadBodyPartEntry> Head = new();
-		public List<TorsoBodyPartEntry> Torso = new();
-		public List<TailBodyPartEntry> Tail = new();
-		public List<AppendageBodyPartEntry> Appendage = new();
+		public List<HeadBodyPartEntry> Head;
+		public List<TorsoBodyPartEntry> Torso;
+		public List<TailBodyPartEntry> Tail;
+		public List<AppendageBodyPartEntry> Appendage;
 
 		[Header("Reclaimable")]
-		public List<HeadBodyPartEntry> ReclaimableHead = new();
-		public List<TorsoBodyPartEntry> ReclaimableTorso = new();
-		public List<TailBodyPartEntry> ReclaimableTail = new();
-		public List<AppendageBodyPartEntry> ReclaimableAppendage = new();
+		public List<HeadBodyPartEntry> ReclaimableHead;
+		public List<TorsoBodyPartEntry> ReclaimableTorso;
+		public List<TailBodyPartEntry> ReclaimableTail;
+		public List<AppendageBodyPartEntry> ReclaimableAppendage;
 
 		// -------------------------------------------------------------------------
 
 		public void Add(HeadBodyPart head, float quality = 0, int experience = 0) {
 			Add(new HeadBodyPartEntry {
 				Id = Id.Generate(),
-				BodyPart = head,
+				BodyPartId = head.Id,
 				Quality = quality,
 				Experience = experience
 			});
@@ -38,7 +37,7 @@ namespace Game {
 		public void Add(TorsoBodyPart torso, float quality = 0, int experience = 0) {
 			Add(new TorsoBodyPartEntry {
 				Id = Id.Generate(),
-				BodyPart = torso,
+				BodyPartId = torso.Id,
 				Quality = quality,
 				Experience = experience
 			});
@@ -47,7 +46,7 @@ namespace Game {
 		public void Add(TailBodyPart tail, float quality = 0, int experience = 0) {
 			Add(new TailBodyPartEntry {
 				Id = Id.Generate(),
-				BodyPart = tail,
+				BodyPartId = tail.Id,
 				Quality = quality,
 				Experience = experience
 			});
@@ -56,13 +55,13 @@ namespace Game {
 		public void Add(AppendageBodyPart appendage, float quality = 0, int experience = 0) {
 			Add(new AppendageBodyPartEntry {
 				Id = Id.Generate(),
-				BodyPart = appendage,
+				BodyPartId = appendage.Id,
 				Quality = quality,
 				Experience = experience
 			});
 		}
 
-		public void Add(BodyPartEntryBase entry) {
+		public void Add(BodyPartEntry entry) {
 			if (entry is HeadBodyPartEntry head) {
 				Add(head);
 			} else if (entry is TorsoBodyPartEntry torso) {
@@ -90,7 +89,7 @@ namespace Game {
 			Appendage.Add(entry);
 		}
 
-		public void Remove(BodyPartEntryBase entry) {
+		public void Remove(BodyPartEntry entry) {
 			if (entry is HeadBodyPartEntry head) {
 				Remove(head);
 			} else if (entry is TorsoBodyPartEntry torso) {
@@ -118,7 +117,7 @@ namespace Game {
 			Appendage.Remove(entry);
 		}
 
-		public void AddToReclaimable(BodyPartEntryBase entry) {
+		public void AddToReclaimable(BodyPartEntry entry) {
 			if (entry is HeadBodyPartEntry head) {
 				AddToReclaimable(head);
 			} else if (entry is TorsoBodyPartEntry torso) {
@@ -150,7 +149,7 @@ namespace Game {
 			PruneReclaimables();
 		}
 
-		public void RemoveFromReclaimable(BodyPartEntryBase entry) {
+		public void RemoveFromReclaimable(BodyPartEntry entry) {
 			if (entry is HeadBodyPartEntry head) {
 				RemoveFromReclaimable(head);
 			} else if (entry is TorsoBodyPartEntry torso) {

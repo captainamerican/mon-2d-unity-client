@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ff59c2709a864ad395e501827023224, type: 3}
-  m_Name: Spirit Wisdom
+  m_Name: First Spirit
   m_EditorClassIdentifier: 
+  Id: 1000
   Name: First Spirit
-  SpiritId: 0
   BattleStart: Woah!
   BattleEnd: I haven't seen a necromancer in a long time.

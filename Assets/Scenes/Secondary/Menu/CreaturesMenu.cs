@@ -112,7 +112,7 @@ namespace Menu {
 
 				// 
 				string id = Engine.Profile.Party[i];
-				Game.ConstructedCreature creature = Engine.Profile.Creatures.Find(
+				Game.Creature creature = Engine.Profile.Creatures.Find(
 					creature => creature.Id == id
 				);
 				if (creature == null) {
@@ -167,7 +167,7 @@ namespace Menu {
 
 			//
 			string id = Engine.Profile.Party[selectedCreatureIndex];
-			Game.ConstructedCreature creature = Engine.Profile.Creatures.Find(
+			Game.Creature creature = Engine.Profile.Creatures.Find(
 				creature => creature.Id == id
 			);
 			if (creature == null) {
@@ -199,7 +199,7 @@ namespace Menu {
 					return;
 				}
 
-				Skill skill = creature.Skills[i];
+				Skill skill = creature.GetSkill(i);
 				Game.SkillEntry skillEntry = Engine.Profile.Skills
 					.Find(entry => entry.Skill == skill);
 
@@ -216,7 +216,7 @@ namespace Menu {
 
 						//
 						string id = Engine.Profile.Party[selectedCreatureIndex];
-						Game.ConstructedCreature creature = Engine.Profile.Creatures.Find(
+						Game.Creature creature = Engine.Profile.Creatures.Find(
 							creature => creature.Id == id
 						);
 
@@ -229,7 +229,7 @@ namespace Menu {
 
 				case Phase.Switching: {
 						string id = Engine.Profile.Party[selectedCreatureIndex];
-						Game.ConstructedCreature creature = Engine.Profile.Creatures.Find(
+						Game.Creature creature = Engine.Profile.Creatures.Find(
 							creature => creature.Id == id
 						);
 

@@ -44,7 +44,7 @@ namespace Game {
 			Appendage[index] = appendage;
 		}
 
-		public void Set(BodyPartEntryBase entry) {
+		public void Set(BodyPartEntry entry) {
 			if (entry is HeadBodyPartEntry head) {
 				Head = head;
 			} else if (entry is TorsoBodyPartEntry torso) {
@@ -69,7 +69,7 @@ namespace Game {
 			bool enhancerExists = false;
 
 			//
-			if (Enhancer?.Item != null && (Enhancer?.Amount ?? 0) > 0) {
+			if (Enhancer?.ItemId != ItemId.None && (Enhancer?.Amount ?? 0) > 0) {
 				enhancerExists = true;
 
 				//
@@ -90,7 +90,7 @@ namespace Game {
 
 			//
 			bool usedEnhancer = false;
-			if (Head?.BodyPart != null) {
+			if (Head?.BodyPartId != BodyPartId.None) {
 				if (Head.Quality > 0) {
 					usedEnhancer = true;
 
@@ -102,7 +102,7 @@ namespace Game {
 				}
 			}
 
-			if (Torso?.BodyPart != null) {
+			if (Torso?.BodyPartId != BodyPartId.None) {
 				if (Torso.Quality > 0) {
 					usedEnhancer = true;
 
@@ -114,7 +114,7 @@ namespace Game {
 				}
 			}
 
-			if (Tail?.BodyPart != null) {
+			if (Tail?.BodyPartId != BodyPartId.None) {
 				if (Tail.Quality > 0) {
 					usedEnhancer = true;
 
@@ -127,7 +127,7 @@ namespace Game {
 			}
 
 			Appendage.ForEach(appendage => {
-				if (appendage?.BodyPart != null) {
+				if (appendage?.BodyPartId != BodyPartId.None) {
 					if (appendage.Quality > 0) {
 						usedEnhancer = true;
 

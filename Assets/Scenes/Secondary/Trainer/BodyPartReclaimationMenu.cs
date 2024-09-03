@@ -57,7 +57,7 @@ namespace Trainer {
 		int selectedButtonIndex;
 
 		readonly List<Button> buttons = new();
-		readonly List<Game.BodyPartEntryBase> bodyPartEntries = new();
+		readonly List<Game.BodyPartEntry> bodyPartEntries = new();
 
 		// -------------------------------------------------------------------------
 
@@ -146,7 +146,7 @@ namespace Trainer {
 			bodyPartEntries.Clear();
 
 			//
-			List<Game.BodyPartEntryBase> items = new();
+			List<Game.BodyPartEntry> items = new();
 			Engine.Profile.BodyPartStorage.ReclaimableHead.ForEach(entry => items.Add(entry));
 			Engine.Profile.BodyPartStorage.ReclaimableTorso.ForEach(entry => items.Add(entry));
 			Engine.Profile.BodyPartStorage.ReclaimableTail.ForEach(entry => items.Add(entry));
@@ -171,7 +171,7 @@ namespace Trainer {
 				.ForEach(ConfigureButton);
 		}
 
-		void ConfigureButton(Game.BodyPartEntryBase entry) {
+		void ConfigureButton(Game.BodyPartEntry entry) {
 			int i = buttons.Count;
 			int j = i;
 
@@ -262,7 +262,7 @@ namespace Trainer {
 			phase = Phase.SubModal;
 		}
 
-		void UpdateItemLabel(Game.BodyPartEntryBase entry) {
+		void UpdateItemLabel(Game.BodyPartEntry entry) {
 			if (entry is Game.HeadBodyPartEntry entry1) {
 				ItemLabel.text = entry1.BodyPart.Name;
 			} else if (entry is Game.TorsoBodyPartEntry entry2) {

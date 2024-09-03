@@ -70,11 +70,11 @@ namespace Battle {
 		InputAction CancelAction;
 
 		WorldEnemy.Enemy enemy;
-		Game.ConstructedCreature enemyCreature;
+		Game.Creature enemyCreature;
 		Combatant enemyCombatant;
 		int enemyLevel;
 
-		Game.ConstructedCreature currentCreature;
+		Game.Creature currentCreature;
 		Combatant creatureCombatant;
 		List<Combatant> creatureCombatants = new();
 		int currentCreatureIndex;
@@ -290,7 +290,7 @@ namespace Battle {
 				}
 
 				//
-				Skill skill = currentCreature.Skills[i];
+				Skill skill = currentCreature.GetSkill(i);
 				label.text = skill != null ? skill.Name : "-";
 				button
 					.GetComponent<InformationButton>()
@@ -327,7 +327,7 @@ namespace Battle {
 			Hide(MovesMenu);
 
 			PerformActions(
-				PerformMove(currentCreature.Skills[moveIndex], creatureCombatant, enemyCombatant, CreatureAttacked, EnemyAttacked),
+				PerformMove(currentCreature.GetSkill(moveIndex), creatureCombatant, enemyCombatant, CreatureAttacked, EnemyAttacked),
 				EnemyAction()
 			);
 		}
@@ -400,7 +400,7 @@ namespace Battle {
 		}
 
 		IEnumerator EnemyAction() {
-			return PerformMove(enemyCreature.Skills[0], enemyCombatant, creatureCombatant, EnemyAttacked, CreatureAttacked);
+			return PerformMove(enemyCreature.GetSkill(0), enemyCombatant, creatureCombatant, EnemyAttacked, CreatureAttacked);
 		}
 		#endregion
 
@@ -613,7 +613,7 @@ namespace Battle {
 
 				pages.Add($"{creatureCombatant.Name} collapsed!");
 
-				if (Engine.Profile.PartyMembersAvailableToFight - 1 > 0) {
+				if (Engine.Profile.CreaturesAvailableToFight - 1 > 0) {
 					Debug.Log("Choose another!");
 				} else {
 					pages.Add("No creatures left to fight...");

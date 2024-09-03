@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7fed5e31c41b4ed18ed816c7a9404ea, type: 3}
   m_Name: Bite
   m_EditorClassIdentifier: 
-  Slug: bite
+  Id: 1020
   Name: Bite
   Description: When words weren't enough.
   Cost: 1
@@ -24,7 +24,7 @@ MonoBehaviour:
     Strength: -10
     Variance: 0.2
     ApplyToSelf: 0
-  Tags: []
+  Tags: 
   FX:
   - Actor: 0
     Delay: 0

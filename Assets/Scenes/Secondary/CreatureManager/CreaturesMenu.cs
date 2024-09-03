@@ -117,7 +117,7 @@ namespace CreatureManager {
 				int down = i == buttons.Count - 1 ? 0 : i + 1;
 
 				int j = i;
-				Game.ConstructedCreature creature = Engine.Profile.Creatures[i];
+				Game.Creature creature = Engine.Profile.Creatures[i];
 
 				Button button = buttons[i];
 
@@ -138,7 +138,7 @@ namespace CreatureManager {
 			}
 		}
 
-		void EditCreature(Game.ConstructedCreature creature) {
+		void EditCreature(Game.Creature creature) {
 			EditInitialMenu.Configure(new EditingCreature {
 				IsNew = false,
 				Creature = creature.Clone(),
@@ -153,7 +153,7 @@ namespace CreatureManager {
 			gameObject.SetActive(false);
 		}
 
-		void DescribeCreature(Game.ConstructedCreature creature) {
+		void DescribeCreature(Game.Creature creature) {
 			Description.text = $@"{creature.Torso?.BodyPart?.LocomotionLabel ?? "Incomplete"}".Trim();
 
 			HeadLabel.text = creature.Head?.BodyPart?.Name ?? HeadBodyPart.Label;
@@ -182,7 +182,7 @@ namespace CreatureManager {
 				}
 
 				//
-				SkillLabels[i].text = creature.Skills[i].Name;
+				SkillLabels[i].text = creature.GetSkill(i).Name;
 				SkillLabels[i].gameObject.SetActive(true);
 			}
 		}

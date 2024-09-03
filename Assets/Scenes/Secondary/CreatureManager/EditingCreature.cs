@@ -9,8 +9,8 @@ public class EditingCreature {
 
 	public bool IsNew;
 
-	public Game.ConstructedCreature Creature;
-	public Game.ConstructedCreature Original;
+	public Game.Creature Creature;
+	public Game.Creature Original;
 
 	public List<Game.HeadBodyPartEntry> AvailableHead;
 	public List<Game.TorsoBodyPartEntry> AvailableTorso;

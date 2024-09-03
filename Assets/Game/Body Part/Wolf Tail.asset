@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11c2e4f14f7d3442e91b50477b4622c0, type: 3}
   m_Name: Wolf Tail
   m_EditorClassIdentifier: 
+  Id: 1003
   Slug: wolf-tail
   Name: Wolf Tail
   ExperienceToLevel: 500
@@ -21,4 +22,4 @@ MonoBehaviour:
   Intelligence: 1
   Wisdom: 1
   Luck: 1
-  Tags: []
+  Tags: 

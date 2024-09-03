@@ -9,6 +9,7 @@ namespace Game {
 
 		public string Name;
 		public Vector3 Destination;
+		public PlayerDirection PlayerDirection;
 		public object Data;
 
 		// -------------------------------------------------------------------------

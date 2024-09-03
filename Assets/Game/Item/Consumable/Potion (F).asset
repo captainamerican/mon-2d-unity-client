@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21752b5b22dda476f96222be4c2a446a, type: 3}
   m_Name: Potion (F)
   m_EditorClassIdentifier: 
-  Slug: potion-f
+  Id: 1000
   Type: 10
   UseInBattle: 1
   Name: Potion (F)
@@ -20,7 +20,7 @@ MonoBehaviour:
   FlavorText: Looks like medicine. Smells like medicine.
   SortName: potion-0
   Recipe:
-  - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
+  - ItemId: 0
     Quantity: 2
   Targets: 140000001e000000
   Effects:

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941772c597c3e4ac487fabbd4ee9d0bb, type: 3}
   m_Name: Wolf Front Leg
   m_EditorClassIdentifier: 
+  Id: 1004
   Slug: wolf-front-leg
   Name: Wolf Front Leg
   ExperienceToLevel: 500
@@ -21,4 +22,4 @@ MonoBehaviour:
   Intelligence: 1
   Wisdom: 1
   Luck: 1
-  Tags: []
+  Tags: 

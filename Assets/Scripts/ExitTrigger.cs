@@ -12,7 +12,7 @@ public class ExitStage : MonoBehaviour {
 
 	[SerializeField] string SceneName;
 	[SerializeField] Vector3 Destination;
-	[SerializeField] PlayerDirection Direction;
+	[SerializeField] Game.PlayerDirection Direction;
 
 	// ---------------------------------------------------------------------------
 

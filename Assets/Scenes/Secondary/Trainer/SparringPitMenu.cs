@@ -320,7 +320,7 @@ namespace Trainer {
 			int slotType = slotButton.GetComponent<SparringPitItemSlot>().SlotType;
 
 			if (slotType < 5) {
-				List<Game.BodyPartEntryBase> items = new();
+				List<Game.BodyPartEntry> items = new();
 
 				switch (slotType) {
 					case 1:
@@ -409,7 +409,7 @@ namespace Trainer {
 			FlavorLabel.text = entry.Item.FlavorText;
 		}
 
-		void ConfigureBodyPartButton(Game.BodyPartEntryBase entry) {
+		void ConfigureBodyPartButton(Game.BodyPartEntry entry) {
 			int i = buttons.Count;
 			int j = i;
 
@@ -495,7 +495,7 @@ namespace Trainer {
 			Game.Focus.This(slots.Last());
 		}
 
-		void OnButtonSelected(Game.BodyPartEntryBase entry) {
+		void OnButtonSelected(Game.BodyPartEntry entry) {
 			if (entry is Game.AppendageBodyPartEntry appendage) {
 				var slot = slots[selectedSlotIndex];
 				var itemSlot = slot.GetComponent<SparringPitItemSlot>();

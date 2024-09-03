@@ -16,7 +16,7 @@ namespace Game {
 		// -------------------------------------------------------------------------
 
 		public int GetItemQuantity(Item item) {
-			return All.Find(e => e.Item == item)?.Amount ?? 0;
+			return All.Find(e => e.ItemId == item.Id)?.Amount ?? 0;
 		}
 
 		public bool HasItem(Item item) {
@@ -24,7 +24,7 @@ namespace Game {
 		}
 
 		public void AdjustItem(Item item, int quantity) {
-			InventoryEntry entry = All.Find(e => e.Item == item);
+			InventoryEntry entry = All.Find(e => e.ItemId == item.Id);
 			bool hadEntry = entry != null;
 
 			entry ??= new InventoryEntry() { ItemId = item.Id };

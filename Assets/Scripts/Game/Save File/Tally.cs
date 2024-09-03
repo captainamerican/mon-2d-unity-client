@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-
-using UnityEngine;
 
 // -----------------------------------------------------------------------------
 
 namespace Game {
 	[Serializable]
-	public class Acquired {
+	public class Tally {
 
 		// ------------------------------------------------------------------------- 
 
@@ -18,6 +15,27 @@ namespace Game {
 		public List<SpiritWisdom> SpiritWisdom;
 		public List<EssenceTag> Tag;
 		public List<Lore> Lore;
+		public List<ChestId> TreasureChest;
+		public List<MapId> TeleportLocation = new() {
+			MapId.Village
+		};
+		public List<SpiritId> Spirit = new();
+
+		// -------------------------------------------------------------------------
+
+		public int Total {
+			get {
+				return BodyPart.Count +
+					Skill.Count +
+					Item.Count +
+					SpiritWisdom.Count +
+					Tag.Count +
+					Lore.Count +
+					TreasureChest.Count +
+					TeleportLocation.Count
+				;
+			}
+		}
 
 		// -------------------------------------------------------------------------
 
@@ -43,6 +61,18 @@ namespace Game {
 
 		public bool Has(Lore lore) {
 			return Lore.Contains(lore);
+		}
+
+		public bool Has(ChestId chestId) {
+			return TreasureChest.Contains(chestId);
+		}
+
+		public bool Has(MapId mapId) {
+			return TeleportLocation.Contains(mapId);
+		}
+
+		public bool Has(SpiritId spiritId) {
+			return Spirit.Contains(spiritId);
 		}
 
 		// -------------------------------------------------------------------------
@@ -80,6 +110,24 @@ namespace Game {
 		public void Add(Lore lore) {
 			if (!Lore.Contains(lore)) {
 				Lore.Add(lore);
+			}
+		}
+
+		public void Add(ChestId id) {
+			if (!TreasureChest.Contains(id)) {
+				TreasureChest.Add(id);
+			}
+		}
+
+		public void Add(MapId mapId) {
+			if (!TeleportLocation.Contains(mapId)) {
+				TeleportLocation.Add(mapId);
+			}
+		}
+
+		public void Add(SpiritId spiritId) {
+			if (!Spirit.Contains(spiritId)) {
+				Spirit.Add(spiritId);
 			}
 		}
 

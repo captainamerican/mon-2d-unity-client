@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa90eced695ea44ea8f904f4f660b2a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b37420f5c8654c5dbf51f8d5e6315a0, type: 3}
   m_Name: Posion
   m_EditorClassIdentifier: 
-  Slug: poison
+  Id: 207
   Name: Poison
   Description: This body part courses with deadly poison.

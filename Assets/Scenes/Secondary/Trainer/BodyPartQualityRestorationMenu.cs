@@ -60,7 +60,7 @@ namespace Trainer {
 		int selectedButtonIndex;
 
 		readonly List<Button> buttons = new();
-		readonly List<Game.BodyPartEntryBase> bodyPartEntries = new();
+		readonly List<Game.BodyPartEntry> bodyPartEntries = new();
 
 		int qualityLevelsToRestore = 0;
 		int maxQualityLevelsToRestore = 0;
@@ -158,7 +158,7 @@ namespace Trainer {
 			bodyPartEntries.Clear();
 
 			//
-			List<Game.BodyPartEntryBase> items = new();
+			List<Game.BodyPartEntry> items = new();
 			Engine.Profile.BodyPartStorage.Head.ForEach(entry => items.Add(entry));
 			Engine.Profile.BodyPartStorage.Torso.ForEach(entry => items.Add(entry));
 			Engine.Profile.BodyPartStorage.Tail.ForEach(entry => items.Add(entry));
@@ -190,7 +190,7 @@ namespace Trainer {
 			CancelButton.Configure(() => phase = Phase.SubModal);
 		}
 
-		void ConfigureButton(Game.BodyPartEntryBase entry) {
+		void ConfigureButton(Game.BodyPartEntry entry) {
 			int i = buttons.Count;
 			int j = i;
 
@@ -270,7 +270,7 @@ namespace Trainer {
 			phase = Phase.QuantityModal;
 		}
 
-		void UpdateItemLabel(Game.BodyPartEntryBase entry) {
+		void UpdateItemLabel(Game.BodyPartEntry entry) {
 			if (entry is Game.HeadBodyPartEntry entry1) {
 				ItemLabel.text = entry1.BodyPart.Name;
 			} else if (entry is Game.TorsoBodyPartEntry entry2) {

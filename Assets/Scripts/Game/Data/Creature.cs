@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Game {
 	[Serializable]
-	public class ConstructedCreature {
+	public class Creature {
 
 		// -------------------------------------------------------------------------
 
@@ -18,26 +18,26 @@ namespace Game {
 		[Header("Live Stats")]
 		public int Health;
 
-		[Header("Appendages")]
+		[Header("Body Parts")]
 		public HeadBodyPartEntry Head;
 		public TorsoBodyPartEntry Torso;
 		public TailBodyPartEntry Tail;
 		public List<AppendageBodyPartEntry> Appendages = new();
 
 		[Header("Skills")]
-		public List<Skill> Skills = new();
+		public List<SkillId> Skills = new();
 
 		// ------------------------------------------------------------------------- 
 
 		public bool MissingHead {
 			get {
-				return Head?.BodyPart == null;
+				return Head?.BodyPartId == BodyPartId.None;
 			}
 		}
 
 		public bool MissingTorso {
 			get {
-				return Torso?.BodyPart == null;
+				return Torso?.BodyPartId == BodyPartId.None;
 			}
 		}
 
@@ -60,26 +60,29 @@ namespace Game {
 
 		public bool HasAllRequiredBodyParts {
 			get {
-				if (
-					Head?.BodyPart == null ||
-					Torso?.BodyPart == null
-				) {
+				if (MissingHead || MissingTorso) {
 					return false;
 
 				}
 
 				//
 				int appendages = Torso.BodyPart.HowManyAppendages;
-				return Appendages.Sum(a => a?.BodyPart == null ? 0 : 1) >= appendages;
+				return Appendages.Sum(
+					a => a?.BodyPartId == BodyPartId.None ? 0 : 1
+				) >= appendages;
 			}
 		}
 
-		public Skill GetSkillAt(int index) {
-			return (Skills.Count > index) ? Skills[index] : null;
+		public Skill GetSkill(int index) {
+			return (Skills.Count > index)
+				? Database.Engine.GameData.Get(Skills[index])
+				: null;
 		}
 
 		public AppendageBodyPartEntry GetAppendage(int i) {
-			return i < (Appendages?.Count ?? 0) ? Appendages[i] : null;
+			return i < (Appendages?.Count ?? 0)
+				? Appendages[i]
+				: null;
 		}
 
 		public string NameOfAppendage(int index) {
@@ -91,8 +94,8 @@ namespace Game {
 				);
 		}
 
-		public ConstructedCreature Clone() {
-			return new ConstructedCreature {
+		public Creature Clone() {
+			return new Creature {
 				Id = Id,
 				Name = Name,
 				Health = Health,
@@ -100,7 +103,7 @@ namespace Game {
 				Torso = Torso,
 				Tail = Tail,
 				Appendages = new List<AppendageBodyPartEntry>(Appendages),
-				Skills = new List<Skill>(Skills)
+				Skills = new List<SkillId>(Skills)
 			};
 		}
 

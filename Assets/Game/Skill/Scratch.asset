@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7fed5e31c41b4ed18ed816c7a9404ea, type: 3}
   m_Name: Scratch
   m_EditorClassIdentifier: 
-  Slug: scratch
+  Id: 1000
   Name: Scratch
   Description: Stings more than it hurts.
   Cost: 1
@@ -24,7 +24,7 @@ MonoBehaviour:
     Strength: -50
     Variance: 0.1
     ApplyToSelf: 0
-  Tags: []
+  Tags: 
   FX:
   - Actor: 0
     Delay: 0

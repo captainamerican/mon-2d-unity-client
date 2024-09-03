@@ -12,7 +12,6 @@ public class Skill : ScriptableObject {
 	// --------------------------------------------------------------------------- 
 
 	public Game.SkillId Id;
-	public string Slug;
 	public string Name;
 
 	[TextArea(2, 10)]

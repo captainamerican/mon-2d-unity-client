@@ -20,13 +20,12 @@ MonoBehaviour:
     MapId: 10
     CurrentLocation: {x: -4.5, y: 5.6, z: 0}
     Level: 5
-    Experience: 67
+    Experience: 103
     ExperienceForNextLevel: 239
-    Magic: 16
+    Magic: 15
     Wisdom: 5
     Hunger: 1
     Party:
-    - f79ffc432f2f
     - 1234567
     Creatures:
     - Id: 1234567
@@ -34,53 +33,44 @@ MonoBehaviour:
       Health: 999
       Head:
         Id: 11-1
+        BodyPartId: 1001
         Experience: 0
         Quality: 1
-        bodyPartSlug: wolf-head
-        BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
       Torso:
         Id: 11-2
+        BodyPartId: 1002
         Experience: 10
         Quality: 1
-        bodyPartSlug: wolf-torso
-        BodyPart: {fileID: 11400000, guid: 67bc9622b0d0844c69eff5def65c7600, type: 2}
       Tail:
         Id: 
+        BodyPartId: 1003
         Experience: 0
         Quality: 0
-        bodyPartSlug: wolf-tail
-        BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
       Appendages:
       - Id: 11-4
+        BodyPartId: 1004
         Experience: 0
         Quality: 1
-        bodyPartSlug: wolf-front-leg
-        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
       - Id: 11-5
+        BodyPartId: 1004
         Experience: 0
         Quality: 1
-        bodyPartSlug: wolf-front-leg
-        BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
       - Id: 11-6
+        BodyPartId: 1004
         Experience: 0
         Quality: 1
-        bodyPartSlug: wolf-rear-leg
-        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
       - Id: 11-7
+        BodyPartId: 1004
         Experience: 0
         Quality: 1
-        bodyPartSlug: wolf-rear-leg
-        BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
-      Skills:
-      - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+      Skills: e8030000
     Skills:
-    - Skill: {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
+    - SkillId: 1000
       Experience: 100
-    - Skill: {fileID: 11400000, guid: 4092e0aa4412c4ad0bf3958b9333a655, type: 2}
+    - SkillId: 1010
       Experience: 50
-    - Skill: {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+    - SkillId: 1020
       Experience: 542
-    TeleportUnlocked: 0a000000
     Options:
       DialogueSpeed: 0.25
       MusicVolume: 0.66
@@ -90,8 +80,10 @@ MonoBehaviour:
       Speedrunning: 0
     Inventory:
       All:
-      - Item: {fileID: 11400000, guid: ddcc1527333d34b829687e19bdd3c16d, type: 2}
+      - ItemId: 3004
         Amount: 999
+      - ItemId: 3003
+        Amount: 2
     BodyPartStorage:
       Head: []
       Torso: []
@@ -104,45 +96,38 @@ MonoBehaviour:
     SparringPit:
       Head:
         Id: 51AzyzxTZPTuVQCV
+        BodyPartId: 0
         Experience: 0
         Quality: 1
-        bodyPartSlug: 
-        BodyPart: {fileID: 0}
       Torso:
         Id: XWQ4WrbrjyX0tZyu
+        BodyPartId: 0
         Experience: 0
         Quality: 1
-        bodyPartSlug: 
-        BodyPart: {fileID: 0}
       Tail:
         Id: 13-3
+        BodyPartId: 0
         Experience: 1000
         Quality: 1
-        bodyPartSlug: 
-        BodyPart: {fileID: 0}
       Appendage:
       - Id: g9zpb4YQXdkLH27k
+        BodyPartId: 0
         Experience: 0
         Quality: 0
-        bodyPartSlug: 
-        BodyPart: {fileID: 0}
       - Id: g9zpb4YQXdkLH27j
+        BodyPartId: 0
         Experience: 1
         Quality: 0
-        bodyPartSlug: 
-        BodyPart: {fileID: 0}
       - Id: qe85dMHiHWMb1hUN
+        BodyPartId: 0
         Experience: 0
         Quality: 0
-        bodyPartSlug: 
-        BodyPart: {fileID: 0}
       - Id: yGinHbgKCDzpBTyj
+        BodyPartId: 0
         Experience: 0
         Quality: 0
-        bodyPartSlug: 
-        BodyPart: {fileID: 0}
       Enhancer:
-        Item: {fileID: 0}
+        ItemId: 0
         Amount: 0
     Acquired:
       BodyPart: []
@@ -151,8 +136,17 @@ MonoBehaviour:
       SpiritWisdom: []
       Tag: []
       Lore: []
-    TreasureChests:
-      All: 
-    Spirits:
-      All: 
+      TreasureChest: 
+      TeleportLocation: 0a000000
+      Spirit: 
+    Seen:
+      BodyPart: []
+      Skill: []
+      Item: []
+      SpiritWisdom: []
+      Tag: []
+      Lore: []
+      TreasureChest: 
+      TeleportLocation: 0a000000
+      Spirit: 
   GameData: {fileID: 11400000, guid: b06976c351aca400d8d2513f87736adf, type: 2}

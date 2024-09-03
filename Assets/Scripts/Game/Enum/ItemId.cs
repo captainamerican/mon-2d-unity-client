@@ -4,16 +4,16 @@
 
 		// 1xxx consumable
 		PotionF = 1000,
-		PotionD = 1001,
-		PotionE = 1002,
+		PotionE = 1001,
+		PotionD = 1002,
 		PotionC = 1003,
 		PotionB = 1004,
 		PotionA = 1005,
 		PotionS = 1006,
 
 		LotionF = 1010,
-		LotionD = 1011,
-		LotionE = 1012,
+		LotionE = 1011,
+		LotionD = 1012,
 		LotionC = 1013,
 		LotionB = 1014,
 		LotionA = 1015,
@@ -28,8 +28,8 @@
 		CoffeeS = 1026,
 
 		PreservativeF = 1030,
-		PreservativeD = 1031,
-		PreservativeE = 1032,
+		PreservativeE = 1031,
+		PreservativeD = 1032,
 		PreservativeC = 1033,
 		PreservativeB = 1034,
 		PreservativeA = 1035,
@@ -47,8 +47,8 @@
 
 		// 4xxx Training Items
 		ExperiencePillF = 4000,
-		ExperiencePillD = 4001,
-		ExperiencePillE = 4002,
+		ExperiencePillE = 4001,
+		ExperiencePillD = 4002,
 		ExperiencePillC = 4003,
 		ExperiencePillB = 4004,
 		ExperiencePillA = 4005,
@@ -61,5 +61,7 @@
 		MannequinPartB = 5003,
 		MannequinPartC = 5004,
 		MannequinPartD = 5005,
+		MortarAndPestel = 5006,
+		SoulCrucible = 5007
 	}
 }

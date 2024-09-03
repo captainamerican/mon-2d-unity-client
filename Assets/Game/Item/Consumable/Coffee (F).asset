@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21752b5b22dda476f96222be4c2a446a, type: 3}
   m_Name: Coffee (F)
   m_EditorClassIdentifier: 
-  Slug: coffee-f
+  Id: 1020
   Type: 10
   UseInBattle: 1
   Name: Coffee (F)
@@ -20,9 +20,9 @@ MonoBehaviour:
   FlavorText: Smells amazing.
   SortName: coffee-0
   Recipe:
-  - Item: {fileID: 11400000, guid: 86769bce9cebadd43bdce798f5bb6bd9, type: 2}
+  - ItemId: 0
     Quantity: 1
-  - Item: {fileID: 11400000, guid: c750d805822613a4b8414526f8ed7001, type: 2}
+  - ItemId: 0
     Quantity: 1
   Targets: 0a000000
   Effects:

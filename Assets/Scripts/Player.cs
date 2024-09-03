@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-enum PlayerDirection {
-	None,
-	Up,
-	Down,
-	Left,
-	Right,
-}
-
 public class Player : MonoBehaviour {
 	[SerializeField]
 	Engine Engine;
@@ -28,16 +20,28 @@ public class Player : MonoBehaviour {
 	PlayerInput PlayerInput;
 
 	Vector2 movement;
-	PlayerDirection direction = PlayerDirection.None;
-	PlayerDirection nextDirection = PlayerDirection.None;
+	Game.PlayerDirection direction = Game.PlayerDirection.None;
+	Game.PlayerDirection nextDirection = Game.PlayerDirection.None;
 
 	InputAction Move;
 
-	Dictionary<PlayerDirection, string> DirectionMap = new Dictionary<PlayerDirection, string>() {
-		{ PlayerDirection.Up, "Up" },
-		{ PlayerDirection.Down, "Down" },
-		{ PlayerDirection.Left, "Left" },
-		{ PlayerDirection.Right, "Right" }
+	Dictionary<Game.PlayerDirection, string> DirectionMap = new() {
+		{
+			Game.PlayerDirection.Up,
+			"Up"
+		},
+		{
+			Game.PlayerDirection.Down,
+			"Down"
+		},
+		{
+			Game.PlayerDirection.Left,
+			"Left"
+		},
+		{
+			Game.PlayerDirection.Right,
+			"Right"
+		}
 	};
 
 	private void Start() {
@@ -58,13 +62,13 @@ public class Player : MonoBehaviour {
 		movement = Move.ReadValue<Vector2>();
 
 		if (movement.x > 0 && movement.y == 0) {
-			nextDirection = PlayerDirection.Right;
+			nextDirection = Game.PlayerDirection.Right;
 		} else if (movement.x < 0 && movement.y == 0) {
-			nextDirection = PlayerDirection.Left;
+			nextDirection = Game.PlayerDirection.Left;
 		} else if (movement.y > 0 && movement.x == 0) {
-			nextDirection = PlayerDirection.Up;
+			nextDirection = Game.PlayerDirection.Up;
 		} else if (movement.y < 0 && movement.x == 0) {
-			nextDirection = PlayerDirection.Down;
+			nextDirection = Game.PlayerDirection.Down;
 		}
 
 		if (nextDirection != direction) {
@@ -73,7 +77,7 @@ public class Player : MonoBehaviour {
 			animator.speed = 1;
 		}
 
-		if (direction != PlayerDirection.None && movement.x == 0 && movement.y == 0) {
+		if (direction != Game.PlayerDirection.None && movement.x == 0 && movement.y == 0) {
 			Stop();
 		}
 	}
@@ -90,8 +94,8 @@ public class Player : MonoBehaviour {
 	void ModeChanged(EngineMode mode) {
 		switch (mode) {
 			case EngineMode.Store:
-				direction = PlayerDirection.Down;
-				nextDirection = PlayerDirection.Down;
+				direction = Game.PlayerDirection.Down;
+				nextDirection = Game.PlayerDirection.Down;
 				animator.Play(DirectionMap[direction]);
 				Stop();
 				break;
@@ -105,14 +109,14 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Stop() {
-		if (direction == PlayerDirection.None) {
+		if (direction == Game.PlayerDirection.None) {
 			return;
 		}
 
 		animator.Play(DirectionMap[direction], -1, 0.33f);
 		animator.speed = 0;
 		movement = Vector2.zero;
-		direction = PlayerDirection.None;
-		nextDirection = PlayerDirection.None;
+		direction = Game.PlayerDirection.None;
+		nextDirection = Game.PlayerDirection.None;
 	}
 }
