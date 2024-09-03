@@ -15,6 +15,9 @@ namespace Game {
 		[Header("File")]
 		public int FileIndex = -1;
 		public bool IsAutoSave = false;
+		public float PlaytimeAsSeconds;
+
+		[Header("Location")]
 		public MapId MapId;
 		public Vector3 CurrentLocation;
 
@@ -26,8 +29,6 @@ namespace Game {
 		public int Magic = 30;
 		public int Wisdom = 5;
 		public float Hunger = 1;
-
-		public float PlaytimeAsSeconds;
 
 		[Header("Data")]
 		public List<string> Party;

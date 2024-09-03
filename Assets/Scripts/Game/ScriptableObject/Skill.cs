@@ -11,6 +11,7 @@ public class Skill : ScriptableObject {
 
 	// --------------------------------------------------------------------------- 
 
+	public Game.SkillId Id;
 	public string Slug;
 	public string Name;
 
@@ -22,9 +23,7 @@ public class Skill : ScriptableObject {
 	public int ExperienceToLearn = 100;
 
 	public List<Game.Effect> Effect = new();
-	public List<Tag> Tags = new();
-
-	[Header("FX")]
+	public List<Game.EssenceTagId> Tags = new();
 	public List<Game.SkillFX> FX = new();
 
 	// ---------------------------------------------------------------------------

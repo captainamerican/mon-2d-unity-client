@@ -3,15 +3,21 @@ using System.Collections;
 
 using UnityEngine;
 
+// -----------------------------------------------------------------------------
+
 namespace Village {
 	public class Scene : MonoBehaviour {
+
+		// -------------------------------------------------------------------------
+
 		public const string Name = "Village";
 
-		[SerializeField]
-		Engine Engine;
+		// -------------------------------------------------------------------------
 
-		[SerializeField]
-		Player Player;
+		[SerializeField] Engine Engine;
+		[SerializeField] Player Player;
+
+		// -------------------------------------------------------------------------
 
 		static public Vector3 Location_Main {
 			get {
@@ -25,15 +31,17 @@ namespace Village {
 			}
 		}
 
+		// -------------------------------------------------------------------------
+
 		IEnumerator Start() {
-			NextScene nextScene = Engine.NextScene;
+			Game.NextScene nextScene = Engine.NextScene;
 			if (nextScene != null) {
 				Player.transform.position = nextScene.Destination;
 			}
 			Engine.NextScene = null;
 
 			//
-			Engine.Profile.MapId = MapId.Village;
+			Engine.Profile.MapId = Game.MapId.Village;
 			Engine.Profile.CurrentLocation = Player.transform.position;
 
 			//
@@ -42,6 +50,8 @@ namespace Village {
 			yield return Loader.Scene.Clear();
 			Engine.SetMode(EngineMode.PlayerControl);
 		}
+
+		// -------------------------------------------------------------------------
 
 		public void OpenPotionShop() {
 			Engine.Mode = EngineMode.Store;
@@ -82,11 +92,16 @@ namespace Village {
 			);
 		}
 
+		// -------------------------------------------------------------------------
+
 		IEnumerator ReturnFromStore(Func<IEnumerator> callback) {
 			yield return callback();
 
 			//
 			Engine.Mode = EngineMode.PlayerControl;
 		}
+
+		// -------------------------------------------------------------------------
+
 	}
 }

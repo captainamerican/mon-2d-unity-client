@@ -19,7 +19,7 @@ namespace Menu {
 		public Item Item;
 		public SpiritWisdom SpiritWisdom;
 		public Gameplay Gameplay;
-		public Tag Tag;
+		public EssenceTag Tag;
 		public Lore Lore;
 	}
 }

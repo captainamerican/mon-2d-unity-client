@@ -7,17 +7,12 @@ using UnityEngine.InputSystem;
 
 public class TreasureAction : MonoBehaviour {
 
-	[SerializeField]
-	Engine Engine;
+	[SerializeField] Engine Engine;
+	[SerializeField] PlayerInput PlayerInput;
 
-	[SerializeField]
-	Game.ChestId Id;
+	[SerializeField] Game.ChestId Id;
 
-	[SerializeField]
-	PlayerInput PlayerInput;
-
-	[SerializeField]
-	List<Game.LootDrop> Drops = new();
+	[SerializeField] List<Game.LootDrop> Drops = new();
 
 	bool isBeingTouched;
 	InputAction SubmitAction;

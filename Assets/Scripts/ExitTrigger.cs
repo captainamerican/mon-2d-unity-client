@@ -1,23 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// -----------------------------------------------------------------------------
+
 public class ExitStage : MonoBehaviour {
 
-	[SerializeField]
-	PlayerDirection Direction;
+	// ---------------------------------------------------------------------------
 
-	[SerializeField]
-	Vector3 Destination;
+	[SerializeField] Engine Engine;
+	[SerializeField] Player Controller;
 
-	[SerializeField]
-	string SceneName;
+	[SerializeField] string SceneName;
+	[SerializeField] Vector3 Destination;
+	[SerializeField] PlayerDirection Direction;
 
-	[SerializeField]
-	Player Controller;
-
-	[SerializeField]
-	Engine Engine;
-
+	// ---------------------------------------------------------------------------
 
 	private void OnTriggerEnter2D(Collider2D collision) {
 		if (collision.gameObject.GetComponent<Player>() != Controller) {
@@ -27,9 +24,17 @@ public class ExitStage : MonoBehaviour {
 		LoadNextScene();
 	}
 
-	void LoadNextScene() {
-		Engine.NextScene = new NextScene { Name = SceneName, Destination = Destination };
+	// ---------------------------------------------------------------------------
 
+	void LoadNextScene() {
+		Engine.NextScene = new Game.NextScene {
+			Name = SceneName,
+			Destination = Destination
+		};
+
+		//
 		SceneManager.LoadSceneAsync("Loader", LoadSceneMode.Additive);
 	}
+
+	// ---------------------------------------------------------------------------
 }

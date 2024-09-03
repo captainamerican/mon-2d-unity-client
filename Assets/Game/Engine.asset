@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb300f3f5fbd42c98859291fd5fe0af, type: 3}
   m_Name: Engine
   m_EditorClassIdentifier: 
-  Mode: 10
+  Mode: 1
   Profile:
     FileIndex: 98
     IsAutoSave: 0
+    PlaytimeAsSeconds: 0
     MapId: 10
     CurrentLocation: {x: -4.5, y: 5.6, z: 0}
     Level: 5
@@ -24,7 +25,6 @@ MonoBehaviour:
     Magic: 16
     Wisdom: 5
     Hunger: 1
-    PlaytimeAsSeconds: 0
     Party:
     - f79ffc432f2f
     - 1234567
@@ -36,33 +36,40 @@ MonoBehaviour:
         Id: 11-1
         Experience: 0
         Quality: 1
+        bodyPartSlug: wolf-head
         BodyPart: {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
       Torso:
         Id: 11-2
         Experience: 10
         Quality: 1
+        bodyPartSlug: wolf-torso
         BodyPart: {fileID: 11400000, guid: 67bc9622b0d0844c69eff5def65c7600, type: 2}
       Tail:
         Id: 
         Experience: 0
         Quality: 0
+        bodyPartSlug: wolf-tail
         BodyPart: {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
       Appendages:
       - Id: 11-4
         Experience: 0
         Quality: 1
+        bodyPartSlug: wolf-front-leg
         BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
       - Id: 11-5
         Experience: 0
         Quality: 1
+        bodyPartSlug: wolf-front-leg
         BodyPart: {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
       - Id: 11-6
         Experience: 0
         Quality: 1
+        bodyPartSlug: wolf-rear-leg
         BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
       - Id: 11-7
         Experience: 0
         Quality: 1
+        bodyPartSlug: wolf-rear-leg
         BodyPart: {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
       Skills:
       - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
@@ -99,33 +106,40 @@ MonoBehaviour:
         Id: 51AzyzxTZPTuVQCV
         Experience: 0
         Quality: 1
+        bodyPartSlug: 
         BodyPart: {fileID: 0}
       Torso:
         Id: XWQ4WrbrjyX0tZyu
         Experience: 0
         Quality: 1
+        bodyPartSlug: 
         BodyPart: {fileID: 0}
       Tail:
         Id: 13-3
         Experience: 1000
         Quality: 1
+        bodyPartSlug: 
         BodyPart: {fileID: 0}
       Appendage:
       - Id: g9zpb4YQXdkLH27k
         Experience: 0
         Quality: 0
+        bodyPartSlug: 
         BodyPart: {fileID: 0}
       - Id: g9zpb4YQXdkLH27j
         Experience: 1
         Quality: 0
+        bodyPartSlug: 
         BodyPart: {fileID: 0}
       - Id: qe85dMHiHWMb1hUN
         Experience: 0
         Quality: 0
+        bodyPartSlug: 
         BodyPart: {fileID: 0}
       - Id: yGinHbgKCDzpBTyj
         Experience: 0
         Quality: 0
+        bodyPartSlug: 
         BodyPart: {fileID: 0}
       Enhancer:
         Item: {fileID: 0}
@@ -141,72 +155,4 @@ MonoBehaviour:
       All: 
     Spirits:
       All: 
-  CraftingEquipment:
-  - {fileID: 11400000, guid: ca6b50a578453ef4f84b5c3e5b418c36, type: 2}
-  - {fileID: 11400000, guid: ddadc47a61c029f488c69f352d8e19be, type: 2}
-  - {fileID: 11400000, guid: fb273829a68ccc246982d6cdcc6fb720, type: 2}
-  Items:
-  - {fileID: 11400000, guid: 44c588fc9d11e92469ef2ca42d44ef06, type: 2}
-  - {fileID: 11400000, guid: fc031aec91cbce94e8daf8af09cdd351, type: 2}
-  - {fileID: 11400000, guid: fe8c7073030f2a048b6fc819ed8dba89, type: 2}
-  - {fileID: 11400000, guid: fbf54697ef7ecb544a5a0a22e90b6894, type: 2}
-  - {fileID: 11400000, guid: c61533630a513ef46bc229dc5b24c763, type: 2}
-  - {fileID: 11400000, guid: 35944112bf1677d4c8272a5880299319, type: 2}
-  - {fileID: 11400000, guid: a8982c01dadfccd4f97caa32edb0a050, type: 2}
-  - {fileID: 11400000, guid: 09181c479adb26046a5d7680ed25f9ba, type: 2}
-  - {fileID: 11400000, guid: e0ce7962ad717584b93065c3458de731, type: 2}
-  - {fileID: 11400000, guid: 8a8e3e4b6c53dda48942f1200783689d, type: 2}
-  - {fileID: 11400000, guid: 4af48ebdb3973cf4cb5688ca3da76542, type: 2}
-  - {fileID: 11400000, guid: b6c88033d33be3b429e23a1a9d791052, type: 2}
-  - {fileID: 11400000, guid: 4946364cd5591c44e9bfb4e9462b83f4, type: 2}
-  - {fileID: 11400000, guid: 24f33a5e94da2784ba3bf95ab1faba80, type: 2}
-  - {fileID: 11400000, guid: c4fd8335ceaa2604b932993e694beb74, type: 2}
-  - {fileID: 11400000, guid: e3e0de087d74f824085ff2b878d1402e, type: 2}
-  - {fileID: 11400000, guid: 86769bce9cebadd43bdce798f5bb6bd9, type: 2}
-  - {fileID: 11400000, guid: 78f381f3e6da53d4ab7333523c1f59ca, type: 2}
-  - {fileID: 11400000, guid: 217e612b1f7c0654bba074d9603f8dfd, type: 2}
-  - {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
-  - {fileID: 11400000, guid: ddcc1527333d34b829687e19bdd3c16d, type: 2}
-  - {fileID: 11400000, guid: c750d805822613a4b8414526f8ed7001, type: 2}
-  - {fileID: 11400000, guid: ddadc47a61c029f488c69f352d8e19be, type: 2}
-  - {fileID: 11400000, guid: 5026663fea7ba864b84de5a1c8705e46, type: 2}
-  - {fileID: 11400000, guid: cbc078ce3c8bd48f291a46f4921c6ad4, type: 2}
-  - {fileID: 11400000, guid: 7b7fdd64c37c2473f8c2282b49edcd43, type: 2}
-  - {fileID: 11400000, guid: 10360a571bfde48f59f7272535dcd766, type: 2}
-  - {fileID: 11400000, guid: 1d7d7d45a98774d0db987e1a4af1398b, type: 2}
-  - {fileID: 11400000, guid: ca6b50a578453ef4f84b5c3e5b418c36, type: 2}
-  - {fileID: 11400000, guid: fb273829a68ccc246982d6cdcc6fb720, type: 2}
-  - {fileID: 11400000, guid: 3614303c099ad488eb67d96849e0feac, type: 2}
-  BodyParts:
-  - {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
-  - {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
-  - {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
-  - {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
-  - {fileID: 11400000, guid: 67bc9622b0d0844c69eff5def65c7600, type: 2}
-  Skills:
-  - {fileID: 11400000, guid: 4092e0aa4412c4ad0bf3958b9333a655, type: 2}
-  - {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
-  - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
-  SpiritWisdom:
-  - {fileID: 11400000, guid: 70753f32d42dc4ff983d6d1fd95508da, type: 2}
-  Gameplay:
-  - {fileID: 11400000, guid: 87a36a6ece8074c2b8faf53f1a5244c6, type: 2}
-  - {fileID: 11400000, guid: 0b6c7ad99ee934a6890050d1ab2f13c1, type: 2}
-  - {fileID: 11400000, guid: 948f7187a1f8e43ccb1b6a1e9d78f9a3, type: 2}
-  - {fileID: 11400000, guid: 00e73a95661b94c8dbfb17e36ee7f33b, type: 2}
-  - {fileID: 11400000, guid: 41276d9efc9c14e14b818ed757668c8f, type: 2}
-  - {fileID: 11400000, guid: 518e5b533cd834d74a8f27586224bf7b, type: 2}
-  - {fileID: 11400000, guid: ae179abae4d0c47678f48f3def51869f, type: 2}
-  - {fileID: 11400000, guid: 589d0541b3a304dcfad98b45737fe647, type: 2}
-  - {fileID: 11400000, guid: 96c5dddef74cd46cab71b9af11ea9f96, type: 2}
-  - {fileID: 11400000, guid: b84c577c4efbe4e888caf48660509122, type: 2}
-  - {fileID: 11400000, guid: c2848c3b0218c4ea3b3df4782a7f67ad, type: 2}
-  - {fileID: 11400000, guid: 07cdd6273f9404d1f85d1d74b0e6a6d9, type: 2}
-  - {fileID: 11400000, guid: 667521cb226c047a581552b2a0af5c4e, type: 2}
-  - {fileID: 11400000, guid: f87e2a00e495e470592f5c2a2e1851e6, type: 2}
-  - {fileID: 11400000, guid: f264a964d03fe4ef69679ebbee7c40eb, type: 2}
-  - {fileID: 11400000, guid: 1fa1a1f5688d6465499114101563a2b2, type: 2}
-  Tags:
-  - {fileID: 11400000, guid: 23c7c7d6cb2b445349a266070087152d, type: 2}
-  Lore:
-  - {fileID: 11400000, guid: 872f6c3a7d3b54f20ae7d6ef4a7dbd64, type: 2}
+  GameData: {fileID: 11400000, guid: b06976c351aca400d8d2513f87736adf, type: 2}

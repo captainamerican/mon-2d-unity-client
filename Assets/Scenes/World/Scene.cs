@@ -2,19 +2,25 @@ using System.Collections;
 
 using UnityEngine;
 
-namespace World {
+// -----------------------------------------------------------------------------
 
+namespace World {
 	public class Scene : MonoBehaviour {
+
+		// -------------------------------------------------------------------------
+
 		[Header("Globals")]
 		[SerializeField] Engine Engine;
 
 		[Header("Locals")]
-		[SerializeField] MapId MapId;
+		[SerializeField] Game.MapId MapId;
 		[SerializeField] string MapName;
 		[SerializeField] GameObject Player;
 
+		// -------------------------------------------------------------------------
+
 		IEnumerator Start() {
-			NextScene nextScene = Engine.NextScene;
+			Game.NextScene nextScene = Engine.NextScene;
 			if (nextScene != null) {
 				Player.transform.position = nextScene.Destination;
 			}
@@ -30,5 +36,8 @@ namespace World {
 			yield return Loader.Scene.Clear();
 			Engine.SetMode(EngineMode.PlayerControl);
 		}
+
+		// -------------------------------------------------------------------------
+
 	}
 }

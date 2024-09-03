@@ -27,7 +27,7 @@ namespace Game {
 			InventoryEntry entry = All.Find(e => e.Item == item);
 			bool hadEntry = entry != null;
 
-			entry ??= new InventoryEntry() { Item = item };
+			entry ??= new InventoryEntry() { ItemId = item.Id };
 			entry.Amount = Mathf.Clamp(entry.Amount + quantity, 0, 999999);
 
 			if (!hadEntry) {

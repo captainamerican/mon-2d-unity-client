@@ -16,8 +16,11 @@ namespace Game {
 
 		public HeadBodyPart BodyPart;
 
+		public Game.BodyPartId BodyPartId;
+
 		public int MaxSkills {
 			get {
+
 				int experience = Experience;
 				int toLevel = BodyPart.ExperienceToLevel;
 				float rawLevel = Mathf.Clamp(3f * ((float) experience / (float) (toLevel * 3f)), 0, 3);
@@ -42,7 +45,7 @@ namespace Game {
 
 		void ISerializationCallbackReceiver.OnAfterDeserialize() {
 			if (bodyPartSlug != "") {
-				BodyPart = (HeadBodyPart) FuckYouUnity.Engine.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
+				BodyPart = (HeadBodyPart) Database.Engine.GameData.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
 			}
 		}
 
@@ -71,7 +74,7 @@ namespace Game {
 
 		void ISerializationCallbackReceiver.OnAfterDeserialize() {
 			if (bodyPartSlug != "") {
-				BodyPart = (TorsoBodyPart) FuckYouUnity.Engine.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
+				BodyPart = (TorsoBodyPart) Database.Engine.GameData.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
 			}
 		}
 
@@ -100,7 +103,7 @@ namespace Game {
 
 		void ISerializationCallbackReceiver.OnAfterDeserialize() {
 			if (bodyPartSlug != "") {
-				BodyPart = (TailBodyPart) FuckYouUnity.Engine.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
+				BodyPart = (TailBodyPart) Database.Engine.GameData.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
 			}
 		}
 
@@ -129,7 +132,7 @@ namespace Game {
 
 		void ISerializationCallbackReceiver.OnAfterDeserialize() {
 			if (bodyPartSlug != "") {
-				BodyPart = (AppendageBodyPart) FuckYouUnity.Engine.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
+				BodyPart = (AppendageBodyPart) Database.Engine.GameData.BodyParts.Find(bp => bp.Slug == bodyPartSlug);
 			}
 		}
 

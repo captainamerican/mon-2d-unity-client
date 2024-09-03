@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using TMPro;
+﻿using TMPro;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -165,7 +163,7 @@ namespace Menu {
 			}
 
 			//
-			Engine.NextScene = new NextScene { Name = StartScreen.Scene.Name };
+			Engine.NextScene = new Game.NextScene { Name = StartScreen.Scene.Name };
 			SceneManager.LoadSceneAsync(Loader.Scene.Name, LoadSceneMode.Additive);
 		}
 

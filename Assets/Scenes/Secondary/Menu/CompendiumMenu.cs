@@ -178,7 +178,7 @@ namespace Menu {
 			} else {
 				switch (selectedCategoryIndex) {
 					case 0:
-						var bodyPartButtons = Engine.BodyParts
+						var bodyPartButtons = Engine.GameData.BodyParts
 							.OrderBy(bodyPart => bodyPart.Name)
 							.Select(bodyPart => {
 								bool acquired = Engine.Profile.Acquired.Has(bodyPart);
@@ -203,7 +203,7 @@ namespace Menu {
 						break;
 
 					case 1:
-						var skillButtons = Engine.Skills
+						var skillButtons = Engine.GameData.Skills
 							.OrderBy(skill => skill.Name)
 							.Select(skill => {
 								bool acquired = Engine.Profile.Acquired.Has(skill);
@@ -228,7 +228,7 @@ namespace Menu {
 						break;
 
 					case 2:
-						var tagButtons = Engine.Tags
+						var tagButtons = Engine.GameData.Tags
 							.OrderBy(tag => tag.Name)
 							.Select(tag => {
 								bool acquired = Engine.Profile.Acquired.Has(tag);
@@ -253,7 +253,7 @@ namespace Menu {
 						break;
 
 					case 3:
-						var itemButtons = Engine.Items
+						var itemButtons = Engine.GameData.Items
 							.OrderBy(item => item.Name)
 							.Select(item => {
 								bool acquired = Engine.Profile.Acquired.Has(item);
@@ -278,7 +278,7 @@ namespace Menu {
 						break;
 
 					case 4:
-						var spiritWisdomButtons = Engine.SpiritWisdom
+						var spiritWisdomButtons = Engine.GameData.SpiritWisdom
 							.OrderBy(spiritWisdom => spiritWisdom.Name)
 							.Select(spiritWisdom => {
 								bool acquired = Engine.Profile.Acquired.Has(spiritWisdom);
@@ -303,7 +303,7 @@ namespace Menu {
 						break;
 
 					case 5:
-						var loreButtons = Engine.Lore
+						var loreButtons = Engine.GameData.Lore
 							.OrderBy(lore => lore.Name)
 							.Select(lore => {
 								bool acquired = Engine.Profile.Acquired.Has(lore);
@@ -328,7 +328,7 @@ namespace Menu {
 						break;
 
 					case 6:
-						var gameplayButtons = Engine.Gameplay
+						var gameplayButtons = Engine.GameData.Gameplay
 							.OrderBy(gameplay => gameplay.Name)
 							.Select(gameplay => {
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -498,36 +498,36 @@ namespace Menu {
 			switch (selectedCategoryIndex) {
 				case 0:
 					current = Engine.Profile.Acquired.BodyPart.Count;
-					total = Engine.BodyParts.Count;
+					total = Engine.GameData.BodyParts.Count;
 					break;
 
 				case 1:
 					current = Engine.Profile.Acquired.Item.Count;
-					total = Engine.Skills.Count;
+					total = Engine.GameData.Skills.Count;
 					break;
 
 				case 2:
 					current = Engine.Profile.Acquired.Tag.Count;
-					total = Engine.Tags.Count;
+					total = Engine.GameData.Tags.Count;
 					break;
 
 				case 3:
 					current = Engine.Profile.Acquired.Skill.Count;
-					total = Engine.Items.Count;
+					total = Engine.GameData.Items.Count;
 					break;
 
 				case 4:
 					current = Engine.Profile.Acquired.SpiritWisdom.Count;
-					total = Engine.SpiritWisdom.Count;
+					total = Engine.GameData.SpiritWisdom.Count;
 					break;
 
 				case 5:
 					current = Engine.Profile.Acquired.Lore.Count;
-					total = Engine.Lore.Count;
+					total = Engine.GameData.Lore.Count;
 					break;
 
 				case 6:
-					current = Engine.Gameplay.Count;
+					current = Engine.GameData.Gameplay.Count;
 					total = current;
 					break;
 			}

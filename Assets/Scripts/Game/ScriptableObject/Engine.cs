@@ -17,23 +17,6 @@ public enum EngineMode {
 	NextScene = 60
 }
 
-public enum MapId {
-	Other,
-	Village = 10,
-	Forest01 = 11,
-	ForestCave01 = 12,
-	Forest02 = 13,
-	ForestCave02 = 14,
-	Forest03 = 15,
-	Forest04 = 16
-}
-
-public class NextScene {
-	public string Name;
-	public Vector3 Destination;
-	public object Data;
-}
-
 public delegate void EngineModeChangedEvent(EngineMode mode);
 
 // -----------------------------------------------------------------------------
@@ -50,15 +33,7 @@ public class Engine : ScriptableObject {
 
 	public SaveFile Profile;
 
-	[Header("Game Data")]
-	public List<Item> CraftingEquipment = new();
-	public List<Item> Items = new();
-	public List<BodyPartBase> BodyParts = new();
-	public List<Skill> Skills = new();
-	public List<SpiritWisdom> SpiritWisdom = new();
-	public List<Gameplay> Gameplay = new();
-	public List<Tag> Tags = new();
-	public List<Lore> Lore = new();
+	public GameData GameData;
 
 	// ---------------------------------------------------------------------------
 
@@ -77,12 +52,12 @@ public class Engine : ScriptableObject {
 
 	public CompletionData SaveFileCompletion(SaveFile saveFile) {
 		int total = 0;
-		total += BodyParts.Count;
-		total += Items.Count;
-		total += Lore.Count;
-		total += Skills.Count;
-		total += SpiritWisdom.Count;
-		total += Tags.Count;
+		total += GameData.BodyParts.Count;
+		total += GameData.Items.Count;
+		total += GameData.Lore.Count;
+		total += GameData.Skills.Count;
+		total += GameData.SpiritWisdom.Count;
+		total += GameData.Tags.Count;
 
 		int current = 0;
 		current += saveFile.Acquired.BodyPart.Count;

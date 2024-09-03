@@ -16,7 +16,7 @@ namespace Game {
 		public List<Skill> Skill;
 		public List<Item> Item;
 		public List<SpiritWisdom> SpiritWisdom;
-		public List<Tag> Tag;
+		public List<EssenceTag> Tag;
 		public List<Lore> Lore;
 
 		// -------------------------------------------------------------------------
@@ -37,7 +37,7 @@ namespace Game {
 			return SpiritWisdom.Contains(item);
 		}
 
-		public bool Has(Tag tag) {
+		public bool Has(EssenceTag tag) {
 			return Tag.Contains(tag);
 		}
 
@@ -71,7 +71,7 @@ namespace Game {
 			}
 		}
 
-		public void Add(Tag tag) {
+		public void Add(EssenceTag tag) {
 			if (!Tag.Contains(tag)) {
 				Tag.Add(tag);
 			}

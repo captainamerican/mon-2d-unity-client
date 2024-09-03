@@ -136,8 +136,7 @@ namespace Crafting {
 			//
 			RebuildDictionaries();
 
-			Engine
-				.Items
+			Engine.GameData.Items
 				.Where(item => HasEquipmentToCraft(item) && item.Recipe.Count > 0)
 				.OrderBy(item => item.SortName)
 				.ToList()
@@ -188,20 +187,21 @@ namespace Crafting {
 			iventoryItemCount.Clear();
 
 			//
-			Engine.Items.ForEach(item => {
-				iventoryItemCount[item] = 0;
-				canBeCrafted[item] = false;
-			});
+			Engine.GameData.Items
+				.ForEach(item => {
+					iventoryItemCount[item] = 0;
+					canBeCrafted[item] = false;
+				});
 			Engine.Profile.Inventory.All.ForEach(entry => {
 				iventoryItemCount[entry.Item] += entry.Amount;
 			});
 
 			//
-			int recipeMaxIngredients = 1 + Engine.CraftingEquipment.Sum(
+			int recipeMaxIngredients = 1 + Engine.GameData.CraftingEquipment.Sum(
 				item => iventoryItemCount[item] > 0 ? 1 : 0
 			);
 
-			Engine.Items.ForEach(item => {
+			Engine.GameData.Items.ForEach(item => {
 				List<Game.RecipeIngredient> ingredients = item.Recipe;
 				if (ingredients.Count < 1) {
 					return;

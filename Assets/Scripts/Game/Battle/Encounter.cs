@@ -624,7 +624,11 @@ namespace Battle {
 					Player.GetComponent<SpriteRenderer>().sortingOrder = 2;
 					enemy.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2;
 
-					Engine.NextScene = new NextScene { Name = Village.Scene.Name, Destination = Village.Scene.Location_Tree };
+					//
+					Engine.NextScene = new Game.NextScene {
+						Name = Village.Scene.Name,
+						Destination = Village.Scene.Location_Tree
+					};
 					SceneManager.LoadSceneAsync("Loader", LoadSceneMode.Additive);
 					yield break;
 				}

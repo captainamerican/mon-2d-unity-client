@@ -9,6 +9,7 @@ public class BodyPartBase : ScriptableObject {
 
 	// ---------------------------------------------------------------------------
 
+	public Game.BodyPartId Id;
 	public string Slug;
 	public string Name;
 	public int ExperienceToLevel;
@@ -19,7 +20,7 @@ public class BodyPartBase : ScriptableObject {
 	public int Wisdom = 1;
 	public int Luck = 1;
 
-	public List<Game.EssenceTag> Tags = new();
+	public List<Game.EssenceTagId> Tags = new();
 
 	// ---------------------------------------------------------------------------
 

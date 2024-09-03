@@ -48,45 +48,45 @@ namespace Menu {
 		float cameraSize;
 		Vector3 cameraPosition;
 
-		Dictionary<MapId, string> mapNames = new() {
+		readonly Dictionary<Game.MapId, string> mapNames = new() {
 			{
-				MapId.Village,
+				Game.MapId.Village,
 				"Village"
 			},
 			{
-				MapId.Forest01,
+				Game.MapId.Forest01,
 				"Forest 01"
 			},
 			{
-				MapId.Forest02,
+				Game.MapId.Forest02,
 				"Forest 02"
 			},
 			{
-				MapId.Forest03,
+				Game.MapId.Forest03,
 				"Spirit Gate"
 			},
 			{
-				MapId.Forest04,
+				Game.MapId.Forest04,
 				"Clearing"
 			},
 			{
-				MapId.ForestCave01,
+				Game.MapId.ForestCave01,
 				"Cave"
 			},
 			{
-				MapId.ForestCave02,
+				Game.MapId.ForestCave02,
 				"Natural Tunnel"
 			}
 		};
 
-		Dictionary<MapId, string> teleportLocations = new() {
+		readonly Dictionary<Game.MapId, string> teleportLocations = new() {
 			{
-				MapId.Village,
+				Game.MapId.Village,
 				Village.Scene.Name
 			},
 		};
 
-		MapId teleportLocation;
+		Game.MapId teleportLocation;
 		Button focusedButton;
 
 		// --------------------------------------------------------------------------
@@ -109,14 +109,14 @@ namespace Menu {
 			}
 
 			//
-			MapId mapId = Engine.Profile.MapId;
-			if (mapId == MapId.Other) {
-				mapId = MapId.Village;
+			Game.MapId mapId = Engine.Profile.MapId;
+			if (mapId == Game.MapId.Other) {
+				mapId = Game.MapId.Village;
 			}
 
 			// 
 			MapButtons.ForEach(mapButton => {
-				MapId mapButtonMapId = mapButton.MapId;
+				Game.MapId mapButtonMapId = mapButton.MapId;
 				Button button = mapButton.GetComponent<Button>();
 
 				//
@@ -171,7 +171,7 @@ namespace Menu {
 			}
 		}
 
-		void HighlightLocation(MapId mapId) {
+		void HighlightLocation(Game.MapId mapId) {
 			bool canTeleport = Engine.Profile.TeleportUnlocked.Contains(mapId);
 
 			//
@@ -189,7 +189,7 @@ namespace Menu {
 			LocationLabel.text = mapNames[mapId];
 		}
 
-		void Teleport(MapId mapId) {
+		void Teleport(Game.MapId mapId) {
 			if (Engine.Profile.MapId == mapId) {
 				AlreadyHereDialog.SetActive(true);
 				Game.Focus.This(AlreadyHereCancelButton);
@@ -214,7 +214,7 @@ namespace Menu {
 			}
 
 			//
-			Engine.NextScene = new NextScene {
+			Engine.NextScene = new Game.NextScene {
 				Name = teleportLocations[teleportLocation]
 			};
 

@@ -119349,8 +119349,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 210270856}
-  - component: {fileID: 210270855}
   - component: {fileID: 210270857}
+  - component: {fileID: 210270855}
   m_Layer: 0
   m_Name: Village.Scene
   m_TagString: Untagged
@@ -119399,7 +119399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bbe4dfb8f131423aab4ac3bca7705ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FUEngine: {fileID: 11400000, guid: d52e74a9d3dfb4333b90830cca87a9c8, type: 2}
+  Source: {fileID: 11400000, guid: d52e74a9d3dfb4333b90830cca87a9c8, type: 2}
 --- !u!1 &335180746
 GameObject:
   m_ObjectHideFlags: 0
@@ -122336,11 +122336,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7e5b48b50c4f9f44922c8e53a5da4e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Direction: 4
-  Destination: {x: 0, y: 0, z: 0}
-  SceneName: Forest 01 Entrance
-  Controller: {fileID: 158124489}
   Engine: {fileID: 11400000, guid: d52e74a9d3dfb4333b90830cca87a9c8, type: 2}
+  Controller: {fileID: 158124489}
+  SceneName: Forest 01 Entrance
+  Destination: {x: 0, y: 0, z: 0}
+  Direction: 4
 --- !u!212 &1136400148
 SpriteRenderer:
   m_ObjectHideFlags: 0
