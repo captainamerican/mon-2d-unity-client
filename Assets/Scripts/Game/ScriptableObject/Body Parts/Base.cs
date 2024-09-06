@@ -12,12 +12,12 @@ public class BodyPartBase : ScriptableObject {
 	public Game.BodyPartId Id;
 	public string Name;
 	public int ExperienceToLevel;
-	public int Strength = 1;
-	public int Endurance = 1;
-	public int Dexterity = 1;
-	public int Intelligence = 1;
-	public int Wisdom = 1;
-	public int Luck = 1;
+	public int Strength = 0;
+	public int Endurance = 0;
+	public int Dexterity = 0;
+	public int Intelligence = 0;
+	public int Wisdom = 0;
+	public int Luck = 0;
 
 	public List<Game.EssenceTagId> Tags = new();
 

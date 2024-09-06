@@ -104,6 +104,10 @@ public static class Easing {
 		return end * Mathf.Sin(value * (Mathf.PI * 0.5f)) + start;
 	}
 
+	public static float EaseOutSine01(float time) {
+		return Mathf.Sin(time * (Mathf.PI * 0.5f));
+	}
+
 	public static float EaseInOutSine(float start, float end, float value) {
 		end -= start;
 		return -end * 0.5f * (Mathf.Cos(Mathf.PI * value) - 1) + start;

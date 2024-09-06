@@ -19,12 +19,15 @@ namespace Dialogue {
 		static Scene Self;
 
 		static public IEnumerator Load() {
-			yield return SceneManager.LoadSceneAsync(Name, LoadSceneMode.Additive);
+			yield return Self == null
+				? SceneManager.LoadSceneAsync(Name, LoadSceneMode.Additive)
+				: null;
 		}
 
 		static public IEnumerator Unload() {
 			if (Self != null) {
 				yield return SceneManager.UnloadSceneAsync(Name, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
+				Self = null;
 			}
 
 			yield return null;

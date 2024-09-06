@@ -11,6 +11,7 @@ namespace Game {
 		Stunned = 60,
 		Frozen = 70,
 		Constricted = 80,
+		MoveDisabled = 90,
 
 		StrengthBuff = 1000,
 		StrengthDebuff = 1005,
