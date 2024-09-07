@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb300f3f5fbd42c98859291fd5fe0af, type: 3}
   m_Name: Engine
   m_EditorClassIdentifier: 
-  Mode: 20
+  Mode: 50
   Profile:
     FileIndex: 0
     IsAutoSave: 1
@@ -31,7 +31,6 @@ MonoBehaviour:
     Creatures:
     - Id: 1234567
       Name: Wolfie
-      Health: 999
       Head:
         Id: 11-1
         BodyPartId: 1001
@@ -65,6 +64,7 @@ MonoBehaviour:
         Experience: 0
         Quality: 1
       Skills: e8030000
+      CurrentHealth: 999
     Skills:
     - SkillId: 1000
       Experience: 500

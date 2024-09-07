@@ -94,7 +94,6 @@ namespace Combat {
 
 		public void FancyFillUp(float ratio, int magic = 0, int magicTotal = 0) {
 			int healthNow = Mathf.RoundToInt(creature.Health * ratio);
-			Debug.Log(healthNow + " " + creature.Health + " " + ratio + " " + (creature.Health * ratio));
 			UpdateHealth(healthNow, creature.HealthTotal);
 
 			if (Magic != null) {

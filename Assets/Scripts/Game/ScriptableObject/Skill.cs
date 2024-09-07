@@ -27,4 +27,10 @@ public class Skill : ScriptableObject {
 
 	// ---------------------------------------------------------------------------
 
+	static public bool Missing(Skill skill) {
+		return (skill?.Id ?? Game.SkillId.None) == Game.SkillId.None;
+	}
+
+	// ---------------------------------------------------------------------------
+
 }
