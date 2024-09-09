@@ -7,6 +7,8 @@ public class Item : ScriptableObject {
 	[Header("Important")]
 	public Game.ItemId Id;
 	public Game.ItemType Type;
+
+
 	public bool UseInBattle;
 
 	[Header("Information")]

@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using Game;
-
 using TMPro;
 
 using UnityEngine;
@@ -25,12 +23,29 @@ namespace Combat {
 		Fled = 3
 	}
 
+	public enum BattleActionType {
+		None = 0,
+		Item = 1,
+		Move = 2
+	}
+
+
 	[Serializable]
 	public class Battle {
 		public Game.Creature Creature;
 		public Game.SpiritId SpiritId;
 		public Action<BattleResult> OnDone;
 		public bool CantFlee;
+	}
+
+	public class BattleAction {
+		public BattleActionType Type;
+		public Game.ApplicableTarget Target;
+		public Game.Creature Actor;
+		public Game.Creature Receiver;
+
+		public Item Item;
+		public Game.SkillEntry SkillEntry;
 	}
 
 	// ---------------------------------------------------------------------------
@@ -72,12 +87,20 @@ namespace Combat {
 		[SerializeField] RectTransform EnemyCreatureContainer;
 		[SerializeField] CanvasGroup EnemyCreatureCanvasGroup;
 		[SerializeField] CombatantOnScreen EnemyCombatant;
-		[SerializeField] GameObject MoveListContainer;
-		[SerializeField] GameObject TargetsListContainer;
 
 		[Header("Actions List")]
 		[SerializeField] GameObject ActionListContainer;
 		[SerializeField] List<Button> ActionButtons;
+
+		[Header("Moves List")]
+		[SerializeField] GameObject MoveListContainer;
+		[SerializeField] Transform MoveButtonsParent;
+		[SerializeField] GameObject MoveButtonsTemplate;
+		[SerializeField] TextMeshProUGUI MoveMagicCost;
+		[SerializeField] TextMeshProUGUI MoveGrade;
+		[SerializeField] Transform MoveGradeProgress;
+		[SerializeField] TextMeshProUGUI MoveTags;
+		[SerializeField] TextMeshProUGUI MoveDescription;
 
 		[Header("Items List")]
 		[SerializeField] GameObject ItemListContainer;
@@ -98,18 +121,23 @@ namespace Combat {
 		[SerializeField] GameObject ExitCover;
 		[SerializeField] CanvasGroup ExitCoverCanvasGroup;
 
+		[Header("Targets List")]
+		[SerializeField] GameObject TargetsListContainer;
+		[SerializeField] GameObject TargetButtonTemplate;
+
 
 		// -------------------------------------------------------------------------
 
 		readonly Color BlackFaded = new(0, 0, 0, 0.5f);
 
-		readonly List<Button> creatureButtons = new();
-		readonly List<Button> itemButtons = new();
+		readonly List<Button> buttons = new();
 
 		InputAction Cancel;
 		Action onBack = () => Debug.Log("Nothing set");
 
 		int selectedActionIndex;
+		int selectedCreatureIndex;
+		float dexterityPenalty;
 
 		// ------------------------------------------------------------------------- 
 
@@ -139,7 +167,6 @@ namespace Combat {
 			if (Battle == null) {
 				Battle = DebugBattle;
 			}
-			yield return Wait.For(1f);
 #endif
 
 			//
@@ -148,23 +175,33 @@ namespace Combat {
 			PlayerCreatureContainer.gameObject.SetActive(false);
 			EnemyCreatureContainer.gameObject.SetActive(false);
 
+			//
 			HideActionsList();
 			HideItemsList();
-			MoveListContainer.SetActive(false);
+			HideMovesList();
 			HideCreaturesList();
-			ConfirmFleeDialog.SetActive(false);
-			TargetsListContainer.SetActive(false);
-			ExitCover.SetActive(false);
+			HideFleeConfirmationDialog();
+			HideTargetsList();
+			HideExitCover();
 
 			//
 			yield return Dialogue.Scene.Load();
 
 			//
+			selectedCreatureIndex = 0;
+
+			//
 			ConfigureActionList();
-			ConfigureCombatant(PlayerCombatant, Engine.Profile.GetPartyCreature(0));
+			ConfigureCombatant(
+				PlayerCombatant,
+				Engine.Profile.GetPartyCreature(selectedCreatureIndex)
+			);
 			ConfigureCombatant(EnemyCombatant, Battle.Creature);
 			PlayerCombatant.HideBars();
 			EnemyCombatant.HideBars();
+#if UNITY_EDITOR
+			yield return Wait.For(1f);
+#endif
 			yield return ShowAndThenPositionOpponent();
 			yield return Wait.For(0.5f);
 			ShowActionsList();
@@ -185,7 +222,6 @@ namespace Combat {
 			EnemyCreatureCanvasGroup.alpha = 0;
 			EnemyCreatureContainer.anchoredPosition = enemyStart;
 			EnemyCreatureContainer.gameObject.SetActive(true);
-
 
 			//
 			yield return Do.For(0.25f, ratio => EnemyCreatureCanvasGroup.alpha = ratio);
@@ -228,9 +264,7 @@ namespace Combat {
 		}
 
 		IEnumerator ExitBattle(BattleResult result) {
-			ExitCover.SetActive(true);
-
-			//
+			showExitCover();
 			yield return Do.For(0.25f, ratio => ExitCoverCanvasGroup.alpha = ratio);
 			yield return Wait.For(1f);
 			yield return Dialogue.Scene.Display("Lethia flees from the battlefield.");
@@ -271,7 +305,8 @@ namespace Combat {
 		public void OnActionSelect(int action) {
 			switch (action) {
 				case 0:
-					Debug.Log("Move List");
+					selectedActionIndex = 0;
+					SelectMove();
 					break;
 
 				case 1:
@@ -297,15 +332,115 @@ namespace Combat {
 
 		// -------------------------------------------------------------------------
 
+		public void SelectMove() {
+			buttons.ForEach(button => {
+				button.gameObject.SetActive(false);
+				Destroy(button.gameObject);
+			});
+			buttons.Clear();
+
+			//
+			Game.Creature playerCreature = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+			Do.ForEach(
+				playerCreature.Skills,
+				(skillId, index) => {
+					Game.SkillEntry skillEntry = Engine.Profile.Skills
+						.Find(entry => entry.SkillId == skillId);
+					if (skillEntry == null) {
+						return;
+					}
+
+					//
+					GameObject skillButtonGO = Instantiate(MoveButtonsTemplate, MoveButtonsParent);
+					skillButtonGO.SetActive(true);
+
+					TextMeshProUGUI label = skillButtonGO.GetComponentInChildren<TextMeshProUGUI>();
+					label.text = skillEntry.Skill.Name;
+					label.color = skillEntry.Skill.Cost <= Engine.Profile.Magic
+						? Color.black
+						: BlackFaded;
+
+					skillButtonGO.GetComponent<InformationButton>()
+						.Configure(() => {
+							int experience = skillEntry.Experience;
+							int toLevel = skillEntry.Skill.ExperienceToLearn;
+
+							float rawLevel = Mathf.Clamp(3f * ((float) experience / (float) (toLevel * 3f)), 0, 3);
+							int level = Mathf.FloorToInt(rawLevel);
+							int nextLevel = level < 3 ? level + 1 : 3;
+							float ratio = level < 3 ? (rawLevel - level) : 1;
+
+							// 
+							MoveMagicCost.text = $"{skillEntry.Skill.Cost}";
+							MoveDescription.text = skillEntry.Skill.Description;
+							MoveGradeProgress.localScale = new Vector3(Mathf.Clamp(ratio, 0, 1), 1, 1);
+							MoveGrade.text = string.Join(
+								"",
+								Do.Times(
+									3,
+									i => experience >= toLevel * (i + 1) ? "★" : "☆"
+								)
+							);
+							MoveTags.text = "(none)";
+						});
+
+					//
+					Button button = skillButtonGO.GetComponent<Button>();
+					button.onClick.RemoveAllListeners();
+					button.onClick.AddListener(() => OnMoveSelected(skillEntry));
+
+					//
+					buttons.Add(button);
+				});
+
+			//
+			HideActionsList();
+			showMovesList();
+		}
+
+		void OnMoveSelected(Game.SkillEntry entry) {
+			HideMovesList();
+
+			//
+			if (entry.Skill.Targets.Count < 2) {
+				BattleAction action = new() {
+					Type = BattleActionType.Move,
+					Target = entry.Skill.Targets[0],
+					SkillEntry = entry
+				};
+
+				switch (entry.Skill.Targets[0]) {
+					case Game.ApplicableTarget.Player:
+						break;
+					case Game.ApplicableTarget.Creature:
+						action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+						action.Receiver = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+						break;
+
+					case Game.ApplicableTarget.Enemy:
+						action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+						action.Receiver = Battle.Creature;
+						break;
+				}
+
+				ExecuteAction(action);
+			} else {
+			}
+		}
+
+		void OnMoveListCancel() {
+			HideMovesList();
+			ShowActionsList();
+		}
 
 		// -------------------------------------------------------------------------
 
 		void SelectItem() {
-			itemButtons.ForEach(button => {
+			buttons.ForEach(button => {
 				button.gameObject.SetActive(false);
 				Destroy(button.gameObject);
 			});
-			itemButtons.Clear();
+			buttons.Clear();
 
 			//
 			Do.ForEach(
@@ -328,7 +463,7 @@ namespace Combat {
 					itemGO
 						.GetComponent<InformationButton>()
 						.Configure(() => {
-							ItemListScrollView.UpdateVisibleButtonRange(itemButtons, index);
+							ItemListScrollView.UpdateVisibleButtonRange(buttons, index);
 						});
 
 					Button button = itemGO.GetComponent<Button>();
@@ -336,7 +471,7 @@ namespace Combat {
 					button.onClick.AddListener(() => OnItemSelected(entry));
 
 					//
-					itemButtons.Add(button);
+					buttons.Add(button);
 				});
 
 			//
@@ -344,8 +479,34 @@ namespace Combat {
 			ShowItemsList();
 		}
 
-		void OnItemSelected(InventoryEntry entry) {
-			Debug.Log($"Item selected: {entry.Item.Name}");
+		void OnItemSelected(Game.InventoryEntry entry) {
+			HideItemsList();
+
+			//
+			if (entry.Item.Targets.Count < 2) {
+				BattleAction action = new() {
+					Type = BattleActionType.Item,
+					Target = entry.Item.Targets[0],
+					Item = entry.Item
+				};
+
+				switch (entry.Item.Targets[0]) {
+					case Game.ApplicableTarget.Player:
+						break;
+					case Game.ApplicableTarget.Creature:
+						action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+						action.Receiver = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+						break;
+
+					case Game.ApplicableTarget.Enemy:
+						action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+						action.Receiver = Battle.Creature;
+						break;
+				}
+
+				ExecuteAction(action);
+			} else {
+			}
 		}
 
 		void OnItemListCanceled() {
@@ -356,11 +517,11 @@ namespace Combat {
 		// -------------------------------------------------------------------------
 
 		void SwapCreature() {
-			creatureButtons.ForEach(button => {
+			buttons.ForEach(button => {
 				button.gameObject.SetActive(false);
 				Destroy(button.gameObject);
 			});
-			creatureButtons.Clear();
+			buttons.Clear();
 
 			//
 			Do.Times(Engine.Profile.Party.Count, index => {
@@ -384,10 +545,13 @@ namespace Combat {
 				//
 				Button button = creatureButton.GetComponent<Button>();
 				button.onClick.RemoveAllListeners();
-				button.onClick.AddListener(() => OnCreatureSelected(creature));
+				button.onClick.AddListener(() => OnCreatureSelected(index));
 
 				//
-				creatureButtons.Add(button);
+				button.interactable = creature.Health > 0;
+
+				//
+				buttons.Add(button);
 			});
 
 			//
@@ -395,18 +559,43 @@ namespace Combat {
 			ShowCreaturesList();
 		}
 
-		public void OnCreatureSelected(Game.Creature creature) {
-			Debug.Log("swap!");
-			Debug.Log("show dialogue about swap");
-			Debug.Log("50% dexterity debuff on swap");
+		public void OnCreatureSelected(int index) {
+			dexterityPenalty = 0.5f;
 
 			//
-			OnCreatureListCancel();
+			HideCreaturesList();
+			StartCoroutine(SwappingCreature(index));
 		}
 
 		void OnCreatureListCancel() {
 			HideCreaturesList();
 			ShowActionsList();
+		}
+
+		IEnumerator SwappingCreature(int newIndex) {
+			int oldIndex = selectedCreatureIndex;
+			selectedCreatureIndex = newIndex;
+
+			//
+			string oldName = Engine.Profile.GetPartyCreature(oldIndex).Name;
+			string newName = Engine.Profile.GetPartyCreature(selectedCreatureIndex).Name;
+
+			//
+			yield return Dialogue.Scene.Display(
+				$"Lethia recalls {oldName}!",
+				$"She calls forth {newName}!"
+			);
+			ConfigureCombatant(
+				PlayerCombatant,
+				Engine.Profile.GetPartyCreature(selectedCreatureIndex)
+			);
+			yield return Do.For(2f, ratio => {
+				PlayerCombatant.FancyFillUp(ratio, Engine.Profile.Magic, Engine.Profile.MagicTotal);
+			});
+			yield return Wait.For(0.33f);
+
+			//
+			OnCreatureListCancel();
 		}
 
 		// -------------------------------------------------------------------------
@@ -433,6 +622,7 @@ namespace Combat {
 
 		// -------------------------------------------------------------------------
 
+
 		void ShowActionsList() {
 			ActionListContainer.gameObject.SetActive(true);
 			Game.Focus.This(ActionButtons[selectedActionIndex]);
@@ -444,15 +634,47 @@ namespace Combat {
 			onBack = null;
 		}
 
+		void showMovesList() {
+			MoveListContainer.SetActive(true);
+			Game.Focus.This(buttons[0]);
+			onBack = OnMoveListCancel;
+		}
+
+		void HideMovesList() {
+			MoveListContainer.SetActive(false);
+		}
+
 		void ShowItemsList() {
 			ItemListContainer.SetActive(true);
-			if (itemButtons.Count > 0)
-				Game.Focus.This(itemButtons[0]);
+			if (buttons.Count > 0)
+				Game.Focus.This(buttons[0]);
 			onBack = OnItemListCanceled;
 		}
 
 		void HideItemsList() {
 			ItemListContainer.SetActive(false);
+			onBack = null;
+		}
+
+		void ShowCreaturesList() {
+			CreaturesList.SetActive(true);
+			Game.Focus.This(buttons[selectedCreatureIndex]);
+			onBack = OnCreatureListCancel;
+		}
+
+		void HideCreaturesList() {
+			CreaturesList.SetActive(false);
+			onBack = null;
+		}
+
+		void ShowTargetsList(Action onBack) {
+			TargetsListContainer.SetActive(true);
+			Game.Focus.This(buttons[0]);
+			this.onBack = onBack;
+		}
+
+		void HideTargetsList() {
+			TargetsListContainer.SetActive(false);
 			onBack = null;
 		}
 
@@ -467,15 +689,25 @@ namespace Combat {
 			onBack = null;
 		}
 
-		void ShowCreaturesList() {
-			CreaturesList.SetActive(true);
-			Game.Focus.This(creatureButtons[0]);
-			onBack = OnCreatureListCancel;
+		void showExitCover() {
+			ExitCover.SetActive(true);
 		}
 
-		void HideCreaturesList() {
-			CreaturesList.SetActive(false);
-			onBack = null;
+		void HideExitCover() {
+			ExitCover.SetActive(false);
+		}
+
+		// -------------------------------------------------------------------------
+
+		void ExecuteAction(BattleAction action) {
+			Debug.Log("Execute action!");
+
+
+			//
+			dexterityPenalty = 0;
+
+			//
+			ShowActionsList();
 		}
 
 		// -------------------------------------------------------------------------

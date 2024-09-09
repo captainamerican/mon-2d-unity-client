@@ -656,7 +656,7 @@ namespace Battle {
 
 		void ApplyEffects(List<Game.Effect> effects, Combatant actor, Combatant receiver) {
 			effects.ForEach(effect => {
-				Combatant effected = effect.ApplyToSelf ? actor : receiver;
+				Combatant effected = effect.ApplyToActor ? actor : receiver;
 
 				switch (effect.Type) {
 					case Game.EffectType.Health:

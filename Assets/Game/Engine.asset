@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb300f3f5fbd42c98859291fd5fe0af, type: 3}
   m_Name: Engine
   m_EditorClassIdentifier: 
-  Mode: 50
+  Mode: 30
   Profile:
     FileIndex: 0
     IsAutoSave: 1
@@ -28,6 +28,7 @@ MonoBehaviour:
     Hunger: 1
     Party:
     - 1234567
+    - 2345678
     Creatures:
     - Id: 1234567
       Name: Wolfie
@@ -65,13 +66,85 @@ MonoBehaviour:
         Quality: 1
       Skills: e8030000
       CurrentHealth: 999
+    - Id: 2345678
+      Name: Wolfie 2
+      Head:
+        Id: 11-1
+        BodyPartId: 1001
+        Experience: 0
+        Quality: 1
+      Torso:
+        Id: 11-2
+        BodyPartId: 1002
+        Experience: 10
+        Quality: 1
+      Tail:
+        Id: 
+        BodyPartId: 0
+        Experience: 0
+        Quality: 0
+      Appendages:
+      - Id: 11-4
+        BodyPartId: 1004
+        Experience: 0
+        Quality: 1
+      - Id: 11-5
+        BodyPartId: 1004
+        Experience: 0
+        Quality: 1
+      - Id: 11-6
+        BodyPartId: 1005
+        Experience: 0
+        Quality: 1
+      - Id: 11-7
+        BodyPartId: 1005
+        Experience: 0
+        Quality: 1
+      Skills: e8030000f2030000fc030000
+      CurrentHealth: 8
+    - Id: 2345678
+      Name: Wolfie 2
+      Head:
+        Id: 11-1
+        BodyPartId: 1001
+        Experience: 0
+        Quality: 1
+      Torso:
+        Id: 11-2
+        BodyPartId: 1002
+        Experience: 10
+        Quality: 1
+      Tail:
+        Id: 
+        BodyPartId: 1003
+        Experience: 0
+        Quality: 0
+      Appendages:
+      - Id: 11-4
+        BodyPartId: 1004
+        Experience: 0
+        Quality: 1
+      - Id: 11-5
+        BodyPartId: 1004
+        Experience: 0
+        Quality: 1
+      - Id: 11-6
+        BodyPartId: 1005
+        Experience: 0
+        Quality: 1
+      - Id: 11-7
+        BodyPartId: 1005
+        Experience: 0
+        Quality: 1
+      Skills: e8030000f2030000
+      CurrentHealth: 999
     Skills:
     - SkillId: 1000
-      Experience: 500
+      Experience: 250
     - SkillId: 1010
-      Experience: 0
+      Experience: 50
     - SkillId: 1020
-      Experience: 0
+      Experience: 100
     Options:
       DialogueSpeed: 0.25
       MusicVolume: 0.66

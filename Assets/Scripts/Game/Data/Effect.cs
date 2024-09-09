@@ -8,6 +8,6 @@ namespace Game {
 		public int Duration = 0;
 		public int Strength = 0;
 		public float Variance = 0;
-		public bool ApplyToSelf;
+		public bool ApplyToActor;
 	}
 }

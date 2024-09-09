@@ -23,8 +23,9 @@ MonoBehaviour:
     Duration: 0
     Strength: -50
     Variance: 0.33
-    ApplyToSelf: 0
+    ApplyToActor: 0
   Tags: 
+  Targets: 1e000000
   FX:
   - Actor: 0
     Delay: 0
