@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,6 +16,7 @@ public class SecondaryScreenDebug : MonoBehaviour {
 	[SerializeField] AudioListener LocalAudioListener;
 
 	[SerializeField] Canvas Canvas;
+	[SerializeField] List<Canvas> Canvases;
 
 	[SerializeField] bool ResetEngineMode;
 	[SerializeField] EngineMode EngineModeReset;
@@ -33,6 +36,7 @@ public class SecondaryScreenDebug : MonoBehaviour {
 
 		//
 		Canvas.worldCamera = Camera.main;
+		Canvases.ForEach(c => c.worldCamera = Camera.main);
 
 		//
 		if (ResetEngineMode) {
