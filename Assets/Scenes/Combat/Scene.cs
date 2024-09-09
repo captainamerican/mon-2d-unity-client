@@ -43,6 +43,10 @@ namespace Combat {
 		public Game.ApplicableTarget Target;
 		public Game.Creature Actor;
 		public Game.Creature Receiver;
+		public Animator ActorAnimator;
+		public Animator ReceiverAnimator;
+
+		public float Dexterity;
 
 		public Item Item;
 		public Game.SkillEntry SkillEntry;
@@ -87,6 +91,8 @@ namespace Combat {
 		[SerializeField] RectTransform EnemyCreatureContainer;
 		[SerializeField] CanvasGroup EnemyCreatureCanvasGroup;
 		[SerializeField] CombatantOnScreen EnemyCombatant;
+		[SerializeField] Animator PlayerAnimator;
+		[SerializeField] Animator EnemyAnimator;
 
 		[Header("Actions List")]
 		[SerializeField] GameObject ActionListContainer;
@@ -137,7 +143,7 @@ namespace Combat {
 
 		int selectedActionIndex;
 		int selectedCreatureIndex;
-		float dexterityPenalty;
+		float dexterityPenalty = 1;
 
 		// ------------------------------------------------------------------------- 
 
@@ -224,14 +230,21 @@ namespace Combat {
 			EnemyCreatureContainer.gameObject.SetActive(true);
 
 			//
+			Game.Creature creature =
+				Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+
+			//
 			yield return Do.For(0.25f, ratio => EnemyCreatureCanvasGroup.alpha = ratio);
 			yield return Wait.For(1.25f);
+			yield return Dialogue.Scene.Display("An enraged spirit emerged!");
+			yield return Wait.For(0.25f);
 			yield return Do.For(
 				0.5f,
 				ratio => EnemyCreatureContainer.anchoredPosition = Vector3.Lerp(enemyStart, enemyEnd, ratio),
 				Easing.EaseOutSine01
 			);
 			yield return Wait.For(0.25f);
+			yield return Dialogue.Scene.Display(new string[1] { $"Come forth, {creature.Name}!" }, "Lethia");
 
 			//
 			Vector3 playerEnd = PlayerCreatureContainer.anchoredPosition;
@@ -267,7 +280,7 @@ namespace Combat {
 			showExitCover();
 			yield return Do.For(0.25f, ratio => ExitCoverCanvasGroup.alpha = ratio);
 			yield return Wait.For(1f);
-			yield return Dialogue.Scene.Display("Lethia flees from the battlefield.");
+			yield return Dialogue.Scene.Display(new string[1] { "I'll retreat for now." }, "Lethia");
 
 			//
 			Battle.OnDone?.Invoke(result);
@@ -411,20 +424,29 @@ namespace Combat {
 
 				switch (entry.Skill.Targets[0]) {
 					case Game.ApplicableTarget.Player:
+						action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+						action.Receiver = action.Actor;
+						action.ActorAnimator = PlayerAnimator;
 						break;
+
 					case Game.ApplicableTarget.Creature:
 						action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
 						action.Receiver = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+						action.ActorAnimator = PlayerAnimator;
+						action.ReceiverAnimator = PlayerAnimator;
 						break;
 
 					case Game.ApplicableTarget.Enemy:
 						action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
 						action.Receiver = Battle.Creature;
+						action.ActorAnimator = PlayerAnimator;
+						action.ReceiverAnimator = EnemyAnimator;
 						break;
 				}
 
 				ExecuteAction(action);
 			} else {
+				OnMoveListCancel();
 			}
 		}
 
@@ -492,20 +514,30 @@ namespace Combat {
 
 				switch (entry.Item.Targets[0]) {
 					case Game.ApplicableTarget.Player:
+						action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+						action.Receiver = action.Actor;
+						action.ActorAnimator = PlayerAnimator;
+						action.ReceiverAnimator = PlayerAnimator;
 						break;
+
 					case Game.ApplicableTarget.Creature:
 						action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
 						action.Receiver = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+						action.ActorAnimator = PlayerAnimator;
+						action.ReceiverAnimator = PlayerAnimator;
 						break;
 
 					case Game.ApplicableTarget.Enemy:
 						action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
 						action.Receiver = Battle.Creature;
+						action.ActorAnimator = PlayerAnimator;
+						action.ReceiverAnimator = EnemyAnimator;
 						break;
 				}
 
 				ExecuteAction(action);
 			} else {
+				OnItemListCanceled();
 			}
 		}
 
@@ -700,14 +732,314 @@ namespace Combat {
 		// -------------------------------------------------------------------------
 
 		void ExecuteAction(BattleAction action) {
-			Debug.Log("Execute action!");
-
-
-			//
-			dexterityPenalty = 0;
+			Game.Creature playerCreature = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+			action.Dexterity = playerCreature.Dexterity * dexterityPenalty;
 
 			//
+			StartCoroutine(PerformActions(action, GenerateEnemyAction()));
+		}
+
+		BattleAction GenerateEnemyAction() {
+			Game.Creature playerCreature = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+			Game.Creature enemyCreature = Battle.Creature;
+
+			System.Random random = new System.Random();
+			List<Game.SkillId> skillIds = new List<Game.SkillId>(enemyCreature.Skills)
+				.OrderBy(x => random.Next())
+				.ToList();
+
+			//
+			return new() {
+				Type = BattleActionType.Move,
+				Target = Game.ApplicableTarget.Creature,
+				SkillEntry = new() {
+					SkillId = skillIds[0]
+				},
+
+				Dexterity = enemyCreature.Dexterity,
+
+				Actor = enemyCreature,
+				ActorAnimator = EnemyAnimator,
+				Receiver = playerCreature,
+				ReceiverAnimator = PlayerAnimator
+			};
+		}
+
+		IEnumerator PerformActions(BattleAction first, BattleAction second) {
+			List<BattleAction> actions = new List<BattleAction>() {
+				first,
+				second
+			}
+			.OrderBy(action => action.Dexterity)
+			.ToList();
+
+			//
+			yield return PerformAction(actions[0]);
+			if (SomeoneDied()) {
+				yield return HandleDeath();
+				yield break;
+			}
+
+			yield return PerformAction(actions[1]);
+			if (SomeoneDied()) {
+				yield return HandleDeath();
+				yield break;
+			}
+
+			//
+			yield return Wait.For(0.33f);
+
+			//
+			dexterityPenalty = 1;
 			ShowActionsList();
+		}
+
+		IEnumerator PerformAction(BattleAction action) {
+			switch (action.Type) {
+				case BattleActionType.Item:
+					yield return UseItem(action.Item, action.Actor, action.Receiver, action.ActorAnimator, action.ReceiverAnimator);
+					break;
+
+				case BattleActionType.Move:
+					yield return PerformMove(action.SkillEntry, action.Actor, action.Receiver, action.ActorAnimator, action.ReceiverAnimator);
+					break;
+
+				default:
+					yield break;
+			}
+		}
+
+		// -------------------------------------------------------------------------
+
+		bool SomeoneDied() {
+			Game.Creature playerCreature = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+			Game.Creature enemyCreature = Battle.Creature;
+
+			//
+			return
+				playerCreature.Health < 1 ||
+				enemyCreature.Health < 1;
+		}
+
+		IEnumerator HandleDeath() {
+			Game.Creature playerCreature = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+			Game.Creature enemyCreature = Battle.Creature;
+
+			if (enemyCreature.Health < 1) {
+				EnemyCombatant.gameObject.SetActive(false);
+
+				yield return Dialogue.Scene.Display($"{enemyCreature.Name} collapsed!");
+				yield return BattleEnd();
+			} else if (playerCreature.Health < 1) {
+				PlayerCombatant.gameObject.SetActive(false);
+
+				List<string> pages = new();
+				pages.Add($"{playerCreature.Name} collapsed!");
+
+				if (Engine.Profile.CreaturesAvailableToFight - 1 > 0) {
+					Debug.Log("Choose another!");
+				} else {
+					pages.Add("No creatures left to fight...");
+					pages.Add("Lethia returns to her village.");
+
+					yield return Dialogue.Scene.Display(pages.ToArray());
+
+					//
+					Loader.Scene.Load(new Game.NextScene {
+						Name = Village.Scene.Name,
+						Destination = Village.Scene.Location_Tree
+					});
+					yield break;
+				}
+			} else {
+				Debug.Assert(true, "No one actually died!");
+				throw new System.Exception("No one actually died!");
+			}
+		}
+
+		IEnumerator BattleEnd() {
+			yield break;
+		}
+
+		// -------------------------------------------------------------------------
+
+		IEnumerator UseItem(Item item, Game.Creature actor, Game.Creature receiver, Animator actorAnimator, Animator receiverAnimator) {
+			Game.Creature playerCreature = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+			Game.Creature enemyCreature = Battle.Creature;
+
+			float creatureHPA = playerCreature.Health;
+			float creatureHPTA = playerCreature.HealthTotal;
+
+			float enemyHPA = enemyCreature.Health;
+			float enemyHPTA = enemyCreature.HealthTotal;
+
+			float mpA = Engine.Profile.Magic;
+
+			//
+			yield return Dialogue.Scene.Display($"Lethia uses {item.Name}!");
+
+			//
+			ApplyEffects(item.Effects, actor, receiver);
+			Engine.Profile.Inventory.AdjustItem(item, -1);
+
+			// show skill fx(s)
+			yield return Wait.For(0.33f);
+
+			List<Animator> active = new();
+			List<bool> done = new();
+
+			foreach (Game.SkillFX fx in item.FX) {
+				Animator animator = fx.Actor ? actorAnimator : receiverAnimator;
+				if (active.Contains(animator)) {
+					Debug.LogError($"Already have this {fx.Actor} animator in action!");
+					continue;
+				}
+
+				active.Add(animator);
+				done.Add(false);
+
+				StartCoroutine(AnimateFX($"Item_{item.Name}", fx, animator, done, done.Count - 1));
+			}
+
+			yield return Wait.Until(() => done.All(isDone => isDone));
+			yield return Wait.For(0.33f);
+
+			// update health and statuses 
+			float creatureHPB = playerCreature.Health;
+			float creatureHPTB = playerCreature.HealthTotal;
+
+			float enemyHPB = enemyCreature.Health;
+			float enemyHPTB = enemyCreature.HealthTotal;
+
+			float mpB = Engine.Profile.Magic;
+
+			yield return Do.For(0.5f, ratio => {
+				int creatureHP = Mathf.RoundToInt(Mathf.Lerp(creatureHPA, creatureHPB, ratio));
+				int creatureHPT = Mathf.RoundToInt(Mathf.Lerp(creatureHPTA, creatureHPTB, ratio));
+				int creatureMP = Mathf.RoundToInt(Mathf.Lerp(mpA, mpB, ratio));
+				int enemyHP = Mathf.RoundToInt(Mathf.Lerp(enemyHPA, enemyHPB, ratio));
+				int enemyHPT = Mathf.RoundToInt(Mathf.Lerp(enemyHPTA, enemyHPTB, ratio));
+
+				PlayerCombatant.UpdateHealth(creatureHP, creatureHPT);
+				PlayerCombatant.UpdateMagic(creatureMP, Engine.Profile.MagicTotal);
+
+				EnemyCombatant.UpdateHealth(enemyHP, enemyHPT);
+			}, Easing.EaseInOutSine01);
+		}
+
+		void ApplyEffects(List<Game.Effect> effects, Game.Creature actor, Game.Creature receiver) {
+			effects.ForEach(effect => {
+				Game.Creature effected = effect.ApplyToActor ? actor : receiver;
+
+				switch (effect.Type) {
+					case Game.EffectType.Health:
+						effected.AdjustHealth(
+							Mathf.RoundToInt(
+								effect.Strength * UnityEngine.Random.Range(1 - effect.Variance, 1 + effect.Variance)
+							)
+						);
+						break;
+
+					case Game.EffectType.Status:
+						effected.AddStatus(effect.Status, effect.Duration, effect.Strength);
+						break;
+
+					case Game.EffectType.Magic:
+						Engine.Profile.Magic = Math.Clamp(Engine.Profile.Magic + effect.Strength, 0, Engine.Profile.MagicTotal);
+						break;
+				}
+			});
+		}
+
+		IEnumerator PerformMove(Game.SkillEntry skillEntry, Game.Creature actor, Game.Creature receiver, Animator actorAnimator, Animator receiverAnimator) {
+			Skill skill = skillEntry.Skill;
+
+			Game.Creature playerCreature = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+			Game.Creature enemyCreature = Battle.Creature;
+
+			float creatureHPA = playerCreature.Health;
+			float creatureHPTA = playerCreature.HealthTotal;
+
+			float enemyHPA = enemyCreature.Health;
+			float enemyHPTA = enemyCreature.HealthTotal;
+
+			float mpA = Engine.Profile.Magic;
+
+			//
+			yield return Dialogue.Scene.Display($"{actor.Name} performs {skill.Name}!");
+
+			//
+			ApplyEffects(skill.Effect, actor, receiver);
+			Engine.Profile.Magic = Mathf.Clamp(Engine.Profile.Magic - skill.Cost, 0, Engine.Profile.MagicTotal);
+
+			// show skill fx(s)
+			yield return Wait.For(0.33f);
+
+			List<Animator> active = new();
+			List<bool> done = new();
+
+			foreach (Game.SkillFX fx in skill.FX) {
+				Animator animator = fx.Actor ? actorAnimator : receiverAnimator;
+				if (active.Contains(animator)) {
+					Debug.LogError($"Already have this {fx.Actor} animator in action!");
+					continue;
+				}
+
+				active.Add(animator);
+				done.Add(false);
+
+				StartCoroutine(AnimateFX($"Move_{skill.Name}", fx, animator, done, done.Count - 1));
+			}
+
+			yield return Wait.Until(() => done.All(isDone => isDone));
+			yield return Wait.For(0.33f);
+
+			// update health and statuses 
+			float creatureHPB = playerCreature.Health;
+			float creatureHPTB = playerCreature.HealthTotal;
+
+			float enemyHPB = enemyCreature.Health;
+			float enemyHPTB = enemyCreature.HealthTotal;
+
+			float mpB = Engine.Profile.Magic;
+
+			yield return Do.For(0.5f, ratio => {
+				int creatureHP = Mathf.RoundToInt(Mathf.Lerp(creatureHPA, creatureHPB, ratio));
+				int creatureHPT = Mathf.RoundToInt(Mathf.Lerp(creatureHPTA, creatureHPTB, ratio));
+				int creatureMP = Mathf.RoundToInt(Mathf.Lerp(mpA, mpB, ratio));
+				int enemyHP = Mathf.RoundToInt(Mathf.Lerp(enemyHPA, enemyHPB, ratio));
+				int enemyHPT = Mathf.RoundToInt(Mathf.Lerp(enemyHPTA, enemyHPTB, ratio));
+
+				PlayerCombatant.UpdateHealth(creatureHP, creatureHPT);
+				PlayerCombatant.UpdateMagic(creatureMP, Engine.Profile.MagicTotal);
+
+				EnemyCombatant.UpdateHealth(enemyHP, enemyHPT);
+			}, Easing.EaseInOutSine01);
+		}
+
+		IEnumerator AnimateFX(string name, Game.SkillFX fx, Animator animator, List<bool> done, int doneIndex) {
+			List<AnimationClip> clips = new(animator.runtimeAnimatorController.animationClips);
+			if (!clips.Any(clip => clip.name == name)) {
+				Debug.LogError($"No animation clip named: {name}");
+				done[doneIndex] = true;
+				yield break;
+			}
+
+			//
+			var clip = clips.Find(clip => clip.name == name);
+			if (fx.Delay > 0) {
+				yield return Wait.For(fx.Delay);
+			}
+
+			//
+			animator.Play(name);
+
+			//
+			yield return Wait.Until(() => animator.GetCurrentAnimatorStateInfo(0).IsName(name));
+			yield return Wait.Until(() => !animator.GetCurrentAnimatorStateInfo(0).IsName(name));
+
+			//
+			done[doneIndex] = true;
 		}
 
 		// -------------------------------------------------------------------------

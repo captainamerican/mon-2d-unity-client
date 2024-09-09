@@ -16,14 +16,14 @@ MonoBehaviour:
   Profile:
     FileIndex: 0
     IsAutoSave: 1
-    PlaytimeAsSeconds: 619.3565
-    SceneName: Village
-    MapId: 10
-    CurrentLocation: {x: 4.1400003, y: 9.535014, z: 0}
+    PlaytimeAsSeconds: 689.05493
+    SceneName: Forest 01 Entrance
+    MapId: 11
+    CurrentLocation: {x: 8.693764, y: -23.215008, z: 0}
     Level: 5
     Experience: 103
     ExperienceForNextLevel: 239
-    Magic: 15
+    Magic: 36
     Wisdom: 5
     Hunger: 1
     Party:
@@ -65,7 +65,7 @@ MonoBehaviour:
         Experience: 0
         Quality: 1
       Skills: e8030000
-      CurrentHealth: 999
+      CurrentHealth: 0
     - Id: 2345678
       Name: Wolfie 2
       Head:
@@ -157,7 +157,7 @@ MonoBehaviour:
       - ItemId: 3004
         Amount: 629
       - ItemId: 3003
-        Amount: 99
+        Amount: 103
       - ItemId: 3002
         Amount: 99
       - ItemId: 3005
@@ -175,7 +175,7 @@ MonoBehaviour:
       - ItemId: 3000
         Amount: 97
       - ItemId: 1020
-        Amount: 2
+        Amount: 9
     BodyPartStorage:
       Head:
       - Id: 123easdf

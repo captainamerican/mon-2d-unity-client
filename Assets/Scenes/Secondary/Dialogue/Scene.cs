@@ -30,7 +30,7 @@ namespace Dialogue {
 				Self = null;
 			}
 
-			yield return null;
+			yield break;
 		}
 
 		static public IEnumerator Display(params string[] pages) {

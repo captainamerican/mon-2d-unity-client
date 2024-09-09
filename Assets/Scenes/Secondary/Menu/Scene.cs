@@ -24,7 +24,7 @@ namespace Menu {
 				yield return SceneManager.UnloadSceneAsync(Name, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
 			}
 
-			yield return null;
+			yield break;
 		}
 
 		// -------------------------------------------------------------------------

@@ -21,7 +21,7 @@ MonoBehaviour:
   - Type: 10
     Status: 0
     Duration: 0
-    Strength: -50
+    Strength: -15
     Variance: 0.33
     ApplyToActor: 0
   Tags: 

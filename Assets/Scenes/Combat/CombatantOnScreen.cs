@@ -102,13 +102,6 @@ namespace Combat {
 			}
 		}
 
-		public void Refresh() {
-		}
-
-		public IEnumerator Refreshing() {
-			yield return null;
-		}
-
 		// -------------------------------------------------------------------------
 
 	}

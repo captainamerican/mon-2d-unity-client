@@ -219,6 +219,28 @@ namespace Game {
 			CalculateAttributeAdjustments();
 		}
 
+		public bool HasStatus(Status status) {
+			return Statuses.Any(cs => cs.Status == status);
+		}
+
+		public void AddStatus(Status status, int turns, float strength) {
+			CombatantStatus combatantStatus = Statuses.Find(cs => cs.Status == status);
+			if (combatantStatus != null) {
+				Statuses.Remove(combatantStatus);
+			}
+
+			//
+			Statuses.Add(new CombatantStatus {
+				Status = status,
+				Turns = turns,
+				Strength = strength
+			});
+		}
+
+		public void AdjustHealth(int amount) {
+			CurrentHealth = Mathf.Clamp(CurrentHealth + amount, 0, HealthTotal);
+		}
+
 		// -------------------------------------------------------------------------
 
 		void CalculateBodyPartAttributes(HeadBodyPartEntry head) {
