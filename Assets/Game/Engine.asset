@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb300f3f5fbd42c98859291fd5fe0af, type: 3}
   m_Name: Engine
   m_EditorClassIdentifier: 
-  Mode: 30
+  Mode: 1
   Profile:
     FileIndex: 0
     IsAutoSave: 1
-    PlaytimeAsSeconds: 697.242
-    SceneName: Village
-    MapId: 10
-    CurrentLocation: {x: 0, y: 46, z: 0}
-    Level: 5
-    Experience: 103
-    ExperienceForNextLevel: 239
-    Magic: 38
+    PlaytimeAsSeconds: 702.38275
+    SceneName: Forest 01 Entrance
+    MapId: 11
+    CurrentLocation: {x: -17.683922, y: -44.875923, z: 0}
+    Level: 6
+    Experience: 35
+    ExperienceForNextLevel: 354
+    Magic: 36
     Wisdom: 5
     Hunger: 1
     Party:
@@ -32,7 +32,7 @@ MonoBehaviour:
     Creatures:
     - Id: 1234567
       Name: Wolfie
-      CurrentHealth: 86
+      CurrentHealth: 7
       Head:
         Id: 11-1
         BodyPartId: 1001
@@ -68,7 +68,7 @@ MonoBehaviour:
       Skills: e8030000
     - Id: 2345678
       Name: Wolfie 2
-      CurrentHealth: 999
+      CurrentHealth: 72
       Head:
         Id: 11-1
         BodyPartId: 1001
@@ -104,7 +104,7 @@ MonoBehaviour:
       Skills: e8030000f2030000fc030000
     Skills:
     - SkillId: 1000
-      Experience: 250
+      Experience: 261
     - SkillId: 1010
       Experience: 50
     - SkillId: 1020
@@ -119,9 +119,9 @@ MonoBehaviour:
     Inventory:
       All:
       - ItemId: 3004
-        Amount: 629
+        Amount: 647
       - ItemId: 3003
-        Amount: 103
+        Amount: 107
       - ItemId: 3002
         Amount: 99
       - ItemId: 3005
@@ -139,36 +139,40 @@ MonoBehaviour:
       - ItemId: 3000
         Amount: 97
       - ItemId: 1020
-        Amount: 96
+        Amount: 95
       - ItemId: 1000
-        Amount: 91
+        Amount: 94
     BodyPartStorage:
       Head:
-      - Id: 123easdf
+      - Id: rJSYkyNxCabgMYFV
         BodyPartId: 1001
-        Experience: 1000
+        Experience: 0
         Quality: 0
-      Torso:
-      - Id: q345yrgesda
-        BodyPartId: 1002
-        Experience: 1000
-        Quality: 0
+      Torso: []
       Tail:
-      - Id: 24u5yqe4w
+      - Id: Y7uCJzahbBbXiJYE
+        BodyPartId: 1003
+        Experience: 0
+        Quality: 0
+      - Id: tzUGHMBImIIOXwRZ
         BodyPartId: 1003
         Experience: 0
         Quality: 0
       Appendage:
-      - Id: k867utyt
+      - Id: 6a8pXeTxk6S3ndER
         BodyPartId: 1005
         Experience: 0
         Quality: 0
-      - Id: 35i6u24y13t
+      - Id: x03YGJeQlNLabgKc
+        BodyPartId: 1005
+        Experience: 0
+        Quality: 0
+      - Id: fSLgwqJo5DdXVTRX
         BodyPartId: 1004
         Experience: 0
-        Quality: 0.37
-      - Id: 4i673j5wrht
-        BodyPartId: 1005
+        Quality: 0
+      - Id: r8FHsMdGGPQVdA5y
+        BodyPartId: 1004
         Experience: 0
         Quality: 0
       ReclaimableHead: []
@@ -213,7 +217,9 @@ MonoBehaviour:
         Amount: 0
     Acquired:
       BodyPart: []
-      Skill: []
+      Skill:
+      - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+      - {fileID: 11400000, guid: 4092e0aa4412c4ad0bf3958b9333a655, type: 2}
       Item: []
       SpiritWisdom: []
       Tag: []
@@ -222,9 +228,19 @@ MonoBehaviour:
       TeleportLocation: 0a000000
       Spirit: 
     Seen:
-      BodyPart: []
-      Skill: []
-      Item: []
+      BodyPart:
+      - {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
+      - {fileID: 11400000, guid: 67bc9622b0d0844c69eff5def65c7600, type: 2}
+      - {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+      - {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+      - {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
+      Skill:
+      - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+      - {fileID: 11400000, guid: 4092e0aa4412c4ad0bf3958b9333a655, type: 2}
+      - {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
+      Item:
+      - {fileID: 11400000, guid: 24f33a5e94da2784ba3bf95ab1faba80, type: 2}
+      - {fileID: 11400000, guid: 44c588fc9d11e92469ef2ca42d44ef06, type: 2}
       SpiritWisdom: []
       Tag: []
       Lore: []

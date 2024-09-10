@@ -323,6 +323,10 @@ namespace Crafting {
 			}
 
 			//
+			Engine.Profile.Acquired.Add(selectedItem);
+			Engine.Profile.Seen.Add(selectedItem);
+
+			//
 			int quantity = Mathf.FloorToInt(Quantity.value);
 			selectedItem.Recipe.ForEach(ingredient =>
 				Engine.Profile.Inventory

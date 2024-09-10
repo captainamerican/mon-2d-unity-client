@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 
 using Unity.Collections;
 
@@ -222,6 +223,7 @@ namespace WorldEnemy {
 
 		public void Stop() {
 			Agent.isStopped = true;
+			destination = gameObject.transform.position;
 		}
 
 		public void TargetEnteredAwarenessRange(Transform target) {

@@ -1,9 +1,14 @@
 ﻿using System;
 
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Game {
 	static public class Focus {
+		static public void Nothing() {
+			EventSystem.current.SetSelectedGameObject(null);
+		}
+
 		static public void This(Slider slider) {
 			if (slider == null) {
 				throw new SystemException("Slider was null");

@@ -1,26 +1,58 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 // -----------------------------------------------------------------------------
 
 namespace World {
+	[Serializable]
+	public class Respawn {
+		public WorldEnemy.Enemy Enemy;
+		public float TimeUntilRespawn;
+	}
+
 	public class WorldEnemies : MonoBehaviour {
 
 		// -------------------------------------------------------------------------
 
-		[SerializeField]
-		Engine Engine;
+		[Header("Globals")]
+		[SerializeField] Engine Engine;
 
-		[SerializeField]
-		GameObject Player;
-
-		[SerializeField]
-		List<WorldEnemy.Enemy> Enemies = new();
+		[Header("Locals")]
+		[SerializeField] GameObject Player;
+		[SerializeField] List<WorldEnemy.Enemy> Enemies = new();
+		[SerializeField] List<Respawn> Respawns = new();
 
 		// -------------------------------------------------------------------------
+
+		WorldEnemy.Enemy ActiveEnemy;
+
+		List<Respawn> respawnsToRemove = new();
+
+		// -------------------------------------------------------------------------
+
+		private void Update() {
+			foreach (Respawn respawn in Respawns) {
+				respawn.TimeUntilRespawn -= Time.deltaTime;
+				if (respawn.TimeUntilRespawn < 0) {
+					respawn.Enemy.gameObject.SetActive(true);
+					respawn.Enemy.Alertness = WorldEnemy.Alertness.Unaware;
+					respawn.Enemy.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+					respawn.Enemy.GetComponentInChildren<NavMeshAgent>().isStopped = false;
+
+					respawnsToRemove.Add(respawn);
+				}
+			}
+
+			if (respawnsToRemove.Count > 0) {
+				respawnsToRemove.ForEach(respawn => Respawns.Remove(respawn));
+				respawnsToRemove.Clear();
+			}
+		}
 
 		private void LateUpdate() {
 			if (Engine.Mode != EngineMode.PlayerControl) {
@@ -48,6 +80,9 @@ namespace World {
 							continue;
 						}
 
+						//
+						ActiveEnemy = enemy;
+
 						enemy.GetComponentInChildren<NavMeshAgent>().isStopped = true;
 						enemy.Alertness = WorldEnemy.Alertness.InBattle;
 						enemy.Stop();
@@ -59,11 +94,15 @@ namespace World {
 							enemy.Stop();
 						});
 
-						Engine.Mode = EngineMode.Battle;
+						//
+						Game.EncounterPossibility encounter = enemy.RollAppearance();
+						encounter.Creature.Health = 999;
+
 						StartCoroutine(
 							Combat.Scene.Load(new Combat.Battle {
 								SpiritId = Game.SpiritId.None,
-								Creature = enemy.RollAppearance().Creature,
+								Creature = encounter.Creature,
+								PossibleLoot = encounter.PossibleLoot,
 								CantFlee = false,
 								OnDone = PostBattle
 							})
@@ -76,6 +115,30 @@ namespace World {
 		// -------------------------------------------------------------------------
 
 		void PostBattle(Combat.BattleResult result) {
+			switch (result) {
+				case Combat.BattleResult.Won:
+					ActiveEnemy.Stop();
+					ActiveEnemy.gameObject.SetActive(false);
+					Respawns.Add(new Respawn() {
+						Enemy = ActiveEnemy,
+						TimeUntilRespawn = 300
+					});
+					break;
+
+				case Combat.BattleResult.Fled:
+					ActiveEnemy.Stop();
+					ActiveEnemy.GetComponentInChildren<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+					Respawns.Add(new Respawn() {
+						Enemy = ActiveEnemy,
+						TimeUntilRespawn = 5
+					});
+					break;
+			}
+
+			//
+			ActiveEnemy = null;
+
+			//
 			StartCoroutine(LeavingBattle());
 		}
 

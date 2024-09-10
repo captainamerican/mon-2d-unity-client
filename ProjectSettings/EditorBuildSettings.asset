@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Secondary/Trainer/Trainer.unity
     guid: 67c00918ec3624035b9e1fa16b5f7b8b
   - enabled: 1
+    path: Assets/Scenes/Combat/Combat.unity
+    guid: 18b93f8b6e4374e678d381454b8c5492
+  - enabled: 1
     path: Assets/Scenes/Village/Village.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1

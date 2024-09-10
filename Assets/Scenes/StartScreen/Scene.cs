@@ -100,7 +100,7 @@ namespace StartScreen {
 						},
 						Skills = new() {
 							Game.SkillId.Scratch
-						}
+						},
 					}
 				},
 			};
@@ -108,6 +108,27 @@ namespace StartScreen {
 			newSaveFile.Party = new() {
 				newSaveFile.Creatures[0].Id
 			};
+			newSaveFile.Inventory.AdjustItem(Database.Engine.GameData.Get(Game.ItemId.CoffeeF), 5);
+			newSaveFile.Inventory.AdjustItem(Database.Engine.GameData.Get(Game.ItemId.PotionF), 5);
+
+			newSaveFile.Acquired.Add(Database.Engine.GameData.Get(Game.ItemId.CoffeeF));
+			newSaveFile.Seen.Add(Database.Engine.GameData.Get(Game.ItemId.CoffeeF));
+			newSaveFile.Acquired.Add(Database.Engine.GameData.Get(Game.ItemId.PotionF));
+			newSaveFile.Seen.Add(Database.Engine.GameData.Get(Game.ItemId.PotionF));
+
+			newSaveFile.Acquired.Add(newSaveFile.Creatures[0].Head.BodyPart);
+			newSaveFile.Seen.Add(newSaveFile.Creatures[0].Head.BodyPart);
+			newSaveFile.Acquired.Add(newSaveFile.Creatures[0].Torso.BodyPart);
+			newSaveFile.Seen.Add(newSaveFile.Creatures[0].Torso.BodyPart);
+			newSaveFile.Acquired.Add(newSaveFile.Creatures[0].Tail.BodyPart);
+			newSaveFile.Seen.Add(newSaveFile.Creatures[0].Tail.BodyPart);
+			newSaveFile.Acquired.Add(newSaveFile.Creatures[0].Appendages[0].BodyPart);
+			newSaveFile.Seen.Add(newSaveFile.Creatures[0].Appendages[0].BodyPart);
+			newSaveFile.Acquired.Add(newSaveFile.Creatures[0].Appendages[2].BodyPart);
+			newSaveFile.Seen.Add(newSaveFile.Creatures[0].Appendages[2].BodyPart);
+
+			newSaveFile.Acquired.Add(newSaveFile.Skills[0].Skill);
+			newSaveFile.Seen.Add(newSaveFile.Skills[0].Skill);
 
 			//
 			Loader.Scene.Load(new Game.NextScene {

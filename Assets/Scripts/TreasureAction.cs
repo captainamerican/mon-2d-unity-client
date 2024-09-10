@@ -67,6 +67,10 @@ public class TreasureAction : MonoBehaviour {
 		int totalItems = 0;
 		List<string> drops = new();
 		Drops.ForEach(lootdrop => {
+			Engine.Profile.Acquired.Add(lootdrop.Item);
+			Engine.Profile.Seen.Add(lootdrop.Item);
+
+			//
 			drops.Add(
 				lootdrop.Quantity > 1
 				? $"{lootdrop.Quantity} {lootdrop.Item.Name}"

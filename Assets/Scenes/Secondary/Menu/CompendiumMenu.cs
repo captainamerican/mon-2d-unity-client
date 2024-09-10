@@ -502,7 +502,7 @@ namespace Menu {
 					break;
 
 				case 1:
-					current = Engine.Profile.Acquired.Item.Count;
+					current = Engine.Profile.Acquired.Skill.Count;
 					total = Engine.GameData.Skills.Count;
 					break;
 
@@ -512,7 +512,7 @@ namespace Menu {
 					break;
 
 				case 3:
-					current = Engine.Profile.Acquired.Skill.Count;
+					current = Engine.Profile.Acquired.Item.Count;
 					total = Engine.GameData.Items.Count;
 					break;
 

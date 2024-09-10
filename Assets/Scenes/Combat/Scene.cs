@@ -33,6 +33,7 @@ namespace Combat {
 	[Serializable]
 	public class Battle {
 		public Game.Creature Creature;
+		public List<Game.WeightedLootDrop> PossibleLoot;
 		public Game.SpiritId SpiritId;
 		public Action<BattleResult> OnDone;
 		public bool CantFlee;
@@ -129,6 +130,12 @@ namespace Combat {
 		[SerializeField] GameObject TargetsListContainer;
 		[SerializeField] GameObject TargetButtonTemplate;
 
+		[Header("Win Screen")]
+		[SerializeField] GameObject WinScreen;
+		[SerializeField] CanvasGroup WinScreenCanvasGroup;
+		[SerializeField] Button WinScreenContinueButton;
+		[SerializeField] GameObject DropTemplate;
+
 		[Header("Exit Cover")]
 		[SerializeField] GameObject ExitCover;
 		[SerializeField] CanvasGroup ExitCoverCanvasGroup;
@@ -146,6 +153,8 @@ namespace Combat {
 		int selectedCreatureIndex;
 		float dexterityPenalty = 1;
 		bool creatureSwapIsMandatory;
+
+		int totalHealthAffected;
 
 		// ------------------------------------------------------------------------- 
 
@@ -171,11 +180,17 @@ namespace Combat {
 
 
 		IEnumerator Start() {
+			Engine.Mode = EngineMode.Battle;
+
+			//
 #if UNITY_EDITOR
 			if (Battle == null) {
 				Battle = DebugBattle;
 			}
 #endif
+
+			//
+			AddOpponentBodyPartsToSeen();
 
 			//
 			HideCombatants();
@@ -185,6 +200,7 @@ namespace Combat {
 			HideCreaturesList();
 			HideFleeConfirmationDialog();
 			HideTargetsList();
+			HideWinScreen();
 			HideExitCover();
 			yield return Dialogue.Scene.Load();
 			SetSelectedCreatureIndexToFirstLiving();
@@ -227,7 +243,7 @@ namespace Combat {
 			EnemyCombatant.HideBars();
 			yield return Do.For(0.25f, ratio => EnemyCreatureCanvasGroup.alpha = ratio);
 			yield return Wait.For(1.25f);
-			yield return Dialogue.Scene.Display("An enraged spirit emerged!");
+			yield return Dialogue.Scene.Display($"An enraged {Battle.Creature.Name} emerged!");
 			yield return Wait.For(0.25f);
 			yield return Do.For(
 				0.5f,
@@ -269,7 +285,7 @@ namespace Combat {
 			});
 		}
 
-		IEnumerator ExitBattle(BattleResult result) {
+		IEnumerator FleeingBattle(BattleResult result) {
 			ShowExitCover();
 			yield return Do.For(0.25f, ratio => ExitCoverCanvasGroup.alpha = ratio);
 			yield return Wait.For(1f);
@@ -309,6 +325,8 @@ namespace Combat {
 		// -------------------------------------------------------------------------
 
 		public void OnActionSelect(int action) {
+			Game.Focus.Nothing();
+
 			switch (action) {
 				case 0:
 					selectedActionIndex = 0;
@@ -781,7 +799,7 @@ namespace Combat {
 			}
 
 			//
-			StartCoroutine(ExitBattle(BattleResult.Fled));
+			StartCoroutine(FleeingBattle(BattleResult.Fled));
 		}
 
 		// -------------------------------------------------------------------------
@@ -791,6 +809,7 @@ namespace Combat {
 		}
 
 		void HideCombatants() {
+			Game.Focus.Nothing();
 			Combatants.SetActive(false);
 			PlayerCreatureContainer.gameObject.SetActive(false);
 			EnemyCreatureContainer.gameObject.SetActive(false);
@@ -800,7 +819,7 @@ namespace Combat {
 
 
 		void ShowActionsList() {
-			ActionListContainer.gameObject.SetActive(true);
+			ActionListContainer.SetActive(true);
 			Game.Focus.This(ActionButtons[selectedActionIndex]);
 			onBack = null;
 
@@ -808,6 +827,7 @@ namespace Combat {
 		}
 
 		void HideActionsList() {
+			Game.Focus.Nothing();
 			ActionListContainer.SetActive(false);
 			onBack = null;
 		}
@@ -819,6 +839,7 @@ namespace Combat {
 		}
 
 		void HideMovesList() {
+			Game.Focus.Nothing();
 			MoveListContainer.SetActive(false);
 		}
 
@@ -830,6 +851,7 @@ namespace Combat {
 		}
 
 		void HideItemsList() {
+			Game.Focus.Nothing();
 			ItemListContainer.SetActive(false);
 			onBack = null;
 		}
@@ -841,6 +863,7 @@ namespace Combat {
 		}
 
 		void HideCreaturesList() {
+			Game.Focus.Nothing();
 			CreaturesList.SetActive(false);
 			onBack = null;
 		}
@@ -855,6 +878,7 @@ namespace Combat {
 		}
 
 		void HideTargetsList() {
+			Game.Focus.Nothing();
 			TargetsListContainer.SetActive(false);
 			onBack = null;
 		}
@@ -866,6 +890,7 @@ namespace Combat {
 		}
 
 		void HideFleeConfirmationDialog() {
+			Game.Focus.Nothing();
 			ConfirmFleeDialog.SetActive(false);
 			onBack = null;
 		}
@@ -875,7 +900,12 @@ namespace Combat {
 		}
 
 		void HideExitCover() {
+			Game.Focus.Nothing();
 			ExitCover.SetActive(false);
+		}
+
+		void HideWinScreen() {
+			WinScreen.SetActive(false);
 		}
 
 		// -------------------------------------------------------------------------
@@ -987,7 +1017,7 @@ namespace Combat {
 					},
 					Easing.EaseOutSine01
 				);
-				yield return Dialogue.Scene.Display("Enraged spirit collapsed!");
+				yield return Dialogue.Scene.Display($"{Battle.Creature.Name} collapsed!");
 				yield return BattleEnd();
 			} else if (playerCreature.Health < 1) {
 				Vector3 start = PlayerCreatureContainer.anchoredPosition;
@@ -1051,12 +1081,156 @@ namespace Combat {
 		}
 
 		IEnumerator BattleEnd() {
-			yield break;
+			int experience = Battle.Creature.Experience;
+			Engine.Profile.Experience += experience;
+
+			GameObject experienceGO = Instantiate(
+				DropTemplate,
+				DropTemplate.transform.parent
+			);
+			experienceGO.SetActive(true);
+
+			experienceGO.GetComponent<TextMeshProUGUI>()
+				.text = $"+{experience} Experience";
+
+			//
+			int soulDust = Mathf.RoundToInt(Mathf.Clamp((float) totalHealthAffected * 0.01f, 0, totalHealthAffected));
+			if (soulDust > 0) {
+				Engine.Profile.Inventory.AdjustItem(Database.Engine.GameData.Get(Game.ItemId.SoulDust), soulDust);
+
+				//
+				GameObject souldDustGO = Instantiate(
+					DropTemplate,
+					DropTemplate.transform.parent
+				);
+				souldDustGO.SetActive(true);
+
+				souldDustGO.GetComponent<TextMeshProUGUI>()
+					.text = $"+{soulDust} Soul Dust";
+			}
+
+			//
+			List<BodyPartBase> bodyParts = new() {
+				Battle.Creature.Head.BodyPart,
+				Battle.Creature.Torso.BodyPart,
+				Battle.Creature.Tail.BodyPart,
+			};
+			Battle.Creature.Appendages.ForEach(appendage => bodyParts.Add(appendage.BodyPart));
+
+			System.Random random = new System.Random();
+			BodyPartBase bodyPart = bodyParts
+				.OrderBy(x => random.Next())
+				.ToList()
+				[0];
+
+			// todo: battle grade determines how many rolls
+			Dictionary<Item, int> loot = new();
+
+			const int rolls = 1;
+			Do.Times(rolls, () => {
+				Game.WeightedLootDrop drop = RollLoot(Battle.PossibleLoot);
+				if (drop.Item == null) {
+					return;
+				}
+
+				if (loot.ContainsKey(drop.Item)) {
+					loot[drop.Item] += drop.Quantity;
+				} else {
+					loot.Add(drop.Item, drop.Quantity);
+				}
+			});
+
+			loot.OrderBy(loot => loot.Key.Name);
+
+			foreach (var pair in loot) {
+				Engine.Profile.Inventory.AdjustItem(pair.Key, pair.Value);
+
+				//
+				GameObject lootGO = Instantiate(
+					DropTemplate,
+					DropTemplate.transform.parent
+				);
+				lootGO.SetActive(true);
+
+				lootGO.GetComponent<TextMeshProUGUI>()
+					.text = $"+{pair.Value} {pair.Key.Name}";
+			}
+
+			//
+			Engine.Profile.BodyPartStorage.Add(bodyPart);
+
+			if (bodyPart is HeadBodyPart head) {
+				head.InnateSkills.ForEach(Engine.Profile.Acquired.Add);
+				head.InnateSkills.ForEach(Engine.Profile.Seen.Add);
+			}
+
+			GameObject bodyPartDropGO = Instantiate(
+				DropTemplate,
+				DropTemplate.transform.parent
+			);
+			bodyPartDropGO.SetActive(true);
+			bodyPartDropGO.GetComponent<TextMeshProUGUI>()
+				.text = bodyPart.Name;
+
+
+			//
+			bool leveledUp = Engine.Profile.Experience >= Engine.Profile.ExperienceForNextLevel;
+			if (leveledUp) {
+				Engine.Profile.Level += 1;
+				Engine.Profile.Experience -= Engine.Profile.ExperienceForNextLevel;
+				Engine.Profile.ExperienceForNextLevel = Mathf.RoundToInt(Mathf.Pow(50, 1 + (0.1f * (Engine.Profile.Level - 1))));
+
+				GameObject levelUpGO = Instantiate(
+					DropTemplate,
+					DropTemplate.transform.parent
+				);
+				levelUpGO.SetActive(true);
+				levelUpGO.GetComponent<TextMeshProUGUI>()
+					.text = $"Lethia is now level {Engine.Profile.Level}!";
+			}
+
+			//
+			WinScreen.SetActive(true);
+			yield return Do.For(0.25f, ratio => WinScreenCanvasGroup.alpha = ratio);
+			Game.Focus.This(WinScreenContinueButton);
+		}
+
+		Game.WeightedLootDrop RollLoot(List<Game.WeightedLootDrop> possibleDrops) {
+			int total = possibleDrops.Select(x => x.Weight).Sum();
+			int random = UnityEngine.Random.Range(0, total);
+
+			for (int j = 0; j < possibleDrops.Count; j++) {
+				Game.WeightedLootDrop possibility = possibleDrops[j];
+				if (random < possibility.Weight) {
+					return possibility;
+				}
+
+				random -= possibility.Weight;
+			}
+
+			//
+			return possibleDrops[0];
+		}
+
+		public void ExitBattle() {
+			StartCoroutine(LeavingBattle(BattleResult.Won));
+		}
+
+		IEnumerator LeavingBattle(BattleResult result) {
+			ShowExitCover();
+			yield return Do.For(0.25f, ratio => ExitCoverCanvasGroup.alpha = ratio);
+			yield return Wait.For(0.5f);
+
+			//
+			Battle.OnDone?.Invoke(result);
 		}
 
 		// -------------------------------------------------------------------------
 
 		IEnumerator UseItem(Item item, Game.Creature actor, Game.Creature receiver, Animator actorAnimator, Animator receiverAnimator) {
+			Engine.Profile.Seen.Add(item);
+
+			//
 			Game.Creature playerCreature = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
 			Game.Creature enemyCreature = Battle.Creature;
 
@@ -1145,11 +1319,11 @@ namespace Combat {
 
 				switch (effect.Type) {
 					case Game.EffectType.Health:
-						effected.AdjustHealth(
-							Mathf.RoundToInt(
-								effect.Strength * UnityEngine.Random.Range(1 - effect.Variance, 1 + effect.Variance)
-							)
+						int amount = Mathf.RoundToInt(
+							effect.Strength * UnityEngine.Random.Range(1 - effect.Variance, 1 + effect.Variance)
 						);
+						effected.AdjustHealth(amount);
+						totalHealthAffected += Math.Abs(amount);
 						break;
 
 					case Game.EffectType.Status:
@@ -1164,6 +1338,9 @@ namespace Combat {
 		}
 
 		IEnumerator PerformMove(Game.SkillEntry skillEntry, Game.Creature actor, Game.Creature receiver, Animator actorAnimator, Animator receiverAnimator) {
+			Engine.Profile.Seen.Add(skillEntry.Skill);
+
+			//
 			Skill skill = skillEntry.Skill;
 
 			Game.Creature playerCreature = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
@@ -1185,6 +1362,8 @@ namespace Combat {
 
 			if (actor == playerCreature) {
 				Engine.Profile.Magic = Mathf.Clamp(Engine.Profile.Magic - skill.Cost, 0, Engine.Profile.MagicTotal);
+
+				skillEntry.Experience += 1;
 			}
 
 			// show skill fx(s)
@@ -1278,6 +1457,16 @@ namespace Combat {
 				.ToList()
 				[0]?.Id;
 			selectedCreatureIndex = Engine.Profile.Party.IndexOf(livingPartyId);
+		}
+
+		void AddOpponentBodyPartsToSeen() {
+			Engine.Profile.Seen.Add(Battle.Creature.Head.BodyPart);
+			Engine.Profile.Seen.Add(Battle.Creature.Torso.BodyPart);
+			if (!Battle.Creature.MissingTail)
+				Engine.Profile.Seen.Add(Battle.Creature.Tail.BodyPart);
+			Battle.Creature.Appendages.ForEach(appendage =>
+				Engine.Profile.Seen.Add(appendage.BodyPart)
+			);
 		}
 
 		// -------------------------------------------------------------------------

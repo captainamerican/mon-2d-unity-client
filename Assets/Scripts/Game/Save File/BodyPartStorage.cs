@@ -25,6 +25,18 @@ namespace Game {
 
 		// -------------------------------------------------------------------------
 
+		public void Add(BodyPartBase bodyPart, float quality = 0, int experience = 0) {
+			if (bodyPart is HeadBodyPart head) {
+				Add(head, quality, experience);
+			} else if (bodyPart is TorsoBodyPart torso) {
+				Add(torso, quality, experience);
+			} else if (bodyPart is TailBodyPart tail) {
+				Add(tail, quality, experience);
+			} else if (bodyPart is AppendageBodyPart appendage) {
+				Add(appendage, quality, experience);
+			}
+		}
+
 		public void Add(HeadBodyPart head, float quality = 0, int experience = 0) {
 			Add(new HeadBodyPartEntry {
 				Id = Id.Generate(),
