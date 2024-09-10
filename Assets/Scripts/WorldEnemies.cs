@@ -1,22 +1,26 @@
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace World {
+// -----------------------------------------------------------------------------
 
+namespace World {
 	public class WorldEnemies : MonoBehaviour {
+
+		// -------------------------------------------------------------------------
+
 		[SerializeField]
 		Engine Engine;
-
-		[SerializeField]
-		Battle.Encounter Encounter;
 
 		[SerializeField]
 		GameObject Player;
 
 		[SerializeField]
 		List<WorldEnemy.Enemy> Enemies = new();
+
+		// -------------------------------------------------------------------------
 
 		private void LateUpdate() {
 			if (Engine.Mode != EngineMode.PlayerControl) {
@@ -47,8 +51,6 @@ namespace World {
 						enemy.GetComponentInChildren<NavMeshAgent>().isStopped = true;
 						enemy.Alertness = WorldEnemy.Alertness.InBattle;
 						enemy.Stop();
-
-						Encounter.StartBattle(enemy);
 						Enemies.ForEach(enemy => {
 							if (enemy == null || !enemy.gameObject.activeInHierarchy) {
 								return;
@@ -56,9 +58,34 @@ namespace World {
 
 							enemy.Stop();
 						});
+
+						Engine.Mode = EngineMode.Battle;
+						StartCoroutine(
+							Combat.Scene.Load(new Combat.Battle {
+								SpiritId = Game.SpiritId.None,
+								Creature = enemy.RollAppearance().Creature,
+								CantFlee = false,
+								OnDone = PostBattle
+							})
+						);
 						return;
 				}
 			}
 		}
+
+		// -------------------------------------------------------------------------
+
+		void PostBattle(Combat.BattleResult result) {
+			StartCoroutine(LeavingBattle());
+		}
+
+		IEnumerator LeavingBattle() {
+			yield return Combat.Scene.Unload();
+
+			Engine.Mode = EngineMode.PlayerControl;
+		}
+
+		// -------------------------------------------------------------------------
+
 	}
 }

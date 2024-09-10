@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 1020
   Type: 10
-  UseInBattle: 1
   Name: Coffee (F)
   Description: Recovers a little magic.
   FlavorText: Smells amazing.
   SortName: coffee-0
+  AnimationName: Item_Coffee
   Recipe:
   - ItemId: 3000
     Quantity: 1
@@ -27,9 +27,12 @@ MonoBehaviour:
   Targets: 0a000000
   Effects:
   - Type: 20
+    Target: 0
     Status: 0
     Duration: 0
     Strength: 10
     Variance: 0
-    ApplyToSelf: 1
-  FX: []
+  FX:
+  - Target: 1
+    Delay: 0
+    AnimationName: Item_Coffee

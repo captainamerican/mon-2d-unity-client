@@ -21,9 +21,10 @@ public class Skill : ScriptableObject {
 	public int Cost = 1;
 	public int ExperienceToLearn = 100;
 
-	public List<Game.Effect> Effect = new();
 	public List<Game.EssenceTagId> Tags = new();
+
 	public List<Game.ApplicableTarget> Targets = new();
+	public List<Game.Effect> Effect = new();
 	public List<Game.SkillFX> FX = new();
 
 	// ---------------------------------------------------------------------------

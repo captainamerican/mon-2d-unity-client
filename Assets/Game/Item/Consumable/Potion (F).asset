@@ -14,22 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 1000
   Type: 10
-  UseInBattle: 1
   Name: Potion (F)
   Description: Heals a small amount of health.
   FlavorText: Looks like medicine. Smells like medicine.
   SortName: potion-0
+  AnimationName: Item_Potion
   Recipe:
   - ItemId: 3003
     Quantity: 2
   Targets: 140000001e000000
   Effects:
   - Type: 10
+    Target: 1
     Status: 0
     Duration: 0
     Strength: 20
     Variance: 0
-    ApplyToSelf: 1
   FX:
-  - Actor: 1
+  - Target: 1
     Delay: 0
+    AnimationName: Item_Potion

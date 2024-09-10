@@ -85,6 +85,9 @@ namespace Combat {
 
 		[Header("Locals")]
 		[SerializeField] GameObject Spirit;
+
+		[Header("Combatants")]
+		[SerializeField] GameObject Combatants;
 		[SerializeField] RectTransform PlayerCreatureContainer;
 		[SerializeField] CanvasGroup PlayerCreatureCanvasGroup;
 		[SerializeField] CombatantOnScreen PlayerCombatant;
@@ -100,7 +103,6 @@ namespace Combat {
 
 		[Header("Moves List")]
 		[SerializeField] GameObject MoveListContainer;
-		[SerializeField] Transform MoveButtonsParent;
 		[SerializeField] GameObject MoveButtonsTemplate;
 		[SerializeField] TextMeshProUGUI MoveMagicCost;
 		[SerializeField] TextMeshProUGUI MoveGrade;
@@ -111,26 +113,25 @@ namespace Combat {
 		[Header("Items List")]
 		[SerializeField] GameObject ItemListContainer;
 		[SerializeField] ScrollView ItemListScrollView;
-		[SerializeField] Transform ItemButtonsParent;
 		[SerializeField] GameObject ItemButtonsTemplate;
+		[SerializeField] TextMeshProUGUI ItemDescription;
+		[SerializeField] TextMeshProUGUI ItemFlavor;
 
 		[Header("Creatures List")]
 		[SerializeField] GameObject CreaturesList;
-		[SerializeField] Transform CreatureButtonsParent;
 		[SerializeField] GameObject CreatureButtonsTemplate;
 
 		[Header("Confirm Flee Dialog")]
 		[SerializeField] GameObject ConfirmFleeDialog;
 		[SerializeField] Button ConfirmFleeCancelButton;
 
-		[Header("Exit Cover")]
-		[SerializeField] GameObject ExitCover;
-		[SerializeField] CanvasGroup ExitCoverCanvasGroup;
-
 		[Header("Targets List")]
 		[SerializeField] GameObject TargetsListContainer;
 		[SerializeField] GameObject TargetButtonTemplate;
 
+		[Header("Exit Cover")]
+		[SerializeField] GameObject ExitCover;
+		[SerializeField] CanvasGroup ExitCoverCanvasGroup;
 
 		// -------------------------------------------------------------------------
 
@@ -188,13 +189,12 @@ namespace Combat {
 			yield return Dialogue.Scene.Load();
 			SetSelectedCreatureIndexToFirstLiving();
 			ConfigureActionList();
+			ShowCombatants();
 			ConfigureCombatant(
 				PlayerCombatant,
 				Engine.Profile.GetPartyCreature(selectedCreatureIndex)
 			);
 			ConfigureCombatant(EnemyCombatant, Battle.Creature);
-			PlayerCombatant.HideBars();
-			EnemyCombatant.HideBars();
 #if UNITY_EDITOR
 			yield return Wait.For(1f);
 #endif
@@ -212,6 +212,9 @@ namespace Combat {
 		// -------------------------------------------------------------------------
 
 		IEnumerator ShowAndThenPositionOpponent() {
+			Game.Creature creature =
+				Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+
 			Vector3 enemyStart = Vector3.zero;
 			Vector3 enemyEnd = EnemyCreatureContainer.anchoredPosition;
 
@@ -220,10 +223,8 @@ namespace Combat {
 			EnemyCreatureContainer.gameObject.SetActive(true);
 
 			//
-			Game.Creature creature =
-				Engine.Profile.GetPartyCreature(selectedCreatureIndex);
-
-			//
+			PlayerCombatant.HideBars();
+			EnemyCombatant.HideBars();
 			yield return Do.For(0.25f, ratio => EnemyCreatureCanvasGroup.alpha = ratio);
 			yield return Wait.For(1.25f);
 			yield return Dialogue.Scene.Display("An enraged spirit emerged!");
@@ -260,14 +261,16 @@ namespace Combat {
 			EnemyCombatant.ShowBars();
 			PlayerCombatant.ShowBars();
 
-			yield return Do.For(2f, ratio => {
-				PlayerCombatant.FancyFillUp(ratio, Engine.Profile.Magic, Engine.Profile.MagicTotal);
-				EnemyCombatant.FancyFillUp(ratio);
+			yield return Do.For(1.25f, ratio => {
+				PlayerCombatant.FancyHealthFillUp(ratio);
+				PlayerCombatant.FancyMagicFillUp(ratio, Engine.Profile.Magic, Engine.Profile.MagicTotal);
+
+				EnemyCombatant.FancyHealthFillUp(ratio);
 			});
 		}
 
 		IEnumerator ExitBattle(BattleResult result) {
-			showExitCover();
+			ShowExitCover();
 			yield return Do.For(0.25f, ratio => ExitCoverCanvasGroup.alpha = ratio);
 			yield return Wait.For(1f);
 			yield return Dialogue.Scene.Display(new string[1] { "I'll retreat for now." }, "Lethia");
@@ -354,7 +357,10 @@ namespace Combat {
 					}
 
 					//
-					GameObject skillButtonGO = Instantiate(MoveButtonsTemplate, MoveButtonsParent);
+					GameObject skillButtonGO = Instantiate(
+						MoveButtonsTemplate,
+						MoveButtonsTemplate.transform.parent
+					);
 					skillButtonGO.SetActive(true);
 
 					TextMeshProUGUI label = skillButtonGO.GetComponentInChildren<TextMeshProUGUI>();
@@ -384,7 +390,7 @@ namespace Combat {
 									i => experience >= toLevel * (i + 1) ? "★" : "☆"
 								)
 							);
-							MoveTags.text = "(none)";
+							MoveTags.text = "⌦ (none)";
 						});
 
 					//
@@ -398,25 +404,28 @@ namespace Combat {
 
 			//
 			HideActionsList();
-			showMovesList();
+			ShowMovesList();
 		}
 
 		void OnMoveSelected(Game.SkillEntry entry) {
 			HideMovesList();
 
 			//
+			BattleAction action = new() {
+				Type = BattleActionType.Move,
+				SkillEntry = entry
+			};
+
+			//
 			if (entry.Skill.Targets.Count < 2) {
-				BattleAction action = new() {
-					Type = BattleActionType.Move,
-					Target = entry.Skill.Targets[0],
-					SkillEntry = entry
-				};
+				action.Target = entry.Skill.Targets[0];
 
 				switch (entry.Skill.Targets[0]) {
 					case Game.ApplicableTarget.Player:
 						action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
 						action.Receiver = action.Actor;
 						action.ActorAnimator = PlayerAnimator;
+						action.ReceiverAnimator = PlayerAnimator;
 						break;
 
 					case Game.ApplicableTarget.Creature:
@@ -434,9 +443,10 @@ namespace Combat {
 						break;
 				}
 
+				//
 				ExecuteAction(action);
 			} else {
-				OnMoveListCancel();
+				SelectTarget(action, SelectMove);
 			}
 		}
 
@@ -465,7 +475,10 @@ namespace Combat {
 					.OrderBy(entry => entry.Item.Name)
 					.ToList(),
 				(entry, index) => {
-					GameObject itemGO = Instantiate(ItemButtonsTemplate, ItemButtonsParent);
+					GameObject itemGO = Instantiate(
+						ItemButtonsTemplate,
+						ItemButtonsTemplate.transform.parent
+					);
 					itemGO.SetActive(true);
 
 					itemGO
@@ -475,6 +488,9 @@ namespace Combat {
 					itemGO
 						.GetComponent<InformationButton>()
 						.Configure(() => {
+							ItemDescription.text = entry.Item.Description;
+							ItemFlavor.text = entry.Item.FlavorText;
+
 							ItemListScrollView.UpdateVisibleButtonRange(buttons, index);
 						});
 
@@ -495,12 +511,14 @@ namespace Combat {
 			HideItemsList();
 
 			//
+			BattleAction action = new() {
+				Type = BattleActionType.Item,
+				Item = entry.Item
+			};
+
+			//
 			if (entry.Item.Targets.Count < 2) {
-				BattleAction action = new() {
-					Type = BattleActionType.Item,
-					Target = entry.Item.Targets[0],
-					Item = entry.Item
-				};
+				action.Target = entry.Item.Targets[0];
 
 				switch (entry.Item.Targets[0]) {
 					case Game.ApplicableTarget.Player:
@@ -525,15 +543,100 @@ namespace Combat {
 						break;
 				}
 
+				//
 				ExecuteAction(action);
 			} else {
-				OnItemListCanceled();
+				HideItemsList();
+				SelectTarget(action, SelectItem);
 			}
 		}
 
 		void OnItemListCanceled() {
 			HideItemsList();
 			ShowActionsList();
+		}
+
+		// -------------------------------------------------------------------------
+
+		void SelectTarget(BattleAction action, Action newOnBack) {
+			buttons.ForEach(button => {
+				button.gameObject.SetActive(false);
+				Destroy(button.gameObject);
+			});
+			buttons.Clear();
+
+			//
+			(
+				action.Type == BattleActionType.Item
+					? action.Item.Targets
+					: action.SkillEntry.Skill.Targets
+			).ForEach(applicableTarget => {
+				GameObject targetButtonGO = Instantiate(
+					TargetButtonTemplate,
+					TargetButtonTemplate.transform.parent
+				);
+				targetButtonGO.SetActive(true);
+
+				TextMeshProUGUI label = targetButtonGO
+					.GetComponentInChildren<TextMeshProUGUI>();
+
+				switch (applicableTarget) {
+					case Game.ApplicableTarget.Player:
+						label.text = "Lethia";
+						break;
+
+					case Game.ApplicableTarget.Creature:
+						label.text = Engine.Profile.GetPartyCreature(selectedCreatureIndex).Name;
+						break;
+
+					case Game.ApplicableTarget.Enemy:
+						label.text = Battle.Creature.Name;
+						break;
+				}
+
+				Button button = targetButtonGO
+					.GetComponent<Button>();
+				button.onClick.RemoveAllListeners();
+				button.onClick.AddListener(() => OnSelectTarget(action, applicableTarget));
+
+				//
+				buttons.Add(button);
+			});
+
+			//
+			ShowTargetsList(newOnBack);
+		}
+
+		void OnSelectTarget(BattleAction action, Game.ApplicableTarget applicableTarget) {
+			action.Target = applicableTarget;
+
+			//
+			switch (action.Target) {
+				case Game.ApplicableTarget.Player:
+					action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+					action.Receiver = action.Actor;
+					action.ActorAnimator = PlayerAnimator;
+					action.ReceiverAnimator = PlayerAnimator;
+					break;
+
+				case Game.ApplicableTarget.Creature:
+					action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+					action.Receiver = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+					action.ActorAnimator = PlayerAnimator;
+					action.ReceiverAnimator = PlayerAnimator;
+					break;
+
+				case Game.ApplicableTarget.Enemy:
+					action.Actor = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+					action.Receiver = Battle.Creature;
+					action.ActorAnimator = PlayerAnimator;
+					action.ReceiverAnimator = EnemyAnimator;
+					break;
+			}
+
+			//
+			HideTargetsList();
+			ExecuteAction(action);
 		}
 
 		// -------------------------------------------------------------------------
@@ -546,6 +649,9 @@ namespace Combat {
 			buttons.Clear();
 
 			//
+			Game.Creature currentCreature = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
+
+			//
 			Do.Times(Engine.Profile.Party.Count, index => {
 				Game.Creature creature = Engine.Profile.GetPartyCreature(index);
 				if (creature == null) {
@@ -553,7 +659,10 @@ namespace Combat {
 				}
 
 				//
-				GameObject creatureGO = Instantiate(CreatureButtonsTemplate, CreatureButtonsParent);
+				GameObject creatureGO = Instantiate(
+					CreatureButtonsTemplate,
+					CreatureButtonsTemplate.transform.parent
+				);
 				creatureGO.SetActive(true);
 
 				CreatureButton creatureButton = creatureGO
@@ -579,6 +688,11 @@ namespace Combat {
 		}
 
 		public void OnCreatureSelected(int index) {
+			if (index == selectedCreatureIndex) {
+				return;
+			}
+
+			//
 			dexterityPenalty = 0.5f;
 
 			//
@@ -639,7 +753,8 @@ namespace Combat {
 			);
 			PlayerCombatant.ShowBars();
 			yield return Do.For(2f, ratio => {
-				PlayerCombatant.FancyFillUp(ratio, Engine.Profile.Magic, Engine.Profile.MagicTotal);
+				PlayerCombatant.FancyHealthFillUp(ratio);
+				PlayerCombatant.FancyMagicFillUp(ratio, Engine.Profile.Magic, Engine.Profile.MagicTotal);
 			});
 			yield return Wait.For(0.33f);
 
@@ -671,11 +786,16 @@ namespace Combat {
 
 		// -------------------------------------------------------------------------
 
+		void ShowCombatants() {
+			Combatants.SetActive(true);
+		}
+
 		void HideCombatants() {
-			if (Spirit != null)
-				Spirit.SetActive(false);
+			Combatants.SetActive(false);
 			PlayerCreatureContainer.gameObject.SetActive(false);
 			EnemyCreatureContainer.gameObject.SetActive(false);
+			if (Spirit != null)
+				Spirit.SetActive(false);
 		}
 
 
@@ -692,7 +812,7 @@ namespace Combat {
 			onBack = null;
 		}
 
-		void showMovesList() {
+		void ShowMovesList() {
 			MoveListContainer.SetActive(true);
 			Game.Focus.This(buttons[0]);
 			onBack = OnMoveListCancel;
@@ -728,7 +848,10 @@ namespace Combat {
 		void ShowTargetsList(Action onBack) {
 			TargetsListContainer.SetActive(true);
 			Game.Focus.This(buttons[0]);
-			this.onBack = onBack;
+			this.onBack = () => {
+				HideTargetsList();
+				onBack();
+			};
 		}
 
 		void HideTargetsList() {
@@ -747,7 +870,7 @@ namespace Combat {
 			onBack = null;
 		}
 
-		void showExitCover() {
+		void ShowExitCover() {
 			ExitCover.SetActive(true);
 		}
 
@@ -796,7 +919,7 @@ namespace Combat {
 				first,
 				second
 			}
-			.OrderBy(action => action.Dexterity)
+			.OrderByDescending(action => action.Dexterity)
 			.ToList();
 
 			//
@@ -959,16 +1082,26 @@ namespace Combat {
 			List<bool> done = new();
 
 			foreach (Game.SkillFX fx in item.FX) {
-				Animator animator = fx.Actor ? actorAnimator : receiverAnimator;
+				Animator animator = null;
+				switch (fx.Target) {
+					case Game.EffectTarget.Actor:
+						animator = actorAnimator;
+						break;
+
+					case Game.EffectTarget.Recipient:
+						animator = receiverAnimator;
+						break;
+				}
+
 				if (active.Contains(animator)) {
-					Debug.LogError($"Already have this {fx.Actor} animator in action!");
+					Debug.LogError($"Already have this {animator.name} animator in action!");
 					continue;
 				}
 
 				active.Add(animator);
 				done.Add(false);
 
-				StartCoroutine(AnimateFX($"Item_{item.Name}", fx, animator, done, done.Count - 1));
+				StartCoroutine(AnimateFX(fx.AnimationName, fx, animator, done, done.Count - 1));
 			}
 
 			yield return Wait.Until(() => done.All(isDone => isDone));
@@ -999,7 +1132,16 @@ namespace Combat {
 
 		void ApplyEffects(List<Game.Effect> effects, Game.Creature actor, Game.Creature receiver) {
 			effects.ForEach(effect => {
-				Game.Creature effected = effect.ApplyToActor ? actor : receiver;
+				Game.Creature effected = null;
+				switch (effect.Target) {
+					case Game.EffectTarget.Actor:
+						effected = actor;
+						break;
+
+					case Game.EffectTarget.Recipient:
+						effected = receiver;
+						break;
+				}
 
 				switch (effect.Type) {
 					case Game.EffectType.Health:
@@ -1052,16 +1194,26 @@ namespace Combat {
 			List<bool> done = new();
 
 			foreach (Game.SkillFX fx in skill.FX) {
-				Animator animator = fx.Actor ? actorAnimator : receiverAnimator;
+				Animator animator = null;
+				switch (fx.Target) {
+					case Game.EffectTarget.Actor:
+						animator = actorAnimator;
+						break;
+
+					case Game.EffectTarget.Recipient:
+						animator = receiverAnimator;
+						break;
+				}
+
 				if (active.Contains(animator)) {
-					Debug.LogError($"Already have this {fx.Actor} animator in action!");
+					Debug.LogError($"Already have this {animator.name} animator in action!");
 					continue;
 				}
 
 				active.Add(animator);
 				done.Add(false);
 
-				StartCoroutine(AnimateFX($"Move_{skill.Name}", fx, animator, done, done.Count - 1));
+				StartCoroutine(AnimateFX(fx.AnimationName, fx, animator, done, done.Count - 1));
 			}
 
 			yield return Wait.Until(() => done.All(isDone => isDone));

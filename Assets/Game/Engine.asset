@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb300f3f5fbd42c98859291fd5fe0af, type: 3}
   m_Name: Engine
   m_EditorClassIdentifier: 
-  Mode: 1
+  Mode: 30
   Profile:
     FileIndex: 0
     IsAutoSave: 1
@@ -23,7 +23,7 @@ MonoBehaviour:
     Level: 5
     Experience: 103
     ExperienceForNextLevel: 239
-    Magic: 13
+    Magic: 38
     Wisdom: 5
     Hunger: 1
     Party:
@@ -32,6 +32,7 @@ MonoBehaviour:
     Creatures:
     - Id: 1234567
       Name: Wolfie
+      CurrentHealth: 86
       Head:
         Id: 11-1
         BodyPartId: 1001
@@ -65,9 +66,9 @@ MonoBehaviour:
         Experience: 0
         Quality: 1
       Skills: e8030000
-      CurrentHealth: 99
     - Id: 2345678
       Name: Wolfie 2
+      CurrentHealth: 999
       Head:
         Id: 11-1
         BodyPartId: 1001
@@ -101,7 +102,6 @@ MonoBehaviour:
         Experience: 0
         Quality: 1
       Skills: e8030000f2030000fc030000
-      CurrentHealth: 99
     Skills:
     - SkillId: 1000
       Experience: 250
@@ -139,7 +139,9 @@ MonoBehaviour:
       - ItemId: 3000
         Amount: 97
       - ItemId: 1020
-        Amount: 9
+        Amount: 96
+      - ItemId: 1000
+        Amount: 91
     BodyPartStorage:
       Head:
       - Id: 123easdf

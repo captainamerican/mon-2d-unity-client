@@ -17,15 +17,16 @@ MonoBehaviour:
   Description: Stings more than it hurts.
   Cost: 1
   ExperienceToLearn: 100
+  Tags: 
+  Targets: 1e000000
   Effect:
   - Type: 10
+    Target: 1
     Status: 0
     Duration: 0
     Strength: -25
     Variance: 0.1
-    ApplyToActor: 0
-  Tags: 
-  Targets: 1e000000
   FX:
-  - Actor: 0
+  - Target: 1
     Delay: 0
+    AnimationName: Move_Scratch

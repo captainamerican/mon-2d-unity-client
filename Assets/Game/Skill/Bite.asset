@@ -17,15 +17,16 @@ MonoBehaviour:
   Description: When words weren't enough.
   Cost: 1
   ExperienceToLearn: 200
+  Tags: 
+  Targets: 1e000000
   Effect:
   - Type: 10
+    Target: 1
     Status: 0
     Duration: 0
     Strength: -10
     Variance: 0.2
-    ApplyToActor: 0
-  Tags: 
-  Targets: 1e000000
   FX:
-  - Actor: 0
+  - Target: 1
     Delay: 0
+    AnimationName: Move_Bite

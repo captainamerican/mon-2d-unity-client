@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 1030
   Type: 10
-  UseInBattle: 1
   Name: Preservative (F)
   Description: Prevents damage to body parts during battle.
   FlavorText: A lambskin bulb of oil. Smells like garlic.
   SortName: preservative-0
+  AnimationName: Item_Preservative
   Recipe:
   - ItemId: 3004
     Quantity: 50
@@ -29,11 +29,12 @@ MonoBehaviour:
   Targets: 1e000000
   Effects:
   - Type: 50
+    Target: 1
     Status: 0
     Duration: 0
     Strength: 10
     Variance: 0
-    ApplyToSelf: 0
   FX:
-  - Actor: 0
+  - Target: 1
     Delay: 0
+    AnimationName: Item_Preservative

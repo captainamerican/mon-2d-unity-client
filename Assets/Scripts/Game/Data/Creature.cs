@@ -15,6 +15,10 @@ namespace Game {
 		public string Id = Game.Id.Generate();
 		public string Name = "";
 
+		[Header("Live Stats")]
+		[SerializeField] int CurrentHealth;
+		public List<CombatantStatus> Statuses = new();
+
 		[Header("Body Parts")]
 		public HeadBodyPartEntry Head;
 		public TorsoBodyPartEntry Torso;
@@ -23,10 +27,6 @@ namespace Game {
 
 		[Header("Skills")]
 		public List<SkillId> Skills = new();
-
-		[Header("Live Stats")]
-		[SerializeField] int CurrentHealth;
-		public List<CombatantStatus> Statuses = new();
 
 		// -------------------------------------------------------------------------
 

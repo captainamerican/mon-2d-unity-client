@@ -17,15 +17,16 @@ MonoBehaviour:
   Description: Put your back into it.
   Cost: 2
   ExperienceToLearn: 133
+  Tags: 
+  Targets: 1e000000
   Effect:
   - Type: 10
+    Target: 1
     Status: 0
     Duration: 0
     Strength: -15
     Variance: 0.33
-    ApplyToActor: 0
-  Tags: 
-  Targets: 1e000000
   FX:
-  - Actor: 0
+  - Target: 1
     Delay: 0
+    AnimationName: Move_Kick

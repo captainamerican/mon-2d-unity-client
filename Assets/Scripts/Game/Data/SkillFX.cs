@@ -1,9 +1,15 @@
 ﻿using System;
 
 namespace Game {
+	public enum EffectTarget {
+		Actor,
+		Recipient
+	}
+
 	[Serializable]
 	public class SkillFX {
-		public bool Actor;
+		public EffectTarget Target;
 		public float Delay;
+		public string AnimationName;
 	}
 }

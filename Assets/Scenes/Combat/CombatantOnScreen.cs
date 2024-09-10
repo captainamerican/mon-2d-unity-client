@@ -62,7 +62,6 @@ namespace Combat {
 			);
 		}
 
-
 		public void UpdateMagic(int magic, int magicTotal) {
 			if (Magic == null) {
 				return;
@@ -92,14 +91,20 @@ namespace Combat {
 
 		// -------------------------------------------------------------------------
 
-		public void FancyFillUp(float ratio, int magic = 0, int magicTotal = 0) {
-			int healthNow = Mathf.RoundToInt(creature.Health * ratio);
-			UpdateHealth(healthNow, creature.HealthTotal);
+		public void FancyHealthFillUp(float ratio) {
+			UpdateHealth(
+				Mathf.RoundToInt(creature.Health * ratio),
+				creature.HealthTotal
+			);
+		}
 
-			if (Magic != null) {
-				int magicNow = Mathf.RoundToInt(magic * ratio);
-				UpdateMagic(magicNow, magicTotal);
+		public void FancyMagicFillUp(float ratio, int magic, int magicTotal) {
+			if (Magic == null) {
+				return;
 			}
+
+			// 
+			UpdateMagic(Mathf.RoundToInt(magic * ratio), magicTotal);
 		}
 
 		// -------------------------------------------------------------------------

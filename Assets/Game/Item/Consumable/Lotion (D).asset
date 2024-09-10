@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 1012
   Type: 10
-  UseInBattle: 0
   Name: Lotion (D)
   Description: Improves body part quality a good deal.
   FlavorText: Contains organic anti-oxidants.
   SortName: lotion-2
+  AnimationName: Item_Lotion
   Recipe:
   - ItemId: 1011
     Quantity: 1
@@ -27,9 +27,12 @@ MonoBehaviour:
   Targets: 14000000
   Effects:
   - Type: 40
+    Target: 1
     Status: 0
     Duration: 0
     Strength: 30
     Variance: 0
-    ApplyToSelf: 0
-  FX: []
+  FX:
+  - Target: 1
+    Delay: 0
+    AnimationName: Item_Lotion
