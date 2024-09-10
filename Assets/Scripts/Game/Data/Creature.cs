@@ -238,7 +238,7 @@ namespace Game {
 		}
 
 		public void AdjustHealth(int amount) {
-			CurrentHealth = Mathf.Clamp(CurrentHealth + amount, 0, HealthTotal);
+			CurrentHealth = Mathf.Clamp(Health + amount, 0, HealthTotal);
 		}
 
 		// -------------------------------------------------------------------------

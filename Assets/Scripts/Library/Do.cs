@@ -128,6 +128,44 @@ public sealed class Do {
 		}
 	}
 
+	static public List<T2> Select<T, T2>(IEnumerable<T> enumerable, Func<T, T2> callback) {
+		List<T2> returnValue = new();
+
+		foreach (T item in enumerable) {
+			returnValue.Add(callback(item));
+		}
+
+		//
+		return returnValue;
+	}
+
+	static public List<T2> Select<T, T2>(IEnumerable<T> enumerable, Func<T, int, T2> callback) {
+		List<T2> returnValue = new();
+
+		int index = 0;
+		foreach (T item in enumerable) {
+			returnValue.Add(callback(item, index));
+			index += 1;
+		}
+
+		//
+		return returnValue;
+	}
+
+	static public List<T2> Select<T, T2>(IEnumerable<T> enumerable, Func<T, int, int, T2> callback) {
+		List<T2> returnValue = new();
+
+		int total = enumerable.Count();
+		int index = 0;
+		foreach (T item in enumerable) {
+			returnValue.Add(callback(item, index, total));
+			index += 1;
+		}
+
+		//
+		return returnValue;
+	}
+
 	static public IEnumerator After(float duration, Action callback) {
 		yield return Wait.For(duration);
 		callback();

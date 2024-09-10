@@ -41,13 +41,18 @@ public class CreatureButton : MonoBehaviour {
 		Health.value = creature.Health;
 
 		Button.interactable = creature.Health > 0;
+
+		Name.color = creature.Health > 0
+			? Color.black
+			: new Color(0, 0, 0, 0.5f)
+		;
 	}
 
 	public void Display() {
 		Head.Configure(creature.Head);
 		Torso.Configure(creature.Torso);
 
-		Tail.gameObject.SetActive(creature.MissingTail);
+		Tail.gameObject.SetActive(!creature.MissingTail);
 		Tail.Configure(creature.Tail);
 
 		Do.ForEach(Appendages, (button, index) => {

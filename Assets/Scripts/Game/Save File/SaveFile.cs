@@ -91,6 +91,10 @@ namespace Game {
 			}
 		}
 
+		public void AdjustMagic(int adjustment) {
+			Magic = Mathf.RoundToInt(Mathf.Clamp(Magic + adjustment, 0, MagicTotal));
+		}
+
 		// -------------------------------------------------------------------------
 
 	}

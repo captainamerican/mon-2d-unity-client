@@ -144,6 +144,7 @@ namespace Combat {
 		int selectedActionIndex;
 		int selectedCreatureIndex;
 		float dexterityPenalty = 1;
+		bool creatureSwapIsMandatory;
 
 		// ------------------------------------------------------------------------- 
 
@@ -176,12 +177,7 @@ namespace Combat {
 #endif
 
 			//
-			if (Spirit != null)
-				Spirit.SetActive(false);
-			PlayerCreatureContainer.gameObject.SetActive(false);
-			EnemyCreatureContainer.gameObject.SetActive(false);
-
-			//
+			HideCombatants();
 			HideActionsList();
 			HideItemsList();
 			HideMovesList();
@@ -189,14 +185,8 @@ namespace Combat {
 			HideFleeConfirmationDialog();
 			HideTargetsList();
 			HideExitCover();
-
-			//
 			yield return Dialogue.Scene.Load();
-
-			//
-			selectedCreatureIndex = 0;
-
-			//
+			SetSelectedCreatureIndexToFirstLiving();
 			ConfigureActionList();
 			ConfigureCombatant(
 				PlayerCombatant,
@@ -580,9 +570,6 @@ namespace Combat {
 				button.onClick.AddListener(() => OnCreatureSelected(index));
 
 				//
-				button.interactable = creature.Health > 0;
-
-				//
 				buttons.Add(button);
 			});
 
@@ -613,14 +600,44 @@ namespace Combat {
 			string newName = Engine.Profile.GetPartyCreature(selectedCreatureIndex).Name;
 
 			//
-			yield return Dialogue.Scene.Display(
-				$"Lethia recalls {oldName}!",
-				$"She calls forth {newName}!"
-			);
+			Vector3 start = PlayerCreatureContainer.anchoredPosition;
+			Vector3 end = start;
+			end.y -= 10;
+
+			if (!creatureSwapIsMandatory) {
+				yield return Do.For(
+					0.5f,
+					ratio => {
+						PlayerCreatureContainer.anchoredPosition = Vector3.Lerp(start, end, ratio);
+						PlayerCreatureCanvasGroup.alpha = 1 - ratio * 2;
+					},
+					Easing.EaseOutSine01
+				);
+				yield return Dialogue.Scene.Display(
+					$"Lethia recalls {oldName}!",
+					$"She calls forth {newName}!"
+				);
+			} else {
+				yield return Dialogue.Scene.Display(
+					new string[1] { $"Come forth, {newName}!" },
+					"Lethia"
+				);
+			}
+
 			ConfigureCombatant(
 				PlayerCombatant,
 				Engine.Profile.GetPartyCreature(selectedCreatureIndex)
 			);
+			PlayerCombatant.HideBars();
+			yield return Do.For(
+				0.5f,
+				ratio => {
+					PlayerCreatureContainer.anchoredPosition = Vector3.Lerp(end, start, ratio);
+					PlayerCreatureCanvasGroup.alpha = ratio * 2;
+				},
+				Easing.EaseOutSine01
+			);
+			PlayerCombatant.ShowBars();
 			yield return Do.For(2f, ratio => {
 				PlayerCombatant.FancyFillUp(ratio, Engine.Profile.Magic, Engine.Profile.MagicTotal);
 			});
@@ -654,11 +671,20 @@ namespace Combat {
 
 		// -------------------------------------------------------------------------
 
+		void HideCombatants() {
+			if (Spirit != null)
+				Spirit.SetActive(false);
+			PlayerCreatureContainer.gameObject.SetActive(false);
+			EnemyCreatureContainer.gameObject.SetActive(false);
+		}
+
 
 		void ShowActionsList() {
 			ActionListContainer.gameObject.SetActive(true);
 			Game.Focus.This(ActionButtons[selectedActionIndex]);
 			onBack = null;
+
+			creatureSwapIsMandatory = false;
 		}
 
 		void HideActionsList() {
@@ -826,23 +852,67 @@ namespace Combat {
 			Game.Creature enemyCreature = Battle.Creature;
 
 			if (enemyCreature.Health < 1) {
-				EnemyCombatant.gameObject.SetActive(false);
+				Vector3 start = EnemyCreatureContainer.anchoredPosition;
+				Vector3 end = start;
+				end.y -= 10;
 
-				yield return Dialogue.Scene.Display($"{enemyCreature.Name} collapsed!");
+				yield return Do.For(
+					0.5f,
+					ratio => {
+						EnemyCreatureContainer.anchoredPosition = Vector3.Lerp(start, end, ratio);
+						EnemyCreatureCanvasGroup.alpha = 1 - ratio * 2;
+					},
+					Easing.EaseOutSine01
+				);
+				yield return Dialogue.Scene.Display("Enraged spirit collapsed!");
 				yield return BattleEnd();
 			} else if (playerCreature.Health < 1) {
-				PlayerCombatant.gameObject.SetActive(false);
+				Vector3 start = PlayerCreatureContainer.anchoredPosition;
+				Vector3 end = start;
+				end.y -= 10;
 
-				List<string> pages = new();
-				pages.Add($"{playerCreature.Name} collapsed!");
+				yield return Do.For(
+					0.5f,
+					ratio => {
+						PlayerCreatureContainer.anchoredPosition = Vector3.Lerp(start, end, ratio);
+						PlayerCreatureCanvasGroup.alpha = 1 - ratio * 2;
+					},
+					Easing.EaseOutSine01
+				);
+				yield return Dialogue.Scene.Display(
+					$"{playerCreature.Name} collapsed!"
+				);
 
-				if (Engine.Profile.CreaturesAvailableToFight - 1 > 0) {
-					Debug.Log("Choose another!");
+				// 
+				if (Engine.Profile.CreaturesAvailableToFight > 0) {
+					yield return Dialogue.Scene.Display(
+						new string[1] {
+							"Who should I choose next?"
+						},
+						"Lethia"
+					);
+
+					//
+					SwapCreature();
+					creatureSwapIsMandatory = true;
+					onBack = null;
+
+					for (int i = 0; i < buttons.Count; i++) {
+						Button button = buttons[i];
+						Game.Creature creature = Engine.Profile.GetPartyCreature(i);
+						if (creature.Health > 0) {
+							Game.Focus.This(button);
+							break;
+						}
+					}
 				} else {
-					pages.Add("No creatures left to fight...");
-					pages.Add("Lethia returns to her village.");
-
-					yield return Dialogue.Scene.Display(pages.ToArray());
+					yield return Dialogue.Scene.Display(
+						new string[2] {
+							"All my creatures have been defeated.",
+							"I must return to the village."
+						},
+						"Lethia"
+					);
 
 					//
 					Loader.Scene.Load(new Game.NextScene {
@@ -945,7 +1015,7 @@ namespace Combat {
 						break;
 
 					case Game.EffectType.Magic:
-						Engine.Profile.Magic = Math.Clamp(Engine.Profile.Magic + effect.Strength, 0, Engine.Profile.MagicTotal);
+						Engine.Profile.AdjustMagic(effect.Strength);
 						break;
 				}
 			});
@@ -970,7 +1040,10 @@ namespace Combat {
 
 			//
 			ApplyEffects(skill.Effect, actor, receiver);
-			Engine.Profile.Magic = Mathf.Clamp(Engine.Profile.Magic - skill.Cost, 0, Engine.Profile.MagicTotal);
+
+			if (actor == playerCreature) {
+				Engine.Profile.Magic = Mathf.Clamp(Engine.Profile.Magic - skill.Cost, 0, Engine.Profile.MagicTotal);
+			}
 
 			// show skill fx(s)
 			yield return Wait.For(0.33f);
@@ -1040,6 +1113,19 @@ namespace Combat {
 
 			//
 			done[doneIndex] = true;
+		}
+
+		// -------------------------------------------------------------------------
+
+		void SetSelectedCreatureIndexToFirstLiving() {
+			string livingPartyId = Do.Select(
+				Engine.Profile.Party,
+				(_, index) => Engine.Profile.GetPartyCreature(index)
+			)
+				.Where(creature => creature.Health > 0)
+				.ToList()
+				[0]?.Id;
+			selectedCreatureIndex = Engine.Profile.Party.IndexOf(livingPartyId);
 		}
 
 		// -------------------------------------------------------------------------
