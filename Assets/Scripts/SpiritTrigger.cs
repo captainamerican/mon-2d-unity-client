@@ -105,6 +105,7 @@ public class SpiritTrigger : MonoBehaviour {
 		);
 		yield return Combat.Scene.Load(new() {
 			Creature = Creature,
+			SpiritWisdom = SpiritWisdom,
 			Loot = Loot,
 			OnDone = PostBattle,
 			CantFlee = true,

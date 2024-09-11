@@ -33,9 +33,9 @@ namespace Combat {
 	[Serializable]
 	public class Battle {
 		public Game.Creature Creature;
+		public SpiritWisdom SpiritWisdom;
 		public List<Game.WeightedLootDrop> PossibleLoot = new();
 		public List<Game.LootDrop> Loot = new();
-		public SpiritWisdom SpiritWisdom;
 		public Action<BattleResult> OnDone;
 		public bool CantFlee;
 		public bool DontGiveBodyPart;
@@ -91,6 +91,7 @@ namespace Combat {
 
 		[Header("Combatants")]
 		[SerializeField] GameObject Combatants;
+		[SerializeField] CanvasGroup CombatantsCanvasGroup;
 		[SerializeField] RectTransform PlayerCreatureContainer;
 		[SerializeField] CanvasGroup PlayerCreatureCanvasGroup;
 		[SerializeField] CombatantOnScreen PlayerCombatant;
@@ -195,6 +196,8 @@ namespace Combat {
 			AddOpponentBodyPartsToSeen();
 
 			//
+			Spirit.SetActive(Battle.SpiritWisdom != null);
+
 			HideCombatants();
 			HideActionsList();
 			HideItemsList();
@@ -205,6 +208,7 @@ namespace Combat {
 			HideWinScreen();
 			HideExitCover();
 			yield return Dialogue.Scene.Load();
+
 			SetSelectedCreatureIndexToFirstLiving();
 			ConfigureActionList();
 			ShowCombatants();
@@ -230,6 +234,22 @@ namespace Combat {
 		// -------------------------------------------------------------------------
 
 		IEnumerator ShowAndThenPositionOpponent() {
+			if (Battle.SpiritWisdom != null) {
+				Spirit.SetActive(true);
+
+				yield return Wait.For(2f);
+
+				Image image = Spirit.GetComponent<Image>();
+				Color color = new Color(1, 1, 1, 1);
+				yield return Do.For(0.25f, ratio => {
+					color.a = 1 - ratio;
+					image.color = color;
+				});
+
+				Spirit.SetActive(false);
+			}
+
+			//
 			Game.Creature creature =
 				Engine.Profile.GetPartyCreature(selectedCreatureIndex);
 
@@ -815,8 +835,7 @@ namespace Combat {
 			Combatants.SetActive(false);
 			PlayerCreatureContainer.gameObject.SetActive(false);
 			EnemyCreatureContainer.gameObject.SetActive(false);
-			if (Spirit != null)
-				Spirit.SetActive(false);
+			Spirit.SetActive(false);
 		}
 
 
@@ -1083,6 +1102,32 @@ namespace Combat {
 		}
 
 		IEnumerator BattleEnd() {
+			yield return Do.For(0.25f, ratio => CombatantsCanvasGroup.alpha = 1 - ratio);
+			yield return Wait.For(0.25f);
+
+			if (Battle.SpiritWisdom != null) {
+				Spirit.SetActive(true);
+				Image image = Spirit.GetComponent<Image>();
+				Color color = new Color(1, 1, 1, 1);
+				yield return Do.For(0.25f, ratio => {
+					color.a = ratio;
+					image.color = color;
+				});
+				yield return Wait.For(1f);
+				yield return Dialogue.Scene.Display(
+					new string[1] { Battle.SpiritWisdom.BattleEnd },
+					"Spirit"
+				);
+				yield return Wait.For(0.1f);
+				yield return Do.For(0.25f, ratio => {
+					color.a = 1 - ratio;
+					image.color = color;
+				});
+				Spirit.SetActive(false);
+				yield return Wait.For(1f);
+			}
+
+			//
 			Dictionary<Item, int> loot = new();
 
 			int experience = Battle.Creature.Experience;

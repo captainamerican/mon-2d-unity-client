@@ -15,10 +15,10 @@ MonoBehaviour:
   Profile:
     FileIndex: 0
     IsAutoSave: 1
-    PlaytimeAsSeconds: 2477.1436
+    PlaytimeAsSeconds: 2490.4849
     SceneName: Forest 01 Entrance
     MapId: 11
-    CurrentLocation: {x: 40.433167, y: -117.72852, z: 0}
+    CurrentLocation: {x: 40.77999, y: -120.29, z: 0}
     Level: 6
     Experience: 77
     ExperienceForNextLevel: 354
@@ -226,7 +226,7 @@ MonoBehaviour:
       BodyPart: e9030000
       Skill: 0000000000000000e8030000fc030000
       Item: bb0b0000
-      SpiritWisdom: e8030000
+      SpiritWisdom: 
       Tag: 
       Lore: 
       TreasureChest: 
