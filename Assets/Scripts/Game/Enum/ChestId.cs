@@ -4,6 +4,7 @@
 
 		ForestEntranceFirst = 1000,
 		ForestEntranceSecond = 1001,
-		ForestCaveFirst = 1002
+		ForestCaveFirst = 1002,
+		ForestEntranceThird = 1003,
 	}
 }

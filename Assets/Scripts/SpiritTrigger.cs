@@ -79,8 +79,8 @@ public class SpiritTrigger : MonoBehaviour {
 			case Direction.Left:
 			case Direction.Right:
 				directionToFace = a.x > b.x
-					? Game.PlayerDirection.Left
-					: Game.PlayerDirection.Right;
+					? Game.PlayerDirection.Right
+					: Game.PlayerDirection.Left;
 				b.x = a.x < b.x
 					? b.x - 2.5f
 					: b.x + 2.5f;

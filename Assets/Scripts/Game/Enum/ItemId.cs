@@ -62,6 +62,7 @@
 		MannequinPartC = 5004,
 		MannequinPartD = 5005,
 		MortarAndPestel = 5006,
-		SoulCrucible = 5007
+		SoulCrucible = 5007,
+		BunnyJack = 5008
 	}
 }

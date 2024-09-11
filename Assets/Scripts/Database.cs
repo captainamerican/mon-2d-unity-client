@@ -13,10 +13,8 @@ public class Database : MonoBehaviour {
 	// ---------------------------------------------------------------------------
 
 	void Awake() {
-		if (Engine == null) {
-			Engine = Source;
-			Engine.GameData.BuildDictionaries();
-		}
+		Engine = Source;
+		Engine.GameData.BuildDictionaries();
 	}
 
 	// ---------------------------------------------------------------------------

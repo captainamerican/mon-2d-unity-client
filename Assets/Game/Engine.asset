@@ -15,99 +15,58 @@ MonoBehaviour:
   Profile:
     FileIndex: 0
     IsAutoSave: 1
-    PlaytimeAsSeconds: 2490.4849
-    SceneName: Forest 01 Entrance
-    MapId: 11
-    CurrentLocation: {x: 40.77999, y: -120.29, z: 0}
-    Level: 6
-    Experience: 77
-    ExperienceForNextLevel: 354
-    Magic: 29
+    PlaytimeAsSeconds: 69.16243
+    SceneName: Forest 03 Cliffs
+    MapId: 13
+    CurrentLocation: {x: -8.30035, y: 23.944502, z: 0}
+    Level: 1
+    Experience: 6
+    ExperienceForNextLevel: 20
+    Magic: 28
     Wisdom: 5
     Hunger: 1
     Party:
-    - 1234567
-    - 2345678
+    - 14ebMEyGjMOYwWyB
     Creatures:
-    - Id: 1234567
+    - Id: 14ebMEyGjMOYwWyB
       Name: Wolfie
-      CurrentHealth: 7
+      CurrentHealth: 99
       Head:
-        Id: 11-1
+        Id: HEl7tEuKZ7Z71KEK
         BodyPartId: 1001
         Experience: 0
         Quality: 1
       Torso:
-        Id: 11-2
+        Id: 0qoQhp4h1SvHwA5n
         BodyPartId: 1002
-        Experience: 10
+        Experience: 0
         Quality: 1
       Tail:
-        Id: 
+        Id: IIotVpWJMe5eR3bY
         BodyPartId: 1003
         Experience: 0
-        Quality: 0
+        Quality: 1
       Appendages:
-      - Id: 11-4
+      - Id: qA5jRY741Tl9KE5p
         BodyPartId: 1004
         Experience: 0
         Quality: 1
-      - Id: 11-5
+      - Id: JtsPjVuFR1n6SYnC
         BodyPartId: 1004
         Experience: 0
         Quality: 1
-      - Id: 11-6
+      - Id: fOdnDfjjUlyJ7oLM
         BodyPartId: 1005
         Experience: 0
         Quality: 1
-      - Id: 11-7
+      - Id: i8B0v6wxXedjmPfs
         BodyPartId: 1005
         Experience: 0
         Quality: 1
       Skills: e8030000
-    - Id: 2345678
-      Name: Wolfie 2
-      CurrentHealth: 72
-      Head:
-        Id: 11-1
-        BodyPartId: 1001
-        Experience: 0
-        Quality: 1
-      Torso:
-        Id: 11-2
-        BodyPartId: 1002
-        Experience: 10
-        Quality: 1
-      Tail:
-        Id: 
-        BodyPartId: 0
-        Experience: 0
-        Quality: 0
-      Appendages:
-      - Id: 11-4
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 1
-      - Id: 11-5
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 1
-      - Id: 11-6
-        BodyPartId: 1005
-        Experience: 0
-        Quality: 1
-      - Id: 11-7
-        BodyPartId: 1005
-        Experience: 0
-        Quality: 1
-      Skills: e8030000f2030000fc030000
     Skills:
     - SkillId: 1000
-      Experience: 268
-    - SkillId: 1010
-      Experience: 50
-    - SkillId: 1020
-      Experience: 100
+      Experience: 1
     Options:
       DialogueSpeed: 0.25
       MusicVolume: 0.66
@@ -117,125 +76,57 @@ MonoBehaviour:
       Speedrunning: 0
     Inventory:
       All:
-      - ItemId: 3004
-        Amount: 1117
-      - ItemId: 3003
-        Amount: 108
-      - ItemId: 3002
-        Amount: 99
-      - ItemId: 3005
-        Amount: 97
-      - ItemId: 3001
-        Amount: 99
-      - ItemId: 5000
-        Amount: 1
-      - ItemId: 5001
-        Amount: 1
-      - ItemId: 5006
-        Amount: 1
-      - ItemId: 5007
-        Amount: 1
-      - ItemId: 3000
-        Amount: 97
       - ItemId: 1020
-        Amount: 95
+        Amount: 5
       - ItemId: 1000
-        Amount: 114
+        Amount: 5
+      - ItemId: 3004
+        Amount: 10
+      - ItemId: 5008
+        Amount: 1
     BodyPartStorage:
-      Head:
-      - Id: rJSYkyNxCabgMYFV
-        BodyPartId: 1001
-        Experience: 0
-        Quality: 0
-      - Id: DM5kicONIBE1NTVF
-        BodyPartId: 1001
-        Experience: 0
-        Quality: 0
+      Head: []
       Torso: []
-      Tail:
-      - Id: Y7uCJzahbBbXiJYE
-        BodyPartId: 1003
-        Experience: 0
-        Quality: 0
-      - Id: tzUGHMBImIIOXwRZ
-        BodyPartId: 1003
-        Experience: 0
-        Quality: 0
-      Appendage:
-      - Id: 6a8pXeTxk6S3ndER
-        BodyPartId: 1005
-        Experience: 0
-        Quality: 0
-      - Id: x03YGJeQlNLabgKc
-        BodyPartId: 1005
-        Experience: 0
-        Quality: 0
-      - Id: fSLgwqJo5DdXVTRX
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 0
-      - Id: r8FHsMdGGPQVdA5y
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 0
-      - Id: 2I13qJWeCExQrNmP
-        BodyPartId: 1005
-        Experience: 0
-        Quality: 0
+      Tail: []
+      Appendage: []
       ReclaimableHead: []
       ReclaimableTorso: []
       ReclaimableTail: []
       ReclaimableAppendage: []
     SparringPit:
       Head:
-        Id: 51AzyzxTZPTuVQCV
+        Id: QvwjY4ivfHvbx5Y2
         BodyPartId: 0
         Experience: 0
         Quality: 1
       Torso:
-        Id: XWQ4WrbrjyX0tZyu
+        Id: UEk8JWWdlkm4mSfC
         BodyPartId: 0
         Experience: 0
         Quality: 1
       Tail:
-        Id: 13-3
-        BodyPartId: 0
-        Experience: 1000
-        Quality: 1
-      Appendage:
-      - Id: 727C1QpoQAqNLIGo
+        Id: gtmgfmyyN3ZZQCU0
         BodyPartId: 0
         Experience: 0
         Quality: 1
-      - Id: jKABZ3A6jiy15aRb
-        BodyPartId: 0
-        Experience: 0
-        Quality: 1
-      - Id: qe85dMHiHWMb1hUN
-        BodyPartId: 0
-        Experience: 0
-        Quality: 0
-      - Id: yGinHbgKCDzpBTyj
-        BodyPartId: 0
-        Experience: 0
-        Quality: 0
+      Appendage: []
       Enhancer:
         ItemId: 0
         Amount: 0
     Acquired:
-      BodyPart: e9030000
-      Skill: 0000000000000000e8030000fc030000
-      Item: bb0b0000
-      SpiritWisdom: 
+      BodyPart: e9030000ea030000eb030000ec030000ed030000
+      Skill: e8030000
+      Item: fc030000e8030000bc0b000090130000
+      SpiritWisdom: ec030000
       Tag: 
       Lore: 
       TreasureChest: 
       TeleportLocation: 0a000000
     Seen:
-      BodyPart: 0000000000000000000000000000000000000000e9030000ea030000eb030000ec030000ed030000
-      Skill: 000000000000000000000000e8030000
-      Item: 0000000000000000bb0b0000
-      SpiritWisdom: e8030000
+      BodyPart: e9030000ea030000eb030000ec030000ed030000
+      Skill: e8030000
+      Item: fc030000e8030000
+      SpiritWisdom: ec030000
       Tag: 
       Lore: 
       TreasureChest: 

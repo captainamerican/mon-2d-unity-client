@@ -1178,6 +1178,7 @@ namespace Combat {
 
 			foreach (var pair in loot) {
 				Engine.Profile.Inventory.AdjustItem(pair.Key, pair.Value);
+				Engine.Profile.Acquired.Add(pair.Key.Id);
 
 				//
 				GameObject lootGO = Instantiate(

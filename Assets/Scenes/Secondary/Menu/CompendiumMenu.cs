@@ -416,51 +416,44 @@ namespace Menu {
 
 			switch (compendiumButton.Type) {
 				case CompendiumButtonType.BodyPart:
-					if (!Engine.Profile.Acquired.Has(compendiumButton.BodyPart.Id)) {
-						TextInformation.text = $"Body part not yet acquired.";
-						TextInformationContainer.SetActive(true);
-					} else {
-						TextInformation.text = compendiumButton.BodyPart.Name;
-						TextInformationContainer.SetActive(true);
-					}
+					BodyPartBase bodyPart = compendiumButton.BodyPart;
+					TextInformation.text =
+						(bodyPart != null && Engine.Profile.Acquired.Has(bodyPart.Id))
+							? bodyPart.Name
+							: "Body part not yet acquired.";
+					TextInformationContainer.SetActive(true);
 					break;
 				case CompendiumButtonType.Skill:
-					if (!Engine.Profile.Acquired.Has(compendiumButton.Skill.Id)) {
-						TextInformation.text = $"Skill not yet observed.";
-						TextInformationContainer.SetActive(true);
-					} else {
-						TextInformation.text = compendiumButton.Skill.Name;
-						TextInformationContainer.SetActive(true);
-					}
+					Skill skill = compendiumButton.Skill;
+					TextInformation.text =
+						(skill != null && Engine.Profile.Acquired.Has(skill.Id))
+							? skill.Name
+							: "Skill not yet observed.";
+					TextInformationContainer.SetActive(true);
 					break;
 				case CompendiumButtonType.Item:
-					if (!Engine.Profile.Acquired.Has(compendiumButton.Item.Id)) {
-						TextInformation.text = $"Item not yet acquired.";
-						TextInformationContainer.SetActive(true);
-					} else {
-						TextInformation.text = compendiumButton.Item.Name;
-						TextInformationContainer.SetActive(true);
-					}
+					Item item = compendiumButton.Item;
+					TextInformation.text =
+						(item != null && Engine.Profile.Acquired.Has(item.Id))
+							? compendiumButton.Item.Name
+							: "Item not yet acquired.";
+					TextInformationContainer.SetActive(true);
 					break;
 				case CompendiumButtonType.SpiritWisdom:
-					if (!Engine.Profile.Acquired.Has(compendiumButton.SpiritWisdom.Id)) {
-						TextInformation.text = $"Spirit musing not yet heard.";
-						TextInformationContainer.SetActive(true);
-					} else {
-						TextInformation.text = $"{compendiumButton.SpiritWisdom.Name}\n\n“{compendiumButton.SpiritWisdom.BattleStart}”\n\n“{compendiumButton.SpiritWisdom.BattleEnd}”";
-						TextInformationContainer.SetActive(true);
-
-					}
+					SpiritWisdom spiritWisdom = compendiumButton.SpiritWisdom;
+					TextInformation.text =
+						(spiritWisdom != null && Engine.Profile.Acquired.Has(spiritWisdom.Id))
+							? $"{spiritWisdom.Name}\n\n“{spiritWisdom.BattleStart}”\n\n“{spiritWisdom.BattleEnd}”"
+							: "Spirit musing not yet heard.";
+					TextInformationContainer.SetActive(true);
 					break;
 				case CompendiumButtonType.Lore:
-					if (!Engine.Profile.Acquired.Has(compendiumButton.Lore.Id)) {
-						TextInformation.text = $"Lore not yet discovered.";
-						TextInformationContainer.SetActive(true);
-					} else {
-						TextInformation.text = $"{compendiumButton.Lore.Name}\n\n{compendiumButton.Lore.Text}";
-						TextInformationContainer.SetActive(true);
-
-					}
+					Lore lore = compendiumButton.Lore;
+					TextInformation.text =
+						(lore != null && Engine.Profile.Acquired.Has(lore.Id))
+							? $"{lore.Name}\n\n{lore.Text}"
+							: "Lore not yet discovered.";
+					TextInformationContainer.SetActive(true);
 					break;
 
 				case CompendiumButtonType.Gameplay:
@@ -469,13 +462,12 @@ namespace Menu {
 					break;
 
 				case CompendiumButtonType.Tag:
-					if (!Engine.Profile.Acquired.Has(compendiumButton.Tag.Id)) {
-						TextInformation.text = $"Essense Tag not yet observed.";
-						TextInformationContainer.SetActive(true);
-					} else {
-						TextInformation.text = $"{compendiumButton.Tag.Name}\n\n{compendiumButton.Tag.Description}";
-						TextInformationContainer.SetActive(true);
-					}
+					EssenceTag tag = compendiumButton.Tag;
+					TextInformation.text =
+						(tag != null && Engine.Profile.Acquired.Has(tag.Id))
+							? $"{tag.Name}\n\n{tag.Description}"
+							: "Essense Tag not yet observed.";
+					TextInformationContainer.SetActive(true);
 					break;
 			}
 
