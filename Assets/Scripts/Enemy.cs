@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 
 using Unity.Collections;
 
@@ -8,7 +7,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
+// -----------------------------------------------------------------------------
+
 namespace WorldEnemy {
+
+	// ---------------------------------------------------------------------------
 
 	public enum Personality {
 		Passive,
@@ -27,63 +30,58 @@ namespace WorldEnemy {
 		GaveUp
 	}
 
+	// ---------------------------------------------------------------------------
+
 	[SelectionBase]
 	public class Enemy : MonoBehaviour {
+
+		// -------------------------------------------------------------------------
+
+		[Header("Globals")]
 		[SerializeField] Engine Engine;
 
-		[SerializeField]
-		Personality Personality;
+		[Header("Locals")]
+		[SerializeField] Personality Personality;
+		[ReadOnly] public Alertness Alertness;
 
-		[SerializeField, ReadOnly]
-		public Alertness Alertness;
-
-		[SerializeField]
-		float DomainRadius;
-
-		[SerializeField]
+		[SerializeField] float DomainRadius;
 		public float AwarenessRadius;
+		public float ActionRadius;
 
-		[SerializeField]
-		float ActionRadius;
-
-		[SerializeField]
 		public Transform BodyTransform;
+		[SerializeField] Animator BodyAnimator;
+		[SerializeField] Rigidbody2D Body;
 
-		[SerializeField]
-		Animator BodyAnimator;
+		[SerializeField] NavMeshAgent Agent;
 
-		[SerializeField]
-		Rigidbody2D Body;
+		[SerializeField] GameObject Alert;
 
-		[SerializeField]
-		NavMeshAgent Agent;
-
-		[SerializeField]
-		GameObject Alert;
-
-		[SerializeField]
-		EncounterProbability EncounterProbability;
+		[SerializeField] EncounterProbability EncounterProbability;
 
 		[Header("Unaware Settings")]
-		[SerializeField]
-		float Speed;
-
-		[SerializeField]
-		float Acceleration;
+		[SerializeField] float Speed;
+		[SerializeField] float Acceleration;
 
 		[Header("Action Settings")]
-		[SerializeField]
-		float ActionDelay;
+		[SerializeField] float ActionDelay;
 
-		[SerializeField]
-		float ActionSpeed;
+		[SerializeField] float ActionSpeed;
 
-		[SerializeField]
-		float ActionAcceleration;
+		[SerializeField] float ActionAcceleration;
+
+		// -------------------------------------------------------------------------
 
 		Vector3 destination;
 		Vector3 alertedPosition;
 		Transform target;
+
+		bool continueToDestination;
+
+		// -------------------------------------------------------------------------
+
+		void OnDestroy() {
+			Engine.ModeChanged -= ModeChanged;
+		}
 
 		void Start() {
 			Agent.updateRotation = false;
@@ -95,6 +93,13 @@ namespace WorldEnemy {
 
 			ChooseNextDestination();
 			StartCoroutine(MoveToDestination());
+
+			//
+			Engine.ModeChanged += ModeChanged;
+		}
+
+		void ModeChanged(EngineMode newMode) {
+			Agent.isStopped = !Engine.PlayerHasControl();
 		}
 
 		void LateUpdate() {
@@ -107,7 +112,6 @@ namespace WorldEnemy {
 			}
 
 			if (Vector3.Distance(BodyTransform.position, alertedPosition) >= ActionRadius) {
-				Debug.Log("stop!");
 				StopActionAndReturn();
 				StartCoroutine(StopActionAndReturn());
 				return;
@@ -308,4 +312,7 @@ namespace WorldEnemy {
 			return EncounterProbability.Roll();
 		}
 	}
+
+	// -------------------------------------------------------------------------
+
 }

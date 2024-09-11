@@ -49,7 +49,7 @@ namespace Village {
 			yield return Dialogue.Scene.Load();
 			yield return Menu.Scene.Load();
 			yield return Loader.Scene.Clear();
-			Engine.SetMode(EngineMode.PlayerControl);
+			Engine.Mode = EngineMode.PlayerControl;
 		}
 
 		// -------------------------------------------------------------------------

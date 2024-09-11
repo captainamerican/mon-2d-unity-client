@@ -26,7 +26,7 @@ public class Engine : ScriptableObject {
 
 	public event EngineModeChangedEvent ModeChanged;
 
-	public EngineMode Mode;
+	EngineMode _Mode;
 	public NextScene NextScene = null;
 
 	public SaveFile Profile;
@@ -35,9 +35,14 @@ public class Engine : ScriptableObject {
 
 	// ---------------------------------------------------------------------------
 
-	public void SetMode(EngineMode mode) {
-		Mode = mode;
-		ModeChanged?.Invoke(mode);
+	public EngineMode Mode {
+		get {
+			return _Mode;
+		}
+		set {
+			_Mode = value;
+			ModeChanged?.Invoke(value);
+		}
 	}
 
 	public bool PlayerHasControl() {

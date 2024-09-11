@@ -28,7 +28,7 @@ public class GameData : ScriptableObject {
 	readonly Dictionary<ItemId, Item> itemsById = new();
 	readonly Dictionary<BodyPartId, BodyPartBase> bodyPartsById = new();
 	readonly Dictionary<SkillId, Skill> skillsById = new();
-	readonly Dictionary<SpiritId, SpiritWisdom> spiritWisdomById = new();
+	readonly Dictionary<SpiritWisdomId, SpiritWisdom> spiritWisdomById = new();
 	readonly Dictionary<EssenceTagId, EssenceTag> tagsById = new();
 	readonly Dictionary<LoreId, Lore> loreById = new();
 
@@ -76,6 +76,10 @@ public class GameData : ScriptableObject {
 
 	public Skill Get(SkillId id) {
 		return skillsById[id];
+	}
+
+	public SpiritWisdom Get(SpiritWisdomId id) {
+		return spiritWisdomById[id];
 	}
 
 	// ---------------------------------------------------------------------------

@@ -181,7 +181,7 @@ namespace Menu {
 						var bodyPartButtons = Engine.GameData.BodyParts
 							.OrderBy(bodyPart => bodyPart.Name)
 							.Select(bodyPart => {
-								bool acquired = Engine.Profile.Acquired.Has(bodyPart);
+								bool acquired = Engine.Profile.Acquired.Has(bodyPart.Id);
 
 								//
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -206,7 +206,7 @@ namespace Menu {
 						var skillButtons = Engine.GameData.Skills
 							.OrderBy(skill => skill.Name)
 							.Select(skill => {
-								bool acquired = Engine.Profile.Acquired.Has(skill);
+								bool acquired = Engine.Profile.Acquired.Has(skill.Id);
 
 								//
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -231,7 +231,7 @@ namespace Menu {
 						var tagButtons = Engine.GameData.Tags
 							.OrderBy(tag => tag.Name)
 							.Select(tag => {
-								bool acquired = Engine.Profile.Acquired.Has(tag);
+								bool acquired = Engine.Profile.Acquired.Has(tag.Id);
 
 								//
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -256,7 +256,7 @@ namespace Menu {
 						var itemButtons = Engine.GameData.Items
 							.OrderBy(item => item.Name)
 							.Select(item => {
-								bool acquired = Engine.Profile.Acquired.Has(item);
+								bool acquired = Engine.Profile.Acquired.Has(item.Id);
 
 								//
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -281,7 +281,7 @@ namespace Menu {
 						var spiritWisdomButtons = Engine.GameData.SpiritWisdom
 							.OrderBy(spiritWisdom => spiritWisdom.Name)
 							.Select(spiritWisdom => {
-								bool acquired = Engine.Profile.Acquired.Has(spiritWisdom);
+								bool acquired = Engine.Profile.Acquired.Has(spiritWisdom.Id);
 
 								//
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -306,7 +306,7 @@ namespace Menu {
 						var loreButtons = Engine.GameData.Lore
 							.OrderBy(lore => lore.Name)
 							.Select(lore => {
-								bool acquired = Engine.Profile.Acquired.Has(lore);
+								bool acquired = Engine.Profile.Acquired.Has(lore.Id);
 
 								//
 								GameObject buttonGO = Instantiate(SubCategoryTemplate, SubCategoryParent);
@@ -416,7 +416,7 @@ namespace Menu {
 
 			switch (compendiumButton.Type) {
 				case CompendiumButtonType.BodyPart:
-					if (!Engine.Profile.Acquired.Has(compendiumButton.BodyPart)) {
+					if (!Engine.Profile.Acquired.Has(compendiumButton.BodyPart.Id)) {
 						TextInformation.text = $"Body part not yet acquired.";
 						TextInformationContainer.SetActive(true);
 					} else {
@@ -425,7 +425,7 @@ namespace Menu {
 					}
 					break;
 				case CompendiumButtonType.Skill:
-					if (!Engine.Profile.Acquired.Has(compendiumButton.Skill)) {
+					if (!Engine.Profile.Acquired.Has(compendiumButton.Skill.Id)) {
 						TextInformation.text = $"Skill not yet observed.";
 						TextInformationContainer.SetActive(true);
 					} else {
@@ -434,7 +434,7 @@ namespace Menu {
 					}
 					break;
 				case CompendiumButtonType.Item:
-					if (!Engine.Profile.Acquired.Has(compendiumButton.Item)) {
+					if (!Engine.Profile.Acquired.Has(compendiumButton.Item.Id)) {
 						TextInformation.text = $"Item not yet acquired.";
 						TextInformationContainer.SetActive(true);
 					} else {
@@ -443,7 +443,7 @@ namespace Menu {
 					}
 					break;
 				case CompendiumButtonType.SpiritWisdom:
-					if (!Engine.Profile.Acquired.Has(compendiumButton.SpiritWisdom)) {
+					if (!Engine.Profile.Acquired.Has(compendiumButton.SpiritWisdom.Id)) {
 						TextInformation.text = $"Spirit musing not yet heard.";
 						TextInformationContainer.SetActive(true);
 					} else {
@@ -453,7 +453,7 @@ namespace Menu {
 					}
 					break;
 				case CompendiumButtonType.Lore:
-					if (!Engine.Profile.Acquired.Has(compendiumButton.Lore)) {
+					if (!Engine.Profile.Acquired.Has(compendiumButton.Lore.Id)) {
 						TextInformation.text = $"Lore not yet discovered.";
 						TextInformationContainer.SetActive(true);
 					} else {
@@ -469,7 +469,7 @@ namespace Menu {
 					break;
 
 				case CompendiumButtonType.Tag:
-					if (!Engine.Profile.Acquired.Has(compendiumButton.Tag)) {
+					if (!Engine.Profile.Acquired.Has(compendiumButton.Tag.Id)) {
 						TextInformation.text = $"Essense Tag not yet observed.";
 						TextInformationContainer.SetActive(true);
 					} else {

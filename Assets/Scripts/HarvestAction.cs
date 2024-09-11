@@ -92,8 +92,8 @@ public class HarvestAction : MonoBehaviour {
 		int totalItems = 0;
 		List<string> drops = new();
 		RollForItems().ForEach(lootdrop => {
-			Engine.Profile.Acquired.Add(lootdrop.Item);
-			Engine.Profile.Seen.Add(lootdrop.Item);
+			Engine.Profile.Acquired.Add(lootdrop.Item.Id);
+			Engine.Profile.Seen.Add(lootdrop.Item.Id);
 
 			//
 			drops.Add(

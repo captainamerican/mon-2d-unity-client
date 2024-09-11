@@ -9,17 +9,16 @@ namespace Game {
 
 		// ------------------------------------------------------------------------- 
 
-		public List<BodyPartBase> BodyPart = new();
-		public List<Skill> Skill = new();
-		public List<Item> Item = new();
-		public List<SpiritWisdom> SpiritWisdom = new();
-		public List<EssenceTag> Tag = new();
-		public List<Lore> Lore = new();
+		public List<BodyPartId> BodyPart = new();
+		public List<SkillId> Skill = new();
+		public List<ItemId> Item = new();
+		public List<SpiritWisdomId> SpiritWisdom = new();
+		public List<EssenceTagId> Tag = new();
+		public List<LoreId> Lore = new();
 		public List<ChestId> TreasureChest = new();
 		public List<MapId> TeleportLocation = new() {
 			MapId.Village
 		};
-		public List<SpiritId> Spirit = new();
 
 		// -------------------------------------------------------------------------
 
@@ -38,28 +37,28 @@ namespace Game {
 
 		// -------------------------------------------------------------------------
 
-		public bool Has(BodyPartBase bodyPartBase) {
-			return BodyPart.Contains(bodyPartBase);
+		public bool Has(BodyPartId bodyPartId) {
+			return BodyPart.Contains(bodyPartId);
 		}
 
-		public bool Has(Skill skill) {
-			return Skill.Contains(skill);
+		public bool Has(SkillId skillId) {
+			return Skill.Contains(skillId);
 		}
 
-		public bool Has(Item item) {
-			return Item.Contains(item);
+		public bool Has(ItemId itemId) {
+			return Item.Contains(itemId);
 		}
 
-		public bool Has(SpiritWisdom item) {
-			return SpiritWisdom.Contains(item);
+		public bool Has(SpiritWisdomId spiritId) {
+			return SpiritWisdom.Contains(spiritId);
 		}
 
-		public bool Has(EssenceTag tag) {
-			return Tag.Contains(tag);
+		public bool Has(EssenceTagId tagId) {
+			return Tag.Contains(tagId);
 		}
 
-		public bool Has(Lore lore) {
-			return Lore.Contains(lore);
+		public bool Has(LoreId loreId) {
+			return Lore.Contains(loreId);
 		}
 
 		public bool Has(ChestId chestId) {
@@ -70,63 +69,53 @@ namespace Game {
 			return TeleportLocation.Contains(mapId);
 		}
 
-		public bool Has(SpiritId spiritId) {
-			return Spirit.Contains(spiritId);
-		}
-
 		// -------------------------------------------------------------------------
 
-		public void Add(BodyPartBase bodyPartBase) {
-			if (!BodyPart.Contains(bodyPartBase)) {
-				BodyPart.Add(bodyPartBase);
+		public void Add(BodyPartId bodyPartId) {
+			if (!BodyPart.Contains(bodyPartId)) {
+				BodyPart.Add(bodyPartId);
 			}
 		}
 
-		public void Add(Skill skill) {
-			if (!Skill.Contains(skill)) {
-				Skill.Add(skill);
+		public void Add(SkillId skillId) {
+			if (!Skill.Contains(skillId)) {
+				Skill.Add(skillId);
 			}
 		}
 
-		public void Add(Item item) {
-			if (!Item.Contains(item)) {
-				Item.Add(item);
+		public void Add(ItemId itemId) {
+			if (!Item.Contains(itemId)) {
+				Item.Add(itemId);
 			}
 		}
 
-		public void Add(SpiritWisdom spiritWisdom) {
-			if (!SpiritWisdom.Contains(spiritWisdom)) {
-				SpiritWisdom.Add(spiritWisdom);
+		public void Add(SpiritWisdomId spiritId) {
+			if (!SpiritWisdom.Contains(spiritId)) {
+				SpiritWisdom.Add(spiritId);
 			}
 		}
 
-		public void Add(EssenceTag tag) {
-			if (!Tag.Contains(tag)) {
-				Tag.Add(tag);
+		public void Add(EssenceTagId tagId) {
+			if (!Tag.Contains(tagId)) {
+				Tag.Add(tagId);
 			}
 		}
 
-		public void Add(Lore lore) {
+		public void Add(LoreId lore) {
 			if (!Lore.Contains(lore)) {
 				Lore.Add(lore);
 			}
 		}
 
-		public void Add(ChestId id) {
-			if (!TreasureChest.Contains(id)) {
-				TreasureChest.Add(id);
+		public void Add(ChestId chestId) {
+			if (!TreasureChest.Contains(chestId)) {
+				TreasureChest.Add(chestId);
 			}
 		}
 
 		public void Add(MapId mapId) {
 			if (!TeleportLocation.Contains(mapId)) {
 				TeleportLocation.Add(mapId);
-			}
-		}
-
-		public void Add(SpiritId spiritId) {
-			if (!Spirit.Contains(spiritId)) {
-				Spirit.Add(spiritId);
 			}
 		}
 

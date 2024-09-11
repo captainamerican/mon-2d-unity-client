@@ -1,5 +1,5 @@
 ﻿namespace Game {
-	public enum SpiritId {
+	public enum SpiritWisdomId {
 		None = 0,
 
 		ForestEntrance01 = 1000

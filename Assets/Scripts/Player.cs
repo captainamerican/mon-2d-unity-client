@@ -4,20 +4,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour {
-	[SerializeField]
-	Engine Engine;
-
-	[SerializeField]
-	float MovementSpeed = 5f;
-
-	[SerializeField]
-	Rigidbody2D rb;
-
-	[SerializeField]
-	Animator animator;
-
-	[SerializeField]
-	PlayerInput PlayerInput;
+	[SerializeField] Engine Engine;
+	[SerializeField] float MovementSpeed = 5f;
+	[SerializeField] Rigidbody2D rb;
+	[SerializeField] Animator animator;
+	[SerializeField] PlayerInput PlayerInput;
 
 	Vector2 movement;
 	Game.PlayerDirection direction = Game.PlayerDirection.None;
@@ -104,6 +95,7 @@ public class Player : MonoBehaviour {
 				break;
 
 			default:
+				Stop();
 				break;
 		}
 	}
@@ -118,5 +110,11 @@ public class Player : MonoBehaviour {
 		movement = Vector2.zero;
 		direction = Game.PlayerDirection.None;
 		nextDirection = Game.PlayerDirection.None;
+	}
+
+	public void SetFacing(Game.PlayerDirection newDirection) {
+		direction = newDirection;
+		nextDirection = newDirection;
+		animator.Play(DirectionMap[newDirection]);
 	}
 }

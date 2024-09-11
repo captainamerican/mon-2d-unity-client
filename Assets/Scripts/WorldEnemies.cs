@@ -55,7 +55,7 @@ namespace World {
 		}
 
 		private void LateUpdate() {
-			if (Engine.Mode != EngineMode.PlayerControl) {
+			if (!Engine.PlayerHasControl()) {
 				return;
 			}
 
@@ -100,11 +100,11 @@ namespace World {
 
 						StartCoroutine(
 							Combat.Scene.Load(new Combat.Battle {
-								SpiritId = Game.SpiritId.None,
+								SpiritWisdom = null,
 								Creature = encounter.Creature,
 								PossibleLoot = encounter.PossibleLoot,
+								OnDone = PostBattle,
 								CantFlee = false,
-								OnDone = PostBattle
 							})
 						);
 						return;

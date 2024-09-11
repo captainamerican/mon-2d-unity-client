@@ -33,10 +33,12 @@ namespace Combat {
 	[Serializable]
 	public class Battle {
 		public Game.Creature Creature;
-		public List<Game.WeightedLootDrop> PossibleLoot;
-		public Game.SpiritId SpiritId;
+		public List<Game.WeightedLootDrop> PossibleLoot = new();
+		public List<Game.LootDrop> Loot = new();
+		public SpiritWisdom SpiritWisdom;
 		public Action<BattleResult> OnDone;
 		public bool CantFlee;
+		public bool DontGiveBodyPart;
 	}
 
 	public class BattleAction {
@@ -1081,6 +1083,8 @@ namespace Combat {
 		}
 
 		IEnumerator BattleEnd() {
+			Dictionary<Item, int> loot = new();
+
 			int experience = Battle.Creature.Experience;
 			Engine.Profile.Experience += experience;
 
@@ -1096,43 +1100,28 @@ namespace Combat {
 			//
 			int soulDust = Mathf.RoundToInt(Mathf.Clamp((float) totalHealthAffected * 0.01f, 0, totalHealthAffected));
 			if (soulDust > 0) {
-				Engine.Profile.Inventory.AdjustItem(Database.Engine.GameData.Get(Game.ItemId.SoulDust), soulDust);
-
-				//
-				GameObject souldDustGO = Instantiate(
-					DropTemplate,
-					DropTemplate.transform.parent
-				);
-				souldDustGO.SetActive(true);
-
-				souldDustGO.GetComponent<TextMeshProUGUI>()
-					.text = $"+{soulDust} Soul Dust";
+				loot.Add(Database.Engine.GameData.Get(Game.ItemId.SoulDust), soulDust);
 			}
 
-			//
-			List<BodyPartBase> bodyParts = new() {
-				Battle.Creature.Head.BodyPart,
-				Battle.Creature.Torso.BodyPart,
-				Battle.Creature.Tail.BodyPart,
-			};
-			Battle.Creature.Appendages.ForEach(appendage => bodyParts.Add(appendage.BodyPart));
-
-			System.Random random = new System.Random();
-			BodyPartBase bodyPart = bodyParts
-				.OrderBy(x => random.Next())
-				.ToList()
-				[0];
-
 			// todo: battle grade determines how many rolls
-			Dictionary<Item, int> loot = new();
+			if (Battle.PossibleLoot.Count > 0) {
+				const int rolls = 1;
+				Do.Times(rolls, () => {
+					Game.WeightedLootDrop drop = RollLoot(Battle.PossibleLoot);
+					if (drop.Item == null) {
+						return;
+					}
 
-			const int rolls = 1;
-			Do.Times(rolls, () => {
-				Game.WeightedLootDrop drop = RollLoot(Battle.PossibleLoot);
-				if (drop.Item == null) {
-					return;
-				}
+					if (loot.ContainsKey(drop.Item)) {
+						loot[drop.Item] += drop.Quantity;
+					} else {
+						loot.Add(drop.Item, drop.Quantity);
+					}
+				});
+			}
 
+			// add static loot drops
+			Battle.Loot.ForEach(drop => {
 				if (loot.ContainsKey(drop.Item)) {
 					loot[drop.Item] += drop.Quantity;
 				} else {
@@ -1156,22 +1145,36 @@ namespace Combat {
 					.text = $"+{pair.Value} {pair.Key.Name}";
 			}
 
-			//
-			Engine.Profile.BodyPartStorage.Add(bodyPart);
+			if (!Battle.DontGiveBodyPart) {
+				List<BodyPartBase> bodyParts = new() {
+					Battle.Creature.Head.BodyPart,
+					Battle.Creature.Torso.BodyPart,
+					Battle.Creature.Tail.BodyPart,
+				};
+				Battle.Creature.Appendages.ForEach(appendage => bodyParts.Add(appendage.BodyPart));
 
-			if (bodyPart is HeadBodyPart head) {
-				head.InnateSkills.ForEach(Engine.Profile.Acquired.Add);
-				head.InnateSkills.ForEach(Engine.Profile.Seen.Add);
+				System.Random random = new System.Random();
+				BodyPartBase bodyPart = bodyParts
+					.OrderBy(x => random.Next())
+					.ToList()
+					[0];
+				Engine.Profile.BodyPartStorage.Add(bodyPart);
+				Engine.Profile.Acquired.Add(bodyPart.Id);
+				Engine.Profile.Seen.Add(bodyPart.Id);
+
+				if (bodyPart is HeadBodyPart head) {
+					head.InnateSkills.ForEach(skill => Engine.Profile.Acquired.Add(skill.Id));
+					head.InnateSkills.ForEach(skill => Engine.Profile.Acquired.Add(skill.Id));
+				}
+
+				GameObject bodyPartDropGO = Instantiate(
+					DropTemplate,
+					DropTemplate.transform.parent
+				);
+				bodyPartDropGO.SetActive(true);
+				bodyPartDropGO.GetComponent<TextMeshProUGUI>()
+					.text = bodyPart.Name;
 			}
-
-			GameObject bodyPartDropGO = Instantiate(
-				DropTemplate,
-				DropTemplate.transform.parent
-			);
-			bodyPartDropGO.SetActive(true);
-			bodyPartDropGO.GetComponent<TextMeshProUGUI>()
-				.text = bodyPart.Name;
-
 
 			//
 			bool leveledUp = Engine.Profile.Experience >= Engine.Profile.ExperienceForNextLevel;
@@ -1196,6 +1199,7 @@ namespace Combat {
 		}
 
 		Game.WeightedLootDrop RollLoot(List<Game.WeightedLootDrop> possibleDrops) {
+
 			int total = possibleDrops.Select(x => x.Weight).Sum();
 			int random = UnityEngine.Random.Range(0, total);
 
@@ -1228,7 +1232,7 @@ namespace Combat {
 		// -------------------------------------------------------------------------
 
 		IEnumerator UseItem(Item item, Game.Creature actor, Game.Creature receiver, Animator actorAnimator, Animator receiverAnimator) {
-			Engine.Profile.Seen.Add(item);
+			Engine.Profile.Seen.Add(item.Id);
 
 			//
 			Game.Creature playerCreature = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
@@ -1338,7 +1342,7 @@ namespace Combat {
 		}
 
 		IEnumerator PerformMove(Game.SkillEntry skillEntry, Game.Creature actor, Game.Creature receiver, Animator actorAnimator, Animator receiverAnimator) {
-			Engine.Profile.Seen.Add(skillEntry.Skill);
+			Engine.Profile.Seen.Add(skillEntry.Skill.Id);
 
 			//
 			Skill skill = skillEntry.Skill;
@@ -1460,12 +1464,12 @@ namespace Combat {
 		}
 
 		void AddOpponentBodyPartsToSeen() {
-			Engine.Profile.Seen.Add(Battle.Creature.Head.BodyPart);
-			Engine.Profile.Seen.Add(Battle.Creature.Torso.BodyPart);
+			Engine.Profile.Seen.Add(Battle.Creature.Head.BodyPartId);
+			Engine.Profile.Seen.Add(Battle.Creature.Torso.BodyPartId);
 			if (!Battle.Creature.MissingTail)
-				Engine.Profile.Seen.Add(Battle.Creature.Tail.BodyPart);
+				Engine.Profile.Seen.Add(Battle.Creature.Tail.BodyPartId);
 			Battle.Creature.Appendages.ForEach(appendage =>
-				Engine.Profile.Seen.Add(appendage.BodyPart)
+				Engine.Profile.Seen.Add(appendage.BodyPartId)
 			);
 		}
 

@@ -323,8 +323,8 @@ namespace Crafting {
 			}
 
 			//
-			Engine.Profile.Acquired.Add(selectedItem);
-			Engine.Profile.Seen.Add(selectedItem);
+			Engine.Profile.Acquired.Add(selectedItem.Id);
+			Engine.Profile.Seen.Add(selectedItem.Id);
 
 			//
 			int quantity = Mathf.FloorToInt(Quantity.value);
