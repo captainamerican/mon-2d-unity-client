@@ -15,10 +15,10 @@ MonoBehaviour:
   Profile:
     FileIndex: 0
     IsAutoSave: 1
-    PlaytimeAsSeconds: 69.16243
+    PlaytimeAsSeconds: 292.74982
     SceneName: Forest 03 Cliffs
     MapId: 13
-    CurrentLocation: {x: -8.30035, y: 23.944502, z: 0}
+    CurrentLocation: {x: -4.4553323, y: -62.24758, z: 0}
     Level: 1
     Experience: 6
     ExperienceForNextLevel: 20
@@ -64,6 +64,7 @@ MonoBehaviour:
         Experience: 0
         Quality: 1
       Skills: e8030000
+    GamePoints: 11270000
     Skills:
     - SkillId: 1000
       Experience: 1
