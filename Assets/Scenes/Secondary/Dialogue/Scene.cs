@@ -214,9 +214,10 @@ namespace Dialogue {
 			FlipPages();
 
 			currentPage = Pages[0];
-			var currentRectTransform = PageRectTransforms[0];
+			currentPage.text = "";
 
 			//
+			var currentRectTransform = PageRectTransforms[0];
 			currentRectTransform.anchoredPosition = a1;
 
 			//

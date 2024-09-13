@@ -101,9 +101,9 @@ namespace Game {
 			}
 		}
 
-		public void Add(LoreId lore) {
-			if (!Lore.Contains(lore)) {
-				Lore.Add(lore);
+		public void Add(LoreId loreId) {
+			if (!Lore.Contains(loreId)) {
+				Lore.Add(loreId);
 			}
 		}
 

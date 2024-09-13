@@ -637,7 +637,7 @@ GameObject:
   - component: {fileID: 35760287}
   - component: {fileID: 35760286}
   m_Layer: 5
-  m_Name: Forest 02
+  m_Name: Forest 03 Cliffs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -756,7 +756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9686c50e47c474110a2d2f7404d9bf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 13
+  MapId: 22
 --- !u!114 &35760287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -784,7 +784,7 @@ GameObject:
   - component: {fileID: 36217801}
   - component: {fileID: 36217800}
   m_Layer: 5
-  m_Name: Forest Cave 01
+  m_Name: Forest 02 Cave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -903,7 +903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9686c50e47c474110a2d2f7404d9bf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 12
+  MapId: 21
 --- !u!114 &36217801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1150,7 +1150,7 @@ GameObject:
   - component: {fileID: 42238726}
   - component: {fileID: 42238727}
   m_Layer: 0
-  m_Name: Forest 01
+  m_Name: Forest 01 Entrance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1235,7 +1235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9686c50e47c474110a2d2f7404d9bf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 11
+  MapId: 20
 --- !u!1 &51320731
 GameObject:
   m_ObjectHideFlags: 0
@@ -3767,7 +3767,7 @@ GameObject:
   - component: {fileID: 257286657}
   - component: {fileID: 257286656}
   m_Layer: 0
-  m_Name: Forest Cave 02
+  m_Name: Forest 04 Tunnel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3800,7 +3800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9686c50e47c474110a2d2f7404d9bf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 14
+  MapId: 23
 --- !u!212 &257286657
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5467,7 +5467,7 @@ GameObject:
   - component: {fileID: 341387553}
   - component: {fileID: 341387552}
   m_Layer: 5
-  m_Name: Forest 03
+  m_Name: Forest 05 Spirit Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5586,7 +5586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9686c50e47c474110a2d2f7404d9bf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 15
+  MapId: 24
 --- !u!114 &341387553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18510,7 +18510,7 @@ GameObject:
   - component: {fileID: 989629439}
   - component: {fileID: 989629438}
   m_Layer: 5
-  m_Name: Forest 04
+  m_Name: Forest 06 Clearing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18629,7 +18629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9686c50e47c474110a2d2f7404d9bf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 16
+  MapId: 25
 --- !u!114 &989629439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23553,7 +23553,7 @@ GameObject:
   - component: {fileID: 1226286041}
   - component: {fileID: 1226286042}
   m_Layer: 0
-  m_Name: Forest 02
+  m_Name: Forest 03 Cliffs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23638,7 +23638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9686c50e47c474110a2d2f7404d9bf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 13
+  MapId: 22
 --- !u!1 &1230980339
 GameObject:
   m_ObjectHideFlags: 0
@@ -28495,7 +28495,7 @@ GameObject:
   - component: {fileID: 1450114393}
   - component: {fileID: 1450114389}
   m_Layer: 5
-  m_Name: Forest Cave 02
+  m_Name: Forest 04 Tunnel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28532,7 +28532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9686c50e47c474110a2d2f7404d9bf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 14
+  MapId: 23
 --- !u!114 &1450114390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30910,7 +30910,7 @@ GameObject:
   - component: {fileID: 1568525936}
   - component: {fileID: 1568525937}
   m_Layer: 0
-  m_Name: Forest 03
+  m_Name: Forest 05 Spirit Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30995,7 +30995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9686c50e47c474110a2d2f7404d9bf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 15
+  MapId: 24
 --- !u!1 &1574252954
 GameObject:
   m_ObjectHideFlags: 0
@@ -32806,7 +32806,7 @@ GameObject:
   - component: {fileID: 1620046743}
   - component: {fileID: 1620046742}
   m_Layer: 5
-  m_Name: Forest 01
+  m_Name: Forest 01 Entrance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32925,7 +32925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9686c50e47c474110a2d2f7404d9bf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 11
+  MapId: 20
 --- !u!114 &1620046743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51766,7 +51766,7 @@ GameObject:
   - component: {fileID: 1751579319}
   - component: {fileID: 1751579320}
   m_Layer: 0
-  m_Name: Forest Cave 01
+  m_Name: Forest 02 Cave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51851,7 +51851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9686c50e47c474110a2d2f7404d9bf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 12
+  MapId: 21
 --- !u!1 &1763023055
 GameObject:
   m_ObjectHideFlags: 0
@@ -55786,7 +55786,7 @@ GameObject:
   - component: {fileID: 1935181042}
   - component: {fileID: 1935181043}
   m_Layer: 0
-  m_Name: Forest 04
+  m_Name: Forest 06 Clearing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55871,7 +55871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9686c50e47c474110a2d2f7404d9bf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapId: 16
+  MapId: 25
 --- !u!1 &1946878419
 GameObject:
   m_ObjectHideFlags: 0

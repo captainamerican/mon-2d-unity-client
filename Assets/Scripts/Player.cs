@@ -92,6 +92,7 @@ public class Player : MonoBehaviour {
 				break;
 
 			case EngineMode.PlayerControl:
+			case EngineMode.Cutscene:
 				break;
 
 			default:

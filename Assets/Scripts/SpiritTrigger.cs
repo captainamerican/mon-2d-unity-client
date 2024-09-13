@@ -52,7 +52,7 @@ public class SpiritTrigger : MonoBehaviour {
 		}
 
 		//
-		Engine.Mode = EngineMode.Cutscene;
+		Engine.Mode = EngineMode.Dialogue;
 		Time.timeScale = 0;
 
 		StartCoroutine(ApproachPlayer(player));

@@ -13,16 +13,5 @@ MonoBehaviour:
   m_Name: The First Age
   m_EditorClassIdentifier: 
   Id: 1000
-  Name: The First Age
-  Text: "The first age of peace. The last age of balance. \n\nNecromancers had made
-    inroads with local populations on the mainland. The field workers had come to
-    understand the work my people performed. To say they valued that work would go
-    too far. The peasants rarely sought out a necromancer, but they did not complain
-    when one came to town in search of death gone missing.\n\nThe Church also tolerated
-    necromancers. They seemingly learned their lesson during events before the First
-    Age. I only heard bits as a child. What probably was stories to scare children--necromancer
-    children, at that. But suffice to say, something reminded the Church that the
-    gods were not... solved problems.\n\nThe peace lasted more than four hundred
-    years. Until there were even necromancer clerics, if you can believe it. Balance
-    was at an all-time high until the unintended-but-disastrous repercussions brought
-    about by the invention of teleportation."
+  Name: Statue Plaque
+  Text: "First age of peace.\nLast age of balance. \nHere lies the genesis."

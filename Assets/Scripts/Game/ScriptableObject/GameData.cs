@@ -50,6 +50,7 @@ public class GameData : ScriptableObject {
 		Skills.ForEach(skill => skillsById[skill.Id] = skill);
 		SpiritWisdom.ForEach(spiritWisdom => spiritWisdomById[spiritWisdom.Id] = spiritWisdom);
 		Tags.ForEach(tag => tagsById[tag.Id] = tag);
+		Lore.ForEach(lore => loreById[lore.Id] = lore);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -80,6 +81,10 @@ public class GameData : ScriptableObject {
 
 	public SpiritWisdom Get(SpiritWisdomId id) {
 		return spiritWisdomById[id];
+	}
+
+	public Lore Get(LoreId id) {
+		return loreById[id];
 	}
 
 	// ---------------------------------------------------------------------------

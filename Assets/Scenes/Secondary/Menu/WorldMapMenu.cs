@@ -54,27 +54,27 @@ namespace Menu {
 				"Village"
 			},
 			{
-				Game.MapId.Forest01,
+				Game.MapId.ForestEntrance,
 				"Forest 01"
 			},
 			{
-				Game.MapId.Forest02,
+				Game.MapId.ForestCliffs,
 				"Forest 02"
 			},
 			{
-				Game.MapId.Forest03,
+				Game.MapId.ForestSpiritGate,
 				"Spirit Gate"
 			},
 			{
-				Game.MapId.Forest04,
+				Game.MapId.ForestClearing,
 				"Clearing"
 			},
 			{
-				Game.MapId.ForestCave01,
+				Game.MapId.ForestCave,
 				"Cave"
 			},
 			{
-				Game.MapId.ForestCave02,
+				Game.MapId.ForestTunnel,
 				"Natural Tunnel"
 			}
 		};

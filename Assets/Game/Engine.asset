@@ -15,10 +15,10 @@ MonoBehaviour:
   Profile:
     FileIndex: 0
     IsAutoSave: 1
-    PlaytimeAsSeconds: 292.74982
-    SceneName: Forest 03 Cliffs
-    MapId: 13
-    CurrentLocation: {x: -4.4553323, y: -62.24758, z: 0}
+    PlaytimeAsSeconds: 2549.4954
+    SceneName: Forest 05 Spirit Gate
+    MapId: 24
+    CurrentLocation: {x: 10.5, y: -65.19998, z: 0}
     Level: 1
     Experience: 6
     ExperienceForNextLevel: 20
@@ -64,7 +64,7 @@ MonoBehaviour:
         Experience: 0
         Quality: 1
       Skills: e8030000
-    GamePoints: 11270000
+    GamePoints: 12270000
     Skills:
     - SkillId: 1000
       Experience: 1
@@ -118,9 +118,9 @@ MonoBehaviour:
       BodyPart: e9030000ea030000eb030000ec030000ed030000
       Skill: e8030000
       Item: fc030000e8030000bc0b000090130000
-      SpiritWisdom: ec030000
+      SpiritWisdom: e8030000ea030000eb030000
       Tag: 
-      Lore: 
+      Lore: e8030000
       TreasureChest: 
       TeleportLocation: 0a000000
     Seen:

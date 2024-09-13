@@ -44,5 +44,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Forest/Forest 04 Tunnel.unity
     guid: b8faf938eed8a46f6bf02f90a0628d91
+  - enabled: 1
+    path: Assets/Scenes/Forest/Forest 05 Spirit Gate.unity
+    guid: 09673b6dcd284427d972ca85dbc9394f
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: c7c325e3cbcf44e4ab49332cee73a7f7, type: 2}
