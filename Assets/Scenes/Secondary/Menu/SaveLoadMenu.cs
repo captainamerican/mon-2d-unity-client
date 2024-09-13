@@ -369,7 +369,8 @@ namespace Menu {
 			Loader.Scene.Load(new Game.NextScene {
 				Name = saveFile.SceneName,
 				Destination = saveFile.CurrentLocation,
-				SaveFile = saveFile
+				SaveFile = saveFile,
+				PlayerDirection = Game.PlayerDirection.Down
 			});
 		}
 

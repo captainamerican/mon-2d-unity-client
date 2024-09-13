@@ -1091,7 +1091,8 @@ namespace Combat {
 					//
 					Loader.Scene.Load(new Game.NextScene {
 						Name = Village.Scene.Name,
-						Destination = Village.Scene.Location_Tree
+						Destination = Village.Scene.Location_Tree,
+						PlayerDirection = Game.PlayerDirection.Down
 					});
 					yield break;
 				}

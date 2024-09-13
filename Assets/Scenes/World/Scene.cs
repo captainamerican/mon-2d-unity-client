@@ -15,7 +15,7 @@ namespace World {
 		[Header("Locals")]
 		[SerializeField] Game.MapId MapId;
 		[SerializeField] string MapName;
-		[SerializeField] GameObject Player;
+		[SerializeField] Player Player;
 
 		// -------------------------------------------------------------------------
 
@@ -23,6 +23,8 @@ namespace World {
 			Game.NextScene nextScene = Engine.NextScene;
 			if (nextScene != null) {
 				Player.transform.position = nextScene.Destination;
+				Player.SetFacing(nextScene.PlayerDirection);
+				Player.Stop();
 			}
 			Engine.NextScene = null;
 

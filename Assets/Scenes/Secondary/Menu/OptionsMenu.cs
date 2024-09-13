@@ -163,7 +163,9 @@ namespace Menu {
 			}
 
 			//
-			Loader.Scene.Load(new Game.NextScene { Name = StartScreen.Scene.Name });
+			Loader.Scene.Load(new Game.NextScene {
+				Name = StartScreen.Scene.Name
+			});
 		}
 
 		// -------------------------------------------------------------------------

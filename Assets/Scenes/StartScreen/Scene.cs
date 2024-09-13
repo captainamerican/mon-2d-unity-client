@@ -134,7 +134,8 @@ namespace StartScreen {
 			Loader.Scene.Load(new Game.NextScene {
 				Name = Village.Scene.Name,
 				Destination = Village.Scene.Location_Tree,
-				SaveFile = newSaveFile
+				SaveFile = newSaveFile,
+				PlayerDirection = Game.PlayerDirection.Down
 			});
 		}
 

@@ -29,7 +29,8 @@ public class ExitStage : MonoBehaviour {
 	void LoadNextScene() {
 		Loader.Scene.Load(new Game.NextScene {
 			Name = SceneName,
-			Destination = Destination
+			Destination = Destination,
+			PlayerDirection = Direction
 		});
 	}
 

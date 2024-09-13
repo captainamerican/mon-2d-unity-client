@@ -215,7 +215,8 @@ namespace Menu {
 
 			//
 			Loader.Scene.Load(new Game.NextScene {
-				Name = teleportLocations[teleportLocation]
+				Name = teleportLocations[teleportLocation],
+				PlayerDirection = Game.PlayerDirection.Down
 			});
 		}
 
