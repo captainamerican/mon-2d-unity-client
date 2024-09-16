@@ -14163,7 +14163,7 @@ MonoBehaviour:
   Engine: {fileID: 11400000, guid: d52e74a9d3dfb4333b90830cca87a9c8, type: 2}
   MapId: 24
   MapName: Forest 05 Spirit Gate
-  Player: {fileID: 1368105805}
+  Player: {fileID: 1368105806}
 --- !u!114 &582349822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14437,7 +14437,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Engine: {fileID: 11400000, guid: d52e74a9d3dfb4333b90830cca87a9c8, type: 2}
-  Controller: {fileID: 1368105806}
   SceneName: Forest 03 Cliffs
   Destination: {x: 28, y: -138, z: 0}
   Direction: 1

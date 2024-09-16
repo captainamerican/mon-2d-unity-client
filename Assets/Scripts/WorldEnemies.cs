@@ -123,6 +123,7 @@ namespace World {
 						Enemy = ActiveEnemy,
 						TimeUntilRespawn = 300
 					});
+					Enemies.Remove(ActiveEnemy);
 					break;
 
 				case Combat.BattleResult.Fled:

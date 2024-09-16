@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 // -----------------------------------------------------------------------------
 
@@ -7,9 +6,10 @@ public class ExitStage : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
+	[Header("Globals")]
 	[SerializeField] Engine Engine;
-	[SerializeField] Player Controller;
 
+	[Header("Locals")]
 	[SerializeField] string SceneName;
 	[SerializeField] Vector3 Destination;
 	[SerializeField] Game.PlayerDirection Direction;
@@ -17,7 +17,7 @@ public class ExitStage : MonoBehaviour {
 	// ---------------------------------------------------------------------------
 
 	private void OnTriggerEnter2D(Collider2D collision) {
-		if (collision.gameObject.GetComponent<Player>() != Controller) {
+		if (collision.gameObject.GetComponent<Player>() == null) {
 			return;
 		}
 
