@@ -15,10 +15,10 @@ MonoBehaviour:
   Profile:
     FileIndex: 0
     IsAutoSave: 1
-    PlaytimeAsSeconds: 2549.4954
+    PlaytimeAsSeconds: 2596.7957
     SceneName: Forest 05 Spirit Gate
-    MapId: 24
-    CurrentLocation: {x: 10.5, y: -65.19998, z: 0}
+    MapId: 25
+    CurrentLocation: {x: 5.17058, y: -5.430579, z: 0}
     Level: 1
     Experience: 6
     ExperienceForNextLevel: 20
