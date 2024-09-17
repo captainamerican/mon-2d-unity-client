@@ -273,7 +273,7 @@ namespace Combat {
 				Easing.EaseOutSine01
 			);
 			yield return Wait.For(0.25f);
-			yield return Dialogue.Scene.DisplayWithSpeaker("Lethia", $"Come forth, {creature.Name}!");
+			yield return Dialogue.Scene.Speaks("Lethia", $"Come forth, {creature.Name}!");
 
 			//
 			Vector3 playerEnd = PlayerCreatureContainer.anchoredPosition;
@@ -311,7 +311,7 @@ namespace Combat {
 			ShowExitCover();
 			yield return Do.For(0.25f, ratio => ExitCoverCanvasGroup.alpha = ratio);
 			yield return Wait.For(1f);
-			yield return Dialogue.Scene.DisplayWithSpeaker("Lethia", "I'll retreat for now.");
+			yield return Dialogue.Scene.Speaks("Lethia", "I'll retreat for now.");
 
 			//
 			Battle.OnDone?.Invoke(result);
@@ -772,7 +772,7 @@ namespace Combat {
 					$"She calls forth {newName}!"
 				);
 			} else {
-				yield return Dialogue.Scene.DisplayWithSpeaker(
+				yield return Dialogue.Scene.Speaks(
 					"Lethia",
 					$"Come forth, {newName}!"
 				);
@@ -1059,7 +1059,7 @@ namespace Combat {
 
 				// 
 				if (Engine.Profile.CreaturesAvailableToFight > 0) {
-					yield return Dialogue.Scene.DisplayWithSpeaker(
+					yield return Dialogue.Scene.Speaks(
 						"Lethia",
 						"Who should I choose next?"
 					);
@@ -1078,7 +1078,7 @@ namespace Combat {
 						}
 					}
 				} else {
-					yield return Dialogue.Scene.DisplayWithSpeaker(
+					yield return Dialogue.Scene.Speaks(
 						"Lethia",
 						"All my creatures have been defeated.",
 						"I must return to the village."
@@ -1111,7 +1111,7 @@ namespace Combat {
 					image.color = color;
 				});
 				yield return Wait.For(1f);
-				yield return Dialogue.Scene.DisplayWithSpeaker(
+				yield return Dialogue.Scene.Speaks(
 					"Spirit",
 					Battle.SpiritWisdom.BattleEnd
 				);

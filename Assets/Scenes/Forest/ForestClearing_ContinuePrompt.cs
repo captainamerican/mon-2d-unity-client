@@ -27,6 +27,10 @@ public class ForestClearing_ContinuePrompt : MonoBehaviour {
 	// ---------------------------------------------------------------------------
 
 	public IEnumerator Display(Action<int> onDone) {
+		actionSelected = false;
+		actionIndex = 0;
+
+		//
 		Canvas.enabled = true;
 		Game.Focus.This(CancelButton);
 		yield return Wait.Until(() => actionSelected);
@@ -36,9 +40,9 @@ public class ForestClearing_ContinuePrompt : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
-	public void ActionSelected(int actionIndex) {
+	public void ActionSelected(int index) {
 		actionSelected = true;
-		this.actionIndex = actionIndex;
+		actionIndex = index;
 	}
 
 	// ---------------------------------------------------------------------------

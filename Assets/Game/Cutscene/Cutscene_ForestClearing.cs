@@ -36,19 +36,19 @@ public class Cutscene_ForestClearing : Cutscene {
 			1.5f,
 			Easing.EaseOutSine01
 		);
-		yield return Dialogue.Scene.DisplayWithSpeaker(
+		yield return Dialogue.Scene.Speaks(
 			"Lethia",
 			"It seems these old contraptions have reached their end.",
 			"Mother said they were powered by more than the sacrifices of our kind.",
 			"She was a bit literal, if flowery. So I wonder..."
 		);
 		yield return Wait.For(1.5f);
-		yield return Dialogue.Scene.DisplayWithSpeaker(
+		yield return Dialogue.Scene.Speaks(
 			"Lethia",
 			collectedEnoughSpiritEnergy
 				? new string[2] {
 					"I've collected enough energy to repower this device.",
-					"Let me just--",
+					"Let me just—",
 				} :
 				new string[3] {
 					"3 Spirits should do it.",
@@ -80,13 +80,13 @@ public class Cutscene_ForestClearing : Cutscene {
 			1f,
 			Easing.EaseInOutSine01
 		);
-		yield return Dialogue.Scene.DisplayWithSpeaker(
+		yield return Dialogue.Scene.Speaks(
 			"Lethia",
 			"I might vomit."
 		);
 
 		//
-		Engine.Profile.GamePoints.Add(Game.GamePointId.UnlockedFirstSpiritGate);
+		Engine.Profile.StoryPoints.Add(Game.StoryPointId.UnlockedFirstSpiritGate);
 		Exit();
 	}
 
@@ -95,7 +95,7 @@ public class Cutscene_ForestClearing : Cutscene {
 	}
 
 	public void Skip(ReturnValue returnValue) {
-		returnValue.Skipped = Engine.Profile.GamePoints.Contains(Game.GamePointId.UnlockedFirstSpiritGate);
+		returnValue.Skipped = Engine.Profile.StoryPoints.Has(Game.StoryPointId.UnlockedFirstSpiritGate);
 	}
 
 	// ---------------------------------------------------------------------------

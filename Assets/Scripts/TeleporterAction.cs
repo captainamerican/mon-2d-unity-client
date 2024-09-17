@@ -13,7 +13,7 @@ public class TeleporterAction : MonoBehaviour {
 	[SerializeField] Player Player;
 
 	[Header("Locals")]
-	[SerializeField] Game.GamePointId RequiredGamePoint;
+	[SerializeField] Game.StoryPointId RequiredGamePoint;
 	[SerializeField] GameObject Destination;
 	[SerializeField] Game.PlayerDirection ExitFacing;
 
@@ -31,7 +31,7 @@ public class TeleporterAction : MonoBehaviour {
 	void Start() {
 		isBeingTouched = false;
 		isTeleporting = false;
-		isUnlocked = Engine.Profile.GamePoints.Contains(RequiredGamePoint);
+		isUnlocked = Engine.Profile.StoryPoints.Has(RequiredGamePoint);
 	}
 
 	void Update() {
@@ -84,7 +84,7 @@ public class TeleporterAction : MonoBehaviour {
 	}
 
 	public IEnumerator CantUseYet() {
-		yield return Dialogue.Scene.DisplayWithSpeaker("Lethia", DialogueIfNotWorking);
+		yield return Dialogue.Scene.Speaks("Lethia", DialogueIfNotWorking);
 		Engine.Mode = EngineMode.PlayerControl;
 	}
 

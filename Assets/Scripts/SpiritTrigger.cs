@@ -99,7 +99,7 @@ public class SpiritTrigger : MonoBehaviour {
 		yield return Do.ForReal(duration, ratio => {
 			SpiritTransform.position = Vector3.Lerp(a, b, ratio);
 		});
-		yield return Dialogue.Scene.DisplayWithSpeaker(
+		yield return Dialogue.Scene.Speaks(
 			"Spirit",
 			SpiritWisdom.BattleStart
 		);

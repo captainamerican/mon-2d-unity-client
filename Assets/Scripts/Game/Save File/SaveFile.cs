@@ -35,7 +35,6 @@ namespace Game {
 		[Header("Data")]
 		public List<string> Party = new();
 		public List<Creature> Creatures = new();
-		public List<GamePointId> GamePoints = new();
 		public List<SkillEntry> Skills = new();
 
 		public Options Options = new();
@@ -44,6 +43,7 @@ namespace Game {
 		public SparringPit SparringPit = new();
 		public Tally Acquired = new();
 		public Tally Seen = new();
+		public StoryPoints StoryPoints = new();
 
 		// -------------------------------------------------------------------------
 

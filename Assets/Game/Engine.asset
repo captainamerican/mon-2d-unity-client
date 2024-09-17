@@ -15,10 +15,10 @@ MonoBehaviour:
   Profile:
     FileIndex: 0
     IsAutoSave: 1
-    PlaytimeAsSeconds: 2596.7957
+    PlaytimeAsSeconds: 4728.2905
     SceneName: Forest 05 Spirit Gate
     MapId: 25
-    CurrentLocation: {x: 5.17058, y: -5.430579, z: 0}
+    CurrentLocation: {x: 13.071176, y: -9.705028, z: 0}
     Level: 1
     Experience: 6
     ExperienceForNextLevel: 20
@@ -27,6 +27,7 @@ MonoBehaviour:
     Hunger: 1
     Party:
     - 14ebMEyGjMOYwWyB
+    - 24ebMEyGjMOYwWyB
     Creatures:
     - Id: 14ebMEyGjMOYwWyB
       Name: Wolfie
@@ -64,7 +65,42 @@ MonoBehaviour:
         Experience: 0
         Quality: 1
       Skills: e8030000
-    GamePoints: 12270000
+    - Id: 24ebMEyGjMOYwWyB
+      Name: Wolfie 2
+      CurrentHealth: 99
+      Head:
+        Id: HEl7tEuKZ7Z71KEK
+        BodyPartId: 1001
+        Experience: 0
+        Quality: 1
+      Torso:
+        Id: 0qoQhp4h1SvHwA5n
+        BodyPartId: 1002
+        Experience: 0
+        Quality: 1
+      Tail:
+        Id: IIotVpWJMe5eR3bY
+        BodyPartId: 1003
+        Experience: 0
+        Quality: 1
+      Appendages:
+      - Id: qA5jRY741Tl9KE5p
+        BodyPartId: 1004
+        Experience: 0
+        Quality: 1
+      - Id: JtsPjVuFR1n6SYnC
+        BodyPartId: 1004
+        Experience: 0
+        Quality: 1
+      - Id: fOdnDfjjUlyJ7oLM
+        BodyPartId: 1005
+        Experience: 0
+        Quality: 1
+      - Id: i8B0v6wxXedjmPfs
+        BodyPartId: 1005
+        Experience: 0
+        Quality: 1
+      Skills: e8030000
     Skills:
     - SkillId: 1000
       Experience: 1
@@ -132,4 +168,14 @@ MonoBehaviour:
       Lore: 
       TreasureChest: 
       TeleportLocation: 0a000000
+    StoryPoints:
+      storyPoints:
+      - Id: 10002
+        Value: 1
+      - Id: 10003
+        Value: 1
+      - Id: 10005
+        Value: 5
+      - Id: 10006
+        Value: 1
   GameData: {fileID: 11400000, guid: b06976c351aca400d8d2513f87736adf, type: 2}

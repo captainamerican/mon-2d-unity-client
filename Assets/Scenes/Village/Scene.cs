@@ -48,6 +48,14 @@ namespace Village {
 			Engine.Profile.CurrentLocation = Player.transform.position;
 
 			//
+			if (
+				Engine.Profile.StoryPoints.Has(Game.StoryPointId.ToldAboutPocketTeleporter) &&
+				!Engine.Profile.StoryPoints.Has(Game.StoryPointId.UsedPocketTeleporter)
+			) {
+				Engine.Profile.StoryPoints.Add(Game.StoryPointId.UsedPocketTeleporter);
+			}
+
+			//
 			yield return Dialogue.Scene.Load();
 			yield return Menu.Scene.Load();
 			yield return Loader.Scene.Clear();

@@ -40,7 +40,7 @@ namespace Dialogue {
 			return Self.DisplayText(pages);
 		}
 
-		static public IEnumerator DisplayWithSpeaker(string speaker, params string[] pages) {
+		static public IEnumerator Speaks(string speaker, params string[] pages) {
 			Debug.Assert(Self != null, "Dialogue scene wasn't loaded!");
 
 			//

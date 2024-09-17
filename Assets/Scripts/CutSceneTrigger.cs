@@ -23,13 +23,15 @@ public class CutSceneTrigger : MonoBehaviour {
 	// ---------------------------------------------------------------------------
 
 	private void OnTriggerEnter2D(Collider2D collision) {
-		if (
-			(TriggerOnce && wasTriggered) ||
-			collision.gameObject.GetComponent<Player>() == null
-		) {
+		if (collision.gameObject.GetComponent<Player>() == null) {
 			return;
 		}
 
+		if (TriggerOnce && wasTriggered) {
+			return;
+		}
+
+		//
 		ReturnValue was = new();
 		Skip?.Invoke(was);
 

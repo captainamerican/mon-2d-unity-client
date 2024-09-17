@@ -17,6 +17,10 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 	[SerializeField] GameObject FirstMark;
 	[SerializeField] GameObject SecondMark;
 	[SerializeField] GameObject ThirdMark;
+	[SerializeField] GameObject FourthMark;
+	[SerializeField] GameObject Fourth2Mark;
+	[SerializeField] GameObject FifthMark;
+	[SerializeField] GameObject SixthMark;
 
 	[SerializeField] ForestClearing_ContinuePrompt ContinuePrompt;
 
@@ -29,7 +33,7 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 		bool hasASecondCreature = Engine.Profile.Party.Count > 1;
 
 		//
-		if (BeenHereBefore()) {
+		if (HasBeenHereBefore()) {
 			yield return hasASecondCreature
 				? ReadyToParty()
 				: BeenHereBeforeStillNoSecondCreature();
@@ -44,41 +48,34 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 	// ---------------------------------------------------------------------------
 
 	public void Skip(ReturnValue returnValue) {
-		returnValue.Skipped = Engine.Profile.GamePoints.Contains(Game.GamePointId.BeatenForestBoss);
+		returnValue.Skipped = Engine.Profile.StoryPoints.Has(Game.StoryPointId.BeatenForestBoss);
 	}
 
 	// ---------------------------------------------------------------------------
 
 	IEnumerator HeardSomething() {
+		Vector3 cameraOriginalPosition = Camera.transform.position;
+
+		//
 		Player.Stop();
-		yield return Wait.For(1.5f);
-		Player.SetFacing(Game.PlayerDirection.Right);
-		yield return Go.To(
-			Player.transform,
-			FirstMark.transform.position,
-			1f,
-			Easing.EaseOutSine01
-		);
-		Player.SetFacing(Game.PlayerDirection.Down);
-		yield return Go.To(
-			Player.transform,
-			SecondMark.transform.position,
-			2f,
-			Easing.EaseOutSine01
-		);
+		yield return MoveCharacterToFirstMark();
+		yield return MoveCharacterToSecondMark();
 		yield return Wait.For(1f);
 		yield return MoveCameraToShowBoss();
 		yield return Wait.For(3f);
-		yield return Dialogue.Scene.Display(
+		yield return Dialogue.Scene.Speaks(
 			"Lethia",
-			"A mutated Monk Trap. Very rare specimen. I want the head...",
-			"Never heard of them interfering with teleporters before."
+			"A mutant Honey Pot. Haven't seen one this large since I was young.",
+			"Never seen them interfere with the teleporters before."
 		);
-		yield return NoveCameraBackToOriginal();
+		yield return MoveCameraBackToOriginal(cameraOriginalPosition);
 	}
 
 	IEnumerator BeenHereBeforeStillNoSecondCreature() {
-		yield return Dialogue.Scene.Display(
+		Player.Stop();
+		yield return MoveCharacterToFirstMark();
+		Player.SetFacing(Game.PlayerDirection.Down);
+		yield return Dialogue.Scene.Speaks(
 			"Lethia",
 			"Must not have been paying attention as I still don't have a second creature."
 		);
@@ -86,43 +83,126 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 	}
 
 	IEnumerator ReadyToParty() {
-		Debug.LogWarning("TODO: Show the boss chewing on Emily.");
-		yield return Dialogue.Scene.Display(
+		yield return MoveCharacterToFirstMark();
+		yield return MoveCharacterToSecondMark();
+		yield return Wait.For(1f);
+		yield return Dialogue.Scene.Speaks(
 			"Lethia",
 			"I'm as ready as I'll ever be."
 		);
+		yield return Wait.For(0.1f);
 
 		bool choseToFight = false;
 		yield return ContinuePrompt.Display(actionIndex => choseToFight = actionIndex > 0);
 
-		if (choseToFight) {
-			Debug.Log("Fight!");
-		} else {
-			Debug.Log("Never mind.");
-		}
+		yield return (choseToFight)
+			? ThrowDowntheGauntlet()
+			: StillNotReadyToFight();
 	}
 
 	IEnumerator NotReadyToParty() {
-		yield return Dialogue.Scene.Display(
+		yield return Dialogue.Scene.Speaks(
 			"Lethia",
 			"In any case, I need than one creature to dispatch this mutant.",
-			"I can assemble one from the beasts of the forest."
+			"I can assemble a new one from the beasts of the forest."
+		);
+		yield return MoveCharacterBackToFirstMark();
+
+		//
+		Engine.Profile.StoryPoints.Add(Game.StoryPointId.SurveyedForestBoss);
+		ReturnControlToPlayer();
+	}
+
+	IEnumerator StillNotReadyToFight() {
+		yield return Dialogue.Scene.Speaks(
+			"Lethia",
+			"I've still things left undone."
+		);
+		ReturnControlToPlayer();
+	}
+
+	IEnumerator ThrowDowntheGauntlet() {
+		Debug.LogWarning("TODO: Show the boss chewing on Emily.");
+		Debug.LogWarning("TODO: To ramp up");
+
+		//
+		Player.GetComponent<CapsuleCollider2D>()
+			.enabled = false;
+
+		//
+		yield return Go.To(
+			Player.transform,
+			FourthMark.transform.position,
+			0.5f,
+			Easing.EaseOutSine01
+		);
+		yield return Go.To(
+			Player.transform,
+			Fourth2Mark.transform.position,
+			0.25f,
+			Easing.EaseOutSine01
+		);
+		yield return Go.To(
+			Player.transform,
+			FifthMark.transform.position,
+			1f,
+			Easing.EaseOutSine01
 		);
 
 		//
-		Engine.Profile.GamePoints.Add(Game.GamePointId.SurveyedForestBoss);
+		Player.GetComponent<CapsuleCollider2D>()
+			.enabled = true;
+
+		//
+		yield return Wait.For(0.66f);
+		yield return Go.To(
+			Player.transform,
+			SixthMark.transform.position,
+			1.66f,
+			Easing.EaseOutSine01
+		);
+
+		//
+		Debug.Log("Fight!");
 		ReturnControlToPlayer();
 	}
 
 	// ---------------------------------------------------------------------------
 
-	void ReturnControlToPlayer() {
-		Engine.Mode = EngineMode.PlayerControl;
+	IEnumerator MoveCharacterToFirstMark() {
+		Player.SetFacing(Game.PlayerDirection.Right);
+
+		//
+		yield return Go.To(
+			Player.transform,
+			FirstMark.transform.position,
+			1f,
+			Easing.EaseOutSine01
+		);
 	}
 
-	bool BeenHereBefore() {
-		return Engine.Profile.GamePoints
-			.Contains(Game.GamePointId.SurveyedForestBoss);
+	IEnumerator MoveCharacterToSecondMark() {
+		Player.SetFacing(Game.PlayerDirection.Down);
+
+		//
+		yield return Go.To(
+			Player.transform,
+			SecondMark.transform.position,
+			2f,
+			Easing.EaseOutSine01
+		);
+	}
+
+	IEnumerator MoveCharacterBackToFirstMark() {
+		Player.SetFacing(Game.PlayerDirection.Up);
+
+		//
+		yield return Go.To(
+			Player.transform,
+			FirstMark.transform.position,
+			0.55f,
+			Easing.EaseOutSine01
+		);
 	}
 
 	IEnumerator MoveCameraToShowBoss() {
@@ -134,13 +214,24 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 		);
 	}
 
-	IEnumerator NoveCameraBackToOriginal() {
+	IEnumerator MoveCameraBackToOriginal(Vector3 position) {
 		yield return Go.To(
 			Camera.transform,
-			new Vector3(0, 0, -5),
+			position,
 			2f,
 			Easing.EaseOutSine01
 		);
+	}
+
+	// ---------------------------------------------------------------------------
+
+	void ReturnControlToPlayer() {
+		Engine.Mode = EngineMode.PlayerControl;
+	}
+
+	bool HasBeenHereBefore() {
+		return Engine.Profile.StoryPoints
+			.Has(Game.StoryPointId.SurveyedForestBoss);
 	}
 
 	// ---------------------------------------------------------------------------
