@@ -273,7 +273,7 @@ namespace Combat {
 				Easing.EaseOutSine01
 			);
 			yield return Wait.For(0.25f);
-			yield return Dialogue.Scene.Display(new string[1] { $"Come forth, {creature.Name}!" }, "Lethia");
+			yield return Dialogue.Scene.DisplayWithSpeaker("Lethia", $"Come forth, {creature.Name}!");
 
 			//
 			Vector3 playerEnd = PlayerCreatureContainer.anchoredPosition;
@@ -311,7 +311,7 @@ namespace Combat {
 			ShowExitCover();
 			yield return Do.For(0.25f, ratio => ExitCoverCanvasGroup.alpha = ratio);
 			yield return Wait.For(1f);
-			yield return Dialogue.Scene.Display(new string[1] { "I'll retreat for now." }, "Lethia");
+			yield return Dialogue.Scene.DisplayWithSpeaker("Lethia", "I'll retreat for now.");
 
 			//
 			Battle.OnDone?.Invoke(result);
@@ -772,9 +772,9 @@ namespace Combat {
 					$"She calls forth {newName}!"
 				);
 			} else {
-				yield return Dialogue.Scene.Display(
-					new string[1] { $"Come forth, {newName}!" },
-					"Lethia"
+				yield return Dialogue.Scene.DisplayWithSpeaker(
+					"Lethia",
+					$"Come forth, {newName}!"
 				);
 			}
 
@@ -1059,11 +1059,9 @@ namespace Combat {
 
 				// 
 				if (Engine.Profile.CreaturesAvailableToFight > 0) {
-					yield return Dialogue.Scene.Display(
-						new string[1] {
-							"Who should I choose next?"
-						},
-						"Lethia"
+					yield return Dialogue.Scene.DisplayWithSpeaker(
+						"Lethia",
+						"Who should I choose next?"
 					);
 
 					//
@@ -1080,12 +1078,10 @@ namespace Combat {
 						}
 					}
 				} else {
-					yield return Dialogue.Scene.Display(
-						new string[2] {
-							"All my creatures have been defeated.",
-							"I must return to the village."
-						},
-						"Lethia"
+					yield return Dialogue.Scene.DisplayWithSpeaker(
+						"Lethia",
+						"All my creatures have been defeated.",
+						"I must return to the village."
 					);
 
 					//
@@ -1115,9 +1111,9 @@ namespace Combat {
 					image.color = color;
 				});
 				yield return Wait.For(1f);
-				yield return Dialogue.Scene.Display(
-					new string[1] { Battle.SpiritWisdom.BattleEnd },
-					"Spirit"
+				yield return Dialogue.Scene.DisplayWithSpeaker(
+					"Spirit",
+					Battle.SpiritWisdom.BattleEnd
 				);
 				yield return Wait.For(0.1f);
 				yield return Do.For(0.25f, ratio => {

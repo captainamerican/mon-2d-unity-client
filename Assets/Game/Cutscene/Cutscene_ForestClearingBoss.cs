@@ -18,6 +18,8 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 	[SerializeField] GameObject SecondMark;
 	[SerializeField] GameObject ThirdMark;
 
+	[SerializeField] ForestClearing_ContinuePrompt ContinuePrompt;
+
 	// ---------------------------------------------------------------------------
 
 	override protected IEnumerator Script() {
@@ -25,24 +27,31 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 
 		//
 		bool hasASecondCreature = Engine.Profile.Party.Count > 1;
-		bool beenHereBefore = Engine.Profile.GamePoints.Contains(Game.GamePointId.SurveyedForestBoss);
 
 		//
-		//Engine.Profile.GamePoints.Add(Game.GamePointId.SurveyedForestBoss);
-
-		//
-		if (beenHereBefore) {
+		if (BeenHereBefore()) {
 			yield return hasASecondCreature
 				? ReadyToParty()
 				: BeenHereBeforeStillNoSecondCreature();
-			Exit();
-			yield break;
+		} else {
+			yield return HeardSomething();
+			yield return (hasASecondCreature)
+				? ReadyToParty()
+				: NotReadyToParty();
 		}
+	}
 
-		//
+	// ---------------------------------------------------------------------------
+
+	public void Skip(ReturnValue returnValue) {
+		returnValue.Skipped = Engine.Profile.GamePoints.Contains(Game.GamePointId.BeatenForestBoss);
+	}
+
+	// ---------------------------------------------------------------------------
+
+	IEnumerator HeardSomething() {
 		Player.Stop();
 		yield return Wait.For(1.5f);
-
 		Player.SetFacing(Game.PlayerDirection.Right);
 		yield return Go.To(
 			Player.transform,
@@ -57,70 +66,83 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 			2f,
 			Easing.EaseOutSine01
 		);
-
 		yield return Wait.For(1f);
+		yield return MoveCameraToShowBoss();
+		yield return Wait.For(3f);
+		yield return Dialogue.Scene.Display(
+			"Lethia",
+			"A mutated Monk Trap. Very rare specimen. I want the head...",
+			"Never heard of them interfering with teleporters before."
+		);
+		yield return NoveCameraBackToOriginal();
+	}
 
-		Vector3 cameraPosition = Camera.transform.position;
+	IEnumerator BeenHereBeforeStillNoSecondCreature() {
+		yield return Dialogue.Scene.Display(
+			"Lethia",
+			"Must not have been paying attention as I still don't have a second creature."
+		);
+		ReturnControlToPlayer();
+	}
+
+	IEnumerator ReadyToParty() {
+		Debug.LogWarning("TODO: Show the boss chewing on Emily.");
+		yield return Dialogue.Scene.Display(
+			"Lethia",
+			"I'm as ready as I'll ever be."
+		);
+
+		bool choseToFight = false;
+		yield return ContinuePrompt.Display(actionIndex => choseToFight = actionIndex > 0);
+
+		if (choseToFight) {
+			Debug.Log("Fight!");
+		} else {
+			Debug.Log("Never mind.");
+		}
+	}
+
+	IEnumerator NotReadyToParty() {
+		yield return Dialogue.Scene.Display(
+			"Lethia",
+			"In any case, I need than one creature to dispatch this mutant.",
+			"I can assemble one from the beasts of the forest."
+		);
+
+		//
+		Engine.Profile.GamePoints.Add(Game.GamePointId.SurveyedForestBoss);
+		ReturnControlToPlayer();
+	}
+
+	// ---------------------------------------------------------------------------
+
+	void ReturnControlToPlayer() {
+		Engine.Mode = EngineMode.PlayerControl;
+	}
+
+	bool BeenHereBefore() {
+		return Engine.Profile.GamePoints
+			.Contains(Game.GamePointId.SurveyedForestBoss);
+	}
+
+	IEnumerator MoveCameraToShowBoss() {
 		yield return Go.To(
 			Camera.transform,
 			ThirdMark.transform.position,
 			2f,
 			Easing.EaseOutSine01
 		);
-		yield return Wait.For(3f);
-		yield return Dialogue.Scene.Display(
-			new string[2] {
-				"A mutated Monk Trap. A very large specimen.",
-				"I never heard of them interfering with the teleporters before."
-			},
-			"Lethia"
-		);
+	}
+
+	IEnumerator NoveCameraBackToOriginal() {
 		yield return Go.To(
 			Camera.transform,
-			cameraPosition,
+			new Vector3(0, 0, -5),
 			2f,
 			Easing.EaseOutSine01
 		);
-
-		//
-		if (hasASecondCreature) {
-			yield return ReadyToParty();
-		} else {
-
-			yield return Dialogue.Scene.Display(
-				new string[2] {
-					"In any case, I'm going to need more than one creature to dispatch this mutant.",
-					"I can assemble one from the creatures of the forest."
-				},
-				"Lethia"
-			);
-		}
-
-		//
-		Exit();
-	}
-
-	void Exit() {
-		Engine.Mode = EngineMode.PlayerControl;
 	}
 
 	// ---------------------------------------------------------------------------
 
-	public void Skip(ReturnValue returnValue) {
-		returnValue.Skipped = Engine.Profile.GamePoints.Contains(Game.GamePointId.BeatenForestBoss);
-	}
-
-	// ---------------------------------------------------------------------------
-
-	IEnumerator BeenHereBeforeStillNoSecondCreature() {
-
-		yield break;
-	}
-
-	IEnumerator ReadyToParty() {
-
-		yield break;
-	}
-
-	// ---------------------------------------------------------------------------
 }

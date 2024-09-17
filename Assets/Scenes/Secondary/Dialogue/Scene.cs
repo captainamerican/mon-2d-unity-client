@@ -34,10 +34,13 @@ namespace Dialogue {
 		}
 
 		static public IEnumerator Display(params string[] pages) {
-			return Display(pages, null);
+			Debug.Assert(Self != null, "Dialogue scene wasn't loaded!");
+
+			//
+			return Self.DisplayText(pages);
 		}
 
-		static public IEnumerator Display(string[] pages, string speaker) {
+		static public IEnumerator DisplayWithSpeaker(string speaker, params string[] pages) {
 			Debug.Assert(Self != null, "Dialogue scene wasn't loaded!");
 
 			//

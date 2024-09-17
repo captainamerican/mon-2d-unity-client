@@ -84,7 +84,7 @@ public class TeleporterAction : MonoBehaviour {
 	}
 
 	public IEnumerator CantUseYet() {
-		yield return Dialogue.Scene.Display(new string[1] { DialogueIfNotWorking }, "Lethia");
+		yield return Dialogue.Scene.DisplayWithSpeaker("Lethia", DialogueIfNotWorking);
 		Engine.Mode = EngineMode.PlayerControl;
 	}
 

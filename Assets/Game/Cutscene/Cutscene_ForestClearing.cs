@@ -36,16 +36,15 @@ public class Cutscene_ForestClearing : Cutscene {
 			1.5f,
 			Easing.EaseOutSine01
 		);
-		yield return Dialogue.Scene.Display(
-			new string[3] {
-				"It seems these old contraptions have reached their end.",
-				"Mother said they were powered by more than the sacrifices of our kind.",
-				"She was a bit literal, if flowery. So I wonder..."
-			},
-			"Lethia"
+		yield return Dialogue.Scene.DisplayWithSpeaker(
+			"Lethia",
+			"It seems these old contraptions have reached their end.",
+			"Mother said they were powered by more than the sacrifices of our kind.",
+			"She was a bit literal, if flowery. So I wonder..."
 		);
 		yield return Wait.For(1.5f);
-		yield return Dialogue.Scene.Display(
+		yield return Dialogue.Scene.DisplayWithSpeaker(
+			"Lethia",
 			collectedEnoughSpiritEnergy
 				? new string[2] {
 					"I've collected enough energy to repower this device.",
@@ -55,8 +54,7 @@ public class Cutscene_ForestClearing : Cutscene {
 					"3 Spirits should do it.",
 					"I haven't collected any spirits yet.",
 					"I'll return later."
-				},
-			"Lethia"
+				}
 		);
 
 		//
@@ -82,11 +80,9 @@ public class Cutscene_ForestClearing : Cutscene {
 			1f,
 			Easing.EaseInOutSine01
 		);
-		yield return Dialogue.Scene.Display(
-			new string[1] {
-				"I might vomit."
-			},
-			"Lethia"
+		yield return Dialogue.Scene.DisplayWithSpeaker(
+			"Lethia",
+			"I might vomit."
 		);
 
 		//

@@ -99,9 +99,9 @@ public class SpiritTrigger : MonoBehaviour {
 		yield return Do.ForReal(duration, ratio => {
 			SpiritTransform.position = Vector3.Lerp(a, b, ratio);
 		});
-		yield return Dialogue.Scene.Display(
-			new string[1] { SpiritWisdom.BattleStart },
-			"Spirit"
+		yield return Dialogue.Scene.DisplayWithSpeaker(
+			"Spirit",
+			SpiritWisdom.BattleStart
 		);
 		yield return Combat.Scene.Load(new() {
 			Creature = Creature,
