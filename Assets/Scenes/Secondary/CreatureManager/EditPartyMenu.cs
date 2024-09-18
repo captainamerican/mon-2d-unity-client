@@ -29,7 +29,7 @@ namespace CreatureManager {
 		[SerializeField] GameObject Party;
 		[SerializeField] List<Button> PartyButtons;
 		[SerializeField] List<InformationButton> PartyInformationButtons;
-		[SerializeField] List<CreatureButton> PartyCreatureButtons;
+		[SerializeField] List<CreatureNoHealthButton> PartyCreatureButtons;
 
 		[Header("Available")]
 		[SerializeField] GameObject AvailableCreatures;
@@ -37,7 +37,7 @@ namespace CreatureManager {
 		[SerializeField] ScrollView AvailableCreaturesScrollView;
 		[SerializeField] Button RemoveButton;
 		[SerializeField] InformationButton RemoveInformationButton;
-		[SerializeField] CreatureButton RemoveCreatureButton;
+		[SerializeField] CreatureNoHealthButton RemoveCreatureButton;
 
 
 
@@ -128,7 +128,7 @@ namespace CreatureManager {
 				Game.Creature creature = Engine.Profile.GetPartyCreature(index);
 
 				// 
-				CreatureButton creatureButton = PartyCreatureButtons[index];
+				var creatureButton = PartyCreatureButtons[index];
 				creatureButton.Configure(creature);
 
 				PartyInformationButtons[index]
@@ -158,7 +158,7 @@ namespace CreatureManager {
 					GameObject availableButtonGO = Instantiate(AvailableCreatureTemplate, AvailableCreatures.transform);
 					availableButtonGO.SetActive(true);
 
-					CreatureButton creatureButton = availableButtonGO.GetComponent<CreatureButton>();
+					var creatureButton = availableButtonGO.GetComponent<CreatureNoHealthButton>();
 					creatureButton.Configure(creature);
 
 					//
