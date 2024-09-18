@@ -483,7 +483,7 @@ namespace Combat {
 						break;
 				}
 
-				//
+				// 
 				ExecuteAction(action);
 			} else {
 				SelectTarget(action, SelectMove);

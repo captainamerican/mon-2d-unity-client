@@ -15,6 +15,9 @@ namespace Game {
 		public string Id = Game.Id.Generate();
 		public string Name = "";
 
+		[Range(1, 99)]
+		public float Adjust;
+
 		[Header("Live Stats")]
 		[SerializeField] int CurrentHealth;
 		public List<CombatantStatus> Statuses = new();
@@ -145,7 +148,7 @@ namespace Game {
 
 		public int HealthTotal {
 			get {
-				return 99;
+				return Mathf.RoundToInt(35f + (5f * Adjust));
 			}
 		}
 

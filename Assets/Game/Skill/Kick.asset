@@ -25,7 +25,7 @@ MonoBehaviour:
     Status: 0
     Duration: 0
     Strength: -15
-    Variance: 0.33
+    Variance: 0.39
   FX:
   - Target: 1
     Delay: 0
