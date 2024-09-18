@@ -22,6 +22,7 @@ namespace CreatureManager {
 		[Header("Menus")]
 		[SerializeField] CreaturesMenu CreaturesMenu;
 		[SerializeField] EditInitialMenu EditInitialMenu;
+		[SerializeField] EditPartyMenu EditPartyMenu;
 
 		// -------------------------------------------------------------------------
 
@@ -56,6 +57,10 @@ namespace CreatureManager {
 
 		public void Configure(Action onBack) {
 			this.onBack = onBack;
+
+			CreaturesMenu.gameObject.SetActive(false);
+			EditInitialMenu.gameObject.SetActive(false);
+			EditPartyMenu.gameObject.SetActive(false);
 		}
 
 		public void GoToCreaturesMenu() {
@@ -79,6 +84,13 @@ namespace CreatureManager {
 				AvailableAppendage = new(Engine.Profile.BodyPartStorage.Appendage)
 			});
 			EditInitialMenu.gameObject.SetActive(true);
+
+			//
+			gameObject.SetActive(false);
+		}
+
+		public void GoToEditPartyMenu() {
+			EditPartyMenu.gameObject.SetActive(true);
 
 			//
 			gameObject.SetActive(false);

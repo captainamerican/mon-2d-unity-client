@@ -33,6 +33,13 @@ public class CreatureButton : MonoBehaviour {
 	public void Configure(Game.Creature creature) {
 		this.creature = creature;
 
+		if (this.creature == null) {
+			Name.text = "(Creature)";
+			Name.color = new Color(0, 0, 0, 0.5f);
+			Button.interactable = true;
+			return;
+		}
+
 		//
 		Name.text = creature.Name;
 
@@ -49,21 +56,21 @@ public class CreatureButton : MonoBehaviour {
 	}
 
 	public void Display() {
-		Head.Configure(creature.Head);
-		Torso.Configure(creature.Torso);
+		Head.Configure(creature?.Head);
+		Torso.Configure(creature?.Torso);
 
-		Tail.gameObject.SetActive(!creature.MissingTail);
-		Tail.Configure(creature.Tail);
+		Tail.gameObject.SetActive(!(creature?.MissingTail ?? false));
+		Tail.Configure(creature?.Tail);
 
 		Do.ForEach(Appendages, (button, index) => {
-			var bodyPart = creature.GetAppendage(index);
+			var bodyPart = creature?.GetAppendage(index);
 
 			button.gameObject.SetActive(bodyPart != null);
 			button.Configure(bodyPart);
 		});
 
 		Do.ForEach(Skills, (button, index) => {
-			var skill = creature.GetSkill(index);
+			var skill = creature?.GetSkill(index);
 			if (Skill.Missing(skill)) {
 				button.gameObject.SetActive(false);
 				return;

@@ -15,56 +15,19 @@ MonoBehaviour:
   Profile:
     FileIndex: 0
     IsAutoSave: 1
-    PlaytimeAsSeconds: 4728.2905
+    PlaytimeAsSeconds: 8478.788
     SceneName: Forest 05 Spirit Gate
     MapId: 25
-    CurrentLocation: {x: 13.071176, y: -9.705028, z: 0}
+    CurrentLocation: {x: 19.51, y: -23.76, z: 0}
     Level: 1
-    Experience: 6
+    Experience: 12
     ExperienceForNextLevel: 20
-    Magic: 28
+    Magic: 27
     Wisdom: 5
     Hunger: 1
     Party:
     - 14ebMEyGjMOYwWyB
-    - 24ebMEyGjMOYwWyB
     Creatures:
-    - Id: 14ebMEyGjMOYwWyB
-      Name: Wolfie
-      CurrentHealth: 99
-      Head:
-        Id: HEl7tEuKZ7Z71KEK
-        BodyPartId: 1001
-        Experience: 0
-        Quality: 1
-      Torso:
-        Id: 0qoQhp4h1SvHwA5n
-        BodyPartId: 1002
-        Experience: 0
-        Quality: 1
-      Tail:
-        Id: IIotVpWJMe5eR3bY
-        BodyPartId: 1003
-        Experience: 0
-        Quality: 1
-      Appendages:
-      - Id: qA5jRY741Tl9KE5p
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 1
-      - Id: JtsPjVuFR1n6SYnC
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 1
-      - Id: fOdnDfjjUlyJ7oLM
-        BodyPartId: 1005
-        Experience: 0
-        Quality: 1
-      - Id: i8B0v6wxXedjmPfs
-        BodyPartId: 1005
-        Experience: 0
-        Quality: 1
-      Skills: e8030000
     - Id: 24ebMEyGjMOYwWyB
       Name: Wolfie 2
       CurrentHealth: 99
@@ -101,9 +64,81 @@ MonoBehaviour:
         Experience: 0
         Quality: 1
       Skills: e8030000
+    - Id: 14ebMEyGjMOYwWyB
+      Name: Wolfie
+      CurrentHealth: 99
+      Head:
+        Id: HEl7tEuKZ7Z71KEK
+        BodyPartId: 1001
+        Experience: 0
+        Quality: 1
+      Torso:
+        Id: 0qoQhp4h1SvHwA5n
+        BodyPartId: 1002
+        Experience: 0
+        Quality: 1
+      Tail:
+        Id: IIotVpWJMe5eR3bY
+        BodyPartId: 1003
+        Experience: 0
+        Quality: 1
+      Appendages:
+      - Id: qA5jRY741Tl9KE5p
+        BodyPartId: 1004
+        Experience: 0
+        Quality: 1
+      - Id: JtsPjVuFR1n6SYnC
+        BodyPartId: 1004
+        Experience: 0
+        Quality: 1
+      - Id: fOdnDfjjUlyJ7oLM
+        BodyPartId: 1005
+        Experience: 0
+        Quality: 1
+      - Id: i8B0v6wxXedjmPfs
+        BodyPartId: 1005
+        Experience: 0
+        Quality: 1
+      Skills: e8030000
+    - Id: GjMOYwWyB14ebMEy
+      Name: Wolfie 3
+      CurrentHealth: 99
+      Head:
+        Id: HEl7tEuKZ7Z71KEK
+        BodyPartId: 1001
+        Experience: 0
+        Quality: 1
+      Torso:
+        Id: 0qoQhp4h1SvHwA5n
+        BodyPartId: 1002
+        Experience: 0
+        Quality: 1
+      Tail:
+        Id: IIotVpWJMe5eR3bY
+        BodyPartId: 1003
+        Experience: 0
+        Quality: 1
+      Appendages:
+      - Id: qA5jRY741Tl9KE5p
+        BodyPartId: 1004
+        Experience: 0
+        Quality: 1
+      - Id: JtsPjVuFR1n6SYnC
+        BodyPartId: 1004
+        Experience: 0
+        Quality: 1
+      - Id: fOdnDfjjUlyJ7oLM
+        BodyPartId: 1005
+        Experience: 0
+        Quality: 1
+      - Id: i8B0v6wxXedjmPfs
+        BodyPartId: 1005
+        Experience: 0
+        Quality: 1
+      Skills: e8030000
     Skills:
     - SkillId: 1000
-      Experience: 1
+      Experience: 2
     Options:
       DialogueSpeed: 0.25
       MusicVolume: 0.66
@@ -118,9 +153,11 @@ MonoBehaviour:
       - ItemId: 1000
         Amount: 5
       - ItemId: 3004
-        Amount: 10
+        Amount: 519
       - ItemId: 5008
         Amount: 1
+      - ItemId: 3006
+        Amount: 10
     BodyPartStorage:
       Head: []
       Torso: []
@@ -153,14 +190,14 @@ MonoBehaviour:
     Acquired:
       BodyPart: e9030000ea030000eb030000ec030000ed030000
       Skill: e8030000
-      Item: fc030000e8030000bc0b000090130000
+      Item: fc030000e8030000bc0b000090130000be0b0000
       SpiritWisdom: e8030000ea030000eb030000
       Tag: 
       Lore: e8030000
       TreasureChest: 
       TeleportLocation: 0a000000
     Seen:
-      BodyPart: e9030000ea030000eb030000ec030000ed030000
+      BodyPart: e9030000ea030000eb030000ec030000ed030000f2030000f3030000f4030000f5030000
       Skill: e8030000
       Item: fc030000e8030000
       SpiritWisdom: ec030000
@@ -177,5 +214,7 @@ MonoBehaviour:
       - Id: 10005
         Value: 5
       - Id: 10006
+        Value: 1
+      - Id: 10004
         Value: 1
   GameData: {fileID: 11400000, guid: b06976c351aca400d8d2513f87736adf, type: 2}

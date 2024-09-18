@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 using UnityEngine;
+using Unity.Mathematics;
 
 // -----------------------------------------------------------------------------
 
@@ -94,6 +95,31 @@ namespace Game {
 
 		public void AdjustMagic(int adjustment) {
 			Magic = Mathf.RoundToInt(Mathf.Clamp(Magic + adjustment, 0, MagicTotal));
+		}
+
+		public void SetPartyMember(int index, string id) {
+			if (Party.Contains(id))
+				return;
+			if (index < 0 || index > 5)
+				return;
+
+			if (index >= Party.Count) {
+				Party.Add(id);
+				return;
+			}
+
+			//
+			Party[index] = id;
+		}
+
+		public void RemovePartyMember(int index) {
+			if (index < 0 || index >= Party.Count)
+				return;
+			if (Party.Count <= 1)
+				return;
+
+			//
+			Party.RemoveAt(index);
 		}
 
 		// -------------------------------------------------------------------------

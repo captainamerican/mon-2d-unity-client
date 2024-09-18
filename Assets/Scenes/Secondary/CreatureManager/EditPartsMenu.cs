@@ -51,7 +51,7 @@ namespace CreatureManager {
 
 		Game.PartOfBody currentPartOfBody = Game.PartOfBody.None;
 
-		const int totalVisibleButtons = 8;
+		const int totalVisibleButtons = 9;
 		int visibleButtonRangeMin = 0;
 		int visibleButtonRangeMax = totalVisibleButtons;
 
@@ -95,7 +95,6 @@ namespace CreatureManager {
 					break;
 			}
 		}
-
 
 		// -------------------------------------------------------------------------
 
