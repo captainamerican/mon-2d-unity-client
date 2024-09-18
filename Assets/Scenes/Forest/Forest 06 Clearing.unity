@@ -12456,7 +12456,7 @@ MonoBehaviour:
         BodyPartId: 1013
         Experience: 0
         Quality: 1
-      Skills: 
+      Skills: 0604000010040000
     SpiritWisdom: {fileID: 0}
     PossibleLoot:
     - Item: {fileID: 0}
@@ -27305,7 +27305,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1277187793}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 386423451}
@@ -27333,7 +27333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bae5047f81ee4b0992cf925548c986b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Canvas: {fileID: 1277187796}
+  Dialog: {fileID: 1464025815}
   CancelButton: {fileID: 386912824}
 --- !u!224 &1277187798
 RectTransform:
@@ -28564,7 +28564,7 @@ Transform:
   m_GameObject: {fileID: 2121539382}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: 1.4, z: 0}
+  m_LocalPosition: {x: 6, y: 1.98, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

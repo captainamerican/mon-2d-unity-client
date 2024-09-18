@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// -----------------------------------------------------------------------------
+
 public class Player : MonoBehaviour {
+
+	// ---------------------------------------------------------------------------
+
 	[SerializeField] Engine Engine;
 	[SerializeField] float MovementSpeed = 5f;
 	[SerializeField] Rigidbody2D rb;
 	[SerializeField] Animator animator;
 	[SerializeField] PlayerInput PlayerInput;
+
+	// ---------------------------------------------------------------------------
 
 	Vector2 movement;
 	Game.PlayerDirection direction = Game.PlayerDirection.None;
@@ -34,6 +41,8 @@ public class Player : MonoBehaviour {
 			"Right"
 		}
 	};
+
+	// ---------------------------------------------------------------------------
 
 	private void Start() {
 		Engine.ModeChanged += ModeChanged;
@@ -118,4 +127,7 @@ public class Player : MonoBehaviour {
 		nextDirection = newDirection;
 		animator.Play(DirectionMap[newDirection]);
 	}
+
+	// ---------------------------------------------------------------------------
+
 }

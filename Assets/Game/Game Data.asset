@@ -52,15 +52,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fb273829a68ccc246982d6cdcc6fb720, type: 2}
   - {fileID: 11400000, guid: 687de3a5bc00d477ba600c06fc23ffa8, type: 2}
   BodyParts:
-  - {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
   - {fileID: 11400000, guid: 6e120a3a2142e664eadb3e87baa4c9a9, type: 2}
-  - {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
-  - {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
   - {fileID: 11400000, guid: 67bc9622b0d0844c69eff5def65c7600, type: 2}
-  - {fileID: 11400000, guid: 576f847e998bf497981d8021d85cbbb8, type: 2}
+  - {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
+  - {fileID: 11400000, guid: 605f48c40f9505e48a9ead4157808ed1, type: 2}
+  - {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
   - {fileID: 11400000, guid: 987745a18ee1c48519485f183c21684d, type: 2}
-  - {fileID: 11400000, guid: 048578cafaffa43f7b836b49aaff8031, type: 2}
   - {fileID: 11400000, guid: 5a8cf56780fba494d9ec0a5fb0763bc5, type: 2}
+  - {fileID: 11400000, guid: 048578cafaffa43f7b836b49aaff8031, type: 2}
+  - {fileID: 11400000, guid: 576f847e998bf497981d8021d85cbbb8, type: 2}
   Skills:
   - {fileID: 11400000, guid: 4092e0aa4412c4ad0bf3958b9333a655, type: 2}
   - {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}

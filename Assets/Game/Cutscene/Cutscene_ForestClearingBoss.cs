@@ -170,8 +170,13 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 	}
 
 	void PostBattle(Combat.BattleResult _) {
+		StartCoroutine(AfterBattle());
+	}
+
+	IEnumerator AfterBattle() {
 		Engine.Mode = EngineMode.Cutscene;
 		Engine.Profile.StoryPoints.Add(Game.StoryPointId.BeatenForestBoss);
+		yield return Combat.Scene.Unload();
 
 		Debug.LogWarning("TODO: Post-battle scene");
 

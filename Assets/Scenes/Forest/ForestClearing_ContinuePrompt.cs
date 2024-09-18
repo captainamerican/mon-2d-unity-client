@@ -10,7 +10,7 @@ public class ForestClearing_ContinuePrompt : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
-	[SerializeField] Canvas Canvas;
+	[SerializeField] GameObject Dialog;
 	[SerializeField] Button CancelButton;
 
 	// ---------------------------------------------------------------------------
@@ -21,7 +21,7 @@ public class ForestClearing_ContinuePrompt : MonoBehaviour {
 	// ---------------------------------------------------------------------------
 
 	void Start() {
-		Canvas.enabled = false;
+		Dialog.SetActive(false);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -31,10 +31,10 @@ public class ForestClearing_ContinuePrompt : MonoBehaviour {
 		actionIndex = 0;
 
 		//
-		Canvas.enabled = true;
+		Dialog.SetActive(true);
 		Game.Focus.This(CancelButton);
 		yield return Wait.Until(() => actionSelected);
-		Canvas.enabled = false;
+		Dialog.SetActive(false);
 		onDone(actionIndex);
 	}
 
