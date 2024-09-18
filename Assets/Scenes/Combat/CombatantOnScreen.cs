@@ -52,13 +52,27 @@ namespace Combat {
 
 			//
 			Head.gameObject.SetActive(!creature.MissingHead);
+			if (!creature.MissingHead)
+				Head.text = creature.Head.BodyPart.Name;
+
 			Torso.gameObject.SetActive(!creature.MissingTorso);
+			if (!creature.MissingTorso)
+				Torso.text = creature.Torso.BodyPart.Name;
+
 			Tail.gameObject.SetActive(!creature.MissingTail);
+			if (!creature.MissingTail)
+				Tail.text = creature.Tail.BodyPart.Name;
+
 			Do.Times(
 				Appendages.Count,
-				index => Appendages[index].gameObject.SetActive(
-					!creature.MissingAppendage(index)
-				)
+				index => {
+					bool missing = creature.MissingAppendage(index);
+					Appendages[index].gameObject.SetActive(!missing);
+
+					if (!missing) {
+						Appendages[index].text = creature.GetAppendage(index).BodyPart.Name;
+					}
+				}
 			);
 		}
 

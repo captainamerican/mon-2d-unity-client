@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21752b5b22dda476f96222be4c2a446a, type: 3}
-  m_Name: Mushroom Pieces
+  m_Name: Honey
   m_EditorClassIdentifier: 
-  Id: 3002
+  Id: 3006
   Type: 30
-  Name: Mushroom Pieces
+  Name: Honey
   Description: Used in crafting.
-  FlavorText: Fungal growths. Edible.
-  SortName: mushroom-pieces
+  FlavorText: Do only bees make honey?
+  SortName: honey
   Recipe: []
   Targets: 
   Effects: []

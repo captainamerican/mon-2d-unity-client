@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 3005
   Type: 30
-  UseInBattle: 0
   Name: Water
-  Description: Used in crafting potions.
+  Description: Used in crafting.
   FlavorText: A vial of pure water.
   SortName: water
   Recipe: []

@@ -41,6 +41,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
   - {fileID: 11400000, guid: ddcc1527333d34b829687e19bdd3c16d, type: 2}
   - {fileID: 11400000, guid: c750d805822613a4b8414526f8ed7001, type: 2}
+  - {fileID: 11400000, guid: 6b33b4678f2234d3090c85aab9cc2a5d, type: 2}
   - {fileID: 11400000, guid: ddadc47a61c029f488c69f352d8e19be, type: 2}
   - {fileID: 11400000, guid: 5026663fea7ba864b84de5a1c8705e46, type: 2}
   - {fileID: 11400000, guid: cbc078ce3c8bd48f291a46f4921c6ad4, type: 2}
@@ -56,10 +57,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ae4176861e50e47db84d50edbfd4b9e1, type: 2}
   - {fileID: 11400000, guid: 13a58b012745546019caf39d6799d66a, type: 2}
   - {fileID: 11400000, guid: 67bc9622b0d0844c69eff5def65c7600, type: 2}
+  - {fileID: 11400000, guid: 576f847e998bf497981d8021d85cbbb8, type: 2}
+  - {fileID: 11400000, guid: 987745a18ee1c48519485f183c21684d, type: 2}
+  - {fileID: 11400000, guid: 048578cafaffa43f7b836b49aaff8031, type: 2}
+  - {fileID: 11400000, guid: 5a8cf56780fba494d9ec0a5fb0763bc5, type: 2}
   Skills:
   - {fileID: 11400000, guid: 4092e0aa4412c4ad0bf3958b9333a655, type: 2}
   - {fileID: 11400000, guid: 1216d0603e44e40cba5f8323cb8a1a74, type: 2}
   - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}
+  - {fileID: 11400000, guid: 5fed452a58ae14770b8481be2bdf8f58, type: 2}
+  - {fileID: 11400000, guid: 86b2b6987241b4fa08ca85d62bfc232b, type: 2}
   SpiritWisdom:
   - {fileID: 11400000, guid: 70753f32d42dc4ff983d6d1fd95508da, type: 2}
   Tags:

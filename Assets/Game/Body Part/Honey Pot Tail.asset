@@ -9,16 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21752b5b22dda476f96222be4c2a446a, type: 3}
-  m_Name: Soul Dust
+  m_Script: {fileID: 11500000, guid: 11c2e4f14f7d3442e91b50477b4622c0, type: 3}
+  m_Name: Honey Pot Tail
   m_EditorClassIdentifier: 
-  Id: 3004
-  Type: 30
-  Name: Soul Dust
-  Description: Used in crafting.
-  FlavorText: Smells like copper and lemon.
-  SortName: soul-dust
-  Recipe: []
-  Targets: 
-  Effects: []
-  FX: []
+  Id: 1012
+  Name: Honey Pot Tail
+  ExperienceToLevel: 500
+  Strength: 1
+  Endurance: 1
+  Dexterity: 1
+  Intelligence: 1
+  Wisdom: 1
+  Luck: 1
+  Obtainable: 1
+  Tags: 

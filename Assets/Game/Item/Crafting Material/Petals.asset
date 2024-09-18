@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 3003
   Type: 30
-  UseInBattle: 0
   Name: Petals
-  Description: Used in crafting potions.
+  Description: Used in crafting.
   FlavorText: Slightly withered remains of a pretty flower.
   SortName: petals
   Recipe: []

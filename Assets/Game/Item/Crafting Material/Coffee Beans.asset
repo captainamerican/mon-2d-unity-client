@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 3000
   Type: 30
-  UseInBattle: 0
   Name: Coffee Beans
-  Description: Used in crafting potions.
+  Description: Used in crafting.
   FlavorText: How can burning something to death keep you awake?
   SortName: coffee-beans
   Recipe: []

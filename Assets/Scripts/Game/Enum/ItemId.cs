@@ -44,6 +44,7 @@
 		Petals = 3003,
 		SoulDust = 3004,
 		Water = 3005,
+		Honey = 3006,
 
 		// 4xxx Training Items
 		ExperiencePillF = 4000,

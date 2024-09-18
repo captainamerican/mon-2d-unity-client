@@ -18,6 +18,7 @@ public class BodyPartBase : ScriptableObject {
 	public int Intelligence = 0;
 	public int Wisdom = 0;
 	public int Luck = 0;
+	public bool Obtainable = true;
 
 	public List<Game.EssenceTagId> Tags = new();
 

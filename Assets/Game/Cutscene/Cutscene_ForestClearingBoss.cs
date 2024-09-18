@@ -24,6 +24,14 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 
 	[SerializeField] ForestClearing_ContinuePrompt ContinuePrompt;
 
+	[SerializeField] Combat.Battle Battle;
+
+	// ---------------------------------------------------------------------------
+
+	public void Skip(ReturnValue returnValue) {
+		returnValue.Skipped = Engine.Profile.StoryPoints.Has(Game.StoryPointId.BeatenForestBoss);
+	}
+
 	// ---------------------------------------------------------------------------
 
 	override protected IEnumerator Script() {
@@ -43,12 +51,6 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 				? ReadyToParty()
 				: NotReadyToParty();
 		}
-	}
-
-	// ---------------------------------------------------------------------------
-
-	public void Skip(ReturnValue returnValue) {
-		returnValue.Skipped = Engine.Profile.StoryPoints.Has(Game.StoryPointId.BeatenForestBoss);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -163,7 +165,16 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 		);
 
 		//
-		Debug.Log("Fight!");
+		Battle.OnDone = PostBattle;
+		yield return Combat.Scene.Load(Battle);
+	}
+
+	void PostBattle(Combat.BattleResult _) {
+		Engine.Mode = EngineMode.Cutscene;
+		Engine.Profile.StoryPoints.Add(Game.StoryPointId.BeatenForestBoss);
+
+		Debug.LogWarning("TODO: Post-battle scene");
+
 		ReturnControlToPlayer();
 	}
 

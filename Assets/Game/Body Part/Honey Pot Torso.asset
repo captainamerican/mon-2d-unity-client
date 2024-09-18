@@ -9,16 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21752b5b22dda476f96222be4c2a446a, type: 3}
-  m_Name: Soul Dust
+  m_Script: {fileID: 11500000, guid: 253b874f4059c417a9d82bb2bffe7b3d, type: 3}
+  m_Name: Honey Pot Torso
   m_EditorClassIdentifier: 
-  Id: 3004
-  Type: 30
-  Name: Soul Dust
-  Description: Used in crafting.
-  FlavorText: Smells like copper and lemon.
-  SortName: soul-dust
-  Recipe: []
-  Targets: 
-  Effects: []
-  FX: []
+  Id: 1011
+  Name: Honey Pot Torso
+  ExperienceToLevel: 500
+  Strength: 1
+  Endurance: 1
+  Dexterity: 1
+  Intelligence: 1
+  Wisdom: 1
+  Luck: 1
+  Obtainable: 0
+  Tags: 
+  TypeOfAppendages: 80

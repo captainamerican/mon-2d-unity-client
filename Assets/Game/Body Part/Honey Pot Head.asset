@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dcbd8494343b45549c0a411f4d6dd06, type: 3}
+  m_Name: Honey Pot Head
+  m_EditorClassIdentifier: 
+  Id: 1010
+  Name: Honey Pot Head
+  ExperienceToLevel: 500
+  Strength: 1
+  Endurance: 1
+  Dexterity: 1
+  Intelligence: 1
+  Wisdom: 1
+  Luck: 1
+  Obtainable: 1
+  Tags: 
+  InnateSkills:
+  - {fileID: 11400000, guid: 86b2b6987241b4fa08ca85d62bfc232b, type: 2}
+  - {fileID: 11400000, guid: 5fed452a58ae14770b8481be2bdf8f58, type: 2}

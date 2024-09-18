@@ -12,6 +12,7 @@ namespace Game {
 		Frozen = 70,
 		Constricted = 80,
 		MoveDisabled = 90,
+		Sensitive = 100,
 
 		StrengthBuff = 1000,
 		StrengthDebuff = 1005,

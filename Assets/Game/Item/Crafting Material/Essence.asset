@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 3001
   Type: 30
-  UseInBattle: 0
   Name: Essence
-  Description: Used in crafting potions.
+  Description: Used in crafting.
   FlavorText: The soul made manifest.
   SortName: essence
   Recipe: []
