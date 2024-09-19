@@ -125,7 +125,11 @@ public class Player : MonoBehaviour {
 	public void SetFacing(Game.PlayerDirection newDirection) {
 		direction = newDirection;
 		nextDirection = newDirection;
-		animator.Play(DirectionMap[newDirection]);
+
+		//
+		if (newDirection != Game.PlayerDirection.None) {
+			animator.Play(DirectionMap[newDirection]);
+		}
 	}
 
 	// ---------------------------------------------------------------------------
