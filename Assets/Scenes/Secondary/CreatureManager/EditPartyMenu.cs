@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using TMPro;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -120,6 +122,7 @@ namespace CreatureManager {
 
 		void ConfigureRemoveButton() {
 			RemoveCreatureButton.Configure(null);
+			RemoveCreatureButton.GetComponentInChildren<TextMeshProUGUI>().text = "(Remove Creature)";
 			RemoveInformationButton.Configure(RemoveCreatureButton.Display);
 		}
 
