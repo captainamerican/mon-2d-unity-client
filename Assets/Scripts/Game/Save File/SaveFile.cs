@@ -16,7 +16,7 @@ namespace Game {
 		[Header("File")]
 		public int FileIndex = -1;
 		public bool IsAutoSave = false;
-		public DateTime SavedAt;
+		public long SavedAt;
 		public float PlaytimeAsSeconds;
 
 		[Header("Location")]

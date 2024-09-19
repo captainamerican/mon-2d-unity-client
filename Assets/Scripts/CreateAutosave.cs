@@ -58,9 +58,9 @@ public class CreateAutosave : MonoBehaviour {
 	void CreateTheAutosave() {
 		Engine.Profile.FileIndex = 0;
 		Engine.Profile.IsAutoSave = true;
-		Engine.Profile.SavedAt = DateTime.Now;
+		Engine.Profile.SavedAt = DateTime.Now.Ticks;
 
-		string path = $"{Application.persistentDataPath}/save_00.lethia1";
+		string path = $"{Application.persistentDataPath}/autosave.lethia1";
 		string json = JsonUtility.ToJson(Engine.Profile);
 		File.WriteAllText(path, json);
 

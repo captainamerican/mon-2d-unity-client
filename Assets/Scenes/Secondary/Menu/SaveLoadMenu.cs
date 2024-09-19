@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using NanoidDotNet;
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -136,8 +138,8 @@ namespace Menu {
 
 			//
 			ClearList();
-			GenerateSaveFileList(false);
 			AddCreateNewIfPossible();
+			GenerateSaveFileList();
 			UpdateFileButtonNavigation(SaveFile);
 			ShowFileList();
 		}
@@ -148,7 +150,8 @@ namespace Menu {
 
 			//
 			ClearList();
-			GenerateSaveFileList(true);
+			AddAutosaveIfAvailable();
+			GenerateSaveFileList();
 			UpdateFileButtonNavigation(LoadFile);
 			ShowFileList();
 		}
@@ -156,17 +159,22 @@ namespace Menu {
 		void AddCreateNewIfPossible() {
 			if (saveFiles.Count < 100) {
 				CreateNew.gameObject.SetActive(true);
-				fileButtons.Insert(0, CreateNew);
+				fileButtons.Add(CreateNew);
 			}
 		}
 
-		void GenerateSaveFileList(bool includeAutosave) {
-			saveFiles.ForEach(saveFile => {
-				if (saveFile.IsAutoSave && saveFile == saveFiles[0]) {
-					return;
-				}
+		void AddAutosaveIfAvailable() {
+			AutosaveFile.gameObject.SetActive(autosave != null);
+			if (autosave != null) {
+				AutosaveFile.Configure(autosave);
 
 				//
+				fileButtons.Add(AutosaveButton);
+			}
+		}
+
+		void GenerateSaveFileList() {
+			saveFiles.ForEach(saveFile => {
 				GameObject saveFileGO = Instantiate(SaveFileTemplate, SaveFileTemplate.transform.parent);
 				saveFileGO.SetActive(true);
 
@@ -176,16 +184,6 @@ namespace Menu {
 				//
 				fileButtons.Add(saveFileButton.GetComponent<Button>());
 			});
-
-			//
-			AutosaveFile.gameObject.SetActive(false);
-			if (includeAutosave && autosave != null) {
-				AutosaveFile.gameObject.SetActive(true);
-				AutosaveFile.Configure(autosave);
-
-				//
-				fileButtons.Insert(0, AutosaveButton);
-			}
 		}
 
 		void ShowFileList() {
@@ -229,20 +227,24 @@ namespace Menu {
 		}
 
 		void LoadSaveFiles() {
-			saveFiles.Clear();
-
-			// save_00.letha1 (autosave)
-			// save_98.letha1
-			// save_99.letha1
-			// I don't want to rename files so I will count up
-			// from the maximum number of save files
-			Directory
+			List<string> filePaths = Directory
 				.GetFiles(
 					Application.persistentDataPath,
 					"*.lethia1",
 					SearchOption.TopDirectoryOnly
 				)
-				.OrderBy(filePath => filePath)
+				.ToList();
+
+			autosave = filePaths
+				.Where(filePath => filePath.EndsWith("autosave.lethia1"))
+				.Select(filePath => JsonUtility.FromJson<Game.SaveFile>(File.ReadAllText(filePath)))
+				.ToList()
+				.FirstOrDefault();
+
+			//
+			saveFiles.Clear();
+			filePaths
+				.Where(filePath => !filePath.EndsWith("autosave.lethia1"))
 				.ToList()
 				.ForEach(filePath => {
 					string json = File.ReadAllText(filePath);
@@ -250,13 +252,6 @@ namespace Menu {
 					var saveFile = JsonUtility.FromJson<Game.SaveFile>(json);
 					saveFiles.Add(saveFile);
 				});
-
-			//
-			if (saveFiles.Count > 0 && saveFiles[0].IsAutoSave && saveFiles[0].FileIndex == 0) {
-				Debug.Log("autsoave");
-				autosave = saveFiles[0];
-				saveFiles.Remove(autosave);
-			}
 		}
 
 		void ClearList() {
@@ -329,9 +324,9 @@ namespace Menu {
 				? 100 - (saveFiles.Count + 1)
 				: saveFiles[selectedFileIndex].FileIndex;
 			Engine.Profile.IsAutoSave = false;
-			Engine.Profile.SavedAt = DateTime.Now;
+			Engine.Profile.SavedAt = DateTime.Now.Ticks;
 
-			string path = $"{Application.persistentDataPath}/save_{Engine.Profile.FileIndex:d2}.lethia1";
+			string path = $"{Application.persistentDataPath}/{Game.Id.Generate()}.lethia1";
 			string json = JsonUtility.ToJson(Engine.Profile);
 
 			//
