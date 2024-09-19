@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 
 using UnityEngine;
-using Unity.Mathematics;
 
 // -----------------------------------------------------------------------------
 
@@ -14,8 +13,7 @@ namespace Game {
 		// -------------------------------------------------------------------------
 
 		[Header("File")]
-		public int FileIndex = -1;
-		public bool IsAutoSave = false;
+		public string Id = Game.Id.Generate();
 		public long SavedAt;
 		public float PlaytimeAsSeconds;
 

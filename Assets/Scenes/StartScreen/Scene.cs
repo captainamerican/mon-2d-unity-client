@@ -30,6 +30,7 @@ namespace StartScreen {
 		[SerializeField] Button StartButton;
 
 		[Header("Load Save")]
+		[SerializeField] ScrollView ScrollView;
 		[SerializeField] SaveFileStatus SaveFileStatus;
 		[SerializeField] GameObject LoadGameContainer;
 		[SerializeField] Button AutoSaveButton;
@@ -55,13 +56,19 @@ namespace StartScreen {
 
 		// -------------------------------------------------------------------------
 
-		IEnumerator Start() {
+		void OnDestroy() {
 			if (Cancel != null) {
 				Cancel.performed -= HandleOnBack;
 			}
-			Cancel = Game.Control.Get(PlayerInput, "Cancel");
+		}
 
-			//
+		void OnEnable() {
+			OnDestroy();
+			Cancel = Game.Control.Get(PlayerInput, "Cancel");
+			Cancel.performed += HandleOnBack;
+		}
+
+		IEnumerator Start() {
 			LoadGameContainer.SetActive(false);
 
 			//
@@ -97,8 +104,8 @@ namespace StartScreen {
 
 		public void StartNewGame() {
 			Game.SaveFile newSaveFile = new() {
-				FileIndex = -1,
-				IsAutoSave = false,
+				Id = Game.Id.Generate(),
+				PlaytimeAsSeconds = 0,
 				Level = 1,
 				Magic = 999,
 				Wisdom = 5,
@@ -211,8 +218,12 @@ namespace StartScreen {
 				.ToList()
 				.FirstOrDefault();
 			if (autosave != null) {
-				AutoSaveGameButton.Configure(autosave);
-				AutoSaveInformationButton.Configure(() => SaveFileStatus.Configure(autosave));
+				AutoSaveGameButton.Configure(autosave, true);
+				AutoSaveInformationButton.Configure(() => {
+					selectedFileIndex = 0;
+					ScrollView.UpdateVisibleButtonRange(buttons, selectedFileIndex);
+					SaveFileStatus.Configure(autosave);
+				});
 
 				AutoSaveButton.onClick.RemoveAllListeners();
 				AutoSaveButton.onClick.AddListener(() => LoadSave(autosave));
@@ -223,23 +234,28 @@ namespace StartScreen {
 			AutoSaveButton.gameObject.SetActive(autosave != null);
 
 			//
-			saveFilePaths
+			Do.ForEach(saveFilePaths
 				.Where(IsNotAutoSave)
 				.ToList()
 				.Select(ReadSaveFile)
 				.OrderByDescending(saveFile => saveFile.SavedAt)
-				.ToList()
-				.ForEach(saveFile => {
+				.ToList(),
+				(saveFile, index) => {
 					GameObject go = Instantiate(SaveGameTemplate, SaveGameTemplate.transform.parent);
 					go.SetActive(true);
 
 					go
 						.GetComponent<SaveFileButton>()
-						.Configure(saveFile);
+						.Configure(saveFile, false);
 
+					int j = index;
 					go
 						.GetComponent<InformationButton>()
-						.Configure(() => SaveFileStatus.Configure(saveFile));
+						.Configure(() => {
+							selectedFileIndex = autosave != null ? j + 1 : j;
+							ScrollView.UpdateVisibleButtonRange(buttons, selectedFileIndex);
+							SaveFileStatus.Configure(saveFile);
+						});
 
 					Button button = go.GetComponent<Button>();
 					button.onClick.RemoveAllListeners();
@@ -288,6 +304,10 @@ namespace StartScreen {
 			//
 			if (actionIndex < 1) {
 				Game.Focus.This(buttons[selectedFileIndex]);
+				OnBack = () => {
+					LoadGameContainer.SetActive(false);
+					Game.Focus.This(LoadGameButton);
+				};
 				return;
 			}
 
@@ -306,6 +326,7 @@ namespace StartScreen {
 			yield return Wait.For(0.5f);
 
 			//
+			Cancel.performed -= HandleOnBack;
 			Loader.Scene.Load(new Game.NextScene {
 				Name = fileToLoad.SceneName,
 				Destination = fileToLoad.CurrentLocation,

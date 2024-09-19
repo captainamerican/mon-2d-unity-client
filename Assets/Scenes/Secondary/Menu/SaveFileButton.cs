@@ -20,9 +20,9 @@ public class SaveFileButton : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
-	public void Configure(Game.SaveFile saveFile) {
-		DateTime date = new DateTime(saveFile.SavedAt);
-		TimestampLabel.text = $"{date:G}";
+	public void Configure(Game.SaveFile saveFile, bool isAutoSave) {
+		DateTime date = new(saveFile.SavedAt);
+		TimestampLabel.text = isAutoSave ? $"AUTO {date:yy/MM/dd hh:mm:ss tt}" : $"{date:yy/MM/dd hh:mm:ss tt}";
 
 		LevelAndLocationLabel.text = $"Lvl {saveFile.Level} {saveFile.SceneName}";
 

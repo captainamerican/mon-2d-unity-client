@@ -159,6 +159,8 @@ namespace Menu {
 		void AddCreateNewIfPossible() {
 			if (saveFiles.Count < 100) {
 				CreateNew.gameObject.SetActive(true);
+
+				//
 				fileButtons.Add(CreateNew);
 			}
 		}
@@ -166,7 +168,7 @@ namespace Menu {
 		void AddAutosaveIfAvailable() {
 			AutosaveFile.gameObject.SetActive(autosave != null);
 			if (autosave != null) {
-				AutosaveFile.Configure(autosave);
+				AutosaveFile.Configure(autosave, true);
 
 				//
 				fileButtons.Add(AutosaveButton);
@@ -179,7 +181,7 @@ namespace Menu {
 				saveFileGO.SetActive(true);
 
 				SaveFileButton saveFileButton = saveFileGO.GetComponent<SaveFileButton>();
-				saveFileButton.Configure(saveFile);
+				saveFileButton.Configure(saveFile, false);
 
 				//
 				fileButtons.Add(saveFileButton.GetComponent<Button>());
@@ -241,17 +243,13 @@ namespace Menu {
 				.ToList()
 				.FirstOrDefault();
 
-			//
+			// 
 			saveFiles.Clear();
-			filePaths
+			saveFiles.AddRange(filePaths
 				.Where(filePath => !filePath.EndsWith("autosave.lethia1"))
-				.ToList()
-				.ForEach(filePath => {
-					string json = File.ReadAllText(filePath);
-
-					var saveFile = JsonUtility.FromJson<Game.SaveFile>(json);
-					saveFiles.Add(saveFile);
-				});
+				.Select(filePath => JsonUtility.FromJson<Game.SaveFile>(File.ReadAllText(filePath)))
+				.OrderByDescending(saveFile => saveFile.SavedAt)
+			);
 		}
 
 		void ClearList() {
@@ -261,11 +259,7 @@ namespace Menu {
 			//
 			fileButtons.Remove(AutosaveButton);
 			fileButtons.Remove(CreateNew);
-
-			fileButtons.ForEach(button => {
-				button.gameObject.SetActive(false);
-				Destroy(button.gameObject);
-			});
+			fileButtons.ForEach(button => Destroy(button.gameObject));
 			fileButtons.Clear();
 		}
 
@@ -319,29 +313,31 @@ namespace Menu {
 				return;
 			}
 
+			bool isNewSave = fileButtons[selectedFileIndex] == CreateNew;
+
 			//
-			Engine.Profile.FileIndex = (fileButtons[selectedFileIndex] == CreateNew)
-				? 100 - (saveFiles.Count + 1)
-				: saveFiles[selectedFileIndex].FileIndex;
-			Engine.Profile.IsAutoSave = false;
+			Engine.Profile.Id = isNewSave
+				? Game.Id.Generate()
+				: saveFiles[selectedFileIndex - 1].Id;
 			Engine.Profile.SavedAt = DateTime.Now.Ticks;
 
-			string path = $"{Application.persistentDataPath}/{Game.Id.Generate()}.lethia1";
+			string path = $"{Application.persistentDataPath}/{Engine.Profile.Id}.lethia1";
 			string json = JsonUtility.ToJson(Engine.Profile);
 
 			//
 			File.WriteAllText(path, json);
 
 			//
+			int selected = selectedFileIndex;
 			var newSaveFile = JsonUtility.FromJson<Game.SaveFile>(json);
-			if (fileButtons[selectedFileIndex] == CreateNew) {
+			if (isNewSave) {
+				selected = 1;
 				saveFiles.Insert(0, newSaveFile);
 			} else {
-				saveFiles[selectedFileIndex] = newSaveFile;
+				saveFiles[selectedFileIndex - 1] = newSaveFile;
 			}
 
-			//
-			int selected = selectedFileIndex;
+			// 
 			ShowSaveList();
 			selectedFileIndex = selected;
 
