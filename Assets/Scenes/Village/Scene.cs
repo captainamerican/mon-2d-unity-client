@@ -14,11 +14,6 @@ namespace Village {
 
 		// -------------------------------------------------------------------------
 
-		[SerializeField] Engine Engine;
-		[SerializeField] Player Player;
-
-		// -------------------------------------------------------------------------
-
 		static public Vector3 Location_Main {
 			get {
 				return new Vector3(0, 0, 0);
@@ -30,6 +25,15 @@ namespace Village {
 				return new Vector3(0, 46, 0);
 			}
 		}
+
+		// -------------------------------------------------------------------------
+
+		[SerializeField] Engine Engine;
+		[SerializeField] Player Player;
+
+		// -------------------------------------------------------------------------
+
+		Cutscene cutscene;
 
 		// -------------------------------------------------------------------------
 
@@ -58,8 +62,16 @@ namespace Village {
 			//
 			yield return Dialogue.Scene.Load();
 			yield return Menu.Scene.Load();
-			yield return Loader.Scene.Clear();
-			Engine.Mode = EngineMode.PlayerControl;
+
+			if (nextScene.ExecuteOnLoad != null) {
+				GameObject go = GameObject.Find($"/Cutscenes/{nextScene.ExecuteOnLoad}");
+				Cutscene cutscene = go.GetComponent<Cutscene>();
+
+				StartCoroutine(cutscene.Playing());
+			} else {
+				yield return Loader.Scene.Clear();
+				Engine.Mode = EngineMode.PlayerControl;
+			}
 		}
 
 		// -------------------------------------------------------------------------

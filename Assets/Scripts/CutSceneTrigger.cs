@@ -23,7 +23,7 @@ public class CutSceneTrigger : MonoBehaviour {
 	// ---------------------------------------------------------------------------
 
 	private void OnTriggerEnter2D(Collider2D collision) {
-		if (Database.Engine.Mode != EngineMode.PlayerControl) {
+		if (!Database.Engine.PlayerHasControl()) {
 			return;
 		}
 
@@ -38,6 +38,7 @@ public class CutSceneTrigger : MonoBehaviour {
 		//
 		ReturnValue was = new();
 		Skip?.Invoke(was);
+		Debug.Log("Wtf3" + was.Skipped);
 
 		if (was.Skipped == true) {
 			return;

@@ -14,6 +14,8 @@ namespace Game {
 
 		public SaveFile SaveFile;
 
+		public string ExecuteOnLoad;
+
 		// -------------------------------------------------------------------------
 
 	}

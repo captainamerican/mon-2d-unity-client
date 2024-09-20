@@ -28,7 +28,7 @@ public class Cutscene : MonoBehaviour {
 		StartCoroutine(Playing());
 	}
 
-	IEnumerator Playing() {
+	public IEnumerator Playing() {
 		CutsceneBars.Show();
 		yield return Script();
 		CutsceneBars.Hide();

@@ -179,9 +179,9 @@ namespace StartScreen {
 			Cancel.performed -= HandleOnBack;
 			Loader.Scene.Load(new Game.NextScene {
 				Name = Village.Scene.Name,
-				Destination = new Vector3(10, 87, 0),
 				SaveFile = newSaveFile,
-				PlayerDirection = Game.PlayerDirection.Down
+				PlayerDirection = Game.PlayerDirection.Down,
+				ExecuteOnLoad = "New Game"
 			});
 		}
 

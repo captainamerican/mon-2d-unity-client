@@ -38,12 +38,12 @@ public class CutsceneBars : MonoBehaviour {
 
 	public void ShowBars() {
 		StopAllCoroutines();
-		StartCoroutine(ResizeBars(0, 16f, 0.5f, false));
+		StartCoroutine(ResizeBars(0, 28f, 0.5f, false));
 	}
 
 	public void HideBars() {
 		StopAllCoroutines();
-		StartCoroutine(ResizeBars(16f, 0, 0.5f, true));
+		StartCoroutine(ResizeBars(28f, 0, 0.5f, true));
 	}
 
 	IEnumerator ResizeBars(float from, float to, float duration, bool hideAtEnd) {

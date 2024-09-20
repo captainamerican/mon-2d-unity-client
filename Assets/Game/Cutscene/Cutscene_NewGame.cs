@@ -28,7 +28,9 @@ public class Cutscene_NewGame : Cutscene {
 		PlayerBody.enabled = false;
 
 		Camera.transform.SetParent(null);
+		Camera.transform.position = transform.position;
 
+		yield return Loader.Scene.Clear();
 
 		yield return Go.To(Camera.transform, FirstMark.position, 5f, Easing.SineOut01);
 		yield return Wait.For(2f);
