@@ -31,9 +31,9 @@ public class Cutscene : MonoBehaviour {
 	IEnumerator Playing() {
 		CutsceneBars.Show();
 		yield return Script();
+		CutsceneBars.Hide();
 
 		//
-		CutsceneBars.Hide();
 		IsActivated = false;
 		enabled = false;
 	}

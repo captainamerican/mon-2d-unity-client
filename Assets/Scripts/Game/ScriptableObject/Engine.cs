@@ -26,6 +26,7 @@ public class Engine : ScriptableObject {
 
 	public event EngineModeChangedEvent ModeChanged;
 
+	[SerializeField]
 	EngineMode _Mode;
 	public NextScene NextScene = null;
 

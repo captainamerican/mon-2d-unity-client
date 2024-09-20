@@ -270,7 +270,7 @@ namespace Combat {
 			yield return Do.For(
 				0.5f,
 				ratio => EnemyCreatureContainer.anchoredPosition = Vector3.Lerp(enemyStart, enemyEnd, ratio),
-				Easing.EaseOutSine01
+				Easing.SineOut01
 			);
 			yield return Wait.For(0.25f);
 			yield return Dialogue.Scene.Speaks("Lethia", $"Come forth, {creature.Name}!");
@@ -291,7 +291,7 @@ namespace Combat {
 					PlayerCreatureCanvasGroup.alpha = ratio;
 					PlayerCreatureContainer.anchoredPosition = Vector3.Lerp(playerStart, playerEnd, ratio);
 				},
-				Easing.EaseOutSine01
+				Easing.SineOut01
 			);
 			yield return Wait.For(0.25f);
 
@@ -765,7 +765,7 @@ namespace Combat {
 						PlayerCreatureContainer.anchoredPosition = Vector3.Lerp(start, end, ratio);
 						PlayerCreatureCanvasGroup.alpha = 1 - ratio * 2;
 					},
-					Easing.EaseOutSine01
+					Easing.SineOut01
 				);
 				yield return Dialogue.Scene.Display(
 					$"Lethia recalls {oldName}!",
@@ -789,7 +789,7 @@ namespace Combat {
 					PlayerCreatureContainer.anchoredPosition = Vector3.Lerp(end, start, ratio);
 					PlayerCreatureCanvasGroup.alpha = ratio * 2;
 				},
-				Easing.EaseOutSine01
+				Easing.SineOut01
 			);
 			PlayerCombatant.ShowBars();
 			yield return Do.For(2f, ratio => {
@@ -1036,7 +1036,7 @@ namespace Combat {
 						EnemyCreatureContainer.anchoredPosition = Vector3.Lerp(start, end, ratio);
 						EnemyCreatureCanvasGroup.alpha = 1 - ratio * 2;
 					},
-					Easing.EaseOutSine01
+					Easing.SineOut01
 				);
 				yield return Dialogue.Scene.Display($"{Battle.Creature.Name} collapsed!");
 				yield return BattleEnd();
@@ -1051,7 +1051,7 @@ namespace Combat {
 						PlayerCreatureContainer.anchoredPosition = Vector3.Lerp(start, end, ratio);
 						PlayerCreatureCanvasGroup.alpha = 1 - ratio * 2;
 					},
-					Easing.EaseOutSine01
+					Easing.SineOut01
 				);
 				yield return Dialogue.Scene.Display(
 					$"{playerCreature.Name} collapsed!"
@@ -1348,7 +1348,7 @@ namespace Combat {
 				PlayerCombatant.UpdateMagic(creatureMP, Engine.Profile.MagicTotal);
 
 				EnemyCombatant.UpdateHealth(enemyHP, enemyHPT);
-			}, Easing.EaseInOutSine01);
+			}, Easing.SineInOut01);
 		}
 
 		void ApplyEffects(List<Game.Effect> effects, Game.Creature actor, Game.Creature receiver) {
@@ -1465,7 +1465,7 @@ namespace Combat {
 				PlayerCombatant.UpdateMagic(creatureMP, Engine.Profile.MagicTotal);
 
 				EnemyCombatant.UpdateHealth(enemyHP, enemyHPT);
-			}, Easing.EaseInOutSine01);
+			}, Easing.SineInOut01);
 		}
 
 		IEnumerator AnimateFX(string name, Game.SkillFX fx, Animator animator, List<bool> done, int doneIndex) {

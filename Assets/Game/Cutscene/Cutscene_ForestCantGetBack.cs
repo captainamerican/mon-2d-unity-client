@@ -115,7 +115,7 @@ public class Cutscene_ForestCantGetBack : Cutscene {
 			Player.transform,
 			FirstMark.transform.position,
 			1f,
-			Easing.EaseOutSine01
+			Easing.SineOut01
 		);
 		Player.Stop();
 	}
@@ -128,7 +128,7 @@ public class Cutscene_ForestCantGetBack : Cutscene {
 			Player.transform,
 			SecondMark.transform.position,
 			1f,
-			Easing.EaseOutSine01
+			Easing.SineOut01
 		);
 		Player.Stop();
 	}

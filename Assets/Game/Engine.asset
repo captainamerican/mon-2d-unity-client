@@ -12,17 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb300f3f5fbd42c98859291fd5fe0af, type: 3}
   m_Name: Engine
   m_EditorClassIdentifier: 
+  _Mode: 1
   Profile:
-    FileIndex: 0
-    IsAutoSave: 1
-    PlaytimeAsSeconds: 8478.788
-    SceneName: Forest 05 Spirit Gate
-    MapId: 25
-    CurrentLocation: {x: 19.51, y: -23.76, z: 0}
+    Id: 8nyOqjolXfR17PcI
+    SavedAt: 638624290102442050
+    PlaytimeAsSeconds: 8740.86
+    SceneName: Forest 01 Entrance
+    MapId: 20
+    CurrentLocation: {x: 44.436172, y: -21.526257, z: 0}
     Level: 1
-    Experience: 12
+    Experience: 18
     ExperienceForNextLevel: 20
-    Magic: 27
+    Magic: 24
     Wisdom: 5
     Hunger: 1
     Party:
@@ -30,6 +31,7 @@ MonoBehaviour:
     Creatures:
     - Id: 24ebMEyGjMOYwWyB
       Name: Wolfie 2
+      Adjust: 0
       CurrentHealth: 99
       Head:
         Id: HEl7tEuKZ7Z71KEK
@@ -66,7 +68,8 @@ MonoBehaviour:
       Skills: e8030000
     - Id: 14ebMEyGjMOYwWyB
       Name: Wolfie
-      CurrentHealth: 99
+      Adjust: 0
+      CurrentHealth: 5
       Head:
         Id: HEl7tEuKZ7Z71KEK
         BodyPartId: 1001
@@ -102,6 +105,7 @@ MonoBehaviour:
       Skills: e8030000
     - Id: GjMOYwWyB14ebMEy
       Name: Wolfie 3
+      Adjust: 0
       CurrentHealth: 99
       Head:
         Id: HEl7tEuKZ7Z71KEK
@@ -138,7 +142,7 @@ MonoBehaviour:
       Skills: e8030000
     Skills:
     - SkillId: 1000
-      Experience: 2
+      Experience: 5
     Options:
       DialogueSpeed: 0.25
       MusicVolume: 0.66
@@ -151,18 +155,24 @@ MonoBehaviour:
       - ItemId: 1020
         Amount: 5
       - ItemId: 1000
-        Amount: 5
+        Amount: 8
       - ItemId: 3004
-        Amount: 519
+        Amount: 520
       - ItemId: 5008
         Amount: 1
       - ItemId: 3006
         Amount: 10
+      - ItemId: 3003
+        Amount: 1
     BodyPartStorage:
       Head: []
       Torso: []
       Tail: []
-      Appendage: []
+      Appendage:
+      - Id: DQVdpltvIvrYVx1g
+        BodyPartId: 1004
+        Experience: 0
+        Quality: 0
       ReclaimableHead: []
       ReclaimableTorso: []
       ReclaimableTail: []
@@ -190,11 +200,11 @@ MonoBehaviour:
     Acquired:
       BodyPart: e9030000ea030000eb030000ec030000ed030000
       Skill: e8030000
-      Item: fc030000e8030000bc0b000090130000be0b0000
+      Item: fc030000e8030000bc0b000090130000be0b0000bb0b0000
       SpiritWisdom: e8030000ea030000eb030000
       Tag: 
       Lore: e8030000
-      TreasureChest: 
+      TreasureChest: e8030000
       TeleportLocation: 0a000000
     Seen:
       BodyPart: e9030000ea030000eb030000ec030000ed030000f2030000f3030000f4030000f5030000
@@ -207,14 +217,6 @@ MonoBehaviour:
       TeleportLocation: 0a000000
     StoryPoints:
       storyPoints:
-      - Id: 10002
-        Value: 1
-      - Id: 10003
-        Value: 1
-      - Id: 10005
-        Value: 5
-      - Id: 10006
-        Value: 1
-      - Id: 10004
+      - Id: 10007
         Value: 1
   GameData: {fileID: 11400000, guid: b06976c351aca400d8d2513f87736adf, type: 2}

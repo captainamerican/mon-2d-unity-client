@@ -34,7 +34,7 @@ public class Cutscene_ForestClearing : Cutscene {
 			Player.transform,
 			FirstMark.transform.position,
 			1.5f,
-			Easing.EaseOutSine01
+			Easing.SineOut01
 		);
 		yield return Dialogue.Scene.Speaks(
 			"Lethia",
@@ -64,7 +64,7 @@ public class Cutscene_ForestClearing : Cutscene {
 				Player.transform,
 				ThirdMark.transform.position,
 				0.45f,
-				Easing.EaseOutSine01
+				Easing.SineOut01
 			);
 			Exit();
 			yield break;
@@ -78,7 +78,7 @@ public class Cutscene_ForestClearing : Cutscene {
 			Player.transform,
 			FourthMark.transform.position,
 			1f,
-			Easing.EaseInOutSine01
+			Easing.SineInOut01
 		);
 		yield return Dialogue.Scene.Speaks(
 			"Lethia",

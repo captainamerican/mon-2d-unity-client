@@ -8,5 +8,6 @@
 		BeatenForestBoss = 10004,
 		ToldAboutPocketTeleporter = 10005,
 		UsedPocketTeleporter = 10006,
+		InspectedBrokenTeleporter = 10007,
 	}
 }

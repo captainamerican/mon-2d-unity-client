@@ -23,6 +23,10 @@ public class CutSceneTrigger : MonoBehaviour {
 	// ---------------------------------------------------------------------------
 
 	private void OnTriggerEnter2D(Collider2D collision) {
+		if (Database.Engine.Mode != EngineMode.PlayerControl) {
+			return;
+		}
+
 		if (collision.gameObject.GetComponent<Player>() == null) {
 			return;
 		}

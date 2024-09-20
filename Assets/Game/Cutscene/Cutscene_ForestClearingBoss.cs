@@ -136,19 +136,19 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 			Player.transform,
 			FourthMark.transform.position,
 			0.5f,
-			Easing.EaseOutSine01
+			Easing.SineOut01
 		);
 		yield return Go.To(
 			Player.transform,
 			Fourth2Mark.transform.position,
 			0.25f,
-			Easing.EaseOutSine01
+			Easing.SineOut01
 		);
 		yield return Go.To(
 			Player.transform,
 			FifthMark.transform.position,
 			1f,
-			Easing.EaseOutSine01
+			Easing.SineOut01
 		);
 
 		//
@@ -161,7 +161,7 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 			Player.transform,
 			SixthMark.transform.position,
 			1.66f,
-			Easing.EaseOutSine01
+			Easing.SineOut01
 		);
 
 		//
@@ -193,7 +193,7 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 			Player.transform,
 			FirstMark.transform.position,
 			1f,
-			Easing.EaseOutSine01
+			Easing.SineOut01
 		);
 	}
 
@@ -205,7 +205,7 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 			Player.transform,
 			SecondMark.transform.position,
 			2f,
-			Easing.EaseOutSine01
+			Easing.SineOut01
 		);
 	}
 
@@ -217,7 +217,7 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 			Player.transform,
 			FirstMark.transform.position,
 			0.55f,
-			Easing.EaseOutSine01
+			Easing.SineOut01
 		);
 	}
 
@@ -226,7 +226,7 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 			Camera.transform,
 			ThirdMark.transform.position,
 			2f,
-			Easing.EaseOutSine01
+			Easing.SineOut01
 		);
 	}
 
@@ -235,7 +235,7 @@ public class Cutscene_ForestClearingBoss : Cutscene {
 			Camera.transform,
 			position,
 			2f,
-			Easing.EaseOutSine01
+			Easing.SineOut01
 		);
 	}
 
