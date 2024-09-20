@@ -20,6 +20,12 @@ public class Cutscene_ForestClearing : Cutscene {
 
 	// ---------------------------------------------------------------------------
 
+	public void Skip(ReturnValue returnValue) {
+		returnValue.Skipped = Engine.Profile.StoryPoints.Has(Game.StoryPointId.UnlockedFirstSpiritGate);
+	}
+
+	// ---------------------------------------------------------------------------
+
 	override protected IEnumerator Script() {
 		Engine.Mode = EngineMode.Cutscene;
 
@@ -38,8 +44,9 @@ public class Cutscene_ForestClearing : Cutscene {
 		);
 		yield return Dialogue.Scene.Speaks(
 			"Lethia",
-			"It seems these old contraptions have reached their end.",
-			"Mother said they were powered by more than the sacrifices of our kind.",
+			"Something has wrenched the outer shell off... I don't think I could that without damaging the device.",
+			"I see a large crystal within, but sense no energy from it.",
+			"Mother said these were powered by more than the sacrifices of our kind.",
 			"She was a bit literal, if flowery. So I wonder..."
 		);
 		yield return Wait.For(1.5f);
@@ -52,7 +59,7 @@ public class Cutscene_ForestClearing : Cutscene {
 				} :
 				new string[3] {
 					"3 Spirits should do it.",
-					"I haven't collected any spirits yet.",
+					"I haven't collected enough spirits yet.",
 					"I'll return later."
 				}
 		);
@@ -92,10 +99,6 @@ public class Cutscene_ForestClearing : Cutscene {
 
 	void Exit() {
 		Engine.Mode = EngineMode.PlayerControl;
-	}
-
-	public void Skip(ReturnValue returnValue) {
-		returnValue.Skipped = Engine.Profile.StoryPoints.Has(Game.StoryPointId.UnlockedFirstSpiritGate);
 	}
 
 	// ---------------------------------------------------------------------------

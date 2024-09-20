@@ -53,9 +53,7 @@ public class Cutscene_Forest_TeleportersAreBroken : Cutscene {
 
 	public void Skip(ReturnValue returnValue) {
 		returnValue.Skipped =
-			Database.Engine.Profile.StoryPoints.Has(Game.StoryPointId.InspectedBrokenTeleporter) ||
-			Database.Engine.Profile.StoryPoints.Has(Game.StoryPointId.UnlockedFirstSpiritGate) ||
-			Database.Engine.Profile.StoryPoints.Has(Game.StoryPointId.BeatenForestBoss);
+			Database.Engine.Profile.StoryPoints.Has(Game.StoryPointId.InspectedBrokenTeleporter);
 	}
 
 	// ---------------------------------------------------------------------------

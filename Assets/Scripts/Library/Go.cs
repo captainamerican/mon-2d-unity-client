@@ -17,7 +17,7 @@ public sealed class Go {
 		float elapsed = 0;
 		while (elapsed < duration) {
 			elapsed += Time.deltaTime;
-			transform.position = Vector3.Lerp(from, to, elapsed / duration);
+			transform.position = Vector3.Lerp(from, to, easing(elapsed / duration));
 			yield return waitForEndOfFrame;
 		}
 
@@ -36,7 +36,7 @@ public sealed class Go {
 		float elapsed = 0;
 		while (elapsed < duration) {
 			elapsed += Time.unscaledDeltaTime;
-			transform.position = Vector3.Lerp(from, to, elapsed / duration);
+			transform.position = Vector3.Lerp(from, to, easing(elapsed / duration));
 			yield return waitForEndOfFrame;
 		}
 

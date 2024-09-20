@@ -29,9 +29,11 @@ namespace Game {
 		}
 
 		void RebuildIfNecessary() {
+#if !UNITY_EDITOR
 			if (storyPointsById.Count > 0) {
 				return;
 			}
+#endif
 
 			//
 			Rebuild();

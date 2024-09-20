@@ -18,6 +18,15 @@ public class Cutscene_ForestCantGetBack : Cutscene {
 
 	// ---------------------------------------------------------------------------
 
+	public void Skip(ReturnValue returnValue) {
+		returnValue.Skipped =
+			!Engine.Profile.StoryPoints.Has(Game.StoryPointId.SurveyedForestBoss) ||
+			Engine.Profile.StoryPoints.Has(Game.StoryPointId.UsedPocketTeleporter) ||
+			Engine.Profile.StoryPoints.Has(Game.StoryPointId.BeatenForestBoss);
+	}
+
+	// ---------------------------------------------------------------------------
+
 	override protected IEnumerator Script() {
 		Engine.Mode = EngineMode.Cutscene;
 
@@ -91,18 +100,6 @@ public class Cutscene_ForestCantGetBack : Cutscene {
 		//
 		Engine.Profile.StoryPoints.Adjust(Game.StoryPointId.ToldAboutPocketTeleporter, 1);
 		Engine.Mode = EngineMode.PlayerControl;
-	}
-
-	// ---------------------------------------------------------------------------
-
-	public void Skip(ReturnValue returnValue) {
-		Debug.Log(!Engine.Profile.StoryPoints.Has(Game.StoryPointId.SurveyedForestBoss) + " " +
-			Engine.Profile.StoryPoints.Has(Game.StoryPointId.UsedPocketTeleporter) + " " +
-			Engine.Profile.StoryPoints.Has(Game.StoryPointId.BeatenForestBoss));
-		returnValue.Skipped =
-			!Engine.Profile.StoryPoints.Has(Game.StoryPointId.SurveyedForestBoss) ||
-			Engine.Profile.StoryPoints.Has(Game.StoryPointId.UsedPocketTeleporter) ||
-			Engine.Profile.StoryPoints.Has(Game.StoryPointId.BeatenForestBoss);
 	}
 
 	// ---------------------------------------------------------------------------

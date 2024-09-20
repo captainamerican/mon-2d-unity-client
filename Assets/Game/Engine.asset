@@ -14,135 +14,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Mode: 1
   Profile:
-    Id: 8nyOqjolXfR17PcI
-    SavedAt: 638624290102442050
-    PlaytimeAsSeconds: 8740.86
-    SceneName: Forest 01 Entrance
-    MapId: 20
-    CurrentLocation: {x: 44.436172, y: -21.526257, z: 0}
+    Id: n2WKYdb8nVPMgute
+    SavedAt: 638624320095322720
+    PlaytimeAsSeconds: 431.76053
+    SceneName: Village
+    MapId: 10
+    CurrentLocation: {x: 10, y: 87, z: 0}
     Level: 1
-    Experience: 18
+    Experience: 0
     ExperienceForNextLevel: 20
-    Magic: 24
+    Magic: 999
     Wisdom: 5
     Hunger: 1
     Party:
-    - 14ebMEyGjMOYwWyB
+    - Q8MIh7qZSR1jiX0h
     Creatures:
-    - Id: 24ebMEyGjMOYwWyB
-      Name: Wolfie 2
-      Adjust: 0
-      CurrentHealth: 99
-      Head:
-        Id: HEl7tEuKZ7Z71KEK
-        BodyPartId: 1001
-        Experience: 0
-        Quality: 1
-      Torso:
-        Id: 0qoQhp4h1SvHwA5n
-        BodyPartId: 1002
-        Experience: 0
-        Quality: 1
-      Tail:
-        Id: IIotVpWJMe5eR3bY
-        BodyPartId: 1003
-        Experience: 0
-        Quality: 1
-      Appendages:
-      - Id: qA5jRY741Tl9KE5p
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 1
-      - Id: JtsPjVuFR1n6SYnC
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 1
-      - Id: fOdnDfjjUlyJ7oLM
-        BodyPartId: 1005
-        Experience: 0
-        Quality: 1
-      - Id: i8B0v6wxXedjmPfs
-        BodyPartId: 1005
-        Experience: 0
-        Quality: 1
-      Skills: e8030000
-    - Id: 14ebMEyGjMOYwWyB
+    - Id: Q8MIh7qZSR1jiX0h
       Name: Wolfie
       Adjust: 0
-      CurrentHealth: 5
+      CurrentHealth: 35
       Head:
-        Id: HEl7tEuKZ7Z71KEK
+        Id: TKtxDbnLQ1nwu0G6
         BodyPartId: 1001
         Experience: 0
         Quality: 1
       Torso:
-        Id: 0qoQhp4h1SvHwA5n
+        Id: 3hq9Ws9chqweEoEp
         BodyPartId: 1002
         Experience: 0
         Quality: 1
       Tail:
-        Id: IIotVpWJMe5eR3bY
+        Id: xifxiAKVP0aWiA4i
         BodyPartId: 1003
         Experience: 0
         Quality: 1
       Appendages:
-      - Id: qA5jRY741Tl9KE5p
+      - Id: 2CfnVDuKkECJ7Uo4
         BodyPartId: 1004
         Experience: 0
         Quality: 1
-      - Id: JtsPjVuFR1n6SYnC
+      - Id: wBZBflmkRWkSxoGK
         BodyPartId: 1004
         Experience: 0
         Quality: 1
-      - Id: fOdnDfjjUlyJ7oLM
+      - Id: 4ooyMlVk4PeGKTrJ
         BodyPartId: 1005
         Experience: 0
         Quality: 1
-      - Id: i8B0v6wxXedjmPfs
-        BodyPartId: 1005
-        Experience: 0
-        Quality: 1
-      Skills: e8030000
-    - Id: GjMOYwWyB14ebMEy
-      Name: Wolfie 3
-      Adjust: 0
-      CurrentHealth: 99
-      Head:
-        Id: HEl7tEuKZ7Z71KEK
-        BodyPartId: 1001
-        Experience: 0
-        Quality: 1
-      Torso:
-        Id: 0qoQhp4h1SvHwA5n
-        BodyPartId: 1002
-        Experience: 0
-        Quality: 1
-      Tail:
-        Id: IIotVpWJMe5eR3bY
-        BodyPartId: 1003
-        Experience: 0
-        Quality: 1
-      Appendages:
-      - Id: qA5jRY741Tl9KE5p
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 1
-      - Id: JtsPjVuFR1n6SYnC
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 1
-      - Id: fOdnDfjjUlyJ7oLM
-        BodyPartId: 1005
-        Experience: 0
-        Quality: 1
-      - Id: i8B0v6wxXedjmPfs
+      - Id: YBlwYitOZGrtfqWi
         BodyPartId: 1005
         Experience: 0
         Quality: 1
       Skills: e8030000
     Skills:
     - SkillId: 1000
-      Experience: 5
+      Experience: 0
     Options:
       DialogueSpeed: 0.25
       MusicVolume: 0.66
@@ -155,41 +81,29 @@ MonoBehaviour:
       - ItemId: 1020
         Amount: 5
       - ItemId: 1000
-        Amount: 8
-      - ItemId: 3004
-        Amount: 520
-      - ItemId: 5008
-        Amount: 1
-      - ItemId: 3006
-        Amount: 10
-      - ItemId: 3003
-        Amount: 1
+        Amount: 5
     BodyPartStorage:
       Head: []
       Torso: []
       Tail: []
-      Appendage:
-      - Id: DQVdpltvIvrYVx1g
-        BodyPartId: 1004
-        Experience: 0
-        Quality: 0
+      Appendage: []
       ReclaimableHead: []
       ReclaimableTorso: []
       ReclaimableTail: []
       ReclaimableAppendage: []
     SparringPit:
       Head:
-        Id: QvwjY4ivfHvbx5Y2
+        Id: G68bbAfNhHfKByMB
         BodyPartId: 0
         Experience: 0
         Quality: 1
       Torso:
-        Id: UEk8JWWdlkm4mSfC
+        Id: DXV9Q398Wqw21Q2c
         BodyPartId: 0
         Experience: 0
         Quality: 1
       Tail:
-        Id: gtmgfmyyN3ZZQCU0
+        Id: r9dWlgi2TLEOiMfa
         BodyPartId: 0
         Experience: 0
         Quality: 1
@@ -200,23 +114,21 @@ MonoBehaviour:
     Acquired:
       BodyPart: e9030000ea030000eb030000ec030000ed030000
       Skill: e8030000
-      Item: fc030000e8030000bc0b000090130000be0b0000bb0b0000
-      SpiritWisdom: e8030000ea030000eb030000
+      Item: fc030000e8030000
+      SpiritWisdom: 
       Tag: 
-      Lore: e8030000
-      TreasureChest: e8030000
+      Lore: 
+      TreasureChest: 
       TeleportLocation: 0a000000
     Seen:
-      BodyPart: e9030000ea030000eb030000ec030000ed030000f2030000f3030000f4030000f5030000
+      BodyPart: e9030000ea030000eb030000ec030000ed030000
       Skill: e8030000
       Item: fc030000e8030000
-      SpiritWisdom: ec030000
+      SpiritWisdom: 
       Tag: 
       Lore: 
       TreasureChest: 
       TeleportLocation: 0a000000
     StoryPoints:
-      storyPoints:
-      - Id: 10007
-        Value: 1
+      storyPoints: []
   GameData: {fileID: 11400000, guid: b06976c351aca400d8d2513f87736adf, type: 2}

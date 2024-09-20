@@ -20,17 +20,23 @@ public class CreateAutosave : MonoBehaviour {
 
 	Vector3 localEulerAngles;
 
-	bool saveFileCreated;
-	float timeUntilShutdown;
-
 	// ---------------------------------------------------------------------------
 
-	IEnumerator Start() {
-		timeUntilShutdown = 2.5f;
+	void OnEnable() {
+		if (!Engine.Profile.StoryPoints.Has(Game.StoryPointId.SawNewGameScene)) {
+			Shutdown();
+			return;
+		}
 
 		//
+		StartCoroutine(Saving());
+	}
+
+	IEnumerator Saving() {
 		yield return Wait.ForReal(0.1f);
 		CreateTheAutosave();
+		yield return Wait.ForReal(2f);
+		Shutdown();
 	}
 
 	void Update() {
@@ -39,18 +45,6 @@ public class CreateAutosave : MonoBehaviour {
 
 		//
 		Loader.localEulerAngles = localEulerAngles;
-
-		//
-		timeUntilShutdown -= Time.unscaledDeltaTime;
-
-		//
-		if (!saveFileCreated) {
-			return;
-		}
-
-		if (timeUntilShutdown < 0) {
-			Shutdown();
-		}
 	}
 
 	// ---------------------------------------------------------------------------
@@ -69,9 +63,6 @@ public class CreateAutosave : MonoBehaviour {
 
 		//
 		Engine.Profile.Id = oldId;
-
-		//
-		saveFileCreated = true;
 	}
 
 	void Shutdown() {
