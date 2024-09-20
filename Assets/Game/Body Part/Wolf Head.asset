@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Wolf Head
   m_EditorClassIdentifier: 
   Id: 1001
-  Slug: wolf-head
   Name: Wolf Head
   ExperienceToLevel: 500
-  Strength: 1
-  Endurance: 1
-  Dexterity: 1
-  Intelligence: 1
-  Wisdom: 1
+  Strength: 0
+  Endurance: 2
+  Dexterity: 0
+  Intelligence: 3
+  Wisdom: 2
   Luck: 1
+  Obtainable: 1
   Tags: 
   InnateSkills:
   - {fileID: 11400000, guid: 59d362d94b9d042b186728189565ec9d, type: 2}

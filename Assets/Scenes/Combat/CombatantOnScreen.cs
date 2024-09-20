@@ -6,6 +6,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+using S = UnityEngine.SerializeField;
+
 // -----------------------------------------------------------------------------
 
 namespace Combat {
@@ -13,17 +15,17 @@ namespace Combat {
 
 		// -------------------------------------------------------------------------
 
-		[SerializeField] Slider Health;
-		[SerializeField] TextMeshProUGUI Head;
-		[SerializeField] TextMeshProUGUI Torso;
-		[SerializeField] TextMeshProUGUI Tail;
-		[SerializeField] List<TextMeshProUGUI> Appendages;
+		[S] Slider Health;
+		[S] TextMeshProUGUI Head;
+		[S] TextMeshProUGUI Torso;
+		[S] TextMeshProUGUI Tail;
+		[S] List<TextMeshProUGUI> Appendages;
 
 		[Header("Player")]
-		[SerializeField] Slider Magic;
-		[SerializeField] GameObject Labels;
-		[SerializeField] TextMeshProUGUI HealthLabel;
-		[SerializeField] TextMeshProUGUI MagicLabel;
+		[S] Slider Magic;
+		[S] GameObject Labels;
+		[S] TextMeshProUGUI HealthLabel;
+		[S] TextMeshProUGUI MagicLabel;
 
 		// -------------------------------------------------------------------------
 

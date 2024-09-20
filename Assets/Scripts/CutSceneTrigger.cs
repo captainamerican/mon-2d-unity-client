@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+using S = UnityEngine.SerializeField;
+
 // -----------------------------------------------------------------------------
 
 public class ReturnValue {
@@ -11,10 +13,10 @@ public class CutSceneTrigger : MonoBehaviour {
 
 	// ---------------------------------------------------------------------------
 
-	[SerializeField] Cutscene Cutscene;
-	[SerializeField] bool TriggerOnce;
+	[S] Cutscene Cutscene;
+	[S] bool TriggerOnce;
 
-	[SerializeField] UnityEvent<ReturnValue> Skip;
+	[S] UnityEvent<ReturnValue> Skip;
 
 	// ---------------------------------------------------------------------------
 
@@ -23,26 +25,19 @@ public class CutSceneTrigger : MonoBehaviour {
 	// ---------------------------------------------------------------------------
 
 	private void OnTriggerEnter2D(Collider2D collision) {
-		if (!Database.Engine.PlayerHasControl()) {
+		if (!Database.Engine.PlayerHasControl())
 			return;
-		}
-
-		if (collision.gameObject.GetComponent<Player>() == null) {
+		if (collision.gameObject.GetComponent<Player>() == null)
 			return;
-		}
-
-		if (TriggerOnce && wasTriggered) {
+		if (TriggerOnce && wasTriggered)
 			return;
-		}
 
 		//
 		ReturnValue was = new();
 		Skip?.Invoke(was);
-		Debug.Log("Wtf3" + was.Skipped);
 
-		if (was.Skipped == true) {
+		if (was.Skipped)
 			return;
-		}
 
 		//
 		wasTriggered = true;

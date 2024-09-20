@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Wolf Torso
   m_EditorClassIdentifier: 
   Id: 1002
-  Slug: wolf-torso
   Name: Wolf Torso
   ExperienceToLevel: 500
-  Strength: 1
-  Endurance: 1
+  Strength: 3
+  Endurance: 2
   Dexterity: 1
-  Intelligence: 1
-  Wisdom: 1
+  Intelligence: 0
+  Wisdom: 0
   Luck: 1
+  Obtainable: 1
   Tags: 
   TypeOfAppendages: 50

@@ -16,9 +16,10 @@ MonoBehaviour:
   Name: Wolf Rear Leg
   ExperienceToLevel: 500
   Strength: 1
-  Endurance: 1
-  Dexterity: 1
+  Endurance: 2
+  Dexterity: 3
   Intelligence: 1
-  Wisdom: 1
-  Luck: 1
+  Wisdom: 0
+  Luck: 0
+  Obtainable: 1
   Tags: 

@@ -4,6 +4,8 @@ using System.Linq;
 
 using UnityEngine;
 
+using S = UnityEngine.SerializeField;
+
 // -----------------------------------------------------------------------------
 
 namespace Game {
@@ -15,11 +17,10 @@ namespace Game {
 		public string Id = Game.Id.Generate();
 		public string Name = "";
 
-		[Range(1, 99)]
-		public float Adjust;
-
 		[Header("Live Stats")]
-		[SerializeField] int CurrentHealth;
+		public float Adjustment = 1;
+
+		[S] int CurrentHealth;
 		public List<CombatantStatus> Statuses = new();
 
 		[Header("Body Parts")]
@@ -33,8 +34,8 @@ namespace Game {
 
 		// -------------------------------------------------------------------------
 
-		[NonSerialized] List<int> attributes = new() { 1, 1, 1, 1, 1, 1 };
-		[NonSerialized] List<int> attributeAdjustments = new() { 0, 0, 0, 0, 0, 0 };
+		[NonSerialized] readonly List<float> attributes = new() { 1, 1, 1, 1, 1, 1 };
+		[NonSerialized] readonly List<float> attributeAdjustments = new() { 0, 0, 0, 0, 0, 0 };
 
 		// -------------------------------------------------------------------------
 
@@ -119,6 +120,14 @@ namespace Game {
 				);
 		}
 
+		public float AdjustmentUsable {
+			get {
+				return Adjustment < 1
+					? Adjustment
+					: 1 + ((Adjustment - 1) * 0.1f);
+			}
+		}
+
 		public Creature Clone() {
 			return new Creature {
 				Id = Id,
@@ -148,75 +157,96 @@ namespace Game {
 
 		public int HealthTotal {
 			get {
-				return Mathf.RoundToInt(35f + (5f * Adjust));
+				return Mathf.RoundToInt(Endurance * 2);
 			}
 		}
 
 		public int Strength {
 			get {
-				return attributes[0] + attributeAdjustments[0];
+				return GetAttribute(0);
 			}
 		}
 
 		public int Endurance {
 			get {
-				return attributes[1] + attributeAdjustments[1];
+				return GetAttribute(1);
 			}
 		}
 
 		public int Dexterity {
 			get {
-				return attributes[2] + attributeAdjustments[2];
+				return GetAttribute(2);
 			}
 		}
 
 		public int Intelligence {
 			get {
-				return attributes[3] + attributeAdjustments[3];
+				return GetAttribute(3);
 			}
 		}
 
 		public int Wisdom {
 			get {
-				return attributes[4] + attributeAdjustments[4];
+				return GetAttribute(4);
 			}
 		}
 
 		public int Luck {
 			get {
-				return attributes[5] + attributeAdjustments[5];
+				return GetAttribute(5);
 			}
 		}
 
 		public int Experience {
 			get {
-				return attributes.Sum();
+				return Mathf.RoundToInt(attributes.Sum());
 			}
+		}
+
+		int GetAttribute(int index) {
+			return Mathf.Clamp(
+				Mathf.RoundToInt(
+					attributes[index] + attributeAdjustments[index]
+				),
+				1,
+				999
+			);
 		}
 
 		public void PrepareForBattle() {
 			CalculateAttributes();
 			CalculateAttributeAdjustments();
+
+
+			Debug.Log(Endurance + " " + Adjustment + " " + HealthTotal);
 		}
 
 		public void CalculateAttributes() {
-			attributes[0] = 1;
-			attributes[1] = 1;
-			attributes[2] = 1;
-			attributes[3] = 1;
-			attributes[4] = 1;
-			attributes[5] = 1;
+			attributes[0] = 0;
+			attributes[1] = 0;
+			attributes[2] = 0;
+			attributes[3] = 0;
+			attributes[4] = 0;
+			attributes[5] = 0;
 
 			//
 			CalculateBodyPartAttributes(Head);
 			CalculateBodyPartAttributes(Torso);
 			CalculateBodyPartAttributes(Tail);
 			Appendages.ForEach(CalculateBodyPartAttributes);
+
+			//
+			attributes[0] = Mathf.Clamp(Mathf.RoundToInt(attributes[0]), 1, 999);
+			attributes[1] = Mathf.Clamp(Mathf.RoundToInt(attributes[1]), 1, 999);
+			attributes[2] = Mathf.Clamp(Mathf.RoundToInt(attributes[2]), 1, 999);
+			attributes[3] = Mathf.Clamp(Mathf.RoundToInt(attributes[3]), 1, 999);
+			attributes[4] = Mathf.Clamp(Mathf.RoundToInt(attributes[4]), 1, 999);
+			attributes[5] = Mathf.Clamp(Mathf.RoundToInt(attributes[5]), 1, 999);
 		}
 
 		public void AdvanceStatuses() {
 			Statuses.ForEach(status => status.Turns -= 1);
-			Statuses.RemoveAll(status => status.Turns < 1);
+			_ = Statuses.RemoveAll(status => status.Turns < 1);
 
 			//
 			CalculateAttributeAdjustments();
@@ -229,7 +259,7 @@ namespace Game {
 		public void AddStatus(Status status, int turns, float strength) {
 			CombatantStatus combatantStatus = Statuses.Find(cs => cs.Status == status);
 			if (combatantStatus != null) {
-				Statuses.Remove(combatantStatus);
+				_ = Statuses.Remove(combatantStatus);
 			}
 
 			//
@@ -244,66 +274,71 @@ namespace Game {
 			CurrentHealth = Mathf.Clamp(Health + amount, 0, HealthTotal);
 		}
 
+		public void Heal() {
+			Health = HealthTotal;
+		}
+
 		// -------------------------------------------------------------------------
 
 		void CalculateBodyPartAttributes(HeadBodyPartEntry head) {
-			if ((head?.BodyPartId ?? BodyPartId.None) == BodyPartId.None) {
+			if (MissingBodyPart(head?.BodyPartId)) {
 				return;
 			}
 
 			//
-			CalculateBodyPartAttribute(0, head.BodyPart.Strength, head.Quality);
-			CalculateBodyPartAttribute(1, head.BodyPart.Endurance, head.Quality);
-			CalculateBodyPartAttribute(2, head.BodyPart.Dexterity, head.Quality);
-			CalculateBodyPartAttribute(3, head.BodyPart.Intelligence, head.Quality);
-			CalculateBodyPartAttribute(4, head.BodyPart.Wisdom, head.Quality);
-			CalculateBodyPartAttribute(5, head.BodyPart.Luck, head.Quality);
+			float adjustment = AdjustmentUsable * head.Quality * head.GradeAsAdjustment;
+			CalculateBodyPartAttribute(0, head.BodyPart.Strength, adjustment);
+			CalculateBodyPartAttribute(1, head.BodyPart.Endurance, adjustment);
+			CalculateBodyPartAttribute(2, head.BodyPart.Dexterity, adjustment);
+			CalculateBodyPartAttribute(3, head.BodyPart.Intelligence, adjustment);
+			CalculateBodyPartAttribute(4, head.BodyPart.Wisdom, adjustment);
+			CalculateBodyPartAttribute(5, head.BodyPart.Luck, adjustment);
 		}
 
 		void CalculateBodyPartAttributes(TorsoBodyPartEntry torso) {
-			if ((torso?.BodyPartId ?? BodyPartId.None) == BodyPartId.None) {
+			if (MissingBodyPart(torso?.BodyPartId))
 				return;
-			}
 
 			//
-			CalculateBodyPartAttribute(0, torso.BodyPart.Strength, torso.Quality);
-			CalculateBodyPartAttribute(1, torso.BodyPart.Endurance, torso.Quality);
-			CalculateBodyPartAttribute(2, torso.BodyPart.Dexterity, torso.Quality);
-			CalculateBodyPartAttribute(3, torso.BodyPart.Intelligence, torso.Quality);
-			CalculateBodyPartAttribute(4, torso.BodyPart.Wisdom, torso.Quality);
-			CalculateBodyPartAttribute(5, torso.BodyPart.Luck, torso.Quality);
+			float adjustment = AdjustmentUsable * torso.Quality * torso.GradeAsAdjustment;
+			CalculateBodyPartAttribute(0, torso.BodyPart.Strength, adjustment);
+			CalculateBodyPartAttribute(1, torso.BodyPart.Endurance, adjustment);
+			CalculateBodyPartAttribute(2, torso.BodyPart.Dexterity, adjustment);
+			CalculateBodyPartAttribute(3, torso.BodyPart.Intelligence, adjustment);
+			CalculateBodyPartAttribute(4, torso.BodyPart.Wisdom, adjustment);
+			CalculateBodyPartAttribute(5, torso.BodyPart.Luck, adjustment);
 		}
 
 		void CalculateBodyPartAttributes(TailBodyPartEntry tail) {
-			if ((tail?.BodyPartId ?? BodyPartId.None) == BodyPartId.None) {
+			if (MissingBodyPart(tail?.BodyPartId))
 				return;
-			}
 
 			//
-			CalculateBodyPartAttribute(0, tail.BodyPart.Strength, tail.Quality);
-			CalculateBodyPartAttribute(1, tail.BodyPart.Endurance, tail.Quality);
-			CalculateBodyPartAttribute(2, tail.BodyPart.Dexterity, tail.Quality);
-			CalculateBodyPartAttribute(3, tail.BodyPart.Intelligence, tail.Quality);
-			CalculateBodyPartAttribute(4, tail.BodyPart.Wisdom, tail.Quality);
-			CalculateBodyPartAttribute(5, tail.BodyPart.Luck, tail.Quality);
+			float adjustment = AdjustmentUsable * tail.Quality * tail.GradeAsAdjustment;
+			CalculateBodyPartAttribute(0, tail.BodyPart.Strength, adjustment);
+			CalculateBodyPartAttribute(1, tail.BodyPart.Endurance, adjustment);
+			CalculateBodyPartAttribute(2, tail.BodyPart.Dexterity, adjustment);
+			CalculateBodyPartAttribute(3, tail.BodyPart.Intelligence, adjustment);
+			CalculateBodyPartAttribute(4, tail.BodyPart.Wisdom, adjustment);
+			CalculateBodyPartAttribute(5, tail.BodyPart.Luck, adjustment);
 		}
 
 		void CalculateBodyPartAttributes(AppendageBodyPartEntry appendage) {
-			if ((appendage?.BodyPartId ?? BodyPartId.None) == BodyPartId.None) {
+			if (MissingBodyPart(appendage?.BodyPartId))
 				return;
-			}
 
 			//
-			CalculateBodyPartAttribute(0, appendage.BodyPart.Strength, appendage.Quality);
-			CalculateBodyPartAttribute(1, appendage.BodyPart.Endurance, appendage.Quality);
-			CalculateBodyPartAttribute(2, appendage.BodyPart.Dexterity, appendage.Quality);
-			CalculateBodyPartAttribute(3, appendage.BodyPart.Intelligence, appendage.Quality);
-			CalculateBodyPartAttribute(4, appendage.BodyPart.Wisdom, appendage.Quality);
-			CalculateBodyPartAttribute(5, appendage.BodyPart.Luck, appendage.Quality);
+			float adjustment = AdjustmentUsable * appendage.Quality * appendage.GradeAsAdjustment;
+			CalculateBodyPartAttribute(0, appendage.BodyPart.Strength, adjustment);
+			CalculateBodyPartAttribute(1, appendage.BodyPart.Endurance, adjustment);
+			CalculateBodyPartAttribute(2, appendage.BodyPart.Dexterity, adjustment);
+			CalculateBodyPartAttribute(3, appendage.BodyPart.Intelligence, adjustment);
+			CalculateBodyPartAttribute(4, appendage.BodyPart.Wisdom, adjustment);
+			CalculateBodyPartAttribute(5, appendage.BodyPart.Luck, adjustment);
 		}
 
 		void CalculateBodyPartAttribute(int index, int value, float quality) {
-			attributes[index] = (int) Mathf.Clamp((float) Math.Round(value * quality), 1, 999);
+			attributes[index] += value * quality;
 		}
 
 		void CalculateAttributeAdjustments() {
@@ -340,6 +375,8 @@ namespace Game {
 					case Status.LuckBuff:
 					case Status.LuckDebuff:
 						attributeAdjustments[5] += (int) Math.Round(status.Strength);
+						break;
+					default:
 						break;
 				}
 			});

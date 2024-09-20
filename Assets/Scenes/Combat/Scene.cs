@@ -10,6 +10,8 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+using S = UnityEngine.SerializeField;
+
 // -----------------------------------------------------------------------------
 
 namespace Combat {
@@ -61,17 +63,17 @@ namespace Combat {
 
 		// -------------------------------------------------------------------------
 
-		static readonly public string Name = "Combat";
+		public static readonly string Name = "Combat";
 		static Battle Battle = null;
 
-		static public IEnumerator Load(Battle battle) {
+		public static IEnumerator Load(Battle battle) {
 			Battle = battle;
 
 			//
 			yield return SceneManager.LoadSceneAsync(Name, LoadSceneMode.Additive);
 		}
 
-		static public IEnumerator Unload() {
+		public static IEnumerator Unload() {
 			yield return SceneManager.UnloadSceneAsync(Name, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
 		}
 
@@ -79,69 +81,69 @@ namespace Combat {
 
 #if UNITY_EDITOR
 		[Header("Debug")]
-		[SerializeField] Battle DebugBattle;
+		[S] Battle DebugBattle;
 #endif
 
 		[Header("Globals")]
-		[SerializeField] Engine Engine;
-		[SerializeField] PlayerInput PlayerInput;
+		[S] Engine Engine;
+		[S] PlayerInput PlayerInput;
 
 		[Header("Locals")]
-		[SerializeField] GameObject Spirit;
+		[S] GameObject Spirit;
 
 		[Header("Combatants")]
-		[SerializeField] GameObject Combatants;
-		[SerializeField] CanvasGroup CombatantsCanvasGroup;
-		[SerializeField] RectTransform PlayerCreatureContainer;
-		[SerializeField] CanvasGroup PlayerCreatureCanvasGroup;
-		[SerializeField] CombatantOnScreen PlayerCombatant;
-		[SerializeField] RectTransform EnemyCreatureContainer;
-		[SerializeField] CanvasGroup EnemyCreatureCanvasGroup;
-		[SerializeField] CombatantOnScreen EnemyCombatant;
-		[SerializeField] Animator PlayerAnimator;
-		[SerializeField] Animator EnemyAnimator;
+		[S] GameObject Combatants;
+		[S] CanvasGroup CombatantsCanvasGroup;
+		[S] RectTransform PlayerCreatureContainer;
+		[S] CanvasGroup PlayerCreatureCanvasGroup;
+		[S] CombatantOnScreen PlayerCombatant;
+		[S] RectTransform EnemyCreatureContainer;
+		[S] CanvasGroup EnemyCreatureCanvasGroup;
+		[S] CombatantOnScreen EnemyCombatant;
+		[S] Animator PlayerAnimator;
+		[S] Animator EnemyAnimator;
 
 		[Header("Actions List")]
-		[SerializeField] GameObject ActionListContainer;
-		[SerializeField] List<Button> ActionButtons;
+		[S] GameObject ActionListContainer;
+		[S] List<Button> ActionButtons;
 
 		[Header("Moves List")]
-		[SerializeField] GameObject MoveListContainer;
-		[SerializeField] GameObject MoveButtonsTemplate;
-		[SerializeField] TextMeshProUGUI MoveMagicCost;
-		[SerializeField] TextMeshProUGUI MoveGrade;
-		[SerializeField] Transform MoveGradeProgress;
-		[SerializeField] TextMeshProUGUI MoveTags;
-		[SerializeField] TextMeshProUGUI MoveDescription;
+		[S] GameObject MoveListContainer;
+		[S] GameObject MoveButtonsTemplate;
+		[S] TextMeshProUGUI MoveMagicCost;
+		[S] TextMeshProUGUI MoveGrade;
+		[S] Transform MoveGradeProgress;
+		[S] TextMeshProUGUI MoveTags;
+		[S] TextMeshProUGUI MoveDescription;
 
 		[Header("Items List")]
-		[SerializeField] GameObject ItemListContainer;
-		[SerializeField] ScrollView ItemListScrollView;
-		[SerializeField] GameObject ItemButtonsTemplate;
-		[SerializeField] TextMeshProUGUI ItemDescription;
-		[SerializeField] TextMeshProUGUI ItemFlavor;
+		[S] GameObject ItemListContainer;
+		[S] ScrollView ItemListScrollView;
+		[S] GameObject ItemButtonsTemplate;
+		[S] TextMeshProUGUI ItemDescription;
+		[S] TextMeshProUGUI ItemFlavor;
 
 		[Header("Creatures List")]
-		[SerializeField] GameObject CreaturesList;
-		[SerializeField] GameObject CreatureButtonsTemplate;
+		[S] GameObject CreaturesList;
+		[S] GameObject CreatureButtonsTemplate;
 
 		[Header("Confirm Flee Dialog")]
-		[SerializeField] GameObject ConfirmFleeDialog;
-		[SerializeField] Button ConfirmFleeCancelButton;
+		[S] GameObject ConfirmFleeDialog;
+		[S] Button ConfirmFleeCancelButton;
 
 		[Header("Targets List")]
-		[SerializeField] GameObject TargetsListContainer;
-		[SerializeField] GameObject TargetButtonTemplate;
+		[S] GameObject TargetsListContainer;
+		[S] GameObject TargetButtonTemplate;
 
 		[Header("Win Screen")]
-		[SerializeField] GameObject WinScreen;
-		[SerializeField] CanvasGroup WinScreenCanvasGroup;
-		[SerializeField] Button WinScreenContinueButton;
-		[SerializeField] GameObject DropTemplate;
+		[S] GameObject WinScreen;
+		[S] CanvasGroup WinScreenCanvasGroup;
+		[S] Button WinScreenContinueButton;
+		[S] GameObject DropTemplate;
 
 		[Header("Exit Cover")]
-		[SerializeField] GameObject ExitCover;
-		[SerializeField] CanvasGroup ExitCoverCanvasGroup;
+		[S] GameObject ExitCover;
+		[S] CanvasGroup ExitCoverCanvasGroup;
 
 		// -------------------------------------------------------------------------
 
@@ -187,10 +189,19 @@ namespace Combat {
 
 			//
 #if UNITY_EDITOR
-			if (Battle == null) {
-				Battle = DebugBattle;
-			}
+			Battle ??= DebugBattle;
 #endif
+
+			//
+			Engine.Profile.Creatures.ForEach(
+				creature => {
+					creature.Adjustment = Engine.Profile.Level;
+					creature.PrepareForBattle();
+				}
+			);
+
+			Battle.Creature.PrepareForBattle();
+			Battle.Creature.Health = Battle.Creature.HealthTotal;
 
 			//
 			AddOpponentBodyPartsToSeen();
@@ -240,7 +251,7 @@ namespace Combat {
 				yield return Wait.For(2f);
 
 				Image image = Spirit.GetComponent<Image>();
-				Color color = new Color(1, 1, 1, 1);
+				Color color = new(1, 1, 1, 1);
 				yield return Do.For(0.25f, ratio => {
 					color.a = 1 - ratio;
 					image.color = color;
@@ -414,7 +425,7 @@ namespace Combat {
 							int experience = skillEntry.Experience;
 							int toLevel = skillEntry.Skill.ExperienceToLearn;
 
-							float rawLevel = Mathf.Clamp(3f * ((float) experience / (float) (toLevel * 3f)), 0, 3);
+							float rawLevel = Mathf.Clamp(3f * (experience / (toLevel * 3f)), 0, 3);
 							int level = Mathf.FloorToInt(rawLevel);
 							int nextLevel = level < 3 ? level + 1 : 3;
 							float ratio = level < 3 ? (rawLevel - level) : 1;
@@ -737,7 +748,7 @@ namespace Combat {
 
 			//
 			HideCreaturesList();
-			StartCoroutine(SwappingCreature(index));
+			_ = StartCoroutine(SwappingCreature(index));
 		}
 
 		void OnCreatureListCancel() {
@@ -763,7 +774,7 @@ namespace Combat {
 					0.5f,
 					ratio => {
 						PlayerCreatureContainer.anchoredPosition = Vector3.Lerp(start, end, ratio);
-						PlayerCreatureCanvasGroup.alpha = 1 - ratio * 2;
+						PlayerCreatureCanvasGroup.alpha = 1 - (ratio * 2);
 					},
 					Easing.SineOut01
 				);
@@ -943,7 +954,7 @@ namespace Combat {
 			Game.Creature playerCreature = Engine.Profile.GetPartyCreature(selectedCreatureIndex);
 			Game.Creature enemyCreature = Battle.Creature;
 
-			System.Random random = new System.Random();
+			System.Random random = new();
 			List<Game.SkillId> skillIds = new List<Game.SkillId>(enemyCreature.Skills)
 				.OrderBy(x => random.Next())
 				.ToList();
@@ -1034,7 +1045,7 @@ namespace Combat {
 					0.5f,
 					ratio => {
 						EnemyCreatureContainer.anchoredPosition = Vector3.Lerp(start, end, ratio);
-						EnemyCreatureCanvasGroup.alpha = 1 - ratio * 2;
+						EnemyCreatureCanvasGroup.alpha = 1 - (ratio * 2);
 					},
 					Easing.SineOut01
 				);
@@ -1049,7 +1060,7 @@ namespace Combat {
 					0.5f,
 					ratio => {
 						PlayerCreatureContainer.anchoredPosition = Vector3.Lerp(start, end, ratio);
-						PlayerCreatureCanvasGroup.alpha = 1 - ratio * 2;
+						PlayerCreatureCanvasGroup.alpha = 1 - (ratio * 2);
 					},
 					Easing.SineOut01
 				);
@@ -1094,7 +1105,7 @@ namespace Combat {
 				}
 			} else {
 				Debug.Assert(true, "No one actually died!");
-				throw new System.Exception("No one actually died!");
+				throw new("No one actually died!");
 			}
 		}
 
@@ -1105,7 +1116,7 @@ namespace Combat {
 			if (Battle.SpiritWisdom != null) {
 				Spirit.SetActive(true);
 				Image image = Spirit.GetComponent<Image>();
-				Color color = new Color(1, 1, 1, 1);
+				Color color = new(1, 1, 1, 1);
 				yield return Do.For(0.25f, ratio => {
 					color.a = ratio;
 					image.color = color;
@@ -1140,7 +1151,7 @@ namespace Combat {
 				.text = $"+{experience} Experience";
 
 			//
-			int soulDust = Mathf.RoundToInt(Mathf.Clamp((float) totalHealthAffected * 0.01f, 0, totalHealthAffected));
+			int soulDust = Mathf.RoundToInt(Mathf.Clamp(totalHealthAffected * 0.01f, 0, totalHealthAffected));
 			if (soulDust > 0) {
 				loot.Add(Database.Engine.GameData.Get(Game.ItemId.SoulDust), soulDust);
 			}
@@ -1171,9 +1182,9 @@ namespace Combat {
 				}
 			});
 
-			loot.OrderBy(loot => loot.Key.Name);
+			_ = loot.OrderBy(loot => loot.Key.Name);
 
-			foreach (var pair in loot) {
+			foreach (KeyValuePair<Item, int> pair in loot) {
 				Engine.Profile.Inventory.AdjustItem(pair.Key, pair.Value);
 				Engine.Profile.Acquired.Add(pair.Key.Id);
 
@@ -1196,7 +1207,7 @@ namespace Combat {
 				};
 				Battle.Creature.Appendages.ForEach(appendage => bodyParts.Add(appendage.BodyPart));
 
-				System.Random random = new System.Random();
+				System.Random random = new();
 				BodyPartBase bodyPart = bodyParts
 					.OrderBy(x => random.Next())
 					.ToList()
@@ -1233,6 +1244,11 @@ namespace Combat {
 				levelUpGO.SetActive(true);
 				levelUpGO.GetComponent<TextMeshProUGUI>()
 					.text = $"Lethia is now level {Engine.Profile.Level}!";
+
+
+				Engine.Profile.Creatures.ForEach(
+					creature => creature.Adjustment = Engine.Profile.Level
+				);
 			}
 
 			//
@@ -1477,7 +1493,7 @@ namespace Combat {
 			}
 
 			//
-			var clip = clips.Find(clip => clip.name == name);
+			AnimationClip clip = clips.Find(clip => clip.name == name);
 			if (fx.Delay > 0) {
 				yield return Wait.For(fx.Delay);
 			}

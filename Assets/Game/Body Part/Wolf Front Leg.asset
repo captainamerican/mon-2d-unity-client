@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Wolf Front Leg
   m_EditorClassIdentifier: 
   Id: 1004
-  Slug: wolf-front-leg
   Name: Wolf Front Leg
   ExperienceToLevel: 500
   Strength: 1
   Endurance: 1
-  Dexterity: 1
-  Intelligence: 1
-  Wisdom: 1
-  Luck: 1
+  Dexterity: 2
+  Intelligence: 0
+  Wisdom: 0
+  Luck: 0
+  Obtainable: 1
   Tags: 

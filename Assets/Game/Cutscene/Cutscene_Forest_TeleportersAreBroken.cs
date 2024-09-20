@@ -18,7 +18,7 @@ public class Cutscene_Forest_TeleportersAreBroken : Cutscene {
 
 	// ---------------------------------------------------------------------------
 
-	override protected IEnumerator Script() {
+	protected override IEnumerator Script() {
 		Database.Engine.Mode = EngineMode.Cutscene;
 
 		//
@@ -29,7 +29,7 @@ public class Cutscene_Forest_TeleportersAreBroken : Cutscene {
 			"Whatever caused that noise has annoyed the forest creatures.",
 			"I should avoid them for now."
 		);
-		yield return Go.To(Player.transform, SecondMark.position, 1.5f, Easing.SineOut01);
+		yield return Go.To(Player.transform, SecondMark.position, 1.5f, Easing.Linear01);
 		yield return Go.To(Player.transform, ThirdMark.position, 3f, Easing.SineOut01);
 		yield return Wait.For(1.5f);
 		yield return Dialogue.Scene.Speaks(
@@ -40,7 +40,7 @@ public class Cutscene_Forest_TeleportersAreBroken : Cutscene {
 			"Unfortunately, this means I have to go through the forest.",
 			"Thankfully I already assembled a creature yesterday."
 		);
-		yield return Go.To(Player.transform, SecondMark.position, 3f, Easing.SineOut01);
+		yield return Go.To(Player.transform, SecondMark.position, 3f, Easing.SineInOut01);
 
 		//
 		Database.Engine.Profile.StoryPoints.Add(Game.StoryPointId.InspectedBrokenTeleporter);

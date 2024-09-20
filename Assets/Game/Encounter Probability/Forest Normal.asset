@@ -17,47 +17,48 @@ MonoBehaviour:
     Creature:
       Id: 
       Name: Rachel Lotus
-      CurrentHealth: 999
+      Adjustment: 0.5
+      CurrentHealth: 0
       Head:
         Id: 
         BodyPartId: 1001
         Experience: 0
-        Quality: 0
+        Quality: 1
       Torso:
         Id: 
         BodyPartId: 1002
         Experience: 0
-        Quality: 0
+        Quality: 1
       Tail:
         Id: 
         BodyPartId: 1003
         Experience: 0
-        Quality: 0
+        Quality: 1
       Appendages:
       - Id: 
         BodyPartId: 1004
         Experience: 0
-        Quality: 0
+        Quality: 1
       - Id: 
         BodyPartId: 1004
         Experience: 0
-        Quality: 0
+        Quality: 1
       - Id: 
         BodyPartId: 1005
         Experience: 0
-        Quality: 0
+        Quality: 1
       - Id: 
         BodyPartId: 1005
         Experience: 0
-        Quality: 0
+        Quality: 1
       Skills: e8030000
     PossibleLoot:
-    - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
-      Weight: 100
-      Quantity: 1
     - Item: {fileID: 0}
       Weight: 25
       Quantity: 0
+    - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
+      Weight: 100
+      Quantity: 1
     - Item: {fileID: 11400000, guid: 64ea06f18f82743218249713437d4698, type: 2}
       Weight: 10
       Quantity: 3

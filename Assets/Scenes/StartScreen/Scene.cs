@@ -8,6 +8,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+using S = UnityEngine.SerializeField;
+
 // -----------------------------------------------------------------------------
 
 namespace StartScreen {
@@ -15,32 +17,32 @@ namespace StartScreen {
 
 		// -------------------------------------------------------------------------
 
-		static public string Name = "StartScreen";
+		public static string Name = "StartScreen";
 
 		// -------------------------------------------------------------------------
 
 		[Header("Globals")]
-		[SerializeField] Engine Engine;
-		[SerializeField] PlayerInput PlayerInput;
+		[S] Engine Engine;
+		[S] PlayerInput PlayerInput;
 
 		[Header("Locals")]
-		[SerializeField] GameObject InitialContainer;
-		[SerializeField] Button ContinueButton;
-		[SerializeField] Button LoadGameButton;
-		[SerializeField] Button StartButton;
+		[S] GameObject InitialContainer;
+		[S] Button ContinueButton;
+		[S] Button LoadGameButton;
+		[S] Button StartButton;
 
 		[Header("Load Save")]
-		[SerializeField] ScrollView ScrollView;
-		[SerializeField] SaveFileStatus SaveFileStatus;
-		[SerializeField] GameObject LoadGameContainer;
-		[SerializeField] Button AutoSaveButton;
-		[SerializeField] InformationButton AutoSaveInformationButton;
-		[SerializeField] SaveFileButton AutoSaveGameButton;
-		[SerializeField] GameObject SaveGameTemplate;
+		[S] ScrollView ScrollView;
+		[S] SaveFileStatus SaveFileStatus;
+		[S] GameObject LoadGameContainer;
+		[S] Button AutoSaveButton;
+		[S] InformationButton AutoSaveInformationButton;
+		[S] SaveFileButton AutoSaveGameButton;
+		[S] GameObject SaveGameTemplate;
 
 		[Header("Confirm Load")]
-		[SerializeField] GameObject ConfirmLoadModal;
-		[SerializeField] Button ConfirmLoadModalCancel;
+		[S] GameObject ConfirmLoadModal;
+		[S] Button ConfirmLoadModalCancel;
 
 		// -------------------------------------------------------------------------
 
@@ -50,7 +52,7 @@ namespace StartScreen {
 		Action OnBack;
 
 		int selectedFileIndex;
-		List<Button> buttons = new();
+		readonly List<Button> buttons = new();
 
 		Game.SaveFile fileToLoad;
 
@@ -107,7 +109,6 @@ namespace StartScreen {
 				Id = Game.Id.Generate(),
 				PlaytimeAsSeconds = 0,
 				Level = 1,
-				Magic = 999,
 				Wisdom = 5,
 				Hunger = 1,
 				Skills = new() {
@@ -119,7 +120,6 @@ namespace StartScreen {
 					new() {
 						Id = Game.Id.Generate(),
 						Name = "Wolfie",
-						Health = 999,
 						Head = new() {
 							BodyPartId = Game.BodyPartId.WolfHead
 						},
@@ -149,10 +149,16 @@ namespace StartScreen {
 					}
 				},
 			};
+			newSaveFile.Magic = newSaveFile.MagicTotal;
 			newSaveFile.Acquired.Add(Game.MapId.Village);
 			newSaveFile.Party = new() {
 				newSaveFile.Creatures[0].Id
 			};
+
+			newSaveFile.Creatures[0].Adjustment = 1;
+			newSaveFile.Creatures[0].PrepareForBattle();
+			newSaveFile.Creatures[0].Heal();
+
 			newSaveFile.Inventory.AdjustItem(Database.Engine.GameData.Get(Game.ItemId.CoffeeF), 5);
 			newSaveFile.Inventory.AdjustItem(Database.Engine.GameData.Get(Game.ItemId.PotionF), 5);
 

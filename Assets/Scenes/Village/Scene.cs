@@ -14,13 +14,13 @@ namespace Village {
 
 		// -------------------------------------------------------------------------
 
-		static public Vector3 Location_Main {
+		public static Vector3 Location_Main {
 			get {
 				return new Vector3(0, 0, 0);
 			}
 		}
 
-		static public Vector3 Location_Tree {
+		public static Vector3 Location_Tree {
 			get {
 				return new Vector3(0, 46, 0);
 			}
@@ -30,10 +30,6 @@ namespace Village {
 
 		[SerializeField] Engine Engine;
 		[SerializeField] Player Player;
-
-		// -------------------------------------------------------------------------
-
-		Cutscene cutscene;
 
 		// -------------------------------------------------------------------------
 
@@ -52,6 +48,10 @@ namespace Village {
 			Engine.Profile.CurrentLocation = Player.transform.position;
 
 			//
+			Engine.Profile.Magic = Engine.Profile.MagicTotal;
+			Engine.Profile.Creatures.ForEach(creature => creature.Heal());
+
+			//
 			if (
 				Engine.Profile.StoryPoints.Has(Game.StoryPointId.ToldAboutPocketTeleporter) &&
 				!Engine.Profile.StoryPoints.Has(Game.StoryPointId.UsedPocketTeleporter)
@@ -67,7 +67,7 @@ namespace Village {
 				GameObject go = GameObject.Find($"/Cutscenes/{nextScene.ExecuteOnLoad}");
 				Cutscene cutscene = go.GetComponent<Cutscene>();
 
-				StartCoroutine(cutscene.Playing());
+				_ = StartCoroutine(cutscene.Playing());
 			} else {
 				yield return Loader.Scene.Clear();
 				Engine.Mode = EngineMode.PlayerControl;

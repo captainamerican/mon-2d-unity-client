@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Wolf Tail
   m_EditorClassIdentifier: 
   Id: 1003
-  Slug: wolf-tail
   Name: Wolf Tail
   ExperienceToLevel: 500
   Strength: 1
   Endurance: 1
-  Dexterity: 1
-  Intelligence: 1
-  Wisdom: 1
-  Luck: 1
+  Dexterity: 0
+  Intelligence: 0
+  Wisdom: 0
+  Luck: 2
+  Obtainable: 1
   Tags: 

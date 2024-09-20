@@ -70,7 +70,7 @@ namespace Game {
 
 		public int MagicTotal {
 			get {
-				return Mathf.RoundToInt(Mathf.Clamp((float) Wisdom * (5f + ((float) Level / 2f)), 1, 999));
+				return Mathf.RoundToInt(Mathf.Clamp(Wisdom * (5f + (Level / 2f)), 1, 999));
 			}
 		}
 

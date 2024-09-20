@@ -29,6 +29,12 @@ namespace Game {
 			}
 		}
 
+		public float GradeAsAdjustment {
+			get {
+				return Mathf.Clamp(1 + (Grade * 0.333334f), 1, 2);
+			}
+		}
+
 		// -------------------------------------------------------------------------
 
 	}

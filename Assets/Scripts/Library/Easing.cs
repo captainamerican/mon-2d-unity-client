@@ -99,9 +99,13 @@ public static class Easing {
 		return -end * Mathf.Cos(value * (Mathf.PI * 0.5f)) + end + start;
 	}
 
+	public static float SineIn01(float time) {
+		return (-1f * Mathf.Cos(time * (Mathf.PI * 0.5f))) + 1;
+	}
+
 	public static float SineOut(float start, float end, float value) {
 		end -= start;
-		return end * Mathf.Sin(value * (Mathf.PI * 0.5f)) + start;
+		return (end * Mathf.Sin(value * (Mathf.PI * 0.5f))) + start;
 	}
 
 	public static float SineOut01(float time) {
